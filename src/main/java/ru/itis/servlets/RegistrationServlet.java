@@ -27,55 +27,73 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
-        try (
-                InputStream in = getServletContext().getResourceAsStream("/reg-page/reg-page.html")
-        ) {
 
-            resp.getOutputStream().write(in.readAllBytes());
-
-        } catch (IOException ex) {
-            throw new ServletException(ex);
+        initPage(req);
+        req.setAttribute("form", new RegistrationForm());
+        try {
+            req.getRequestDispatcher("/WEB-INF/register-page.jsp").forward(req, resp);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+//        try (
+//                InputStream in = getServletContext().getResourceAsStream("/reg-page/reg-page.html")
+//        ) {
+//
+//            resp.getOutputStream().write(in.readAllBytes());
+//
+//        } catch (IOException ex) {
+//            throw new ServletException(ex);
+//        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+        initPage(req);
+
         RegistrationForm registrationForm = new RegistrationForm(
                 req.getParameter("login"),
                 req.getParameter("password"),
-                req.getParameter("password-repeat"),
-                req.getParameter("first-name"),
-                req.getParameter("last-name"),
-                req.getParameter("birth-date"),
+                req.getParameter("passwordRepeat"),
+                req.getParameter("firstName"),
+                req.getParameter("lastName"),
+                req.getParameter("birthdate"),
                 req.getParameter("sex"),
                 req.getParameter("country"),
                 req.getParameter("agreement")
         );
+        
         Map<String, String> problems = registrationValidator.validate(registrationForm, getUserRepository());
+        problems.forEach(req::setAttribute);
 
-        try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(
-                        getServletContext().getResourceAsStream("/reg-page/reg-page.html")
-                )
-        )) {
-
-            if (problems.isEmpty()) {
-
-                saveUser(registrationForm, resp);
-
-            } else {
-
-                String page = in.lines().collect(Collectors.joining());
-
-                String errors = String.join("<br>", problems.values());
-
-                resp.getWriter().println(page.replace("errors", errors));
-
-            }
-
-        } catch (IOException ex) {
-            throw new ServletException(ex);
+        req.setAttribute("form", registrationForm);
+        try {
+            req.getRequestDispatcher("/WEB-INF/register-page.jsp").forward(req, resp);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+//        try (BufferedReader in = new BufferedReader(
+//                new InputStreamReader(
+//                        getServletContext().getResourceAsStream("/reg-page/reg-page.html")
+//                )
+//        )) {
+//
+//            if (problems.isEmpty()) {
+//
+//                saveUser(registrationForm, resp);
+//
+//            } else {
+//
+//                String page = in.lines().collect(Collectors.joining());
+//
+//                String errors = String.join("<br>", problems.values());
+//
+//                resp.getWriter().println(page.replace("errors", errors));
+//
+//            }
+//
+//        } catch (IOException ex) {
+//            throw new ServletException(ex);
+//        }
     }
 
     protected void saveUser(RegistrationForm form, HttpServletResponse resp) throws IOException{
@@ -101,5 +119,9 @@ public class RegistrationServlet extends HttpServlet {
 
     protected UserRepository getUserRepository() {
         return UserRepJdbcImpl.getRepository();
+    }
+
+    private void initPage(HttpServletRequest req) {
+        req.setAttribute("regPageCss", req.getContextPath() + "/css/reg-page.css");
     }
 }

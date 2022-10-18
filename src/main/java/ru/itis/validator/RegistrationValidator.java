@@ -3,6 +3,7 @@ package ru.itis.validator;
 import ru.itis.db.UserRepository;
 import ru.itis.forms.RegistrationForm;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
@@ -47,23 +48,23 @@ public class RegistrationValidator {
         if (password == null || password.equals("")) {
             problems.put("password", "Password can not be empty.");
         } else if (!password.equals(passRepeat)) {
-            problems.put("password-repeat", "Password and it's repeat is not equal.");
+            problems.put("passwordRepeat", "Password and it's repeat is not equal.");
         }
     }
 
     protected void validateFirstName(String fName, Map<String, String> problems) {
         if (fName == null || fName.equals("")) {
-            problems.put("first-name", "First name can not be empty.");
+            problems.put("firstName", "First name can not be empty.");
         } else if (!onlyLettersPat.matcher(fName).matches()) {
-            problems.put("first-name", "First name should have only letters.");
+            problems.put("firstName", "First name should have only letters.");
         }
     }
 
     protected void validateLastName(String lName, Map<String, String> problems) {
         if (lName == null || lName.equals("")) {
-            problems.put("last-name", "Last name can not be empty.");
+            problems.put("lastName", "Last name can not be empty.");
         } else if (!onlyLettersPat.matcher(lName).matches()) {
-            problems.put("last-name", "Last name should have only letters.");
+            problems.put("lastName", "Last name should have only letters.");
         }
     }
 
@@ -73,14 +74,14 @@ public class RegistrationValidator {
             bDate = LocalDate.parse(birthDate);
 
             if (bDate.isAfter(LocalDate.now()) || bDate.plusYears(100).isBefore(LocalDate.now())) {
-                problems.put("birth-date", "Unreal value of birth date.");
+                problems.put("birthdate", "Unreal value of birth date.");
 
             } else if (bDate.plusYears(10).isAfter(LocalDate.now())) {
                 problems.put("error", "You are too young for this site.");
             }
 
         } catch (DateTimeParseException ex) {
-            problems.put("birth-date", "Birth date can not be empty.");
+            problems.put("birthdate", "Birth date can not be empty.");
         }
     }
 
@@ -109,4 +110,5 @@ public class RegistrationValidator {
             problems.put("error", "something go wrong");
         }
     }
+
 }

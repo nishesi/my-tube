@@ -11,6 +11,8 @@ public class RegistrationForm {
     private String country;
     private String agreement;
 
+    public RegistrationForm() {};
+
     public RegistrationForm(String login, String password, String passwordRepeat,
                             String firstName, String lastName, String birthDate,
                             String sex, String country, String agreement) {
