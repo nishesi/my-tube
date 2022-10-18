@@ -1,8 +1,11 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="pr" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+
 <jsp:useBean id="regPageCss" scope="request" type="java.lang.String"/>
 <jsp:useBean id="form" scope="request" type="ru.itis.forms.RegistrationForm"/>
+<jsp:useBean id="problems" scope="request" type="java.util.Map<java.lang.String, java.lang.String>"/>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
 <head>
@@ -18,45 +21,33 @@
 
         <div class="reg-box-el">
             <input class="text-input" type="text" name="login" placeholder="login" value="${form.login}">
-            <c:if test="${login != null}">
-                <div class="input-problem">${login}</div>
-            </c:if>
+            <pr:problemOut name="login" map="${problems}"></pr:problemOut>
         </div>
 
 
         <div class="reg-box-el">
             <input class="text-input" type="text" name="password" placeholder="password" value="${form.password}">
-            <c:if test="${password != null}">
-                <div class="input-problem">${password}</div>
-            </c:if>
+            <pr:problemOut name="password" map="${problems}"></pr:problemOut>
         </div>
 
         <div class="reg-box-el">
             <input class="text-input" type="text" name="passwordRepeat" placeholder="repeat password" value="${form.passwordRepeat}">
-            <c:if test="${passwordRepeat != null}">
-                <div class="input-problem">${passwordRepeat}</div>
-            </c:if>
+            <pr:problemOut name="passwordRepeat" map="${problems}"></pr:problemOut>
         </div>
 
         <div class="reg-box-el">
             <input class="text-input" type="text" name="firstName" placeholder="first name" value="${form.firstName}">
-            <c:if test="${firstName != null}">
-                <div class="input-problem">${firstName}</div>
-            </c:if>
+            <pr:problemOut name="firstName" map="${problems}"></pr:problemOut>
         </div>
 
         <div class="reg-box-el">
             <input class="text-input" type="text" name="lastName" placeholder="last name" value="${form.lastName}">
-            <c:if test="${lastName != null}">
-                <div class="input-problem">${lastName}</div>
-            </c:if>
+            <pr:problemOut name="lastName" map="${problems}"></pr:problemOut>
         </div>
 
         <div class="reg-box-el">
             <input class="text-input" type="date" name="birthdate" placeholder="birth date" value="${form.birthDate}">
-            <c:if test="${birthdate != null}">
-                <div class="input-problem">${birthdate}</div>
-            </c:if>
+            <pr:problemOut name="birthdate" map="${problems}"></pr:problemOut>
         </div>
 
         <div class="reg-box-el">sex<br>
@@ -65,24 +56,18 @@
                 <input type="radio" name="sex" value="female">female
                 <input type="radio" name="sex" value="another">another
             </span>
-            <c:if test="${sex != null}">
-                <div class="input-problem">${sex}</div>
-            </c:if>
+            <pr:problemOut name="sex" map="${problems}"></pr:problemOut>
         </div>
 
         <div class="reg-box-el">
             <input class="text-input" type="text" name="country" placeholder="country" value="${form.country}">
-            <c:if test="${country != null}">
-                <div class="input-problem">${country}</div>
-            </c:if>
+            <pr:problemOut name="country" map="${problems}"></pr:problemOut>
         </div>
 
 
         <div class="reg-box-el">
             <input class="text-input" type="checkbox" name="agreement">I am agree with user agreement
-            <c:if test="${agreement != null}">
-                <div class="input-problem">${agreement}</div>
-            </c:if>
+            <pr:problemOut name="agreement" map="${problems}"></pr:problemOut>
         </div>
 
 

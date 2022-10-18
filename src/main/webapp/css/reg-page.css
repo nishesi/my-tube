@@ -20,6 +20,11 @@ body {
     height: 30px;
 }
 
+.problem-container {
+    color: darkred;
+    font-size: smaller;
+}
+
 
 
 
