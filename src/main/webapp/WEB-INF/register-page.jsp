@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>registration</title>
-    <link rel="stylesheet" href="${regPageCss}">   <%--/context/reg-page/reg-page.css--%>
+    <link rel="stylesheet" href="${regPageCss}">
 </head>
 <body>
 <div id="box">
