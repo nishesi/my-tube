@@ -12,13 +12,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
@@ -35,15 +32,6 @@ public class RegistrationServlet extends HttpServlet {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        try (
-//                InputStream in = getServletContext().getResourceAsStream("/reg-page/reg-page.html")
-//        ) {
-//
-//            resp.getOutputStream().write(in.readAllBytes());
-//
-//        } catch (IOException ex) {
-//            throw new ServletException(ex);
-//        }
     }
 
     @Override
@@ -64,36 +52,13 @@ public class RegistrationServlet extends HttpServlet {
         
         Map<String, String> problems = registrationValidator.validate(registrationForm, getUserRepository());
         problems.forEach(req::setAttribute);
-
+        req.setAttribute("problems", problems);
         req.setAttribute("form", registrationForm);
         try {
             req.getRequestDispatcher("/WEB-INF/register-page.jsp").forward(req, resp);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        try (BufferedReader in = new BufferedReader(
-//                new InputStreamReader(
-//                        getServletContext().getResourceAsStream("/reg-page/reg-page.html")
-//                )
-//        )) {
-//
-//            if (problems.isEmpty()) {
-//
-//                saveUser(registrationForm, resp);
-//
-//            } else {
-//
-//                String page = in.lines().collect(Collectors.joining());
-//
-//                String errors = String.join("<br>", problems.values());
-//
-//                resp.getWriter().println(page.replace("errors", errors));
-//
-//            }
-//
-//        } catch (IOException ex) {
-//            throw new ServletException(ex);
-//        }
     }
 
     protected void saveUser(RegistrationForm form, HttpServletResponse resp) throws IOException{
@@ -123,5 +88,6 @@ public class RegistrationServlet extends HttpServlet {
 
     private void initPage(HttpServletRequest req) {
         req.setAttribute("regPageCss", req.getContextPath() + "/css/reg-page.css");
+        req.setAttribute("problems", new HashMap<String, String>());
     }
 }
