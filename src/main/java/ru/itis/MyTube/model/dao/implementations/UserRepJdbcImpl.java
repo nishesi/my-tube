@@ -1,8 +1,9 @@
-package ru.itis.db;
+package ru.itis.MyTube.model.dao.implementations;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ru.itis.dto.User;
+import ru.itis.MyTube.model.dao.interfaces.UserRepository;
+import ru.itis.MyTube.model.dto.User;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -54,17 +55,17 @@ public class UserRepJdbcImpl implements UserRepository {
 
     private static final Function<ResultSet, User> USER_MAPPER = (set) -> {
         try {
-            User user = new User(set.getString("login"),
-                    set.getString("password"),
-                    set.getString("first_name"),
-                    set.getString("last_name"),
-                    LocalDate.parse(set.getString("birth_date")),
-                    set.getString("country"),
-                    set.getString("sex"));
+            return User.builder()
+                    .id(set.getLong("id"))
+                    .login(set.getString("login"))
+                    .password(set.getString("password"))
+                    .firstName(set.getString("first_name"))
+                    .lastName(set.getString("last_name"))
+                    .birthdate(LocalDate.parse(set.getString("birth_date")))
+                    .sex(set.getString("sex"))
+                    .country(set.getString("country"))
+                    .build();
 
-            user.setId(set.getLong("id"));
-
-            return user;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -106,7 +107,7 @@ public class UserRepJdbcImpl implements UserRepository {
             preparedStatement.setString(3, user.getFirstName());
             preparedStatement.setString(4, user.getLastName());
             preparedStatement.setDate(5,
-                     new Date(Date.from(user.getBirthDate().atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime()));
+                     new Date(Date.from(user.getBirthdate().atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime()));
             preparedStatement.setString(6, user.getCountry());
             preparedStatement.setString(7, user.getSex());
 

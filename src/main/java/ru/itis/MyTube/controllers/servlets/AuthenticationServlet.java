@@ -1,15 +1,14 @@
-package ru.itis.servlets;
+package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.auxilary.PassPerformer;
-import ru.itis.db.UserRepJdbcImpl;
-import ru.itis.db.UserRepository;
-import ru.itis.dto.User;
-import ru.itis.forms.AuthenticationForm;
-import ru.itis.validator.AuthenticationValidator;
+import ru.itis.MyTube.auxilary.PassPerformer;
+import ru.itis.MyTube.auxilary.validators.AuthenticationValidator;
+import ru.itis.MyTube.model.dao.implementations.UserRepJdbcImpl;
+import ru.itis.MyTube.model.dao.interfaces.UserRepository;
+import ru.itis.MyTube.model.dto.User;
+import ru.itis.MyTube.model.forms.AuthenticationForm;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +18,6 @@ import java.util.Map;
 
 @WebServlet("/authenticate")
 public class AuthenticationServlet extends HttpServlet {
-
 
 
     private final AuthenticationValidator validator = new AuthenticationValidator();
@@ -34,10 +32,10 @@ public class AuthenticationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         initPage(req);
 
-        AuthenticationForm form = new AuthenticationForm(
-                req.getParameter("username"),
-                req.getParameter("password")
-        );
+        AuthenticationForm form = AuthenticationForm.builder()
+                .username(req.getParameter("username"))
+                .password(req.getParameter("password"))
+                .build();
 
         Map<String, String> problems = validator.validate(form);
 
@@ -46,14 +44,16 @@ public class AuthenticationServlet extends HttpServlet {
             if (isRegistered(form)) {
 
                 req.getSession().setAttribute("username", form.getUsername());
-                resp.addCookie(new Cookie("username", form.getUsername()));
 
-                resp.getWriter().println("<html><body>" +
-                        "you authorized." +
-                        "<a href=''>home</a>" +
-                        "</body></html>");
 
-                //TODO forward anywhere
+                {
+                    resp.getWriter().println("<html><body>" +
+                            "you authorized." +
+                            "<a href=''>home</a>" +
+                            "</body></html>");
+
+                    //TODO forward anywhere
+                }
 
             } else {
                 req.setAttribute("error", "User not found.");
@@ -61,7 +61,7 @@ public class AuthenticationServlet extends HttpServlet {
             }
 
         } else {
-            problems.forEach(req::setAttribute);
+            req.setAttribute("problems", problems);
 
             req.getRequestDispatcher("WEB-INF/authent-page.jsp").forward(req, resp);
         }

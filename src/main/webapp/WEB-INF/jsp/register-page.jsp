@@ -1,9 +1,9 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="pr" tagdir="/WEB-INF/tags" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
 
 <jsp:useBean id="regPageCss" scope="request" type="java.lang.String"/>
-<jsp:useBean id="form" scope="request" type="ru.itis.forms.RegistrationForm"/>
+<jsp:useBean id="form" scope="request" type="ru.itis.MyTube.model.forms.RegistrationForm"/>
 <jsp:useBean id="problems" scope="request" type="java.util.Map<java.lang.String, java.lang.String>"/>
 
 
@@ -46,7 +46,7 @@
         </div>
 
         <div class="reg-box-el">
-            <input class="text-input" type="date" name="birthdate" placeholder="birth date" value="${form.birthDate}">
+            <input class="text-input" type="date" name="birthdate" placeholder="birth date" value="${form.birthdate}">
             <pr:problemOut name="birthdate" map="${problems}"></pr:problemOut>
         </div>
 

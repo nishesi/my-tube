@@ -1,9 +1,8 @@
-package ru.itis.validator;
+package ru.itis.MyTube.auxilary.validators;
 
-import ru.itis.db.UserRepository;
-import ru.itis.forms.RegistrationForm;
+import ru.itis.MyTube.model.dao.interfaces.UserRepository;
+import ru.itis.MyTube.model.forms.RegistrationForm;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class RegistrationValidator {
         validateFirstName(form.getFirstName(), problems);
         validateLastName(form.getLastName(), problems);
 
-        validateBirthDate(form.getBirthDate(), problems);
+        validateBirthDate(form.getBirthdate(), problems);
         validateSex(form.getSex(), problems);
         validateCountry(form.getCountry(), problems);
 

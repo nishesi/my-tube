@@ -1,4 +1,4 @@
-package ru.itis.auxilary;
+package ru.itis.MyTube.auxilary;
 
 public class PassPerformer {
     public static String hash(String password) {

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>
 
 <html>
 <head>
@@ -17,13 +18,11 @@
         <h1>Authentication</h1>
         <form action="" method="post">
             <input type="text" name="username" placeholder="username" value="${username}">
-            <c:if test="${usernameProblem != null}">
-                ${usernameProblem}
-            </c:if>
+            <o:problemOut name="usernameProblem" map="${problems}"></o:problemOut>
+
             <input type="password" name="password" placeholder="password" value="${password}">
-            <c:if test="${passwordProblem != null}">
-                ${passwordProblem}
-            </c:if>
+            <o:problemOut name="passwordProblem" map="${problems}"></o:problemOut>
+
             <input type="submit" placeholder="submit">
             <a href="${regPageLink}">register</a>
         </form>

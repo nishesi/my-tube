@@ -1,6 +1,7 @@
-package ru.itis.db;
+package ru.itis.MyTube.model.dao.implementations;
 
-import ru.itis.dto.User;
+import ru.itis.MyTube.model.dao.interfaces.UserRepository;
+import ru.itis.MyTube.model.dto.User;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -23,7 +24,15 @@ public class UserRepositoryFileImpl implements UserRepository {
 
     private final Function<String, User> USER_MAPPER = (line) -> {
         String[] arr = line.split(DELIMITER);
-        return new User(arr[0], arr[1], arr[2], arr[3], LocalDate.parse(arr[4]), arr[5], arr[6]);
+        return User.builder()
+                .login(arr[0])
+                .password(arr[1])
+                .firstName(arr[2])
+                .lastName(arr[3])
+                .birthdate(LocalDate.parse(arr[4]))
+                .sex(arr[5])
+                .country(arr[6])
+                .build();
     };
 
     @Override
@@ -49,7 +58,7 @@ public class UserRepositoryFileImpl implements UserRepository {
                     user.getPassword(),
                     user.getFirstName(),
                     user.getLastName(),
-                    String.valueOf(user.getBirthDate()),
+                    String.valueOf(user.getBirthdate()),
                     user.getSex(),
                     user.getCountry()};
 
