@@ -1,56 +1,23 @@
 package ru.itis.MyTube.model.dao.implementations;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.function.Function;
 
-//SINGLETON
 public class UserRepJdbcImpl implements UserRepository {
 
     private final DataSource DATA_SOURCE;
 
-    private static UserRepository repository;
-
-    public static UserRepository getRepository() {
-        if (repository == null) {
-            repository = new UserRepJdbcImpl();
-        }
-        return repository;
-    }
-
-    private UserRepJdbcImpl() {
-        try {
-
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        Properties properties = new Properties();
-        try {
-            properties.load(this.getClass().getResourceAsStream("/db.properties"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(properties.getProperty("db.url"));
-        config.setUsername(properties.getProperty("db.username"));
-        config.setPassword(properties.getProperty("db.password"));
-
-        DATA_SOURCE = new HikariDataSource(config);
+    public UserRepJdbcImpl(DataSource dataSource) {
+        DATA_SOURCE = dataSource;
     }
 
     private static final Function<ResultSet, User> USER_MAPPER = (set) -> {

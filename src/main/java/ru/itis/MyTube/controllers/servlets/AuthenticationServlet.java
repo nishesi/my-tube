@@ -1,8 +1,8 @@
 package ru.itis.MyTube.controllers.servlets;
 
+import ru.itis.MyTube.Attributes;
 import ru.itis.MyTube.auxilary.PassPerformer;
 import ru.itis.MyTube.auxilary.validators.AuthenticationValidator;
-import ru.itis.MyTube.model.dao.implementations.UserRepJdbcImpl;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.forms.AuthenticationForm;
@@ -84,6 +84,6 @@ public class AuthenticationServlet extends HttpServlet {
     }
 
     protected UserRepository getUserRepository() {
-        return UserRepJdbcImpl.getRepository();
+        return (UserRepository) getServletContext().getAttribute(Attributes.USER_REP.toString());
     }
 }
