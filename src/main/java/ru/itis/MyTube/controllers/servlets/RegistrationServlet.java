@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.Attributes;
+import ru.itis.MyTube.auxilary.Attributes;
 import ru.itis.MyTube.auxilary.PassPerformer;
 import ru.itis.MyTube.auxilary.validators.RegistrationValidator;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;

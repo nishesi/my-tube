@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.Attributes;
+import ru.itis.MyTube.auxilary.Attributes;
 import ru.itis.MyTube.auxilary.PassPerformer;
 import ru.itis.MyTube.auxilary.validators.AuthenticationValidator;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
@@ -70,7 +70,7 @@ public class AuthenticationServlet extends HttpServlet {
     private boolean isRegistered(AuthenticationForm form) {
         List<User> userList = getUserRepository().getAll();
 
-        return getUserRepository().getAll().stream()
+        return userList.stream()
                 .anyMatch(user ->
                         user.getLogin().equals(form.getUsername()) &&
                                 user.getPassword().equals(PassPerformer.hash(form.getPassword()))

@@ -2,7 +2,7 @@ package ru.itis.MyTube.controllers.listeners;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ru.itis.MyTube.Attributes;
+import ru.itis.MyTube.auxilary.Attributes;
 import ru.itis.MyTube.model.dao.implementations.UserRepJdbcImpl;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
 
