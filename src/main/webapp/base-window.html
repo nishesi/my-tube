@@ -13,13 +13,25 @@
         min-width: 600px;
         min-height: 300px;
     }
+    .channel-image {
+        height: 40px;
+        width: 40px;
+    }
+    #logo {
+        height: 50px;
+        width: 50px;
+    }
+    #user-image {
+        height: 40px;
+        width: 40px;
+    }
 </style>
 <body>
 <header class="container-fluid">
     <div class="row ">
         <div class="col">
             <div class="container m-1">
-                <img src="images/reg-background-img.jpg" class="d-inline" height="50px" width="50px" alt="logo">
+                <img id="logo" src="images/reg-background-img.jpg" class="d-inline" alt="logo">
                 <h1 class="d-inline">MyTube</h1>
             </div>
         </div>
@@ -43,7 +55,7 @@
         <div class="col text-end">
             <div class="container m-1">
                 <div class="d-inline">Nurislam Zaripov</div>
-                <img class="d-inline" src="images/reg-background-img.jpg" height="40px" width="40px" alt="user image">
+                <img id="user-image" class="d-inline" src="images/reg-background-img.jpg" alt="user image">
             </div>
         </div>
     </div>
@@ -57,99 +69,20 @@
                 <div class="list-group-item ">Подписки</div>
                 <div class="list-group-item">Популярные</div>
                 <div class="list-group-item">Случайные</div>
+                <div class="list-group-item">Канал</div>
             </div>
         </nav>
         <div class="col">
-            <div class="container-fluid">
-                <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 row-cols-xxl-6 g-1">
+            <div class="container-fluid p-0">
+                <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
 
                     <div class="col">
-                        <div class="card" style="width: 15rem;">
+                        <div class="card" >
                             <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
                             <div class="card-body p-1">
                                 <h6 class="card-title">Very super best all over the world video name</h6>
                                 <div class="container p-0 align-baseline">
-                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
-                                         style="width: 40px; height:40px;">
-                                    channel name
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="card" style="width: 15rem;">
-                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
-                            <div class="card-body p-1">
-                                <h6 class="card-title">Very super best all over the world video name</h6>
-                                <div class="container p-0 align-baseline">
-                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
-                                         style="width: 40px; height:40px;">
-                                    channel name
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem;">
-                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
-                            <div class="card-body p-1">
-                                <h6 class="card-title">Very super best all over the world video name</h6>
-                                <div class="container p-0 align-baseline">
-                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
-                                         style="width: 40px; height:40px;">
-                                    channel name
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem;">
-                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
-                            <div class="card-body p-1">
-                                <h6 class="card-title">Very super best all over the world video name</h6>
-                                <div class="container p-0 align-baseline">
-                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
-                                         style="width: 40px; height:40px;">
-                                    channel name
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem;">
-                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
-                            <div class="card-body p-1">
-                                <h6 class="card-title">Very super best all over the world video name</h6>
-                                <div class="container p-0 align-baseline">
-                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
-                                         style="width: 40px; height:40px;">
-                                    channel name
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem;">
-                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
-                            <div class="card-body p-1">
-                                <h6 class="card-title">Very super best all over the world video name</h6>
-                                <div class="container p-0 align-baseline">
-                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
-                                         style="width: 40px; height:40px;">
-                                    channel name
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card" style="width: 15rem;">
-                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
-                            <div class="card-body p-1">
-                                <h6 class="card-title">Very super best all over the world video name</h6>
-                                <div class="container p-0 align-baseline">
-                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
-                                         style="width: 40px; height:40px;">
+                                    <img class="rounded-circle channel-image" src="images/reg-background-img.jpg" alt="channel cover">
                                     channel name
                                 </div>
                             </div>
@@ -157,7 +90,7 @@
                     </div>
 
                     <div class="col">
-                        <div class="card" style="width: 15rem;">
+                        <div class="card">
                             <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
                             <div class="card-body p-1">
                                 <h6 class="card-title">Very super best all over the world video name</h6>
@@ -170,7 +103,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card" style="width: 15rem;">
+                        <div class="card">
                             <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
                             <div class="card-body p-1">
                                 <h6 class="card-title">Very super best all over the world video name</h6>
@@ -183,7 +116,86 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card" style="width: 15rem;">
+                        <div class="card">
+                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
+                            <div class="card-body p-1">
+                                <h6 class="card-title">Very super best all over the world video name</h6>
+                                <div class="container p-0 align-baseline">
+                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
+                                         style="width: 40px; height:40px;">
+                                    channel name
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
+                            <div class="card-body p-1">
+                                <h6 class="card-title">Very super best all over the world video name</h6>
+                                <div class="container p-0 align-baseline">
+                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
+                                         style="width: 40px; height:40px;">
+                                    channel name
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card" >
+                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
+                            <div class="card-body p-1">
+                                <h6 class="card-title">Very super best all over the world video name</h6>
+                                <div class="container p-0 align-baseline">
+                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
+                                         style="width: 40px; height:40px;">
+                                    channel name
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card" >
+                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
+                            <div class="card-body p-1">
+                                <h6 class="card-title">Very super best all over the world video name</h6>
+                                <div class="container p-0 align-baseline">
+                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
+                                         style="width: 40px; height:40px;">
+                                    channel name
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
+                            <div class="card-body p-1">
+                                <h6 class="card-title">Very super best all over the world video name</h6>
+                                <div class="container p-0 align-baseline">
+                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
+                                         style="width: 40px; height:40px;">
+                                    channel name
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
+                            <div class="card-body p-1">
+                                <h6 class="card-title">Very super best all over the world video name</h6>
+                                <div class="container p-0 align-baseline">
+                                    <img class="rounded-circle" src="images/reg-background-img.jpg" alt="channel cover"
+                                         style="width: 40px; height:40px;">
+                                    channel name
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
                             <img src="images/reg-background-img.jpg" class="card-img-top" alt="video cover">
                             <div class="card-body p-1">
                                 <h6 class="card-title">Very super best all over the world video name</h6>
