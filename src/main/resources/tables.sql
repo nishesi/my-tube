@@ -1,3 +1,11 @@
+drop table if exists users;
+drop table if exists video_covers;
+drop table if exists videos;
+drop table if exists channel_covers;
+drop table if exists channels;
+
+
+
 create table users
 (
     user_id    bigserial primary key,
@@ -8,10 +16,34 @@ create table users
     country    varchar(20) not null
 );
 
-create table user_subscriptions
+create table videos
 (
-    user_id    bigint references users (user_id)                   not null,
-    channel_id bigint references channel_covers (channel_cover_id) not null
+--  video_id is the name of the file
+--  that store video content in the storage
+    video_id uuid primary key,
+    info     varchar(1000) default ''
+--    TODO
+--     likes    bigint        default 0,
+--     dislikes bigint        default 0,
+--     views    bigint        default 0
+);
+
+create table channels
+(
+    channel_id   bigserial primary key,
+    owner_id     bigint references users (user_id),
+    subs_count   bigint        default 0,
+    channel_info varchar(1000) default '',
+    videos_json  json not null
+);
+
+create table channel_covers
+(
+    channel_cover_id bigserial primary key,
+    channel_name     varchar(20) not null,
+--  channel_icon - name of the file that store image in storage
+    channel_icon     uuid        not null,
+    channel_id       bigint references channels (channel_id)
 );
 
 create table video_covers
@@ -26,33 +58,10 @@ create table video_covers
     duration         time                                                not null
 );
 
-create table videos
+create table user_subscriptions
 (
---  video_id is the name of the file
---  that store video content in the storage
-    video_id uuid primary key,
-    info     varchar(1000) default '',
-    likes    bigint        default 0,
-    dislikes bigint        default 0,
-    views    bigint        default 0
-);
-
-create table channel_covers
-(
-    channel_cover_id bigserial primary key,
-    channel_name     varchar(20) not null,
---  channel_icon - name of the file that store image in storage
-    channel_icon     uuid        not null,
-    channel_id       bigint references channels (channel_id)
-);
-
-create table channels
-(
-    channel_id   bigserial primary key,
-    owner_id     bigint references users (user_id),
-    subs_count   bigint        default 0,
-    channel_info varchar(1000) default '',
-    videos_json  json not null
+    user_id    bigint references users (user_id)                   not null,
+    channel_id bigint references channel_covers (channel_cover_id) not null
 );
 
 create table channel_videos
