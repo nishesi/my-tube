@@ -1,4 +1,4 @@
-package ru.itis.MyTube.auxilary.validators;
+package ru.itis.MyTube.auxiliary.validators;
 
 import ru.itis.MyTube.model.forms.AuthenticationForm;
 

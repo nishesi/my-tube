@@ -1,4 +1,4 @@
-package ru.itis.MyTube.auxilary;
+package ru.itis.MyTube.auxiliary;
 
 public enum Attributes {
     USER_REP("userRepository");
