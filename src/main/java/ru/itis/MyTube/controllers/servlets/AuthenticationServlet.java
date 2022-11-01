@@ -25,7 +25,7 @@ public class AuthenticationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         initPage(req);
-        req.getRequestDispatcher("WEB-INF/authent-page.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/jsp/authent-page.jsp").forward(req, resp);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class AuthenticationServlet extends HttpServlet {
 
             if (isRegistered(form)) {
 
-                req.getSession().setAttribute("username", form.getUsername());
+                req.getSession().setAttribute(Attributes.USER.toString(), getUserRepository().get(form.getUsername()));
 
 
                 {
@@ -57,13 +57,13 @@ public class AuthenticationServlet extends HttpServlet {
 
             } else {
                 req.setAttribute("error", "User not found.");
-                req.getRequestDispatcher("WEB-INF/authent-page.jsp").forward(req, resp);
+                req.getRequestDispatcher("WEB-INF/jsp/authent-page.jsp").forward(req, resp);
             }
 
         } else {
             req.setAttribute("problems", problems);
 
-            req.getRequestDispatcher("WEB-INF/authent-page.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/jsp/authent-page.jsp").forward(req, resp);
         }
     }
 
@@ -72,7 +72,7 @@ public class AuthenticationServlet extends HttpServlet {
 
         return userList.stream()
                 .anyMatch(user ->
-                        user.getLogin().equals(form.getUsername()) &&
+                        user.getUsername().equals(form.getUsername()) &&
                                 user.getPassword().equals(PassPerformer.hash(form.getPassword()))
                 );
     }

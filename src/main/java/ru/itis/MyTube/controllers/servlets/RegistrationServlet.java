@@ -29,7 +29,7 @@ public class RegistrationServlet extends HttpServlet {
         req.setAttribute("form", RegistrationForm.builder().build());
 
         try {
-            req.getRequestDispatcher("/WEB-INF/register-page.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsp/register-page.jsp").forward(req, resp);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,7 +61,7 @@ public class RegistrationServlet extends HttpServlet {
             req.setAttribute("problems", problems);
 
             try {
-                req.getRequestDispatcher("/WEB-INF/register-page.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/jsp/register-page.jsp").forward(req, resp);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -70,12 +70,11 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void saveUser(RegistrationForm form, HttpServletResponse resp) throws IOException {
         User newUser = User.builder()
-                .login(form.getLogin())
+                .username(form.getLogin())
                 .password(PassPerformer.hash(form.getPassword()))
                 .firstName(form.getFirstName())
                 .lastName(form.getLastName())
                 .birthdate(LocalDate.parse(form.getBirthdate()))
-                .sex(form.getSex())
                 .country(form.getCountry())
                 .build();
 
