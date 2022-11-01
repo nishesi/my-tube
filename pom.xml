@@ -5,14 +5,13 @@
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.itis</groupId>
-    <artifactId>WebProject</artifactId>
+    <groupId>ru.itis.nishesi</groupId>
+    <artifactId>MyTube</artifactId>
     <packaging>war</packaging>
-    <version>1.0</version>
+    <version>0.1</version>
 
 
     <properties>
-        <!-- Generic properties -->
         <maven.compiler.source>9</maven.compiler.source>
         <maven.compiler.target>9</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -70,7 +69,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
         </dependency>
-
 
     </dependencies>
 </project>

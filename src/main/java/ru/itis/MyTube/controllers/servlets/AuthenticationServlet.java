@@ -1,8 +1,8 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.auxilary.Attributes;
-import ru.itis.MyTube.auxilary.PassPerformer;
-import ru.itis.MyTube.auxilary.validators.AuthenticationValidator;
+import ru.itis.MyTube.auxiliary.Attributes;
+import ru.itis.MyTube.auxiliary.PassPerformer;
+import ru.itis.MyTube.auxiliary.validators.AuthenticationValidator;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.forms.AuthenticationForm;
