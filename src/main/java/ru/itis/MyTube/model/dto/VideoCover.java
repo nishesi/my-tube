@@ -3,17 +3,17 @@ package ru.itis.MyTube.model.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Builder
 @Data
 public class VideoCover {
-    private Long id;
+    private String videoCoverImgUrl;
     private String name;
-    private byte[] icon;
-    private ZonedDateTime addedDate;
-    private Video video;
-    private Long channelId;
-    private LocalDate duration;
+    private String channelImgUrl;
+    private String channelName;
+    private LocalDateTime addedDate;
+    private String views;
+    private LocalTime duration;
 }
