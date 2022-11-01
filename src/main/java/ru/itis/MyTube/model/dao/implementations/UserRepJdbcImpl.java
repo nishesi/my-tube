@@ -23,13 +23,11 @@ public class UserRepJdbcImpl implements UserRepository {
     private static final Function<ResultSet, User> USER_MAPPER = (set) -> {
         try {
             return User.builder()
-                    .id(set.getLong("id"))
-                    .login(set.getString("login"))
+                    .username(set.getString("username"))
                     .password(set.getString("password"))
                     .firstName(set.getString("first_name"))
                     .lastName(set.getString("last_name"))
-                    .birthdate(LocalDate.parse(set.getString("birth_date")))
-                    .sex(set.getString("sex"))
+                    .birthdate(LocalDate.parse(set.getString("birthdate")))
                     .country(set.getString("country"))
                     .build();
 
@@ -62,21 +60,20 @@ public class UserRepJdbcImpl implements UserRepository {
 
 
     private static final String SQL_SAVE_USER = "insert into users " +
-            "(login, password, first_name, last_name, birth_date, country, sex) " +
-            "values (?, ?, ?, ?, ?, ?, ?)";
+            "(username, password, first_name, last_name, birthdate, country) " +
+            "values (?, ?, ?, ?, ?, ?)";
     @Override
     public boolean save(User user) {
         try (Connection connection = DATA_SOURCE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_USER)) {
 
-            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(1, user.getUsername());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getFirstName());
             preparedStatement.setString(4, user.getLastName());
             preparedStatement.setDate(5,
                      new Date(Date.from(user.getBirthdate().atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime()));
             preparedStatement.setString(6, user.getCountry());
-            preparedStatement.setString(7, user.getSex());
 
             return preparedStatement.executeUpdate() == 1;
 
@@ -98,6 +95,6 @@ public class UserRepJdbcImpl implements UserRepository {
 
     @Override
     public boolean isPresent(String username) {
-        return getAll().stream().anyMatch(user -> user.getLogin().equals(username));
+        return getAll().stream().anyMatch(user -> user.getUsername().equals(username));
     }
 }

@@ -25,12 +25,11 @@ public class UserRepositoryFileImpl implements UserRepository {
     private final Function<String, User> USER_MAPPER = (line) -> {
         String[] arr = line.split(DELIMITER);
         return User.builder()
-                .login(arr[0])
+                .username(arr[0])
                 .password(arr[1])
                 .firstName(arr[2])
                 .lastName(arr[3])
                 .birthdate(LocalDate.parse(arr[4]))
-                .sex(arr[5])
                 .country(arr[6])
                 .build();
     };
@@ -54,12 +53,11 @@ public class UserRepositoryFileImpl implements UserRepository {
                      new BufferedWriter(
                              new FileWriter(STORAGE.toFile(), true))) {
 
-            String[] arr = new String[]{user.getLogin(),
+            String[] arr = new String[]{user.getUsername(),
                     user.getPassword(),
                     user.getFirstName(),
                     user.getLastName(),
                     String.valueOf(user.getBirthdate()),
-                    user.getSex(),
                     user.getCountry()};
 
             for (int i = 0; i < arr.length -1 ; i++) {
@@ -85,6 +83,6 @@ public class UserRepositoryFileImpl implements UserRepository {
 
     @Override
     public boolean isPresent(String username) {
-        return getAll().stream().anyMatch(user -> user.getLogin().equals(username));
+        return getAll().stream().anyMatch(user -> user.getUsername().equals(username));
     }
 }
