@@ -9,12 +9,15 @@ import ru.itis.MyTube.model.dao.interfaces.UserRepository;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 import java.io.IOException;
 import java.util.Properties;
 
+@WebListener
 public class ContextListener implements ServletContextListener {
 
     private HikariDataSource dataSource;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
@@ -23,6 +26,8 @@ public class ContextListener implements ServletContextListener {
 
         UserRepository userRepository = new UserRepJdbcImpl(dataSource);
         context.setAttribute(Attributes.USER_REP.toString(), userRepository);
+
+        initPageAttributes(context);
     }
 
     @Override
@@ -45,5 +50,13 @@ public class ContextListener implements ServletContextListener {
         config.setPassword(properties.getProperty("db.password"));
 
         return new HikariDataSource(config);
+    }
+
+    private void initPageAttributes(ServletContext context) {
+        context.setAttribute(
+                Attributes.APP_LOGO_URL.toString(),
+                context.getContextPath() + "/images/reg-background-img.jpg"
+        );
+        context.setAttribute(Attributes.APP_NAME.toString(), "MyTube");
     }
 }

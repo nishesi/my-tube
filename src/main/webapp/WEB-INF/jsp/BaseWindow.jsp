@@ -5,8 +5,6 @@
 <jsp:useBean id="videoCoverList" scope="request" type="java.util.List<ru.itis.MyTube.model.dto.VideoCover>"/>
 <jsp:useBean id="commonCssUrl" scope="request" type="java.lang.String"/>
 
-<jsp:useBean id="logoUrl" scope="request" type="java.lang.String"/>
-<jsp:useBean id="appName" scope="request" type="java.lang.String"/>
 <jsp:useBean id="firstName" scope="request" type="java.lang.String"/>
 <jsp:useBean id="lastName" scope="request" type="java.lang.String"/>
 <jsp:useBean id="userImgUrl" scope="request" type="java.lang.String"/>
