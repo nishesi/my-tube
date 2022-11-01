@@ -1,5 +1,6 @@
 package ru.itis.MyTube.controllers.servlets;
 
+import ru.itis.MyTube.model.dto.ChannelCover;
 import ru.itis.MyTube.model.dto.VideoCover;
 
 import javax.servlet.ServletException;
@@ -23,8 +24,10 @@ public class BaseWindowServlet extends HttpServlet {
         VideoCover videoCover = VideoCover.builder()
                 .videoCoverImgUrl("http://localhost:8080/MyTube/images/reg-background-img.jpg")
                 .name("bestVideo")
-                .channelImgUrl("http://localhost:8080/MyTube/images/reg-background-img.jpg")
-                .channelName("bestChannel")
+                .channelCover(ChannelCover.builder()
+                        .channelImgUrl("http://localhost:8080/MyTube/images/reg-background-img.jpg")
+                        .name("4chan")
+                        .build())
                 .addedDate(LocalDateTime.of(2022, 10, 29, 10, 10, 10, 0))
                 .views("10100")
                 .duration(LocalTime.of(0, 10, 45))

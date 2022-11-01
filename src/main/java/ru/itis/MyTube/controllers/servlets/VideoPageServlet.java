@@ -1,5 +1,6 @@
 package ru.itis.MyTube.controllers.servlets;
 
+import ru.itis.MyTube.model.dto.ChannelCover;
 import ru.itis.MyTube.model.dto.Video;
 import ru.itis.MyTube.model.dto.VideoCover;
 
@@ -9,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -23,8 +23,10 @@ public class VideoPageServlet extends HttpServlet {
         VideoCover videoCover = VideoCover.builder()
                 .videoCoverImgUrl("http://localhost:8080/MyTube/images/reg-background-img.jpg")
                 .name("bestVideo")
-                .channelImgUrl("http://localhost:8080/MyTube/images/reg-background-img.jpg")
-                .channelName("bestChannel")
+                .channelCover(ChannelCover.builder()
+                        .channelImgUrl("http://localhost:8080/MyTube/images/reg-background-img.jpg")
+                        .name("bestChannel")
+                        .build())
                 .addedDate(LocalDateTime.of(2022, 10, 29, 10, 10, 10, 0))
                 .views("10100")
                 .duration(LocalTime.of(0, 10, 45))
@@ -37,8 +39,10 @@ public class VideoPageServlet extends HttpServlet {
         VideoCover baseVideoCover = VideoCover.builder()
                 .videoCoverImgUrl("http://localhost:8080/MyTube/images/reg-background-img.jpg")
                 .name("играю в майнкрафт очень повезло повезло")
-                .channelImgUrl("http://localhost:8080/MyTube/images/reg-background-img.jpg")
-                .channelName("minecrafters")
+                .channelCover(ChannelCover.builder()
+                        .channelImgUrl("http://localhost:8080/MyTube/images/reg-background-img.jpg")
+                        .name("minecrafters")
+                        .build())
                 .addedDate(LocalDateTime.of(2022, 10, 29, 10, 10, 10, 0))
                 .views("10100")
                 .duration(LocalTime.of(0, 10, 45))
@@ -48,7 +52,7 @@ public class VideoPageServlet extends HttpServlet {
                 .videoCover(baseVideoCover)
                 .info("невероятное везение в майнкрафте такого просто не может " +
                         "быть вы в жизни бы не поверили если бы я не записал.")
-                .source(Paths.get("C:/MyTube/videoStorage/video.mp4"))
+                .videoUrl("C:/MyTube/videoStorage/video.mp4")
                 .build();
 
         req.setAttribute("video", video);

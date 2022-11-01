@@ -28,7 +28,7 @@
 
         <div class="col">
             <video height="480" width="640" type="video/mp4" controls="controls">
-                <source src="${video.source}">
+                <source src="${video.videoUrl}">
             </video>
         </div>
 
@@ -36,9 +36,9 @@
             <div class="container-fluid">
                 <div>${video.videoCover.name}</div>
                 <div class="container p-0 align-baseline mt-2">
-                    <img class="rounded-circle channel-image" src="${video.videoCover.channelImgUrl}"
+                    <img class="rounded-circle channel-image" src="${video.videoCover.channelCover.channelImgUrl}"
                          alt="channel cover">
-                    ${video.videoCover.channelName}
+                    ${video.videoCover.name}
                 </div>
                 <div class="mt-2">
                     ${video.info}

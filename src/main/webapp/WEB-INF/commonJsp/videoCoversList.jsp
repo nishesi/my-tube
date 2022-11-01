@@ -12,8 +12,7 @@
 
             <o:videoCover videoCoverImgUrl="${videoCover.videoCoverImgUrl}"
                           videoName="${videoCover.name}"
-                          channelImgUrl="${videoCover.channelImgUrl}"
-                          channelName="${videoCover.channelName}"
+                          channelCover="${videoCover.channelCover}"
                           addedDate="${videoCover.addedDate}"
                           views="${videoCover.views}"
                           duration="${videoCover.duration}"
