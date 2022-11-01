@@ -9,9 +9,9 @@ import java.nio.file.Path;
 @Data
 public class Video {
     private Long id;
+    private VideoCover videoCover;
     private Path source;
     private String info;
     private Long likes;
     private Long dislikes;
-    private Long views;
 }

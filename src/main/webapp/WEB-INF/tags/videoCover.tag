@@ -2,9 +2,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="v" uri="/WEB-INF/tag/VideoCoverAuxiliary.tld" %>
 
-<%@attribute name="videoCoverImageUrl" required="true" type="java.lang.String" %>
+<%@attribute name="videoCoverImgUrl" required="true" type="java.lang.String" %>
 <%@attribute name="videoName" required="true" type="java.lang.String" %>
-<%@attribute name="channelImageUrl" required="true" type="java.lang.String" %>
+<%@attribute name="channelImgUrl" required="true" type="java.lang.String" %>
 <%@attribute name="channelName" required="true" type="java.lang.String" %>
 <%@attribute name="addedDate" required="true" type="java.time.LocalDateTime" %>
 <%@attribute name="views" required="true" type="java.lang.Long" %>
@@ -14,14 +14,14 @@
 <div class="col">
     <div class="card" >
 
-        <img src="${videoCoverImageUrl}" class="card-img-top" alt="video cover">
+        <img src="${videoCoverImgUrl}" class="card-img-top" alt="video cover">
 
         <div class="card-body p-1">
 
             <h6 class="card-title">${videoName}</h6>
 
             <div class="container p-0 align-baseline">
-                <img class="rounded-circle channel-image" src="${channelImageUrl}" alt="channel cover">
+                <img class="rounded-circle channel-image" src="${channelImgUrl}" alt="channel cover">
                 ${channelName}
             </div>
 
