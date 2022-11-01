@@ -1,8 +1,10 @@
-drop table if exists users;
-drop table if exists video_covers;
+drop table if exists users cascade;
+drop table if exists videos_covers cascade;
 drop table if exists videos;
-drop table if exists channel_covers;
-drop table if exists channels;
+drop table if exists channels_covers cascade;
+drop table if exists channels cascade;
+drop table if exists users_subscriptions;
+drop table if exists channels_videos;
 
 
 
@@ -18,54 +20,52 @@ create table users
 
 create table videos
 (
---  video_id is the name of the file
---  that store video content in the storage
-    video_id uuid primary key,
+--  video_id matches with video file name
+--  and video_cover_uuid
+    video_uuid uuid primary key,
     info     varchar(1000) default ''
 --    TODO
 --     likes    bigint        default 0,
 --     dislikes bigint        default 0,
---     views    bigint        default 0
 );
 
 create table channels
 (
+--  channel_id matches with channel_cover_id
     channel_id   bigserial primary key,
     owner_id     bigint references users (user_id),
     subs_count   bigint        default 0,
-    channel_info varchar(1000) default '',
-    videos_json  json not null
+    channel_info varchar(1000) default ''
 );
 
-create table channel_covers
+create table channels_covers
 (
+--  channel_cover_id matches with channel_id
+--  and channel icon file name
     channel_cover_id bigserial primary key,
-    channel_name     varchar(20) not null,
---  channel_icon - name of the file that store image in storage
-    channel_icon     uuid        not null,
-    channel_id       bigint references channels (channel_id)
+    channel_name     varchar(20) not null
 );
 
-create table video_covers
+create table videos_covers
 (
-    video_cover_id   bigserial primary key,
+
+--  video_cover_uuid matches with video uuid, video file name and video icon name
+    video_cover_uuid uuid primary key,
     video_name       varchar(70)                                         not null,
---  video_icon - name of the file that store image in storage
-    video_icon       uuid                                                not null,
     added_date       timestamp with time zone                            not null,
-    channel_cover_id bigint references channel_covers (channel_cover_id) not null,
-    video_id         uuid references videos (video_id),
-    duration         time                                                not null
+    channel_cover_id bigint references channels_covers (channel_cover_id) not null,
+    duration         time                                                not null,
+    views bigint default 0
 );
 
-create table user_subscriptions
+create table users_subscriptions
 (
     user_id    bigint references users (user_id)                   not null,
-    channel_id bigint references channel_covers (channel_cover_id) not null
+    channel_id bigint references channels_covers (channel_cover_id) not null
 );
 
-create table channel_videos
+create table channels_videos
 (
     channel_id     bigint references channels (channel_id)         not null,
-    video_cover_id bigint references video_covers (video_cover_id) not null
+    video_cover_uuid uuid references videos_covers (video_cover_uuid) not null
 )

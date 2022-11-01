@@ -5,15 +5,16 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.UUID;
 
 @Builder
 @Data
 public class VideoCover {
+    private UUID uuid;
     private String videoCoverImgUrl;
     private String name;
-    private String channelImgUrl;
-    private String channelName;
+    private ChannelCover channelCover;
     private LocalDateTime addedDate;
-    private String views;
     private LocalTime duration;
+    private String views;
 }
