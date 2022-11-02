@@ -17,11 +17,15 @@
     <div class="box">
         <h1>Authentication</h1>
         <form action="" method="post">
-            <input type="text" name="username" placeholder="username" value="${username}">
-            <o:problemOut name="usernameProblem" map="${problems}"></o:problemOut>
+            <label>Username
+                <input type="text" name="username" placeholder="username" value="${username}">
+            </label>
+            <o:problemOut name="usernameProblem" map="${problems}"/>
 
-            <input type="password" name="password" placeholder="password" value="${password}">
-            <o:problemOut name="passwordProblem" map="${problems}"></o:problemOut>
+            <label>Password
+                <input type="password" name="password" placeholder="password" value="${password}">
+            </label>
+            <o:problemOut name="passwordProblem" map="${problems}"/>
 
             <input type="submit" placeholder="submit">
             <a href="${regPageLink}">register</a>

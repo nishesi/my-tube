@@ -55,7 +55,8 @@ public class RegistrationServlet extends HttpServlet {
         req.setAttribute("form", registrationForm);
 
         if (problems.isEmpty()) {
-            saveUser(registrationForm, resp);
+            saveUser(registrationForm);
+            resp.sendRedirect(getServletContext().getContextPath() + "/authenticate");
 
         } else {
             req.setAttribute("problems", problems);
@@ -68,7 +69,7 @@ public class RegistrationServlet extends HttpServlet {
         }
     }
 
-    protected void saveUser(RegistrationForm form, HttpServletResponse resp) throws IOException {
+    protected void saveUser(RegistrationForm form) {
         User newUser = User.builder()
                 .username(form.getLogin())
                 .password(PassPerformer.hash(form.getPassword()))
@@ -79,12 +80,7 @@ public class RegistrationServlet extends HttpServlet {
                 .build();
 
         UserRepository repository = getUserRepository();
-        if (repository.save(newUser)) {
-            resp.setStatus(200);
-            resp.getWriter().println("you registered");
-        } else {
-            resp.sendError(500, "registration failed");
-        }
+        repository.save(newUser);
     }
 
     private UserRepository getUserRepository() {

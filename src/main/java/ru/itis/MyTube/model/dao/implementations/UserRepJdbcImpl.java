@@ -14,12 +14,6 @@ import java.util.function.Function;
 
 public class UserRepJdbcImpl implements UserRepository {
 
-    private final DataSource DATA_SOURCE;
-
-    public UserRepJdbcImpl(DataSource dataSource) {
-        DATA_SOURCE = dataSource;
-    }
-
     private static final Function<ResultSet, User> USER_MAPPER = (set) -> {
         try {
             return User.builder()
@@ -35,8 +29,18 @@ public class UserRepJdbcImpl implements UserRepository {
             throw new RuntimeException(e);
         }
     };
-
     private static final String SQL_GET_ALL_USERS = "select * from users;";
+    private static final String SQL_SAVE_USER = "insert into users " +
+            "(username, password, first_name, last_name, birthdate, country) " +
+            "values (?, ?, ?, ?, ?, ?)";
+    private static final String SQL_GET_USER = "select * from users where username = ?";
+    private final DataSource DATA_SOURCE;
+
+
+    public UserRepJdbcImpl(DataSource dataSource) {
+        DATA_SOURCE = dataSource;
+    }
+
     @Override
     public List<User> getAll() {
         try (Connection connection = DATA_SOURCE.getConnection();
@@ -56,12 +60,6 @@ public class UserRepJdbcImpl implements UserRepository {
         }
     }
 
-
-
-
-    private static final String SQL_SAVE_USER = "insert into users " +
-            "(username, password, first_name, last_name, birthdate, country) " +
-            "values (?, ?, ?, ?, ?, ?)";
     @Override
     public boolean save(User user) {
         try (Connection connection = DATA_SOURCE.getConnection();
@@ -72,7 +70,7 @@ public class UserRepJdbcImpl implements UserRepository {
             preparedStatement.setString(3, user.getFirstName());
             preparedStatement.setString(4, user.getLastName());
             preparedStatement.setDate(5,
-                     new Date(Date.from(user.getBirthdate().atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime()));
+                    new Date(Date.from(user.getBirthdate().atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime()));
             preparedStatement.setString(6, user.getCountry());
 
             return preparedStatement.executeUpdate() == 1;
@@ -82,7 +80,6 @@ public class UserRepJdbcImpl implements UserRepository {
         }
     }
 
-
     @Override
     public boolean delete(long id) {
         throw new RuntimeException("not implemented");
@@ -90,7 +87,21 @@ public class UserRepJdbcImpl implements UserRepository {
 
     @Override
     public Optional<User> get(String login) {
-        throw new RuntimeException("not implemented");
+        try (Connection connection = DATA_SOURCE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_USER)) {
+
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return Optional.of(USER_MAPPER.apply(resultSet));
+            } else {
+                return Optional.empty();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

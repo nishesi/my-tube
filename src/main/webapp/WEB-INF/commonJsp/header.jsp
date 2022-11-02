@@ -2,13 +2,12 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <header class="container-fluid">
     <div class="row ">
         <div class="col">
             <div class="container m-1">
-                <img src="${pageContext.getAttribute("logoUrl")}" class="d-inline" height="50px" width="50px" alt="logo">
-                <h1 class="d-inline">${pageContext.getAttribute("appName")}</h1>
+                <img src="${logoUrl}" class="d-inline" height="50px" width="50px" alt="logo">
+                <h1 class="d-inline">${appName}</h1>
             </div>
         </div>
 
