@@ -58,5 +58,6 @@ public class ContextListener implements ServletContextListener {
                 context.getContextPath() + "/images/reg-background-img.jpg"
         );
         context.setAttribute(Attributes.APP_NAME.toString(), "MyTube");
+        context.setAttribute(Attributes.COMMON_CSS_URL.toString(), context.getContextPath() + "/css/common.css");
     }
 }

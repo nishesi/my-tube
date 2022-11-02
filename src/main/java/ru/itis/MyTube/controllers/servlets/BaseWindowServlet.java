@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,13 +19,17 @@ public class BaseWindowServlet extends HttpServlet {
     private VideoService videoService;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void init() {
+        videoService = (VideoService) getServletContext().getAttribute(Attributes.VIDEO_REP.toString());
+    }
 
-        List<VideoCover> list = new ArrayList<>();
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //TODO reaction for another request parameters
+        List<VideoCover> list = videoService.getRandomVideos();
 
         req.setAttribute(Attributes.VIDEO_COVER_LIST.toString(), list);
 
-        req.setAttribute("commonCssUrl", getServletContext().getContextPath() + "/css/common.css");
         req.getRequestDispatcher("/WEB-INF/jsp/BaseWindow.jsp").forward(req, resp);
     }
 }

@@ -6,7 +6,8 @@ public enum Attributes {
     VIDEO_COVER_LIST("videoCoverList"),
     USER("user"),
     APP_LOGO_URL("logoUrl"),
-    APP_NAME("appName");
+    APP_NAME("appName"),
+    COMMON_CSS_URL("commonCssUrl");
 
     private final String paramName;
 

@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.UUID;
 
 public interface VideoService {
-    VideoCover getVideoCover(Long id);
+    VideoCover getVideoCover(UUID uuid);
 
-    Video getVideo(UUID id);
+    Video getVideo(UUID uuid);
 
     List<VideoCover> getRandomVideos();
 
     List<VideoCover> getPopularVideos();
 
-    List<VideoCover> getVideosByName(String substring);
+    List<VideoCover> getVideosByNameSubstring(String substring);
 
 
 
