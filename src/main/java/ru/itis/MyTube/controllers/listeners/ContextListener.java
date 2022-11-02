@@ -21,11 +21,10 @@ public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
-        dataSource = initDataSource();
+        initDataSource();
 
-
-        UserRepository userRepository = new UserRepJdbcImpl(dataSource);
-        context.setAttribute(Attributes.USER_REP.toString(), userRepository);
+        setServices(context);
+        setRepositories(context);
 
         initPageAttributes(context);
     }
@@ -35,7 +34,7 @@ public class ContextListener implements ServletContextListener {
         dataSource.close();
     }
 
-    private HikariDataSource initDataSource() {
+    private void initDataSource() {
         Properties properties = new Properties();
 
         try {
@@ -49,7 +48,7 @@ public class ContextListener implements ServletContextListener {
         config.setUsername(properties.getProperty("db.username"));
         config.setPassword(properties.getProperty("db.password"));
 
-        return new HikariDataSource(config);
+        dataSource = new HikariDataSource(config);
     }
 
     private void initPageAttributes(ServletContext context) {
@@ -59,5 +58,15 @@ public class ContextListener implements ServletContextListener {
         );
         context.setAttribute(Attributes.APP_NAME.toString(), "MyTube");
         context.setAttribute(Attributes.COMMON_CSS_URL.toString(), context.getContextPath() + "/css/common.css");
+    }
+
+    private void setServices(ServletContext context) {
+        //TODO
+    }
+
+    private void setRepositories(ServletContext context) {
+        UserRepository userRepository = new UserRepJdbcImpl(dataSource);
+        context.setAttribute(Attributes.USER_REP.toString(), userRepository);
+        //TODO
     }
 }

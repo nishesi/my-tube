@@ -13,14 +13,15 @@
 
         <div class="col-auto text-center m-2">
 
-            <form action="" method="get">
+            <form action="${pageContext.servletContext.contextPath}/search" method="get">
                 <div class="input-group flex-nowrap">
                     <input
                             type="text"
-                            name="search"
+                            name="substring"
                             class="form-control"
                             placeholder="Search"
                             aria-label="Search"
+                            value="${requestScope.substring}"
                     />
                     <button class="btn btn-secondary" type="submit">?</button>
                 </div>

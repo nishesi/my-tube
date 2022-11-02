@@ -20,7 +20,7 @@ public class BaseWindowServlet extends HttpServlet {
 
     @Override
     public void init() {
-        videoService = (VideoService) getServletContext().getAttribute(Attributes.VIDEO_REP.toString());
+        videoService = (VideoService) getServletContext().getAttribute(Attributes.VIDEO_SERVICE.toString());
     }
 
     @Override

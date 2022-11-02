@@ -1,6 +1,8 @@
 package ru.itis.MyTube.auxiliary;
 
 public enum Attributes {
+    USER_SERVICE("userService"),
+    VIDEO_SERVICE("videoService"),
     USER_REP("userRepository"),
     VIDEO_REP("videoRepository"),
     VIDEO_COVER_LIST("videoCoverList"),
