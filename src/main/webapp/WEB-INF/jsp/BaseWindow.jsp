@@ -1,7 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
-<jsp:useBean id="videoCoverList" scope="request" type="java.util.List<ru.itis.MyTube.model.dto.VideoCover>"/>
-
 <!DOCTYPE html>
 <html>
 <head>

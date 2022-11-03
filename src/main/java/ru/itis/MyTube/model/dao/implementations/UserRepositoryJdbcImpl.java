@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class UserRepJdbcImpl implements UserRepository {
+public class UserRepositoryJdbcImpl implements UserRepository {
 
     private static final Function<ResultSet, User> USER_MAPPER = (set) -> {
         try {
@@ -37,7 +37,7 @@ public class UserRepJdbcImpl implements UserRepository {
     private final DataSource dataSource;
 
 
-    public UserRepJdbcImpl(DataSource dataSource) {
+    public UserRepositoryJdbcImpl(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

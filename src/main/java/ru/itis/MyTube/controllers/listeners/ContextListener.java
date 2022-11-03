@@ -4,7 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import ru.itis.MyTube.auxiliary.Attributes;
 import ru.itis.MyTube.model.dao.implementations.ChannelRepositoryJdbcImpl;
-import ru.itis.MyTube.model.dao.implementations.UserRepJdbcImpl;
+import ru.itis.MyTube.model.dao.implementations.UserRepositoryJdbcImpl;
 import ru.itis.MyTube.model.dao.implementations.VideoRepositoryJdbcImpl;
 import ru.itis.MyTube.model.dao.interfaces.ChannelRepository;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
@@ -67,7 +67,7 @@ public class ContextListener implements ServletContextListener {
     }
 
     private void setServices(ServletContext context) {
-        UserRepository userRepository = new UserRepJdbcImpl(dataSource);
+        UserRepository userRepository = new UserRepositoryJdbcImpl(dataSource);
         VideoRepostiory videoRepostiory = new VideoRepositoryJdbcImpl(dataSource);
         ChannelRepository channelRepository = new ChannelRepositoryJdbcImpl(dataSource);
 
