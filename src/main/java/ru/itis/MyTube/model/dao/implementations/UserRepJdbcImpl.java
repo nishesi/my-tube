@@ -34,16 +34,16 @@ public class UserRepJdbcImpl implements UserRepository {
             "(username, password, first_name, last_name, birthdate, country) " +
             "values (?, ?, ?, ?, ?, ?)";
     private static final String SQL_GET_USER = "select * from users where username = ?";
-    private final DataSource DATA_SOURCE;
+    private final DataSource dataSource;
 
 
     public UserRepJdbcImpl(DataSource dataSource) {
-        DATA_SOURCE = dataSource;
+        this.dataSource = dataSource;
     }
 
     @Override
     public List<User> getAll() {
-        try (Connection connection = DATA_SOURCE.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL_USERS)) {
 
             ResultSet set = preparedStatement.executeQuery();
@@ -62,7 +62,7 @@ public class UserRepJdbcImpl implements UserRepository {
 
     @Override
     public boolean save(User user) {
-        try (Connection connection = DATA_SOURCE.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_USER)) {
 
             preparedStatement.setString(1, user.getUsername());
@@ -87,7 +87,7 @@ public class UserRepJdbcImpl implements UserRepository {
 
     @Override
     public Optional<User> get(String login) {
-        try (Connection connection = DATA_SOURCE.getConnection();
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_USER)) {
 
             preparedStatement.setString(1, login);

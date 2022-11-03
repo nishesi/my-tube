@@ -2,9 +2,9 @@ package ru.itis.MyTube.controllers.servlets;
 
 import ru.itis.MyTube.auxiliary.Attributes;
 import ru.itis.MyTube.auxiliary.validators.AuthenticationValidator;
-import ru.itis.MyTube.model.dao.interfaces.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.forms.AuthenticationForm;
+import ru.itis.MyTube.model.services.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,9 +17,14 @@ import java.util.Optional;
 
 @WebServlet("/authenticate")
 public class AuthenticationServlet extends HttpServlet {
+    private UserService userService;
+    private AuthenticationValidator validator;
 
-
-    private final AuthenticationValidator validator = new AuthenticationValidator();
+    @Override
+    public void init() {
+        userService = (UserService) getServletContext().getAttribute(Attributes.USER_SERVICE.toString());
+        validator =  new AuthenticationValidator();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,7 +44,7 @@ public class AuthenticationServlet extends HttpServlet {
         Map<String, String> problems = validator.validate(form);
 
         if (problems.isEmpty()) {
-            Optional<User> userOptional = getUserRepository().get(form.getUsername());
+            Optional<User> userOptional = userService.get(form.getUsername());
 
             if (userOptional.isPresent()) {
 
@@ -64,9 +69,5 @@ public class AuthenticationServlet extends HttpServlet {
         req.setAttribute("regPageLink", getServletContext().getContextPath() + "/register");
         req.setAttribute("username", req.getParameter("username"));
         req.setAttribute("password", req.getParameter("password"));
-    }
-
-    protected UserRepository getUserRepository() {
-        return (UserRepository) getServletContext().getAttribute(Attributes.USER_REP.toString());
     }
 }

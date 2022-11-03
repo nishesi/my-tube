@@ -3,9 +3,9 @@ package ru.itis.MyTube.controllers.servlets;
 import ru.itis.MyTube.auxiliary.Attributes;
 import ru.itis.MyTube.auxiliary.PassPerformer;
 import ru.itis.MyTube.auxiliary.validators.RegistrationValidator;
-import ru.itis.MyTube.model.dao.interfaces.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.forms.RegistrationForm;
+import ru.itis.MyTube.model.services.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,8 +19,14 @@ import java.util.Map;
 
 @WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
+    private UserService userService;
+    private RegistrationValidator registrationValidator;
 
-    private final RegistrationValidator registrationValidator = new RegistrationValidator();
+    @Override
+    public void init() {
+        userService = (UserService) getServletContext().getAttribute(Attributes.USER_SERVICE.toString());
+        registrationValidator = new RegistrationValidator(userService);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
@@ -51,7 +57,7 @@ public class RegistrationServlet extends HttpServlet {
                 .agreement(req.getParameter("agreement"))
                 .build();
 
-        Map<String, String> problems = registrationValidator.validate(registrationForm, getUserRepository());
+        Map<String, String> problems = registrationValidator.validate(registrationForm);
         req.setAttribute("form", registrationForm);
 
         if (problems.isEmpty()) {
@@ -79,12 +85,8 @@ public class RegistrationServlet extends HttpServlet {
                 .country(form.getCountry())
                 .build();
 
-        UserRepository repository = getUserRepository();
-        repository.save(newUser);
-    }
 
-    private UserRepository getUserRepository() {
-        return (UserRepository) getServletContext().getAttribute(Attributes.USER_REP.toString());
+        userService.save(newUser);
     }
 
     private void initPage(HttpServletRequest req) {

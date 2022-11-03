@@ -1,7 +1,8 @@
 package ru.itis.MyTube.auxiliary.validators;
 
-import ru.itis.MyTube.model.dao.interfaces.UserRepository;
+import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.model.forms.RegistrationForm;
+import ru.itis.MyTube.model.services.UserService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -9,14 +10,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+@RequiredArgsConstructor
 public class RegistrationValidator {
+    private final UserService userService;
 
     protected Pattern onlyLettersPat = Pattern.compile("[A-Za-zА-Яа-я]+");
 
-    public Map<String, String> validate(RegistrationForm form, UserRepository repository) {
+    public Map<String, String> validate(RegistrationForm form) {
         Map<String, String> problems = new HashMap<>();
 
-        validateLogin(form.getLogin(), problems, repository);
+        validateLogin(form.getLogin(), problems);
         validatePassword(form.getPassword(), form.getPasswordRepeat(), problems);
 
         validateFirstName(form.getFirstName(), problems);
@@ -31,14 +34,14 @@ public class RegistrationValidator {
         return problems;
     }
 
-    protected void validateLogin(String login, Map<String, String> problems, UserRepository repository) {
+    protected void validateLogin(String login, Map<String, String> problems) {
         if (login == null || login.equals("")) {
             problems.put("login", "Login can not be empty.");
 
         } else if (!onlyLettersPat.matcher(login).matches()) {
             problems.put("login", "Login should have only letters.");
 
-        } else if (repository.isPresent(login)) {
+        } else if (userService.get(login).isPresent()) {
             problems.put("login", "This login is exist.");
         }
     }

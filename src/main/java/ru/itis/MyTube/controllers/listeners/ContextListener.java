@@ -3,8 +3,15 @@ package ru.itis.MyTube.controllers.listeners;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import ru.itis.MyTube.auxiliary.Attributes;
+import ru.itis.MyTube.model.dao.implementations.ChannelRepositoryJdbcImpl;
 import ru.itis.MyTube.model.dao.implementations.UserRepJdbcImpl;
+import ru.itis.MyTube.model.dao.implementations.VideoRepositoryJdbcImpl;
+import ru.itis.MyTube.model.dao.interfaces.ChannelRepository;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
+import ru.itis.MyTube.model.dao.interfaces.VideoRepostiory;
+import ru.itis.MyTube.model.services.implementations.ChannelServiceImpl;
+import ru.itis.MyTube.model.services.implementations.UserServiceImpl;
+import ru.itis.MyTube.model.services.implementations.VideoServiceImpl;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -24,7 +31,6 @@ public class ContextListener implements ServletContextListener {
         initDataSource();
 
         setServices(context);
-        setRepositories(context);
 
         initPageAttributes(context);
     }
@@ -61,12 +67,21 @@ public class ContextListener implements ServletContextListener {
     }
 
     private void setServices(ServletContext context) {
-        //TODO
-    }
-
-    private void setRepositories(ServletContext context) {
         UserRepository userRepository = new UserRepJdbcImpl(dataSource);
-        context.setAttribute(Attributes.USER_REP.toString(), userRepository);
-        //TODO
+        VideoRepostiory videoRepostiory = new VideoRepositoryJdbcImpl(dataSource);
+        ChannelRepository channelRepository = new ChannelRepositoryJdbcImpl(dataSource);
+
+        context.setAttribute(
+                Attributes.USER_SERVICE.toString(),
+                new UserServiceImpl(userRepository)
+        );
+        context.setAttribute(
+                Attributes.VIDEO_SERVICE.toString(),
+                new VideoServiceImpl(videoRepostiory)
+        );
+        context.setAttribute(
+                Attributes.CHANNEL_SERVICE.toString(),
+                new ChannelServiceImpl(channelRepository)
+        );
     }
 }
