@@ -7,21 +7,17 @@ public class UrlCreator {
     private final String contextPath;
 
     public String create(Type type, String id) {
+        String url = contextPath + "/resource?id=" + id + "&type=";
         if (type == Type.VIDEO) {
-            return contextPath + "/resource?v=" + id;
+            return url + "v";
         } else if (type == Type.VIDEO_ICON) {
-            return contextPath + "/resource?vi=" + id;
+            return url + "vi";
         } else if (type == Type.CHANNEL_ICON) {
-            return contextPath + "/resource?ci=" + id;
+            return url + "ci";
+        } else if (type == Type.USER_ICON){
+            return url + "ui";
         } else {
             return "unknown";
         }
-    }
-
-    public enum Type {
-        VIDEO,
-        VIDEO_ICON,
-        CHANNEL_ICON,
-        USER_ICON
     }
 }

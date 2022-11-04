@@ -14,6 +14,8 @@ import ru.itis.MyTube.model.dao.interfaces.VideoRepository;
 import ru.itis.MyTube.model.services.implementations.ChannelServiceImpl;
 import ru.itis.MyTube.model.services.implementations.UserServiceImpl;
 import ru.itis.MyTube.model.services.implementations.VideoServiceImpl;
+import ru.itis.MyTube.model.storage.FileStorageImpl;
+import ru.itis.MyTube.model.storage.Storage;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -35,6 +37,9 @@ public class ContextListener implements ServletContextListener {
         setServices(context);
 
         initPageAttributes(context);
+
+        Storage storage = new FileStorageImpl();
+        context.setAttribute(Attributes.STORAGE.toString(), storage);
     }
 
     @Override

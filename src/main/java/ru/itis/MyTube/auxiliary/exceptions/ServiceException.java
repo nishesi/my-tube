@@ -1,4 +1,4 @@
-package ru.itis.MyTube.model.services;
+package ru.itis.MyTube.auxiliary.exceptions;
 
 public class ServiceException extends RuntimeException{
 

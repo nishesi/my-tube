@@ -2,7 +2,7 @@ package ru.itis.MyTube.controllers.servlets;
 
 import ru.itis.MyTube.auxiliary.Attributes;
 import ru.itis.MyTube.model.dto.VideoCover;
-import ru.itis.MyTube.model.services.ServiceException;
+import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.services.VideoService;
 
 import javax.servlet.ServletException;

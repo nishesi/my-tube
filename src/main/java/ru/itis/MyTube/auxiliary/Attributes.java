@@ -4,6 +4,7 @@ public enum Attributes {
     USER_SERVICE("userService"),
     VIDEO_SERVICE("videoService"),
     CHANNEL_SERVICE("channelService"),
+    STORAGE("storage"),
     VIDEO_COVER_LIST("videoCoverList"),
     USER("user"),
     APP_LOGO_URL("logoUrl"),
