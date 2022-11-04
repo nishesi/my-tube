@@ -4,25 +4,18 @@ values ('NishEsI', '48690                                             ', 'Nurisl
        ('KishMishKuraga', '48690                                             ', 'Farit', 'Ibragimov', '2003-07-25',
         'Russia');
 
-insert into channels_covers (channel_cover_id, channel_name)
-values (1, 'channel number one'),
-       (2, 'channel number two'),
-       (3, 'channel number three');
+insert into channels (id, name, owner_username, channel_info)
+values (1, 'channel number one', 'NishEsI', 'BEST OF THE BEST'),
+       (2, 'channel number two', 'MEDICHI', 'SECOND OF THE SECOND'),
+       (3, 'channel number thr', 'KishMishKuraga', 'THIRD OF THE THIRD');
 
-insert into channels (channel_id, owner_username, subs_count, channel_info)
-values (1, 'NishEsI', 10100, 'BEST OF THE BEST'),
-       (2, 'MEDICHI', 20200, 'SECOND OF THE SECOND'),
-       (3, 'KishMishKuraga', 30300, 'THIRD OF THE THIRD');
-
-insert into videos_covers (video_cover_uuid, video_name, added_date, channel_cover_id, duration, views)
-values ('d1ee017c-e45c-43c3-ad09-299509a504a3', 'video from fisrt channel', '2022-11-2', 1, '00:11:10', 100),
-       ('01eca157-f7d7-43d8-9228-587804d6434e', 'video from second channel', '2022-11-2', 2, '00:12:10', 200),
-       ('5483d754-540c-4acf-99cb-cc32653f256d', 'video from third channel', '2022-11-2', 3, '00:13:10', 300);
-
-insert into videos (video_uuid, info)
-values ('d1ee017c-e45c-43c3-ad09-299509a504a3', 'best video from channel one'),
-       ('01eca157-f7d7-43d8-9228-587804d6434e', 'norm video from channel two'),
-       ('5483d754-540c-4acf-99cb-cc32653f256d', 'worst video from channel three');
+insert into videos (uuid, video_name, added_date, channel_id, duration, info)
+values ('d1ee017c-e45c-43c3-ad09-299509a504a3', 'video from fisrt channe name', '2022-11-2', 1, '00:11:10',
+        'best video from channel one'),
+       ('01eca157-f7d7-43d8-9228-587804d6434e', 'video from second channel name', '2022-11-2', 2, '00:12:10',
+        'best video from channel two'),
+       ('5483d754-540c-4acf-99cb-cc32653f256d', 'video from third channel name', '2022-11-2', 3, '00:13:10',
+        'best video from channel thr');
 
 insert into users_subscriptions (username, channel_id)
 values ('NishEsI', 2),
@@ -32,7 +25,15 @@ values ('NishEsI', 2),
        ('KishMishKuraga', 1),
        ('KishMishKuraga', 2);
 
-insert into channels_videos (channel_id, video_cover_uuid)
-values (1, 'd1ee017c-e45c-43c3-ad09-299509a504a3'),
-       (2, '01eca157-f7d7-43d8-9228-587804d6434e'),
-       (3, '5483d754-540c-4acf-99cb-cc32653f256d');
+insert into channels_videos (video_uuid, channel_id)
+values ('d1ee017c-e45c-43c3-ad09-299509a504a3', 1),
+       ('01eca157-f7d7-43d8-9228-587804d6434e', 2),
+       ('5483d754-540c-4acf-99cb-cc32653f256d', 3);
+
+insert into viewing (user_id, video_uuid, type)
+values ('NishEsI', '01eca157-f7d7-43d8-9228-587804d6434e', true),
+       ('NishEsI', '5483d754-540c-4acf-99cb-cc32653f256d', null),
+       ('MEDICHI', 'd1ee017c-e45c-43c3-ad09-299509a504a3', false),
+       ('MEDICHI', '5483d754-540c-4acf-99cb-cc32653f256d', null),
+       ('KishMishKuraga', 'd1ee017c-e45c-43c3-ad09-299509a504a3', false),
+       ('KishMishKuraga', '01eca157-f7d7-43d8-9228-587804d6434e', true);
