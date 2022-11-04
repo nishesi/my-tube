@@ -11,10 +11,10 @@ import java.util.UUID;
 @Data
 public class VideoCover {
     private UUID uuid;
-    private String videoCoverImgUrl;
     private String name;
+    private String videoCoverImgUrl;
     private ChannelCover channelCover;
     private LocalDateTime addedDate;
     private LocalTime duration;
-    private String views;
+    private Long views;
 }

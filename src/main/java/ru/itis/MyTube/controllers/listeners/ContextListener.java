@@ -3,12 +3,14 @@ package ru.itis.MyTube.controllers.listeners;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import ru.itis.MyTube.auxiliary.Attributes;
+import ru.itis.MyTube.auxiliary.UrlCreator;
+import ru.itis.MyTube.auxiliary.validators.SearchValidator;
 import ru.itis.MyTube.model.dao.implementations.ChannelRepositoryJdbcImpl;
 import ru.itis.MyTube.model.dao.implementations.UserRepositoryJdbcImpl;
 import ru.itis.MyTube.model.dao.implementations.VideoRepositoryJdbcImpl;
 import ru.itis.MyTube.model.dao.interfaces.ChannelRepository;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
-import ru.itis.MyTube.model.dao.interfaces.VideoRepostiory;
+import ru.itis.MyTube.model.dao.interfaces.VideoRepository;
 import ru.itis.MyTube.model.services.implementations.ChannelServiceImpl;
 import ru.itis.MyTube.model.services.implementations.UserServiceImpl;
 import ru.itis.MyTube.model.services.implementations.VideoServiceImpl;
@@ -68,8 +70,11 @@ public class ContextListener implements ServletContextListener {
 
     private void setServices(ServletContext context) {
         UserRepository userRepository = new UserRepositoryJdbcImpl(dataSource);
-        VideoRepostiory videoRepostiory = new VideoRepositoryJdbcImpl(dataSource);
+        VideoRepository videoRepostiory = new VideoRepositoryJdbcImpl(dataSource);
         ChannelRepository channelRepository = new ChannelRepositoryJdbcImpl(dataSource);
+
+        SearchValidator searchValidator = new SearchValidator();
+        UrlCreator urlCreator = new UrlCreator("http://localhost:8080/MyTube");
 
         context.setAttribute(
                 Attributes.USER_SERVICE.toString(),
@@ -77,7 +82,7 @@ public class ContextListener implements ServletContextListener {
         );
         context.setAttribute(
                 Attributes.VIDEO_SERVICE.toString(),
-                new VideoServiceImpl(videoRepostiory)
+                new VideoServiceImpl(urlCreator, videoRepostiory, searchValidator)
         );
         context.setAttribute(
                 Attributes.CHANNEL_SERVICE.toString(),

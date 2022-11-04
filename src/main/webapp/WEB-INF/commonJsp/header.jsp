@@ -26,6 +26,11 @@
                     <button class="btn btn-secondary" type="submit">?</button>
                 </div>
             </form>
+            <c:if test="${not empty requestScope.problem}">
+                <div class="container bg-danger rounded-2">
+                    ${requestScope.problem}
+                </div>
+            </c:if>
         </div>
 
         <div class="col text-end">
