@@ -81,10 +81,35 @@ group by ch.id;
 -- VIDEO INFORMATION WITH VIEWS, LIKES AND DISLIKES
 
 create materialized view videos_inf as
-select vd.*, count(*) as views, sum(case when vw.type = true then 1 else 0 end) as likes, sum(case when vw.type = false then 1 else 0 end) as dislikes
+select vd.*,
+       count(*)                                         as views,
+       sum(case when vw.type = true then 1 else 0 end)  as likes,
+       sum(case when vw.type = false then 1 else 0 end) as dislikes
 from viewing vw
          inner join videos vd on vw.video_uuid = vd.uuid
 group by vd.uuid;
 
 
-select * from videos_inf;
+
+-- VIEWS
+
+create view video_covers as
+SELECT v.uuid,
+       v.name AS v_name,
+       v.added_date,
+       v.duration,
+       v.views,
+       foo.ch_id,
+       foo.ch_name
+FROM videos_inf v
+         CROSS JOIN LATERAL ( SELECT c.id   AS ch_id,
+                                     c.name AS ch_name
+                              FROM channel_covers c
+                              WHERE v.channel_id = c.id) foo;
+
+
+create view channel_covers(id, name) as
+SELECT channels.id,
+       channels.name
+FROM channels;
+
