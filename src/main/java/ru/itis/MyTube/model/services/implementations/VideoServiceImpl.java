@@ -12,6 +12,7 @@ import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.VideoService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -28,7 +29,17 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Video getVideo(UUID uuid) {
-        return null;
+        Optional<Video> video;
+
+        try {
+            video = videoRepository.getVideo(uuid);
+            video.ifPresent(video1 -> video1.setVideoUrl(urlCreator.create(Type.VIDEO, video1.getUuid().toString())));
+
+        } catch (RuntimeException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+
+        return video.orElseThrow( () -> new ServiceException("Video not found."));
     }
 
     @Override

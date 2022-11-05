@@ -9,6 +9,7 @@ import java.util.UUID;
 @Data
 public class Video {
     private UUID uuid;
+    private String videoUrl;
     private VideoCover videoCover;
     private String info;
     private Long likes;

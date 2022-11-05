@@ -3,6 +3,7 @@ package ru.itis.MyTube.model.dao.implementations;
 import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.model.dao.interfaces.VideoRepository;
 import ru.itis.MyTube.model.dto.ChannelCover;
+import ru.itis.MyTube.model.dto.Video;
 import ru.itis.MyTube.model.dto.VideoCover;
 
 import javax.sql.DataSource;
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -30,7 +32,7 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
                     .name(set.getString("v_name"))
                     .channelCover(ChannelCover.builder()
                             .id(set.getLong("ch_id"))
-                            .name( set.getString("ch_name"))
+                            .name(set.getString("ch_name"))
                             .build())
                     .addedDate(LocalDateTime.parse(set.getString("added_date").substring(0, 19), formatter))
                     .duration(LocalTime.parse(set.getString("duration")))
@@ -41,9 +43,24 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
             throw new RuntimeException(e);
         }
     };
+
+    private static final Function<ResultSet, Video> VIDEO_MAPPER = set -> {
+        try {
+            return Video.builder()
+                    .uuid(UUID.fromString(set.getString("uuid")))
+                    .videoCover(VIDEO_COVER_MAPPER.apply(set))
+                    .info(set.getString("info"))
+                    .likes(set.getLong("likes"))
+                    .dislikes(set.getLong("dislikes")).build();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    };
+    private static final String SQL_GET_VIDEOS_BY_SUBSTRING = "select * from video_covers where v_name like ?";
+    private static final String SQL_GET_VIDEO = "select * from videos_inf where uuid = ?";
     private final DataSource dataSource;
 
-    private static final String SQL_GET_VIDEOS_BY_SUBSTRING = "select * from video_covers where v_name like ?";
     @Override
     public List<VideoCover> getVideosByName(String substring) {
         try (Connection connection = dataSource.getConnection();
@@ -59,6 +76,25 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
             }
 
             return list;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Optional<Video> getVideo(UUID uuid) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_VIDEO)) {
+
+            preparedStatement.setObject(1, uuid);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return Optional.of(VIDEO_MAPPER.apply(resultSet));
+            } else {
+                return Optional.empty();
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
