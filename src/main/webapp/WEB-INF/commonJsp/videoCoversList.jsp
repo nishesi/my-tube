@@ -6,7 +6,7 @@
 
 <c:choose>
     <c:when test="${requestScope.videoCoverList == null}">
-        <div class="container d-inline-block p-3 rounded-2 bg-danger text-white text-center">
+        <div class="alert alert-warning text-center">
             Videos not loaded :(
         </div>
     </c:when>
@@ -14,7 +14,7 @@
         <jsp:useBean id="videoCoverList" scope="request" type="java.util.List<ru.itis.MyTube.model.dto.VideoCover>"/>
         <c:choose>
             <c:when test="${empty videoCoverList}">
-                <div class="container d-inline-block p-3 rounded-2 bg-info text-center">
+                <div class="alert alert-info text-center" role="alert">
                     No similar videos found :(
                 </div>
             </c:when>

@@ -27,25 +27,33 @@
                 </div>
             </form>
             <c:if test="${not empty requestScope.problem}">
-                <div class="container bg-danger rounded-2">
+                <div class="alert alert-warning text-center p-2" role="alert">
                     ${requestScope.problem}
                 </div>
             </c:if>
         </div>
 
-        <div class="col text-end">
-            <div class="container m-1">
-                <c:choose>
-                    <c:when test="${sessionScope.user != null}">
+        <div class="col text-end pt-2">
+            <c:choose>
+                <c:when test="${sessionScope.user != null}">
+                    <a href="${pageContext.servletContext.contextPath}/userpage">
                         <div class="d-inline">${sessionScope.user.firstName} ${sessionScope.user.lastName}</div>
                         <img class="d-inline" src="${sessionScope.user.userImgUrl}" height="40px" width="40px" alt="user image">
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/register" >register</a>
-                        <a href="${pageContext.request.contextPath}/authenticate">login</a>
-                    </c:otherwise>
-                </c:choose>
-            </div>
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#regModal">
+                        <strong>Register</strong>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#authModal">
+                        <strong>Login</strong>
+                    </button>
+
+                    <jsp:include page="/WEB-INF/commonJsp/modalRegPage.jsp"/>
+                    <jsp:include page="/WEB-INF/commonJsp/modalAuthPage.jsp"/>
+                </c:otherwise>
+            </c:choose>
+
         </div>
     </div>
 </header>

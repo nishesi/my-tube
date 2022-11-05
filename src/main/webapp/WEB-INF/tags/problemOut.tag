@@ -4,5 +4,5 @@
 <%@attribute name="map" required="true" type="java.util.Map<java.lang.String, java.lang.String>" %>
 
 <c:if  test="${not empty map.get(name)}">
-    <div class="problem-container">${map.get(name)}</div>
+    <div class="alert alert-danger text-center p-1">${map.get(name)}</div>
 </c:if>

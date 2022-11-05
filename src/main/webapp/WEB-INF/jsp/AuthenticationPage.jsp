@@ -44,8 +44,8 @@
             </div>
             <div class="container text-center">
 
-                <button type="submit" class="btn btn-primary">Authorize</button>
-                <a class="btn btn-secondary" href="${pageContext.servletContext.contextPath}/register">Register</a>
+                <button type="submit" class="btn btn-outline-primary">Authorize</button>
+                <a class="btn btn-outline-secondary" href="${pageContext.servletContext.contextPath}/register">Register</a>
             </div>
         </div>
     </form>
