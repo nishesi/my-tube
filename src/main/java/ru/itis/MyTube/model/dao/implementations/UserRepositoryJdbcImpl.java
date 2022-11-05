@@ -33,7 +33,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     private static final String SQL_SAVE_USER = "insert into users " +
             "(username, password, first_name, last_name, birthdate, country) " +
             "values (?, ?, ?, ?, ?, ?)";
-    private static final String SQL_GET_USER = "select * from users where username = ?";
+    private static final String SQL_GET_USER = "select * from users where username = ? and password = ?";
     private final DataSource dataSource;
 
 
@@ -86,11 +86,12 @@ public class UserRepositoryJdbcImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> get(String login) {
+    public Optional<User> get(String login, String password) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_USER)) {
 
             preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {

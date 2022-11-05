@@ -1,5 +1,6 @@
 package ru.itis.MyTube.model.services.implementations;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.auxiliary.Type;
 import ru.itis.MyTube.auxiliary.UrlCreator;
@@ -14,14 +15,13 @@ import ru.itis.MyTube.model.services.VideoService;
 import java.util.List;
 import java.util.UUID;
 
+@Builder
 @RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
 
-    private final UrlCreator urlCreator;
-
     private final VideoRepository videoRepository;
-
     private final SearchValidator searchValidator;
+    private final UrlCreator urlCreator;
 
     @Override
     public VideoCover getVideoCover(UUID uuid) {

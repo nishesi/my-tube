@@ -2,6 +2,7 @@ package ru.itis.MyTube.controllers.servlets;
 
 import ru.itis.MyTube.auxiliary.Attributes;
 import ru.itis.MyTube.auxiliary.PassPerformer;
+import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.validators.RegistrationValidator;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.forms.RegistrationForm;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet("/register")
@@ -31,11 +31,10 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
 
-        initPage(req);
-        req.setAttribute("form", RegistrationForm.builder().build());
+        req.setAttribute("form", new RegistrationForm());
 
         try {
-            req.getRequestDispatcher("/WEB-INF/jsp/register-page.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsp/RegistrationPage.jsp").forward(req, resp);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -43,16 +42,14 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        initPage(req);
 
         RegistrationForm registrationForm = RegistrationForm.builder()
-                .login(req.getParameter("login"))
+                .username(req.getParameter("username"))
                 .password(req.getParameter("password"))
                 .passwordRepeat(req.getParameter("passwordRepeat"))
                 .firstName(req.getParameter("firstName"))
                 .lastName(req.getParameter("lastName"))
                 .birthdate(req.getParameter("birthdate"))
-                .sex(req.getParameter("sex"))
                 .country(req.getParameter("country"))
                 .agreement(req.getParameter("agreement"))
                 .build();
@@ -61,14 +58,19 @@ public class RegistrationServlet extends HttpServlet {
         req.setAttribute("form", registrationForm);
 
         if (problems.isEmpty()) {
-            saveUser(registrationForm);
-            resp.sendRedirect(getServletContext().getContextPath() + "/authenticate");
+            try {
+                saveUser(registrationForm);
+                resp.sendRedirect(getServletContext().getContextPath() + "/authenticate");
+
+            } catch (ServiceException ex) {
+                resp.sendError(500, "something go wrong");
+            }
 
         } else {
             req.setAttribute("problems", problems);
 
             try {
-                req.getRequestDispatcher("/WEB-INF/jsp/register-page.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/jsp/RegistrationPage.jsp").forward(req, resp);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -77,7 +79,7 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void saveUser(RegistrationForm form) {
         User newUser = User.builder()
-                .username(form.getLogin())
+                .username(form.getUsername())
                 .password(PassPerformer.hash(form.getPassword()))
                 .firstName(form.getFirstName())
                 .lastName(form.getLastName())
@@ -89,8 +91,4 @@ public class RegistrationServlet extends HttpServlet {
         userService.save(newUser);
     }
 
-    private void initPage(HttpServletRequest req) {
-        req.setAttribute("regPageCss", req.getContextPath() + "/css/reg-page.css");
-        req.setAttribute("problems", new HashMap<String, String>());
-    }
 }

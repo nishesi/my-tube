@@ -1,5 +1,6 @@
 package ru.itis.MyTube.model.services.implementations;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.model.dao.interfaces.ChannelRepository;
 import ru.itis.MyTube.model.dto.Video;
@@ -7,7 +8,7 @@ import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.ChannelService;
 
 import java.util.List;
-
+@Builder
 @RequiredArgsConstructor
 public class ChannelServiceImpl implements ChannelService {
 

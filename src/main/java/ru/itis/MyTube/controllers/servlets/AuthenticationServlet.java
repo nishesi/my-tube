@@ -1,6 +1,7 @@
 package ru.itis.MyTube.controllers.servlets;
 
 import ru.itis.MyTube.auxiliary.Attributes;
+import ru.itis.MyTube.auxiliary.PassPerformer;
 import ru.itis.MyTube.auxiliary.validators.AuthenticationValidator;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.forms.AuthenticationForm;
@@ -28,33 +29,38 @@ public class AuthenticationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        initPage(req);
-        req.getRequestDispatcher("WEB-INF/jsp/authent-page.jsp").forward(req, resp);
+        req.setAttribute("form", new AuthenticationForm());
+
+        req.getRequestDispatcher("WEB-INF/jsp/AuthenticationPage.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        initPage(req);
 
         AuthenticationForm form = AuthenticationForm.builder()
                 .username(req.getParameter("username"))
                 .password(req.getParameter("password"))
                 .build();
+        req.setAttribute("form", form);
 
         Map<String, String> problems = validator.validate(form);
 
         if (problems.isEmpty()) {
-            Optional<User> userOptional = userService.get(form.getUsername());
+            Optional<User> userOptional = userService.get(form.getUsername(), PassPerformer.hash(form.getPassword()));
 
             if (userOptional.isPresent()) {
 
                 req.getSession().setAttribute(Attributes.USER.toString(), userOptional.get());
 
                 String url = (String) req.getSession().getAttribute("requestUrl");
-                req.getSession().removeAttribute("requestUrl");
-                resp.sendRedirect(url);
-                return;
+                if (url != null) {
+                    req.getSession().removeAttribute("requestUrl");
+                    resp.sendRedirect(url);
 
+                } else {
+                    resp.sendRedirect(getServletContext().getContextPath());
+                }
+                return;
             }
             req.setAttribute("error", "User not found.");
 
@@ -62,12 +68,7 @@ public class AuthenticationServlet extends HttpServlet {
             req.setAttribute("problems", problems);
 
         }
-        req.getRequestDispatcher("WEB-INF/jsp/authent-page.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/jsp/AuthenticationPage.jsp").forward(req, resp);
     }
 
-    private void initPage(HttpServletRequest req) {
-        req.setAttribute("regPageLink", getServletContext().getContextPath() + "/register");
-        req.setAttribute("username", req.getParameter("username"));
-        req.setAttribute("password", req.getParameter("password"));
-    }
 }

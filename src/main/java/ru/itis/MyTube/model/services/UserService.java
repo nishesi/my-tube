@@ -9,11 +9,13 @@ import java.util.Optional;
 public interface UserService {
     boolean save(User user);
 
-    Optional<User> get(String username);
+    Optional<User> get(String username, String password);
 
     boolean update(User user);
 
     boolean delete(String username);
 
     List<VideoCover> getSubscribedChannelsVideos(User user);
+
+    boolean usernameIsExist(String username);
 }

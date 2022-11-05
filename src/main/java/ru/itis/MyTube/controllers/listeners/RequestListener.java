@@ -5,6 +5,7 @@ import javax.servlet.ServletRequestListener;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 @WebListener
 public class RequestListener implements ServletRequestListener {
@@ -15,17 +16,11 @@ public class RequestListener implements ServletRequestListener {
 
         try {
             req.setCharacterEncoding("UTF-8");
-            req.setAttribute("logoUrl", sre.getServletContext().getContextPath() + "/images/reg-background-img.jpg");
-            req.setAttribute("appName", "MyTube");
-
-            req.setAttribute("appName", "MyTube");
-            req.setAttribute("firstName", "Nurislam");
-            req.setAttribute("lastName", "Zaripov");
-            req.setAttribute("userImgUrl", sre.getServletContext().getContextPath() + "/images/reg-background-img.jpg");
 
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-
+        req.setAttribute("regPageCss", req.getContextPath() + "/css/reg-page.css");
+        req.setAttribute("problems", new HashMap<String, String>());
     }
 }

@@ -13,7 +13,7 @@ public interface UserRepository {
 
     boolean delete(long id);
 
-    Optional<User> get(String login);
+    Optional<User> get(String login, String password);
 
     boolean isPresent(String username);
 }

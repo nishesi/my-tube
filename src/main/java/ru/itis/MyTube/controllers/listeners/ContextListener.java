@@ -29,9 +29,13 @@ public class ContextListener implements ServletContextListener {
 
     private HikariDataSource dataSource;
 
+    private UrlCreator urlCreator;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
+        urlCreator = new UrlCreator("http://localhost:8080/MyTube");
+        context.setAttribute(Attributes.URL_CREATOR.toString(), urlCreator);
         initDataSource();
 
         setServices(context);
@@ -40,6 +44,7 @@ public class ContextListener implements ServletContextListener {
 
         Storage storage = new FileStorageImpl();
         context.setAttribute(Attributes.STORAGE.toString(), storage);
+
     }
 
     @Override
@@ -75,23 +80,26 @@ public class ContextListener implements ServletContextListener {
 
     private void setServices(ServletContext context) {
         UserRepository userRepository = new UserRepositoryJdbcImpl(dataSource);
-        VideoRepository videoRepostiory = new VideoRepositoryJdbcImpl(dataSource);
+        VideoRepository videoRepository = new VideoRepositoryJdbcImpl(dataSource);
         ChannelRepository channelRepository = new ChannelRepositoryJdbcImpl(dataSource);
 
         SearchValidator searchValidator = new SearchValidator();
-        UrlCreator urlCreator = new UrlCreator("http://localhost:8080/MyTube");
 
         context.setAttribute(
                 Attributes.USER_SERVICE.toString(),
-                new UserServiceImpl(userRepository)
+                UserServiceImpl.builder().userRepository(userRepository).build()
         );
         context.setAttribute(
                 Attributes.VIDEO_SERVICE.toString(),
-                new VideoServiceImpl(urlCreator, videoRepostiory, searchValidator)
+                VideoServiceImpl.builder()
+                        .videoRepository(videoRepository)
+                        .searchValidator(searchValidator)
+                        .urlCreator(urlCreator)
+                        .build()
         );
         context.setAttribute(
                 Attributes.CHANNEL_SERVICE.toString(),
-                new ChannelServiceImpl(channelRepository)
+                ChannelServiceImpl.builder().channelRepository(channelRepository).build()
         );
     }
 }
