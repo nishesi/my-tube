@@ -5,16 +5,18 @@
 
 
 <c:choose>
-    <c:when test="${empty requestScope.videoCoverList}">
+    <c:when test="${requestScope.videoCoverList == null}">
         <div class="container d-inline-block p-3 rounded-2 bg-danger">
-            Videos not loaded.
+            Videos not loaded :(
         </div>
     </c:when>
     <c:otherwise>
         <jsp:useBean id="videoCoverList" scope="request" type="java.util.List<ru.itis.MyTube.model.dto.VideoCover>"/>
         <c:choose>
-            <c:when test="${videoCoverList.size() == 0}">
-                Videos wiht close name not found.
+            <c:when test="${empty videoCoverList}">
+                <div class="container d-inline-block p-3 rounded-2 bg-info">
+                    No similar videos found :(
+                </div>
             </c:when>
             <c:otherwise>
                 <div class="container-fluid p-0">
