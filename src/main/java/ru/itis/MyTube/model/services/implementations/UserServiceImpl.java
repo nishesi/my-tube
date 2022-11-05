@@ -1,7 +1,7 @@
 package ru.itis.MyTube.model.services.implementations;
 
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import ru.itis.MyTube.auxiliary.Type;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
@@ -11,7 +11,7 @@ import ru.itis.MyTube.model.services.UserService;
 
 import java.util.List;
 import java.util.Optional;
-@Builder
+
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -31,7 +31,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> get(String username, String password) {
-        return userRepository.get(username, password);
+        try {
+            Optional<User> userOpt = userRepository.get(username, password);
+            userOpt.ifPresent(user -> user.setUserImgUrl(urlCreator.create(Type.USER_ICON, user.getUsername())));
+            return userOpt;
+        } catch (RuntimeException ex) {
+            throw new ServiceException(ex);
+        }
     }
 
     @Override

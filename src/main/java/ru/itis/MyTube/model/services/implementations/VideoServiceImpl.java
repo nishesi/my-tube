@@ -1,21 +1,19 @@
 package ru.itis.MyTube.model.services.implementations;
 
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.auxiliary.Type;
 import ru.itis.MyTube.auxiliary.UrlCreator;
+import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
 import ru.itis.MyTube.model.dao.interfaces.VideoRepository;
 import ru.itis.MyTube.model.dto.ChannelCover;
 import ru.itis.MyTube.model.dto.Video;
 import ru.itis.MyTube.model.dto.VideoCover;
-import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.services.VideoService;
 
 import java.util.List;
 import java.util.UUID;
 
-@Builder
 @RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
 

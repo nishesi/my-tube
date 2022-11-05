@@ -37,25 +37,24 @@ public class ResourceServlet extends HttpServlet {
         try {
             switch (type) {
                 case "v":
-                    UUID videoUuid = UUID.fromString(id);
+                    UUID.fromString(id);
                     type1 = Type.VIDEO;
                     resp.setContentType("video/mp4");
                     break;
 
                 case "vi":
-                    UUID imageUuid = UUID.fromString(id);
+                    UUID.fromString(id);
                     type1 = Type.VIDEO_ICON;
                     resp.setContentType("image/jpg");
                     break;
 
                 case "ci":
-                    Long channelId = Long.parseLong(id);
+                    Long.parseLong(id);
                     type1 = Type.CHANNEL_ICON;
                     resp.setContentType("image/jpg");
                     break;
 
                 case "ui":
-                    Long userId = Long.parseLong(id);
                     type1 = Type.USER_ICON;
                     resp.setContentType("image/jpg");
                     break;

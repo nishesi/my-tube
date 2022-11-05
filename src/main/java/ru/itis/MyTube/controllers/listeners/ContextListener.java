@@ -87,19 +87,15 @@ public class ContextListener implements ServletContextListener {
 
         context.setAttribute(
                 Attributes.USER_SERVICE.toString(),
-                UserServiceImpl.builder().userRepository(userRepository).build()
+                new UserServiceImpl(userRepository, urlCreator)
         );
         context.setAttribute(
                 Attributes.VIDEO_SERVICE.toString(),
-                VideoServiceImpl.builder()
-                        .videoRepository(videoRepository)
-                        .searchValidator(searchValidator)
-                        .urlCreator(urlCreator)
-                        .build()
+                new VideoServiceImpl(videoRepository, searchValidator, urlCreator)
         );
         context.setAttribute(
                 Attributes.CHANNEL_SERVICE.toString(),
-                ChannelServiceImpl.builder().channelRepository(channelRepository).build()
+                new ChannelServiceImpl(channelRepository)
         );
     }
 }

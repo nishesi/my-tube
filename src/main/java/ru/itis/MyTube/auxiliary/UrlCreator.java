@@ -17,7 +17,7 @@ public class UrlCreator {
         } else if (type == Type.USER_ICON){
             return url + "ui";
         } else {
-            return "unknown";
+            return "unknown type";
         }
     }
 }
