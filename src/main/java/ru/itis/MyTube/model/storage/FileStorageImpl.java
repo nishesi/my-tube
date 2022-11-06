@@ -3,10 +3,8 @@ package ru.itis.MyTube.model.storage;
 import ru.itis.MyTube.auxiliary.Type;
 import ru.itis.MyTube.auxiliary.exceptions.StorageException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -23,32 +21,55 @@ public class FileStorageImpl implements Storage {
     private static final Path USER_ICON_STORAGE = Paths.get("imageStorage/userIcons");
 
     @Override
-    public InputStream get(Type type, String name) {
-        if (type == null || name == null) {
-            throw new StorageException("type" + type + ", name" + name);
+    public InputStream get(Type type, String id) {
+        if (type == null || id == null) {
+            throw new StorageException("type" + type + ", id" + id);
         }
 
-        File file = null;
-
-        switch (type) {
-            case VIDEO:
-                file = REPOSITORY.resolve(VIDEO_STORAGE).resolve(name + VIDEO_TYPE).toFile();
-                break;
-            case VIDEO_ICON:
-                file = REPOSITORY.resolve(VIDEO_ICON_STORAGE).resolve(name + PHOTO_TYPE).toFile();
-                break;
-            case CHANNEL_ICON:
-                file = REPOSITORY.resolve(CHANNEL_ICON_STORAGE).resolve(name + PHOTO_TYPE).toFile();
-                break;
-            case USER_ICON:
-                file = REPOSITORY.resolve(USER_ICON_STORAGE).resolve(name + PHOTO_TYPE).toFile();
-                break;
-        }
+        File file = getFile(type, id);
 
         try {
             return new FileInputStream(file);
         } catch (FileNotFoundException e) {
             throw new StorageException("file not found");
+        }
+    }
+
+    @Override
+    public void create(Type type, String id, InputStream resource) {
+        if (type == null || id == null || resource == null) {
+            throw new StorageException("type = " + type + ", id = " + id + ", name = " + resource);
+        }
+
+        File file = getFile(type, id);
+
+        try  {
+            file.createNewFile();
+            OutputStream outputStream = Files.newOutputStream(file.toPath());
+            resource.transferTo(outputStream);
+
+            resource.close();
+            outputStream.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private File getFile(Type type, String id) {
+
+        switch (type) {
+            case VIDEO:
+                return REPOSITORY.resolve(VIDEO_STORAGE).resolve(id + VIDEO_TYPE).toFile();
+            case VIDEO_ICON:
+                return REPOSITORY.resolve(VIDEO_ICON_STORAGE).resolve(id + PHOTO_TYPE).toFile();
+            case CHANNEL_ICON:
+                return REPOSITORY.resolve(CHANNEL_ICON_STORAGE).resolve(id + PHOTO_TYPE).toFile();
+            case USER_ICON:
+                return REPOSITORY.resolve(USER_ICON_STORAGE).resolve(id + PHOTO_TYPE).toFile();
+            default:
+                throw new RuntimeException("unknown type");
         }
     }
 }
