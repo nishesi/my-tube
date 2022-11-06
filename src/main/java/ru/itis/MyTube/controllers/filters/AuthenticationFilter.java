@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.filters;
 
-import ru.itis.MyTube.auxiliary.Attributes;
+import ru.itis.MyTube.auxiliary.enums.Bean;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,7 +18,7 @@ public class AuthenticationFilter extends HttpFilter {
 
         String url = req.getRequestURI();
 
-        if (req.getSession().getAttribute(Attributes.USER.toString()) != null) {
+        if (req.getSession().getAttribute(Bean.USER.toString()) != null) {
 
             chain.doFilter(req, res);
         } else {

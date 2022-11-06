@@ -1,10 +1,12 @@
 package ru.itis.MyTube.model.storage;
 
+import ru.itis.MyTube.auxiliary.enums.FileType;
+
 import java.io.InputStream;
-import ru.itis.MyTube.auxiliary.Type;
+
 
 public interface Storage {
-    InputStream get(Type type, String id);
+    InputStream get(FileType fileType, String id);
 
-    void save(Type type, String id, InputStream inputStream);
+    void save(FileType fileType, String id, InputStream inputStream);
 }

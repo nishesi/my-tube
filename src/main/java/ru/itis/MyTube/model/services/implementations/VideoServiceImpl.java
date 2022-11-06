@@ -1,7 +1,7 @@
 package ru.itis.MyTube.model.services.implementations;
 
 import lombok.RequiredArgsConstructor;
-import ru.itis.MyTube.auxiliary.Type;
+import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
@@ -37,7 +37,7 @@ public class VideoServiceImpl implements VideoService {
         //todo duration
         VideoCover videoCover = VideoCover.builder()
                 .name(form.getName())
-                .videoCoverImgUrl(urlCreator.create(Type.VIDEO_ICON, uuid))
+                .videoCoverImgUrl(urlCreator.create(FileType.VIDEO_ICON, uuid))
                 .channelCover(channelCover)
                 .duration(LocalTime.of(0,0,0))
                 .addedDate(LocalDateTime.now())
@@ -46,7 +46,7 @@ public class VideoServiceImpl implements VideoService {
         Video video1 = Video.builder()
                 .uuid(UUID.fromString(uuid))
                 .videoCover(videoCover)
-                .videoUrl(urlCreator.create(Type.VIDEO, uuid))
+                .videoUrl(urlCreator.create(FileType.VIDEO, uuid))
                 .info(form.getInfo())
                 .build();
 
@@ -56,8 +56,8 @@ public class VideoServiceImpl implements VideoService {
             throw new ServiceException(ex.getMessage());
         }
 
-        storage.save(Type.VIDEO_ICON, uuid, icon);
-        storage.save(Type.VIDEO, uuid, video);
+        storage.save(FileType.VIDEO_ICON, uuid, icon);
+        storage.save(FileType.VIDEO, uuid, video);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class VideoServiceImpl implements VideoService {
 
         try {
             video = videoRepository.getVideo(uuid);
-            video.ifPresent(video1 -> video1.setVideoUrl(urlCreator.create(Type.VIDEO, video1.getUuid().toString())));
+            video.ifPresent(video1 -> video1.setVideoUrl(urlCreator.create(FileType.VIDEO, video1.getUuid().toString())));
 
         } catch (RuntimeException ex) {
             throw new ServiceException(ex.getMessage());
@@ -100,13 +100,13 @@ public class VideoServiceImpl implements VideoService {
 
                 videoCover.setVideoCoverImgUrl(
                         urlCreator.create(
-                                Type.VIDEO_ICON,
+                                FileType.VIDEO_ICON,
                                 videoCover.getUuid().toString()));
 
                 ChannelCover channelCover = videoCover.getChannelCover();
                 channelCover.setChannelImgUrl(
                         urlCreator.create(
-                                Type.CHANNEL_ICON,
+                                FileType.CHANNEL_ICON,
                                 channelCover.getId().toString()));
             });
 

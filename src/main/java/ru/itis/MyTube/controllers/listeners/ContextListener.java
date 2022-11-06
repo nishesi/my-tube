@@ -2,7 +2,7 @@ package ru.itis.MyTube.controllers.listeners;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import ru.itis.MyTube.auxiliary.Attributes;
+import ru.itis.MyTube.auxiliary.enums.Bean;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
 import ru.itis.MyTube.model.dao.implementations.ChannelRepositoryJdbcImpl;
@@ -38,10 +38,10 @@ public class ContextListener implements ServletContextListener {
         ServletContext context = sce.getServletContext();
 
         urlCreator = new UrlCreator("http://localhost:8080/MyTube");
-        context.setAttribute(Attributes.URL_CREATOR.toString(), urlCreator);
+        context.setAttribute(Bean.URL_CREATOR.toString(), urlCreator);
 
         storage = new FileStorageImpl();
-        context.setAttribute(Attributes.STORAGE.toString(), storage);
+        context.setAttribute(Bean.STORAGE.toString(), storage);
 
         initDataSource();
 
@@ -76,11 +76,11 @@ public class ContextListener implements ServletContextListener {
 
     private void initPageAttributes(ServletContext context) {
         context.setAttribute(
-                Attributes.APP_LOGO_URL.toString(),
+                Bean.APP_LOGO_URL.toString(),
                 context.getContextPath() + "/images/reg-background-img.jpg"
         );
-        context.setAttribute(Attributes.APP_NAME.toString(), "MyTube");
-        context.setAttribute(Attributes.COMMON_CSS_URL.toString(), context.getContextPath() + "/css/common.css");
+        context.setAttribute(Bean.APP_NAME.toString(), "MyTube");
+        context.setAttribute(Bean.COMMON_CSS_URL.toString(), context.getContextPath() + "/css/common.css");
     }
 
     private void setServices(ServletContext context) {
@@ -91,15 +91,15 @@ public class ContextListener implements ServletContextListener {
         SearchValidator searchValidator = new SearchValidator();
 
         context.setAttribute(
-                Attributes.USER_SERVICE.toString(),
+                Bean.USER_SERVICE.toString(),
                 new UserServiceImpl(userRepository, urlCreator)
         );
         context.setAttribute(
-                Attributes.VIDEO_SERVICE.toString(),
+                Bean.VIDEO_SERVICE.toString(),
                 new VideoServiceImpl(videoRepository, searchValidator, urlCreator, storage)
         );
         context.setAttribute(
-                Attributes.CHANNEL_SERVICE.toString(),
+                Bean.CHANNEL_SERVICE.toString(),
                 new ChannelServiceImpl(channelRepository)
         );
     }

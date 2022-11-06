@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.auxiliary.Attributes;
+import ru.itis.MyTube.auxiliary.enums.Bean;
 import ru.itis.MyTube.auxiliary.validators.VideoValidator;
 import ru.itis.MyTube.model.forms.VideoForm;
 import ru.itis.MyTube.model.services.VideoService;
@@ -24,7 +24,7 @@ public class VideoUploadingServlet extends HttpServlet {
 
     @Override
     public void init() {
-        videoService = (VideoService) getServletContext().getAttribute(Attributes.VIDEO_SERVICE.toString());
+        videoService = (VideoService) getServletContext().getAttribute(Bean.VIDEO_SERVICE.toString());
         videoValidator = new VideoValidator();
     }
 

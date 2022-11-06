@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.auxiliary.Attributes;
+import ru.itis.MyTube.auxiliary.enums.Bean;
 import ru.itis.MyTube.auxiliary.PassPerformer;
 import ru.itis.MyTube.auxiliary.validators.AuthenticationValidator;
 import ru.itis.MyTube.model.dto.User;
@@ -23,7 +23,7 @@ public class AuthenticationServlet extends HttpServlet {
 
     @Override
     public void init() {
-        userService = (UserService) getServletContext().getAttribute(Attributes.USER_SERVICE.toString());
+        userService = (UserService) getServletContext().getAttribute(Bean.USER_SERVICE.toString());
         validator =  new AuthenticationValidator();
     }
 
@@ -50,7 +50,7 @@ public class AuthenticationServlet extends HttpServlet {
 
             if (userOptional.isPresent()) {
 
-                req.getSession().setAttribute(Attributes.USER.toString(), userOptional.get());
+                req.getSession().setAttribute(Bean.USER.toString(), userOptional.get());
 
                 String url = (String) req.getSession().getAttribute("requestUrl");
                 if (url != null) {

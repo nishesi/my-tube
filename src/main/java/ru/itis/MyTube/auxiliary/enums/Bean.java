@@ -1,6 +1,6 @@
-package ru.itis.MyTube.auxiliary;
+package ru.itis.MyTube.auxiliary.enums;
 
-public enum Attributes {
+public enum Bean {
     USER_SERVICE("userService"),
     VIDEO_SERVICE("videoService"),
     CHANNEL_SERVICE("channelService"),
@@ -14,7 +14,7 @@ public enum Attributes {
 
     private final String paramName;
 
-    Attributes(String paramName) {
+    Bean(String paramName) {
         this.paramName = paramName;
     }
 

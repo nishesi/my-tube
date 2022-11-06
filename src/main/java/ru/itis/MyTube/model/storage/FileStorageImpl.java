@@ -1,6 +1,6 @@
 package ru.itis.MyTube.model.storage;
 
-import ru.itis.MyTube.auxiliary.Type;
+import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.StorageException;
 
 import java.io.*;
@@ -21,12 +21,12 @@ public class FileStorageImpl implements Storage {
     private static final Path USER_ICON_STORAGE = Paths.get("imageStorage/userIcons");
 
     @Override
-    public InputStream get(Type type, String id) {
-        if (type == null || id == null) {
-            throw new StorageException("type" + type + ", id" + id);
+    public InputStream get(FileType fileType, String id) {
+        if (fileType == null || id == null) {
+            throw new StorageException("fileType" + fileType + ", id" + id);
         }
 
-        File file = getFile(type, id);
+        File file = getFile(fileType, id);
 
         try {
             return new FileInputStream(file);
@@ -36,12 +36,12 @@ public class FileStorageImpl implements Storage {
     }
 
     @Override
-    public void save(Type type, String id, InputStream resource) {
-        if (type == null || id == null || resource == null) {
-            throw new StorageException("type = " + type + ", id = " + id + ", name = " + resource);
+    public void save(FileType fileType, String id, InputStream resource) {
+        if (fileType == null || id == null || resource == null) {
+            throw new StorageException("fileType = " + fileType + ", id = " + id + ", name = " + resource);
         }
 
-        File file = getFile(type, id);
+        File file = getFile(fileType, id);
 
         try  {
             file.createNewFile();
@@ -57,9 +57,9 @@ public class FileStorageImpl implements Storage {
 
     }
 
-    private File getFile(Type type, String id) {
+    private File getFile(FileType fileType, String id) {
 
-        switch (type) {
+        switch (fileType) {
             case VIDEO:
                 return REPOSITORY.resolve(VIDEO_STORAGE).resolve(id + VIDEO_TYPE).toFile();
             case VIDEO_ICON:
@@ -69,7 +69,7 @@ public class FileStorageImpl implements Storage {
             case USER_ICON:
                 return REPOSITORY.resolve(USER_ICON_STORAGE).resolve(id + PHOTO_TYPE).toFile();
             default:
-                throw new RuntimeException("unknown type");
+                throw new RuntimeException("unknown fileType");
         }
     }
 }

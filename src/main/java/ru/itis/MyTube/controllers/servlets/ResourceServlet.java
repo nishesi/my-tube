@@ -1,7 +1,7 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.auxiliary.Attributes;
-import ru.itis.MyTube.auxiliary.Type;
+import ru.itis.MyTube.auxiliary.enums.Bean;
+import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.StorageException;
 import ru.itis.MyTube.model.storage.Storage;
 
@@ -20,7 +20,7 @@ public class ResourceServlet extends HttpServlet {
 
     @Override
     public void init() {
-        storage = (Storage) getServletContext().getAttribute(Attributes.STORAGE.toString());
+        storage = (Storage) getServletContext().getAttribute(Bean.STORAGE.toString());
     }
 
     @Override
@@ -32,30 +32,30 @@ public class ResourceServlet extends HttpServlet {
              return;
          }
 
-        Type type1 = null;
+        FileType fileType1 = null;
 
         try {
             switch (type) {
                 case "v":
                     UUID.fromString(id);
-                    type1 = Type.VIDEO;
+                    fileType1 = FileType.VIDEO;
                     resp.setContentType("video/mp4");
                     break;
 
                 case "vi":
                     UUID.fromString(id);
-                    type1 = Type.VIDEO_ICON;
+                    fileType1 = FileType.VIDEO_ICON;
                     resp.setContentType("image/jpg");
                     break;
 
                 case "ci":
                     Long.parseLong(id);
-                    type1 = Type.CHANNEL_ICON;
+                    fileType1 = FileType.CHANNEL_ICON;
                     resp.setContentType("image/jpg");
                     break;
 
                 case "ui":
-                    type1 = Type.USER_ICON;
+                    fileType1 = FileType.USER_ICON;
                     resp.setContentType("image/jpg");
                     break;
 
@@ -70,7 +70,7 @@ public class ResourceServlet extends HttpServlet {
 
 
 
-        try (InputStream resource = storage.get(type1, id)) {
+        try (InputStream resource = storage.get(fileType1, id)) {
 
             resource.transferTo(resp.getOutputStream());
         } catch (StorageException ex) {

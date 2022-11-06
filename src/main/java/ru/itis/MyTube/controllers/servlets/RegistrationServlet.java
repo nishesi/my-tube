@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.auxiliary.Attributes;
+import ru.itis.MyTube.auxiliary.enums.Bean;
 import ru.itis.MyTube.auxiliary.PassPerformer;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.validators.RegistrationValidator;
@@ -24,7 +24,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     public void init() {
-        userService = (UserService) getServletContext().getAttribute(Attributes.USER_SERVICE.toString());
+        userService = (UserService) getServletContext().getAttribute(Bean.USER_SERVICE.toString());
         registrationValidator = new RegistrationValidator(userService);
     }
 
