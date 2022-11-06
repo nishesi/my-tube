@@ -1,7 +1,7 @@
 package ru.itis.MyTube.controllers.servlets;
 
 import ru.itis.MyTube.auxiliary.enums.Bean;
-import ru.itis.MyTube.auxiliary.Problem;
+import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.services.VideoService;
@@ -28,11 +28,11 @@ public class SearchPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<VideoCover> list = null;
-        List<Problem> alerts = new ArrayList<>();
+        List<Alert> alerts = new ArrayList<>();
         try {
             list = videoService.getVideosByNameSubstring(req.getParameter("substring"));
         } catch (ServiceException ex) {
-            alerts.add(new Problem(Problem.ProblemType.DANGER, ex.getMessage()));
+            alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
         }
 
 
