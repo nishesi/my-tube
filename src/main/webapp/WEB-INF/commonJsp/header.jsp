@@ -32,7 +32,7 @@
                             <div class="input-group flex-nowrap">
                                 <input
                                         type="text"
-                                        name="search"
+                                        name="substring"
                                         class="form-control"
                                         placeholder="Search"
                                         aria-label="Search"

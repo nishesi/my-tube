@@ -31,19 +31,24 @@ public class ContextListener implements ServletContextListener {
 
     private UrlCreator urlCreator;
 
+    private Storage storage;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
+
         urlCreator = new UrlCreator("http://localhost:8080/MyTube");
         context.setAttribute(Attributes.URL_CREATOR.toString(), urlCreator);
+
+        storage = new FileStorageImpl();
+        context.setAttribute(Attributes.STORAGE.toString(), storage);
+
         initDataSource();
 
         setServices(context);
 
         initPageAttributes(context);
 
-        Storage storage = new FileStorageImpl();
-        context.setAttribute(Attributes.STORAGE.toString(), storage);
 
     }
 
@@ -91,7 +96,7 @@ public class ContextListener implements ServletContextListener {
         );
         context.setAttribute(
                 Attributes.VIDEO_SERVICE.toString(),
-                new VideoServiceImpl(videoRepository, searchValidator, urlCreator)
+                new VideoServiceImpl(videoRepository, searchValidator, urlCreator, storage)
         );
         context.setAttribute(
                 Attributes.CHANNEL_SERVICE.toString(),
