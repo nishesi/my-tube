@@ -1,16 +1,16 @@
-body {
-    min-width: 600px;
-    min-height: 300px;
-}
 .channel-image {
     height: 40px;
     width: 40px;
 }
 #logo {
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
 }
 #user-image {
     height: 40px;
     width: 40px;
+}
+
+main {
+    max-width: 1300px;
 }

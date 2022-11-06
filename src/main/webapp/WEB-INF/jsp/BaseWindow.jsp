@@ -13,8 +13,6 @@
 <main class="container-fluid">
     <div class="row">
 
-        <%@include file="/WEB-INF/commonJsp/navigationBar.jsp" %>
-
         <div class="col">
             <%@include file="/WEB-INF/commonJsp/videoCoversList.jsp" %>
         </div>
