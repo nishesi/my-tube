@@ -99,4 +99,24 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
             throw new RuntimeException(e);
         }
     }
+
+    private static final String SQL_ADD_VIDEO = "insert into videos (uuid, name, added_date, channel_id, duration, info) values (?, ?, ?, ?, ?, ?)";
+
+    @Override
+    public void addVideo(Video video) {
+        try (Connection connection = dataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_VIDEO)) {
+
+            preparedStatement.setObject(1, video.getUuid());
+            preparedStatement.setString(2, video.getVideoCover().getName());
+            preparedStatement.setObject(3, video.getVideoCover().getAddedDate());
+            preparedStatement.setLong(4, video.getVideoCover().getChannelCover().getId());
+            preparedStatement.setObject(5, video.getVideoCover().getDuration());
+            preparedStatement.setString(6, video.getInfo());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

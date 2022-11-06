@@ -12,4 +12,5 @@ public interface VideoRepository {
 
     Optional<Video> getVideo(UUID uuid);
 
+    void addVideo(Video video);
 }
