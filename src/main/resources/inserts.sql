@@ -4,12 +4,12 @@ values ('NishEsI', '48690                                             ', 'Nurisl
        ('KishMishKuraga', '48690                                             ', 'Farit', 'Ibragimov', '2003-07-25',
         'Russia');
 
-insert into channels (id, name, owner_username, channel_info)
+insert into channels (id, name, owner_username, info)
 values (1, 'channel number one', 'NishEsI', 'BEST OF THE BEST'),
        (2, 'channel number two', 'MEDICHI', 'SECOND OF THE SECOND'),
        (3, 'channel number thr', 'KishMishKuraga', 'THIRD OF THE THIRD');
 
-insert into videos (uuid, video_name, added_date, channel_id, duration, info)
+insert into videos (uuid, name, added_date, channel_id, duration, info)
 values ('d1ee017c-e45c-43c3-ad09-299509a504a3', 'video from fisrt channe name', '2022-11-2', 1, '00:11:10',
         'best video from channel one'),
        ('01eca157-f7d7-43d8-9228-587804d6434e', 'video from second channel name', '2022-11-2', 2, '00:12:10',

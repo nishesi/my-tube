@@ -1,14 +1,17 @@
 -- SCRIPTS
 
+drop view if exists video_covers;
+drop view if exists channel_covers;
+
+drop materialized view if exists channels_inf;
+drop materialized view if exists videos_inf cascade;
+
 drop table if exists users_subscriptions;
 drop table if exists channels_videos;
 drop table if exists viewing;
 drop table if exists videos;
 drop table if exists channels;
 drop table if exists users;
-
-drop materialized view if exists channels_inf;
-drop materialized view if exists videos_inf;
 
 refresh materialized view channels_inf;
 refresh materialized view videos_inf;
@@ -31,7 +34,7 @@ create table channels
     id             bigserial primary key,
     name           varchar(20) not null,
     owner_username varchar references users (username),
-    channel_info   varchar(1000) default ''
+    info           varchar(1000) default ''
 );
 
 create table videos
@@ -39,7 +42,7 @@ create table videos
 
 --  uuid matches with video file name and video icon name
     uuid       uuid primary key,
-    video_name varchar(70)                     not null,
+    name       varchar(70)                     not null,
     added_date timestamp with time zone        not null,
     channel_id bigint references channels (id) not null,
     duration   time                            not null,
@@ -82,16 +85,20 @@ group by ch.id;
 
 create materialized view videos_inf as
 select vd.*,
-       count(*)                                         as views,
+       count(*) - 1                                     as views,
        sum(case when vw.type = true then 1 else 0 end)  as likes,
        sum(case when vw.type = false then 1 else 0 end) as dislikes
-from viewing vw
-         inner join videos vd on vw.video_uuid = vd.uuid
+from videos vd
+         left join viewing vw on vw.video_uuid = vd.uuid
 group by vd.uuid;
 
 
-
 -- VIEWS
+
+create view channel_covers(id, name) as
+SELECT channels.id,
+       channels.name
+FROM channels;
 
 create view video_covers as
 SELECT v.uuid,
@@ -106,10 +113,4 @@ FROM videos_inf v
                                      c.name AS ch_name
                               FROM channel_covers c
                               WHERE v.channel_id = c.id) foo;
-
-
-create view channel_covers(id, name) as
-SELECT channels.id,
-       channels.name
-FROM channels;
 
