@@ -1,19 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
-<jsp:useBean id="videoCoverList" scope="request" type="java.util.List<ru.itis.MyTube.model.dto.VideoCover>"/>
-<jsp:useBean id="commonCssUrl" scope="request" type="java.lang.String"/>
-<jsp:useBean id="video" scope="request" type="ru.itis.MyTube.model.dto.Video"/>
+<jsp:useBean id="commonCssUrl" scope="application" type="java.lang.String"/>
 
-<jsp:useBean id="logoUrl" scope="request" type="java.lang.String"/>
-<jsp:useBean id="appName" scope="request" type="java.lang.String"/>
-<jsp:useBean id="firstName" scope="request" type="java.lang.String"/>
-<jsp:useBean id="lastName" scope="request" type="java.lang.String"/>
-<jsp:useBean id="userImgUrl" scope="request" type="java.lang.String"/>
+<jsp:useBean id="videoCoverList" scope="request" type="java.util.List<ru.itis.MyTube.model.dto.VideoCover>"/>
+<jsp:useBean id="video" scope="request" type="ru.itis.MyTube.model.dto.Video"/>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%@include file="/WEB-INF/commonJsp/head.jsp" %>
+    <meta charset="UTF-8">
+    <title>MyTube</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="${commonCssUrl}">
 </head>
 
@@ -22,9 +21,6 @@
 
 <main class="container-fluid">
     <div class="row">
-
-        <%@include file="/WEB-INF/commonJsp/navigationBar.jsp"%>
-
 
         <div class="col">
             <video height="480" width="640" type="video/mp4" controls="controls">

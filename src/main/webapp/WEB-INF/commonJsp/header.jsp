@@ -2,6 +2,8 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%@include file="/WEB-INF/commonJsp/alertsHandler.jsp"%>
+
 <header class="container-fluid">
     <nav class="navbar navbar-expand-md bg-light">
         <div class="container-fluid">

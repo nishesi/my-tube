@@ -26,11 +26,18 @@ public class VideoPageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UUID uuid = UUID.fromString(req.getParameter("v"));
+        UUID uuid;
+
+        try {
+            uuid = UUID.fromString(req.getParameter("v"));
+        } catch (IllegalArgumentException | NullPointerException ex) {
+            resp.sendRedirect(getServletContext().getContextPath());
+            return;
+        }
+
         Video video = videoService.getVideo(uuid);
 
         List<VideoCover> list = videoService.getRandomVideos();
-
 
         req.setAttribute("video", video);
         req.setAttribute("videoCoverList", list);
