@@ -36,7 +36,7 @@ public class FileStorageImpl implements Storage {
     }
 
     @Override
-    public void create(Type type, String id, InputStream resource) {
+    public void save(Type type, String id, InputStream resource) {
         if (type == null || id == null || resource == null) {
             throw new StorageException("type = " + type + ", id = " + id + ", name = " + resource);
         }
@@ -48,7 +48,7 @@ public class FileStorageImpl implements Storage {
             OutputStream outputStream = Files.newOutputStream(file.toPath());
             resource.transferTo(outputStream);
 
-            resource.close();
+            outputStream.flush();
             outputStream.close();
 
         } catch (IOException e) {
