@@ -1,8 +1,9 @@
 package ru.itis.MyTube.controllers.servlets;
 
 import ru.itis.MyTube.auxiliary.PassPerformer;
+import ru.itis.MyTube.auxiliary.constants.Attributes;
+import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.constants.UrlPatterns;
-import ru.itis.MyTube.auxiliary.enums.Bean;
 import ru.itis.MyTube.auxiliary.validators.AuthenticationValidator;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.forms.AuthenticationForm;
@@ -24,7 +25,7 @@ public class AuthenticationServlet extends HttpServlet {
 
     @Override
     public void init() {
-        userService = (UserService) getServletContext().getAttribute(Bean.USER_SERVICE.toString());
+        userService = (UserService) getServletContext().getAttribute(Beans.USER_SERVICE);
         validator = new AuthenticationValidator();
     }
 
@@ -51,7 +52,7 @@ public class AuthenticationServlet extends HttpServlet {
 
             if (userOptional.isPresent()) {
 
-                req.getSession().setAttribute(Bean.USER.toString(), userOptional.get());
+                req.getSession().setAttribute(Attributes.USER, userOptional.get());
 
                 String url = (String) req.getSession().getAttribute("requestUrl");
                 if (url != null) {

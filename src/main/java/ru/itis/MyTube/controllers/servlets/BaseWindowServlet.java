@@ -1,6 +1,7 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.auxiliary.enums.Bean;
+import ru.itis.MyTube.auxiliary.constants.Attributes;
+import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.VideoService;
 
@@ -20,7 +21,7 @@ public class BaseWindowServlet extends HttpServlet {
 
     @Override
     public void init() {
-        videoService = (VideoService) getServletContext().getAttribute(Bean.VIDEO_SERVICE.toString());
+        videoService = (VideoService) getServletContext().getAttribute(Beans.VIDEO_SERVICE);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class BaseWindowServlet extends HttpServlet {
         //TODO reaction for another request parameters
         List<VideoCover> list = videoService.getRandomVideos();
 
-        req.setAttribute(Bean.VIDEO_COVER_LIST.toString(), list);
+        req.setAttribute(Attributes.VIDEO_COVER_LIST, list);
 
         req.getRequestDispatcher("/WEB-INF/jsp/BaseWindow.jsp").forward(req, resp);
     }

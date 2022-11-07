@@ -1,7 +1,7 @@
 package ru.itis.MyTube.controllers.servlets;
 
 import ru.itis.MyTube.auxiliary.Alert;
-import ru.itis.MyTube.auxiliary.enums.Bean;
+import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.model.dto.Video;
 import ru.itis.MyTube.model.dto.VideoCover;
@@ -25,7 +25,7 @@ public class WatchingServlet extends HttpServlet {
 
     @Override
     public void init() {
-        videoService = (VideoService) getServletContext().getAttribute(Bean.VIDEO_SERVICE.toString());
+        videoService = (VideoService) getServletContext().getAttribute(Beans.VIDEO_SERVICE);
     }
 
     @Override

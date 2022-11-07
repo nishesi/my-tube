@@ -1,6 +1,7 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.auxiliary.enums.Bean;
+import ru.itis.MyTube.auxiliary.constants.Attributes;
+import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
@@ -24,7 +25,7 @@ public class SearchPageServlet extends HttpServlet {
 
     @Override
     public void init() {
-        videoService = (VideoService) getServletContext().getAttribute(Bean.VIDEO_SERVICE.toString());
+        videoService = (VideoService) getServletContext().getAttribute(Beans.VIDEO_SERVICE);
     }
 
     @Override
@@ -40,7 +41,7 @@ public class SearchPageServlet extends HttpServlet {
 
         req.setAttribute("alerts", alerts);
         req.setAttribute("substring", req.getParameter("substring"));
-        req.setAttribute(Bean.VIDEO_COVER_LIST.toString(), list);
+        req.setAttribute(Attributes.VIDEO_COVER_LIST, list);
         req.getRequestDispatcher("WEB-INF/jsp/searchPage.jsp").forward(req, resp);
     }
 }

@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.auxiliary.enums.Bean;
+import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.StorageException;
 import ru.itis.MyTube.model.storage.Storage;
@@ -22,7 +22,7 @@ public class ResourceServlet extends HttpServlet {
 
     @Override
     public void init() {
-        storage = (Storage) getServletContext().getAttribute(Bean.STORAGE.toString());
+        storage = (Storage) getServletContext().getAttribute(Beans.STORAGE);
     }
 
     @Override
