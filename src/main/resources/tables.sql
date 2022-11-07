@@ -4,7 +4,7 @@ drop view if exists video_covers;
 drop view if exists channel_covers;
 
 drop materialized view if exists channels_inf;
-drop materialized view if exists videos_inf cascade;
+drop materialized view if exists videos_inf;
 
 drop table if exists users_subscriptions;
 drop table if exists channels_videos;
@@ -84,13 +84,27 @@ group by ch.id;
 -- VIDEO INFORMATION WITH VIEWS, LIKES AND DISLIKES
 
 create materialized view videos_inf as
-select vd.*,
-       count(*) - 1                                     as views,
-       sum(case when vw.type = true then 1 else 0 end)  as likes,
-       sum(case when vw.type = false then 1 else 0 end) as dislikes
-from videos vd
-         left join viewing vw on vw.video_uuid = vd.uuid
-group by vd.uuid;
+SELECT v.uuid,
+       v.name as v_name,
+       v.added_date,
+       channel_id as ch_id,
+       ch.ch_name,
+       duration,
+       info,
+       views,
+       likes,
+       dislikes
+FROM (select vd.*,
+             count(*) - 1                                     as views,
+             sum(case when vw.type = true then 1 else 0 end)  as likes,
+             sum(case when vw.type = false then 1 else 0 end) as dislikes
+      from videos vd
+               left join viewing vw on vw.video_uuid = vd.uuid
+      group by vd.uuid) v
+         CROSS JOIN LATERAL ( SELECT c.id   AS ch_id,
+                                     c.name AS ch_name
+                              FROM channels c
+                              WHERE v.channel_id = c.id) ch;
 
 
 -- VIEWS
@@ -101,16 +115,7 @@ SELECT channels.id,
 FROM channels;
 
 create view video_covers as
-SELECT v.uuid,
-       v.name AS v_name,
-       v.added_date,
-       v.duration,
-       v.views,
-       foo.ch_id,
-       foo.ch_name
-FROM videos_inf v
-         CROSS JOIN LATERAL ( SELECT c.id   AS ch_id,
-                                     c.name AS ch_name
-                              FROM channel_covers c
-                              WHERE v.channel_id = c.id) foo;
+select uuid, v_name, ch_id, ch_name, duration, views, added_date
+from videos_inf;
+
 
