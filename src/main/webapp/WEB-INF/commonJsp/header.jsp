@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns"%>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -34,7 +35,7 @@
                         </li>
                     </c:if>
                     <li class="nav-item">
-                        <form action="${pageContext.servletContext.contextPath}/search" method="get" role="search"
+                        <form action="${pageContext.servletContext.contextPath + UrlPatterns.SEARCH_PAGE}" method="get" role="search"
                               class="ms-md-5">
                             <div class="input-group flex-nowrap">
                                 <input
@@ -58,7 +59,7 @@
 
                 <c:choose>
                     <c:when test="${sessionScope.user != null}">
-                        <a href="${pageContext.servletContext.contextPath}/userpage" class="navbar-brand fs-5 ms-md-5">
+                        <a href="${pageContext.servletContext.contextPath + UrlPatterns.USER_PAGE}" class="navbar-brand fs-5 ms-md-5">
                                 ${sessionScope.user.firstName} ${sessionScope.user.lastName}
                             <img width="40" height="40" src="${sessionScope.user.userImgUrl}" alt="user image">
                         </a>

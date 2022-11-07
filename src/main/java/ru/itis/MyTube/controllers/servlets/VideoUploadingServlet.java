@@ -15,7 +15,9 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 
-@WebServlet("/add/video")
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.VIDEO_UPLOAD_PAGE;
+
+@WebServlet(VIDEO_UPLOAD_PAGE)
 @MultipartConfig
 public class VideoUploadingServlet extends HttpServlet {
     private VideoService videoService;

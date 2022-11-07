@@ -16,14 +16,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-@WebServlet("/watch")
-public class VideoPageServlet extends HttpServlet {
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.WATCH_PAGE;
+
+@WebServlet(WATCH_PAGE)
+public class WatchingServlet extends HttpServlet {
 
     private VideoService videoService;
 
     @Override
     public void init() {
-        videoService =(VideoService) getServletContext().getAttribute(Bean.VIDEO_SERVICE.toString());
+        videoService = (VideoService) getServletContext().getAttribute(Bean.VIDEO_SERVICE.toString());
     }
 
     @Override

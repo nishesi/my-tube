@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.AUTHENTICATION_PAGE;
 
-@WebFilter("/private/*")
+
+@WebFilter("")
 public class AuthenticationFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -23,7 +25,7 @@ public class AuthenticationFilter extends HttpFilter {
             chain.doFilter(req, res);
         } else {
             req.getSession().setAttribute("requestUrl", url);
-            res.sendRedirect(getServletContext().getContextPath() + "/authenticate");
+            res.sendRedirect(getServletContext().getContextPath() + AUTHENTICATION_PAGE);
         }
 
     }

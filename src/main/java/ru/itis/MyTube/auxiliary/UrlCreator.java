@@ -3,27 +3,24 @@ package ru.itis.MyTube.auxiliary;
 import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.*;
+
 @RequiredArgsConstructor
 public class UrlCreator {
     private final String contextPath;
 
-    private final String resourcePath;
-
-    private final String watchPath;
-
-    private final String channelPath;
 
     public String createResourceUrl(FileType fileType, String id) {
-        String url = contextPath + resourcePath + "?id=" + id + "&fileType=";
+        String url = contextPath + RESOURCE + "?id=" + id + "&fileType=";
 
         return url + fileType.getType();
     }
 
     public String createWatchUrl(String videoId) {
-        return contextPath + watchPath + "?" + FileType.VIDEO.getType() + "=" + videoId;
+        return contextPath + WATCH_PAGE + "?" + FileType.VIDEO.getType() + "=" + videoId;
     }
 
     public String createChannelUrl(String channelId) {
-        return contextPath + channelPath + "?id=" + channelId;
+        return contextPath + CHANNEL_PAGE + "?id=" + channelId;
     }
 }

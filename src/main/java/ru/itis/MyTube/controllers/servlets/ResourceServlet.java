@@ -14,7 +14,9 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.UUID;
 
-@WebServlet("/resource")
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.RESOURCE;
+
+@WebServlet(RESOURCE)
 public class ResourceServlet extends HttpServlet {
     private Storage storage;
 

@@ -1,7 +1,8 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.auxiliary.enums.Bean;
 import ru.itis.MyTube.auxiliary.PassPerformer;
+import ru.itis.MyTube.auxiliary.constants.UrlPatterns;
+import ru.itis.MyTube.auxiliary.enums.Bean;
 import ru.itis.MyTube.auxiliary.validators.AuthenticationValidator;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.forms.AuthenticationForm;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
-@WebServlet("/authenticate")
+@WebServlet(UrlPatterns.AUTHENTICATION_PAGE)
 public class AuthenticationServlet extends HttpServlet {
     private UserService userService;
     private AuthenticationValidator validator;
@@ -24,7 +25,7 @@ public class AuthenticationServlet extends HttpServlet {
     @Override
     public void init() {
         userService = (UserService) getServletContext().getAttribute(Bean.USER_SERVICE.toString());
-        validator =  new AuthenticationValidator();
+        validator = new AuthenticationValidator();
     }
 
     @Override

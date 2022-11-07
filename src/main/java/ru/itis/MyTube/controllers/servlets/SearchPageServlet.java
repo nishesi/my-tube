@@ -15,7 +15,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/search")
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.SEARCH_PAGE;
+
+@WebServlet(SEARCH_PAGE)
 public class SearchPageServlet extends HttpServlet {
 
     private VideoService videoService;

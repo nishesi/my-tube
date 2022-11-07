@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>
 
 <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="${pageContext.servletContext.contextPath}/authenticate" method="post">
+        <form action="${pageContext.servletContext.contextPath + UrlPatterns.AUTHENTICATION_PAGE}" method="post">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="authModalLabel">Authorization</h1>

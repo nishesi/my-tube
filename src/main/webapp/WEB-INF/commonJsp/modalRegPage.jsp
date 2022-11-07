@@ -1,11 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
+<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns" %>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>
 
 <div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="regModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="${pageContext.servletContext.contextPath}/register" method="post">
+        <form action="${pageContext.servletContext.contextPath + UrlPatterns.REGISTRATION_PAGE}" method="post">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="regModalLabel">Registration</h1>

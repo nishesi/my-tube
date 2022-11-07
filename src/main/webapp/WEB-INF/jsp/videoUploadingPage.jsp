@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns" %>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <form method="post" action="${pageContext.servletContext.contextPath}/add/video" enctype="multipart/form-data">
+    <form method="post" action="${pageContext.servletContext.contextPath + UrlPatterns.VIDEO_UPLOAD_PAGE}" enctype="multipart/form-data">
         <label>Name
             <input type="text" name="name" placeholder="name">
         </label>

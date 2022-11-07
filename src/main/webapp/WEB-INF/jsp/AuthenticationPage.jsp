@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>
 
@@ -45,7 +46,7 @@
             <div class="container text-center">
 
                 <button type="submit" class="btn btn-outline-primary">Authorize</button>
-                <a class="btn btn-outline-secondary" href="${pageContext.servletContext.contextPath}/register">Register</a>
+                <a class="btn btn-outline-secondary" href="${pageContext.servletContext.contextPath + UrlPatterns.REGISTRATION_PAGE}">Register</a>
             </div>
         </div>
     </form>

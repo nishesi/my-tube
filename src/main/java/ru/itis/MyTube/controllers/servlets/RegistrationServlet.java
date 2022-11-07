@@ -1,7 +1,7 @@
 package ru.itis.MyTube.controllers.servlets;
 
-import ru.itis.MyTube.auxiliary.enums.Bean;
 import ru.itis.MyTube.auxiliary.PassPerformer;
+import ru.itis.MyTube.auxiliary.enums.Bean;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.validators.RegistrationValidator;
 import ru.itis.MyTube.model.dto.User;
@@ -17,7 +17,10 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Map;
 
-@WebServlet("/register")
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.AUTHENTICATION_PAGE;
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.REGISTRATION_PAGE;
+
+@WebServlet(REGISTRATION_PAGE)
 public class RegistrationServlet extends HttpServlet {
     private UserService userService;
     private RegistrationValidator registrationValidator;
@@ -60,7 +63,7 @@ public class RegistrationServlet extends HttpServlet {
         if (problems.isEmpty()) {
             try {
                 saveUser(registrationForm);
-                resp.sendRedirect(getServletContext().getContextPath() + "/authenticate");
+                resp.sendRedirect(getServletContext().getContextPath() + AUTHENTICATION_PAGE);
 
             } catch (ServiceException ex) {
                 resp.sendError(500, "something go wrong");

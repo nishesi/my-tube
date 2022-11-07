@@ -37,7 +37,7 @@ public class ContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
 
-        urlCreator = new UrlCreator("http://localhost:8080/MyTube", "/resource", "/watch", "/channel");
+        urlCreator = new UrlCreator("http://localhost:8080/MyTube");
         context.setAttribute(Bean.URL_CREATOR.toString(), urlCreator);
 
         storage = new FileStorageImpl();
