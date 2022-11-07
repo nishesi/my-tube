@@ -24,14 +24,7 @@
 
                     <c:forEach items="${videoCoverList}" var="videoCover" >
 
-                        <o:videoCover videoCoverImgUrl="${videoCover.videoCoverImgUrl}"
-                                      videoName="${videoCover.name}"
-                                      channelCover="${videoCover.channelCover}"
-                                      addedDate="${videoCover.addedDate}"
-                                      views="${videoCover.views}"
-                                      duration="${videoCover.duration}"
-                        >
-                        </o:videoCover>
+                        <o:videoCover videoCover="${videoCover}"/>
 
                     </c:forEach>
 
