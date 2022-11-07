@@ -46,7 +46,7 @@
             <div class="container text-center">
 
                 <button type="submit" class="btn btn-outline-primary">Authorize</button>
-                <a class="btn btn-outline-secondary" href="${pageContext.servletContext.contextPath + UrlPatterns.REGISTRATION_PAGE}">Register</a>
+                <a class="btn btn-outline-secondary" href="${pageContext.servletContext.contextPath}${UrlPatterns.REGISTRATION_PAGE}">Register</a>
             </div>
         </div>
     </form>

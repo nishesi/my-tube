@@ -6,7 +6,7 @@
 
 <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="${pageContext.servletContext.contextPath + UrlPatterns.AUTHENTICATION_PAGE}" method="post">
+        <form action="${pageContext.servletContext.contextPath}${UrlPatterns.AUTHENTICATION_PAGE}" method="post">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="authModalLabel">Authorization</h1>

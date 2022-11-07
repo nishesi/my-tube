@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form method="post" action="${pageContext.servletContext.contextPath + UrlPatterns.VIDEO_UPLOAD_PAGE}" enctype="multipart/form-data">
+    <form method="post" action="${pageContext.servletContext.contextPath}${UrlPatterns.VIDEO_UPLOAD_PAGE}" enctype="multipart/form-data">
         <label>Name
             <input type="text" name="name" placeholder="name">
         </label>

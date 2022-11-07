@@ -7,7 +7,7 @@
 
 <div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="regModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form action="${pageContext.servletContext.contextPath + UrlPatterns.REGISTRATION_PAGE}" method="post">
+        <form action="${pageContext.servletContext.contextPath}${UrlPatterns.REGISTRATION_PAGE}" method="post">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="regModalLabel">Registration</h1>
