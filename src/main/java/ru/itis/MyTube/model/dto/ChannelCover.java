@@ -10,6 +10,7 @@ import lombok.Data;
 public class ChannelCover {
     //name of the icon file
     private Long id;
+    private String channelUrl;
     private String name;
     private String channelImgUrl;
 }

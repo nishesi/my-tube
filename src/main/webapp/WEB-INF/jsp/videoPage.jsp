@@ -2,7 +2,6 @@
 
 <jsp:useBean id="commonCssUrl" scope="application" type="java.lang.String"/>
 
-<jsp:useBean id="videoCoverList" scope="request" type="java.util.List<ru.itis.MyTube.model.dto.VideoCover>"/>
 <jsp:useBean id="video" scope="request" type="ru.itis.MyTube.model.dto.Video"/>
 
 <!DOCTYPE html>

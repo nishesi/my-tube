@@ -7,19 +7,23 @@ import ru.itis.MyTube.auxiliary.enums.FileType;
 public class UrlCreator {
     private final String contextPath;
 
-    public String create(FileType fileType, String id) {
-        String url = contextPath + "/resource?id=" + id + "&fileType=";
-        if (fileType == FileType.VIDEO) {
-            return url + "v";
-        } else if (fileType == FileType.VIDEO_ICON) {
-            return url + "vi";
-        } else if (fileType == FileType.CHANNEL_ICON) {
-            return url + "ci";
-        } else if (fileType == FileType.USER_ICON){
-            return url + "ui";
-        } else {
-            return "unknown FileType";
-        }
+    private final String resourcePath;
 
+    private final String watchPath;
+
+    private final String channelPath;
+
+    public String createResourceUrl(FileType fileType, String id) {
+        String url = contextPath + resourcePath + "?id=" + id + "&fileType=";
+
+        return url + fileType.getType();
+    }
+
+    public String createWatchUrl(String videoId) {
+        return contextPath + watchPath + "?" + FileType.VIDEO.getType() + "=" + videoId;
+    }
+
+    public String createChannelUrl(String channelId) {
+        return contextPath + channelPath + "?id=" + channelId;
     }
 }

@@ -2,6 +2,8 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<jsp:useBean id="logoUrl" scope="application" type="java.lang.String"/>
+
 <%@include file="/WEB-INF/commonJsp/alertsHandler.jsp"%>
 
 <header class="container-fluid">
@@ -22,12 +24,15 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Random</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Subscriptions</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#">Popular</a>
                     </li>
+                    <c:if test="${sessionScope.user != null}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Subscriptions</a>
+                        </li>
+                    </c:if>
                     <li class="nav-item">
                         <form action="${pageContext.servletContext.contextPath}/search" method="get" role="search"
                               class="ms-md-5">

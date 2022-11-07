@@ -1,6 +1,8 @@
 package ru.itis.MyTube.controllers.servlets;
 
+import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.enums.Bean;
+import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.model.dto.Video;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.VideoService;
@@ -29,9 +31,11 @@ public class VideoPageServlet extends HttpServlet {
         UUID uuid;
 
         try {
-            uuid = UUID.fromString(req.getParameter("v"));
+            uuid = UUID.fromString(req.getParameter(FileType.VIDEO.getType()));
         } catch (IllegalArgumentException | NullPointerException ex) {
-            resp.sendRedirect(getServletContext().getContextPath());
+            ((List<Alert>) req.getAttribute("alerts"))
+                    .add(new Alert(Alert.alertType.WARNING, "Couldn't find or load a video."));
+            req.getRequestDispatcher("/WEB-INF/jsp/BaseWindow.jsp").forward(req, resp);
             return;
         }
 

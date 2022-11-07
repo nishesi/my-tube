@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> get(String username, String password) {
         try {
             Optional<User> userOpt = userRepository.get(username, password);
-            userOpt.ifPresent(user -> user.setUserImgUrl(urlCreator.create(FileType.USER_ICON, user.getUsername())));
+            userOpt.ifPresent(user -> user.setUserImgUrl(urlCreator.createResourceUrl(FileType.USER_ICON, user.getUsername())));
             return userOpt;
         } catch (RuntimeException ex) {
             throw new ServiceException(ex);

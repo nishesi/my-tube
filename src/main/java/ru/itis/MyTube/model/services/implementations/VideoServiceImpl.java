@@ -37,7 +37,7 @@ public class VideoServiceImpl implements VideoService {
         //todo duration
         VideoCover videoCover = VideoCover.builder()
                 .name(form.getName())
-                .videoCoverImgUrl(urlCreator.create(FileType.VIDEO_ICON, uuid))
+                .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, uuid))
                 .channelCover(channelCover)
                 .duration(LocalTime.of(0,0,0))
                 .addedDate(LocalDateTime.now())
@@ -46,14 +46,14 @@ public class VideoServiceImpl implements VideoService {
         Video video1 = Video.builder()
                 .uuid(UUID.fromString(uuid))
                 .videoCover(videoCover)
-                .videoUrl(urlCreator.create(FileType.VIDEO, uuid))
+                .videoUrl(urlCreator.createResourceUrl(FileType.VIDEO, uuid))
                 .info(form.getInfo())
                 .build();
 
         try {
             videoRepository.addVideo(video1);
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex.getMessage());
+            throw new ServiceException(ex);
         }
 
         storage.save(FileType.VIDEO_ICON, uuid, icon);
@@ -71,10 +71,10 @@ public class VideoServiceImpl implements VideoService {
 
         try {
             video = videoRepository.getVideo(uuid);
-            video.ifPresent(video1 -> video1.setVideoUrl(urlCreator.create(FileType.VIDEO, video1.getUuid().toString())));
+            video.ifPresent(video1 -> video1.setVideoUrl(urlCreator.createResourceUrl(FileType.VIDEO, video1.getUuid().toString())));
 
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex.getMessage());
+            throw new ServiceException(ex);
         }
 
         return video.orElseThrow(() -> new ServiceException("Video not found."));
@@ -99,15 +99,17 @@ public class VideoServiceImpl implements VideoService {
             videoCovers.forEach(videoCover -> {
 
                 videoCover.setVideoCoverImgUrl(
-                        urlCreator.create(
+                        urlCreator.createResourceUrl(
                                 FileType.VIDEO_ICON,
                                 videoCover.getUuid().toString()));
+                videoCover.setWatchUrl(urlCreator.createWatchUrl(videoCover.getUuid().toString()));
 
                 ChannelCover channelCover = videoCover.getChannelCover();
                 channelCover.setChannelImgUrl(
-                        urlCreator.create(
+                        urlCreator.createResourceUrl(
                                 FileType.CHANNEL_ICON,
                                 channelCover.getId().toString()));
+                channelCover.setChannelUrl(urlCreator.createChannelUrl(channelCover.getId().toString()));
             });
 
             return videoCovers;
