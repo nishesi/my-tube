@@ -11,7 +11,6 @@ import java.util.UUID;
 public interface VideoService {
 
     void addVideo(Long channelId, VideoForm videoForm, InputStream video, InputStream icon);
-    VideoCover getVideoCover(UUID uuid);
 
     Video getVideo(UUID uuid);
 
@@ -19,8 +18,8 @@ public interface VideoService {
 
     List<VideoCover> getPopularVideos();
 
+    List<VideoCover> getSubscriptionsVideos(String username);
+
     List<VideoCover> getVideosByNameSubstring(String substring);
-
-
 
 }

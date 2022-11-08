@@ -23,15 +23,15 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Random</a>
+                        <a class="nav-link active" aria-current="page" href="${pageContext.servletContext.contextPath}">Random</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Popular</a>
+                        <a class="nav-link" href="${pageContext.servletContext.contextPath}?listType=popular">Popular</a>
                     </li>
                     <c:if test="${sessionScope.user != null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Subscriptions</a>
+                            <a class="nav-link" href="${pageContext.servletContext.contextPath}?listType=subs">Subscriptions</a>
                         </li>
                     </c:if>
                     <li class="nav-item">

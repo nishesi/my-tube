@@ -59,6 +59,8 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
     };
     private static final String SQL_GET_VIDEOS_BY_SUBSTRING = "select * from video_covers where v_name like ?";
     private static final String SQL_GET_VIDEO = "select * from videos_inf where uuid = ?";
+    private static final String SQL_ADD_VIDEO = "insert into videos (uuid, name, added_date, channel_id, duration, info) values (?, ?, ?, ?, ?, ?)";
+    private static final String SQL_GET_CHANNEL_VIDEOS = "select * from videos_inf where ch_id = ?";
     private final DataSource dataSource;
 
     @Override
@@ -100,8 +102,6 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
         }
     }
 
-    private static final String SQL_ADD_VIDEO = "insert into videos (uuid, name, added_date, channel_id, duration, info) values (?, ?, ?, ?, ?, ?)";
-
     @Override
     public void addVideo(Video video) {
         try (Connection connection = dataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_VIDEO)) {
@@ -115,6 +115,40 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
 
             preparedStatement.executeUpdate();
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<VideoCover> getChannelVideos(Long channelId) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_CHANNEL_VIDEOS)) {
+
+            preparedStatement.setLong(1, channelId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<VideoCover> videoCovers = new ArrayList<>(resultSet.getFetchSize());
+            while (resultSet.next()) {
+                videoCovers.add(VIDEO_COVER_MAPPER.apply(resultSet));
+            }
+            return videoCovers;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final String SQL_GET_RANDOM_VIDEOS = "select * from video_covers where random() < 0.01 limit 100";
+    @Override
+    public List<VideoCover> getRandomVideos() {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_RANDOM_VIDEOS)){
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<VideoCover> videoCovers = new ArrayList<>(resultSet.getFetchSize());
+            while(resultSet.next()) {
+                videoCovers.add(VIDEO_COVER_MAPPER.apply(resultSet));
+            }
+            return videoCovers;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

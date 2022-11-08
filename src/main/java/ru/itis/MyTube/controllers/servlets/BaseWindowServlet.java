@@ -1,7 +1,10 @@
 package ru.itis.MyTube.controllers.servlets;
 
+import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.constants.Beans;
+import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
+import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.VideoService;
 
@@ -12,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+
+import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
 
 
 @WebServlet("")
@@ -26,8 +31,20 @@ public class BaseWindowServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //TODO reaction for another request parameters
-        List<VideoCover> list = videoService.getRandomVideos();
+        String listType = req.getParameter("listType");
+        List<VideoCover> list = null;
+
+        try {
+            if ("popular".equals(listType)) {
+                list = videoService.getPopularVideos();
+            } else if ("subs".equals(listType)) {
+                list = videoService.getSubscriptionsVideos(((User) req.getSession().getAttribute(USER)).getUsername());
+            } else {
+                list = videoService.getRandomVideos();
+            }
+        } catch (ServiceException ex) {
+            ((List<Alert> ) req.getAttribute("alerts")).add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
+        }
 
         req.setAttribute(Attributes.VIDEO_COVER_LIST, list);
 

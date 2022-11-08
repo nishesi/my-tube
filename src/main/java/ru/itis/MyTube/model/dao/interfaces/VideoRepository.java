@@ -13,4 +13,8 @@ public interface VideoRepository {
     Optional<Video> getVideo(UUID uuid);
 
     void addVideo(Video video);
+
+    List<VideoCover> getChannelVideos(Long channelId);
+
+    List<VideoCover> getRandomVideos();
 }

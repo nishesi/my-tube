@@ -97,7 +97,7 @@ public class ContextListener implements ServletContextListener {
         );
         context.setAttribute(
                 Beans.VIDEO_SERVICE,
-                new VideoServiceImpl(videoRepository, searchValidator, urlCreator, storage)
+                new VideoServiceImpl(videoRepository, channelRepository, searchValidator, urlCreator, storage)
         );
         context.setAttribute(
                 Beans.CHANNEL_SERVICE,
