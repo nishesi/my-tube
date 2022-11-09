@@ -47,7 +47,7 @@ public class BaseWindowServlet extends HttpServlet {
         }
 
         req.setAttribute(Attributes.VIDEO_COVER_LIST, list);
-
+        req.setAttribute("listType", req.getParameter("listType"));
         req.getRequestDispatcher("/WEB-INF/jsp/BaseWindow.jsp").forward(req, resp);
     }
 }

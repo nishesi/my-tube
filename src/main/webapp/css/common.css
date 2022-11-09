@@ -14,3 +14,9 @@
 main {
     max-width: 1300px;
 }
+
+a {
+    text-decoration: none;
+    color: #666;
+}
+

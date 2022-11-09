@@ -9,4 +9,5 @@ public class UrlPatterns {
     public static final String RESOURCE = "/resource";
     public static final String CHANNEL_PAGE = "/channel";
     public static final String USER_PAGE = "/user";
+    public static final String EXIT = "/exit";
 }

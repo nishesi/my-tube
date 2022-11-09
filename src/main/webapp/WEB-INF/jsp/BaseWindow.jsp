@@ -28,6 +28,5 @@
 
 
 <%@include file="/WEB-INF/commonJsp/footer.jsp" %>
-
 </body>
 </html>

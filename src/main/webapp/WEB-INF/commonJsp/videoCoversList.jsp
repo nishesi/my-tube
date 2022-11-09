@@ -15,7 +15,7 @@
         <c:choose>
             <c:when test="${empty videoCoverList}">
                 <div class="alert alert-info text-center" role="alert">
-                    No similar videos found :(
+                    No suitable videos found :(
                 </div>
             </c:when>
             <c:otherwise>

@@ -28,9 +28,9 @@ public class ResourceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String id = req.getParameter("id");
-        String type = req.getParameter("type");
+        String type = req.getParameter("fileType");
 
-         if (!validateParameters(id, type, resp)) {
+         if (!validateParameters(type, id, resp)) {
              return;
          }
 

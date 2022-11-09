@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns"%>
+<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:useBean id="logoUrl" scope="application" type="java.lang.String"/>
 
-<%@include file="/WEB-INF/commonJsp/alertsHandler.jsp"%>
+<%@include file="/WEB-INF/commonJsp/alertsHandler.jsp" %>
 
 <header class="container-fluid">
     <nav class="navbar navbar-expand-md bg-light">
@@ -22,20 +22,27 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
+
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="${pageContext.servletContext.contextPath}">Random</a>
+                        <a class="nav-link <c:if test="${\"random\".equals(listType)}">active</c:if> "
+                           aria-current="page" href="${pageContext.servletContext.contextPath}">Random</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.servletContext.contextPath}?listType=popular">Popular</a>
+                        <a class="nav-link <c:if test="${\"popular\".equals(listType)}">active</c:if>"
+                           href="${pageContext.servletContext.contextPath}?listType=popular">Popular</a>
                     </li>
+
                     <c:if test="${sessionScope.user != null}">
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.servletContext.contextPath}?listType=subs">Subscriptions</a>
+                            <a class="nav-link <c:if test="${\"subs\".equals(listType)}">active</c:if>"
+                               href="${pageContext.servletContext.contextPath}?listType=subs">Subscriptions</a>
                         </li>
                     </c:if>
+
                     <li class="nav-item">
-                        <form action="${pageContext.servletContext.contextPath}${UrlPatterns.SEARCH_PAGE}" method="get" role="search"
+                        <form action="${pageContext.servletContext.contextPath}${UrlPatterns.SEARCH_PAGE}" method="get"
+                              role="search"
                               class="ms-md-5">
                             <div class="input-group flex-nowrap">
                                 <input
@@ -49,20 +56,16 @@
                                 <button class="btn btn-outline-secondary" type="submit">?</button>
                             </div>
                         </form>
-                        <c:if test="${not empty requestScope.problem}">
-                            <div class="alert alert-warning text-center p-2" role="alert">
-                                    ${requestScope.problem}
-                            </div>
-                        </c:if>
                     </li>
                 </ul>
 
                 <c:choose>
                     <c:when test="${sessionScope.user != null}">
-                        <a href="${pageContext.servletContext.contextPath}${UrlPatterns.USER_PAGE}" class="navbar-brand fs-5 ms-md-5">
+                        <div class="navbar-brand fs-5 ms-md-5 btn" type="button" data-bs-toggle="offcanvas"
+                             data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                 ${sessionScope.user.firstName} ${sessionScope.user.lastName}
                             <img width="40" height="40" src="${sessionScope.user.userImgUrl}" alt="user image">
-                        </a>
+                        </div>
                     </c:when>
 
                     <c:otherwise>
@@ -89,4 +92,6 @@
         </div>
     </nav>
 </header>
+
+<jsp:include page="/WEB-INF/commonJsp/Menu.jsp"/>
 
