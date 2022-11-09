@@ -1,5 +1,6 @@
 package ru.itis.MyTube.model.dao.implementations;
 
+import ru.itis.MyTube.auxiliary.PassPerformer;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 
@@ -34,8 +35,8 @@ public class UserRepositoryJdbcImpl implements UserRepository {
             "(username, password, first_name, last_name, birthdate, country) " +
             "values (?, ?, ?, ?, ?, ?)";
     private static final String SQL_GET_USER = "select * from users where username = ? and password = ?";
-    private final DataSource dataSource;
 
+    private final DataSource dataSource;
 
     public UserRepositoryJdbcImpl(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -99,6 +100,31 @@ public class UserRepositoryJdbcImpl implements UserRepository {
             } else {
                 return Optional.empty();
             }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private static final String SQL_UPDATE_USER = "update users set " +
+            "password = ?," +
+            " first_name = ?, " +
+            "last_name = ?, " +
+            "birthdate = ?, " +
+            "country = ? " +
+            "where username = ? ";
+    @Override
+    public void update(User user) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER)) {
+
+            preparedStatement.setString(1, PassPerformer.hash(user.getPassword()));
+            preparedStatement.setString(2, user.getFirstName());
+            preparedStatement.setString(3, user.getLastName());
+            preparedStatement.setObject(4, user.getBirthdate());
+            preparedStatement.setString(5, user.getCountry());
+            preparedStatement.setString(6, user.getUsername());
+
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

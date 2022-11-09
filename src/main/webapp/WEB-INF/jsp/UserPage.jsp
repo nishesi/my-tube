@@ -33,11 +33,7 @@
 
       <div class="input-group">
         <div class="input-group-text">Username</div>
-        <input type="text" class="form-control" placeholder="Write your username..." aria-label="Username"
-               name="username" value="${user.username}">
-      </div>
-      <div class="mb-4 text-danger">
-        <o:problemOut name="username" map="${requestScope.problems}"/>
+        <div class="form-control" aria-label="Username">${user.username}</div>
       </div>
 
       <div class="input-group">

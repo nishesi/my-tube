@@ -4,20 +4,26 @@ import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.auxiliary.validators.UserUpdateValidator;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.VideoCover;
+import ru.itis.MyTube.model.forms.UserUpdateForm;
 import ru.itis.MyTube.model.services.UserService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-
     private final UserRepository userRepository;
+
     private final UrlCreator urlCreator;
+
+    private final UserUpdateValidator userUpdateValidator;
 
     @Override
     public boolean save(User user) {
@@ -41,8 +47,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean update(User user) {
-        return false;
+    public void update(UserUpdateForm form, User user) throws ValidationException, ServiceException {
+        userUpdateValidator.validate(form);
+
+        User updatedUser = User.builder()
+                .username(user.getUsername())
+                .password(form.getPassword())
+                .firstName(form.getFirstName())
+                .lastName(form.getLastName())
+                .birthdate(LocalDate.parse(form.getBirthdate()))
+                .country(form.getCountry())
+                .build();
+
+        try {
+            userRepository.update(updatedUser);
+        } catch (RuntimeException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
     }
 
     @Override

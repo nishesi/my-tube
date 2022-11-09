@@ -7,13 +7,16 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-    List<User> getAll();
-
     boolean save(User user);
+
+    Optional<User> get(String login, String password);
+    void update(User user);
+
+    List<User> getAll();
 
     boolean delete(long id);
 
-    Optional<User> get(String login, String password);
-
     boolean isPresent(String username);
+
+
 }
