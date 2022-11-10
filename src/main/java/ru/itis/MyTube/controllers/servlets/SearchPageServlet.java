@@ -45,6 +45,6 @@ public class SearchPageServlet extends HttpServlet {
         req.setAttribute("alerts", alerts);
         req.setAttribute("substring", req.getParameter("substring"));
         req.setAttribute(Attributes.VIDEO_COVER_LIST, list);
-        req.getRequestDispatcher("WEB-INF/jsp/searchPage.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/jsp/SearchPage.jsp").forward(req, resp);
     }
 }

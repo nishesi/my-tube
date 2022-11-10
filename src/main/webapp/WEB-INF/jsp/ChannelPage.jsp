@@ -65,7 +65,7 @@
         ${channel.info}
     </p>
 
-    <jsp:include page="/WEB-INF/commonJsp/VideoCoverList.jsp"/>
+    <jsp:include page="/WEB-INF/commonJsp/videoCoverList.jsp"/>
 
 </main>
 

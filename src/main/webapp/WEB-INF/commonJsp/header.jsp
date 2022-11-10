@@ -93,5 +93,5 @@
     </nav>
 </header>
 
-<jsp:include page="/WEB-INF/commonJsp/Menu.jsp"/>
+<jsp:include page="/WEB-INF/commonJsp/menu.jsp"/>
 

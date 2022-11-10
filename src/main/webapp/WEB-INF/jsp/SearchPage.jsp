@@ -18,7 +18,7 @@
     <div class="row">
 
         <div class="col">
-            <%@include file="/WEB-INF/commonJsp/VideoCoverList.jsp" %>
+            <%@include file="/WEB-INF/commonJsp/videoCoverList.jsp" %>
         </div>
     </div>
 

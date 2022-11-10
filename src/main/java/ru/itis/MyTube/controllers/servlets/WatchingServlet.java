@@ -54,6 +54,6 @@ public class WatchingServlet extends HttpServlet {
         req.setAttribute("video", video);
         req.setAttribute("videoCoverList", list);
 
-        req.getRequestDispatcher("WEB-INF/jsp/videoPage.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/jsp/VideoPage.jsp").forward(req, resp);
     }
 }

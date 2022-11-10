@@ -18,7 +18,7 @@
 
 <main class="container-fluid">
 
-    <%@include file="/WEB-INF/commonJsp/VideoCoverList.jsp" %>
+    <%@include file="/WEB-INF/commonJsp/videoCoverList.jsp" %>
 
 </main>
 

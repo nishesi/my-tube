@@ -31,7 +31,7 @@ public class VideoUploadingServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/jsp/videoUploadingPage.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/VideoUploadingPage.jsp").forward(req, resp);
     }
 
     @Override
