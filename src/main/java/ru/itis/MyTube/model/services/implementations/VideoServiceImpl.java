@@ -21,12 +21,12 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
 
     private final VideoRepository videoRepository;
+    
     private final ChannelRepository channelRepository;
     private final SearchValidator searchValidator;
     private final UrlCreator urlCreator;
@@ -105,12 +105,7 @@ public class VideoServiceImpl implements VideoService {
             throw new ValidationException(Collections.singletonMap("username", "Username is void"));
         }
         try {
-            List<Long> channelsId = channelRepository.getSubscribedChannelsId(user.getUsername());
-
-            List<VideoCover> videoCovers = channelsId.stream()
-                    .flatMap(channelId ->
-                            videoRepository.getChannelVideos(channelId).stream())
-                    .collect(Collectors.toList());
+            List<VideoCover> videoCovers = videoRepository.getSubscribedChannelsVideos(user.getUsername());
             setUrls(videoCovers);
 
             return videoCovers;

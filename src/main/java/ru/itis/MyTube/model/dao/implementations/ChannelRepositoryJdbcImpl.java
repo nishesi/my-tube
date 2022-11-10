@@ -10,13 +10,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
-public class ChannelRepositoryJdbcImpl implements ChannelRepository {
+public class ChannelRepositoryJdbcImpl extends AbstractRepository implements ChannelRepository {
     private static final Function<ResultSet, ChannelCover> CHANNEL_COVER_MAPPER = set -> {
         try {
             return ChannelCover.builder()
@@ -40,26 +39,26 @@ public class ChannelRepositoryJdbcImpl implements ChannelRepository {
             throw new RuntimeException(e);
         }
     };
+    private static final String SQL_GET_SUBSCRIBED_CHANNELS = "select * " +
+            "from channel_covers " +
+            "where id in (select channel_id from users_subscriptions where username = 'NishEsI');";
+    private static final String SQL_GET_CHANNEL = "select * from channels_inf where id = ?";
     private final DataSource dataSource;
-    private static final String SQL_GET_SUBSCRIBED_CHANNELS = "select channel_id from users_subscriptions where username = ?";
+
     @Override
-    public List<Long> getSubscribedChannelsId(String username) {
+    public List<ChannelCover> getSubscribedChannels(String username) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_SUBSCRIBED_CHANNELS)) {
 
             preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            ArrayList<Long> list = new ArrayList<>();
-            while (resultSet.next()) {
-                list.add(resultSet.getLong("channel_id"));
-            }
-            return list;
+
+            return transfer(preparedStatement.executeQuery(), CHANNEL_COVER_MAPPER);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    private static final String SQL_GET_CHANNEL = "select * from channels_inf where id = ?";
+
     @Override
     public Optional<Channel> get(Long id) {
         try (Connection connection = dataSource.getConnection();

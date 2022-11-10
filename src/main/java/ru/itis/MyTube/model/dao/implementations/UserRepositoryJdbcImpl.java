@@ -7,12 +7,11 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class UserRepositoryJdbcImpl implements UserRepository {
+public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRepository {
 
     private static final Function<ResultSet, User> USER_MAPPER = (set) -> {
         try {
@@ -23,7 +22,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
                     .lastName(set.getString("last_name"))
                     .birthdate(LocalDate.parse(set.getString("birthdate")))
                     .country(set.getString("country"))
-                    .channelId((Long)set.getObject("channel_id"))
+                    .channelId((Long) set.getObject("channel_id"))
                     .build();
 
         } catch (SQLException e) {
@@ -35,7 +34,13 @@ public class UserRepositoryJdbcImpl implements UserRepository {
             "(username, password, first_name, last_name, birthdate, country) " +
             "values (?, ?, ?, ?, ?, ?)";
     private static final String SQL_GET_USER = "select * from users where username = ? and password = ?";
-
+    private static final String SQL_UPDATE_USER = "update users set " +
+            "password = ?," +
+            " first_name = ?, " +
+            "last_name = ?, " +
+            "birthdate = ?, " +
+            "country = ? " +
+            "where username = ? ";
     private final DataSource dataSource;
 
     public UserRepositoryJdbcImpl(DataSource dataSource) {
@@ -47,14 +52,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL_USERS)) {
 
-            ResultSet set = preparedStatement.executeQuery();
-            ArrayList<User> list = new ArrayList<>(set.getFetchSize());
-
-            while (set.next()) {
-                list.add(USER_MAPPER.apply(set));
-            }
-
-            return list;
+            return transfer(preparedStatement.executeQuery(), USER_MAPPER);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -105,13 +103,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
             throw new RuntimeException(e);
         }
     }
-    private static final String SQL_UPDATE_USER = "update users set " +
-            "password = ?," +
-            " first_name = ?, " +
-            "last_name = ?, " +
-            "birthdate = ?, " +
-            "country = ? " +
-            "where username = ? ";
+
     @Override
     public void update(User user) {
         try (Connection connection = dataSource.getConnection();

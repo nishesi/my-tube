@@ -14,14 +14,13 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
-public class VideoRepositoryJdbcImpl implements VideoRepository {
+public class VideoRepositoryJdbcImpl extends AbstractRepository implements VideoRepository {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd' 'HH:mm:ss");
 
@@ -61,6 +60,10 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
     private static final String SQL_GET_VIDEO = "select * from videos_inf where uuid = ?";
     private static final String SQL_ADD_VIDEO = "insert into videos (uuid, name, added_date, channel_id, duration, info) values (?, ?, ?, ?, ?, ?)";
     private static final String SQL_GET_CHANNEL_VIDEOS = "select * from videos_inf where ch_id = ?";
+    private static final String SQL_GET_RANDOM_VIDEOS = "select * from video_covers where random() < 0.01 limit 100";
+    private static final String SQL_GET_SUBSCRIBED_CHANNELS_VIDEOS = "select * " +
+            "from channel_covers " +
+            "where id in (select channel_id from users_subscriptions where username = ?)";
     private final DataSource dataSource;
 
     @Override
@@ -70,14 +73,8 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
 
             preparedStatement.setString(1, "%" + substring + "%");
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<VideoCover> list = new ArrayList<>(resultSet.getFetchSize());
+            return transfer(preparedStatement.executeQuery(), VIDEO_COVER_MAPPER);
 
-            while (resultSet.next()) {
-                list.add(VIDEO_COVER_MAPPER.apply(resultSet));
-            }
-
-            return list;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -126,31 +123,35 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_CHANNEL_VIDEOS)) {
 
             preparedStatement.setLong(1, channelId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<VideoCover> videoCovers = new ArrayList<>(resultSet.getFetchSize());
 
-            while (resultSet.next()) {
-                videoCovers.add(VIDEO_COVER_MAPPER.apply(resultSet));
-            }
+            return transfer(preparedStatement.executeQuery(), VIDEO_COVER_MAPPER);
 
-            return videoCovers;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static final String SQL_GET_RANDOM_VIDEOS = "select * from video_covers where random() < 0.01 limit 100";
     @Override
     public List<VideoCover> getRandomVideos() {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_RANDOM_VIDEOS)){
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_RANDOM_VIDEOS)) {
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<VideoCover> videoCovers = new ArrayList<>(resultSet.getFetchSize());
-            while(resultSet.next()) {
-                videoCovers.add(VIDEO_COVER_MAPPER.apply(resultSet));
-            }
-            return videoCovers;
+            return transfer(preparedStatement.executeQuery(), VIDEO_COVER_MAPPER);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<VideoCover> getSubscribedChannelsVideos(String username) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_SUBSCRIBED_CHANNELS_VIDEOS)) {
+
+            preparedStatement.setString(1, username);
+
+            return transfer(preparedStatement.executeQuery(), VIDEO_COVER_MAPPER);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

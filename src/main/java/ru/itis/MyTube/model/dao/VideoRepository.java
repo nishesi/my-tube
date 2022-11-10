@@ -17,4 +17,6 @@ public interface VideoRepository {
     List<VideoCover> getChannelVideos(Long channelId);
 
     List<VideoCover> getRandomVideos();
+
+    List<VideoCover> getSubscribedChannelsVideos(String username);
 }
