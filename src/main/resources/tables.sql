@@ -77,9 +77,13 @@ create table viewing
 -- CHANNEL INF AND SUBSCRIBERS COUNT
 
 create materialized view channels_inf as
-select ch.*, count(us.username) as subs_count
-from users_subscriptions us
-         inner join channels ch on us.channel_id = ch.id
+select id,
+       name,
+       owner_username,
+       info,
+       count(us.username) as subs_count
+from channels ch
+         inner join users_subscriptions us on us.channel_id = ch.id
 group by ch.id;
 
 -- VIDEO INFORMATION WITH VIEWS, LIKES AND DISLIKES

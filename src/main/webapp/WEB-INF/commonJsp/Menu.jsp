@@ -3,7 +3,7 @@
 <%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns" %>
 
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" >
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasRightLabel">
             ${sessionScope.user.firstName} ${sessionScope.user.lastName}
@@ -17,13 +17,15 @@
                class="list-group-item list-group-item-action" aria-current="true">
                 Change account information
             </a>
-            <c:if test="${false}">
-                <a href="#" class="list-group-item list-group-item-action">Create channel</a>
+            <c:if test="${sessionScope.user.channelId == null}">
+                <a href="${pageContext.servletContext.contextPath}${UrlPatterns.CHANNEL_CREATE_PAGE}" class="list-group-item list-group-item-action">Create channel</a>
             </c:if>
-            <c:if test="${false}">
-                <a href="#" class="list-group-item list-group-item-action">My channel</a>
+            <c:if test="${sessionScope.user.channelId != null}">
+                <a href="${pageContext.servletContext.contextPath}${UrlPatterns.CHANNEL_PAGE}"
+                   class="list-group-item list-group-item-action">My channel</a>
             </c:if>
-            <a href="${pageContext.servletContext.contextPath}${UrlPatterns.EXIT}" class="list-group-item list-group-item-action">Exit from account</a>
+            <a href="${pageContext.servletContext.contextPath}${UrlPatterns.EXIT}"
+               class="list-group-item list-group-item-action">Exit from account</a>
         </div>
     </div>
 </div>

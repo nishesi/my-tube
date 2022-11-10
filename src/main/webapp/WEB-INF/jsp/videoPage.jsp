@@ -45,7 +45,7 @@
 
 
     <div class="container-fluid p-0 mt-5">
-        <%@include file="/WEB-INF/commonJsp/videoCoversList.jsp"%>
+        <%@include file="/WEB-INF/commonJsp/VideoCoverList.jsp"%>
     </div>
 </main>
 

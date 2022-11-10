@@ -17,12 +17,8 @@
 <%@include file="/WEB-INF/commonJsp/header.jsp" %>
 
 <main class="container-fluid">
-    <div class="row">
 
-        <div class="col">
-            <%@include file="/WEB-INF/commonJsp/videoCoversList.jsp" %>
-        </div>
-    </div>
+    <%@include file="/WEB-INF/commonJsp/VideoCoverList.jsp" %>
 
 </main>
 

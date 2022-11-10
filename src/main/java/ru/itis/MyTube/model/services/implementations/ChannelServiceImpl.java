@@ -1,31 +1,49 @@
 package ru.itis.MyTube.model.services.implementations;
 
 import lombok.RequiredArgsConstructor;
+import ru.itis.MyTube.auxiliary.UrlCreator;
+import ru.itis.MyTube.auxiliary.enums.FileType;
+import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.dao.interfaces.ChannelRepository;
-import ru.itis.MyTube.model.dto.Video;
+import ru.itis.MyTube.model.dto.Channel;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.ChannelService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class ChannelServiceImpl implements ChannelService {
 
     private final ChannelRepository channelRepository;
+    private final UrlCreator urlCreator;
+
 
     @Override
-    public boolean addVideo(VideoCover videoCover, Video video) {
-        return false;
-    }
+    public Channel getChannel(String formId) {
+        Long id = null;
+        try {
+            id = Long.parseLong(formId);
+        } catch (NumberFormatException | NullPointerException ex) {
+            throw new ServiceException("Illegal channel id.");
+        }
 
-    @Override
-    public boolean deleteVideo(Long cover_id) {
-        return false;
-    }
+        try {
+            Optional<Channel> channelOpt = channelRepository.get(id);
 
-    @Override
-    public boolean updateVideo(VideoCover videoCover, Video video) {
-        return false;
+            channelOpt.ifPresent(channel -> channel.getChannelCover()
+                    .setChannelImgUrl(
+                            urlCreator.createResourceUrl(
+                                    FileType.CHANNEL_ICON,
+                                    channel.getId().toString()
+                            )
+                    )
+            );
+
+            return channelOpt.orElseThrow(() -> new ServiceException("Channel not found."));
+        } catch (RuntimeException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
     }
 
     @Override

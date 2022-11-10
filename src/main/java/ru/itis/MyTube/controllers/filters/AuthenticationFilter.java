@@ -12,7 +12,7 @@ import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.*;
 
 
-@WebFilter(urlPatterns = {USER_PAGE, EXIT, VIDEO_UPLOAD_PAGE})
+@WebFilter(urlPatterns = {USER_PAGE, EXIT, NEW + "/*"})
 public class AuthenticationFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
