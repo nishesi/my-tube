@@ -21,7 +21,7 @@ public class ChannelServlet extends HttpServlet {
     private ChannelService channelService;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         channelService = (ChannelService) getServletContext().getAttribute(CHANNEL_SERVICE);
     }
 

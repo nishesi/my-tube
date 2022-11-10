@@ -1,6 +1,5 @@
 package ru.itis.MyTube.model.dao.implementations;
 
-import ru.itis.MyTube.auxiliary.PassPerformer;
 import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 
@@ -24,6 +23,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
                     .lastName(set.getString("last_name"))
                     .birthdate(LocalDate.parse(set.getString("birthdate")))
                     .country(set.getString("country"))
+                    .channelId((Long)set.getObject("channel_id"))
                     .build();
 
         } catch (SQLException e) {
@@ -117,7 +117,7 @@ public class UserRepositoryJdbcImpl implements UserRepository {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER)) {
 
-            preparedStatement.setString(1, PassPerformer.hash(user.getPassword()));
+            preparedStatement.setString(1, user.getPassword());
             preparedStatement.setString(2, user.getFirstName());
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setObject(4, user.getBirthdate());

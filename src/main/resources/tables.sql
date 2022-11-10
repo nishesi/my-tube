@@ -10,13 +10,21 @@ drop table if exists users_subscriptions;
 drop table if exists channels_videos;
 drop table if exists viewing;
 drop table if exists videos;
-drop table if exists channels;
 drop table if exists users;
+drop table if exists channels;
 
 refresh materialized view channels_inf;
 refresh materialized view videos_inf;
 
 -- ENTITIES
+
+create table channels
+(
+--  channel_id matches with channel icon file name
+    id             bigserial primary key,
+    name           varchar(20) not null,
+    info           varchar(3000) default ''
+);
 
 create table users
 (
@@ -26,16 +34,7 @@ create table users
     last_name  varchar(15) not null,
     birthdate  date        not null,
     country    varchar(20) not null,
-    channel_id bigint references channels (id)
-);
-
-create table channels
-(
---  channel_id matches with channel icon file name
-    id             bigserial primary key,
-    name           varchar(20) not null,
-    owner_username varchar references users (username),
-    info           varchar(3000) default ''
+    channel_id bigint references channels (id) default null
 );
 
 create table videos
@@ -79,7 +78,6 @@ create table viewing
 create materialized view channels_inf as
 select id,
        name,
-       owner_username,
        info,
        count(us.username) as subs_count
 from channels ch

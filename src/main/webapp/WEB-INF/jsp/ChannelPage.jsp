@@ -22,14 +22,14 @@
 <main class="container-fluid">
 
     <div class="container-fluid">
-        <img class="rounded-circle d-inline-block" src="${channel.channelCover.channelImgUrl}" width="100" height="100">
+        <img class="rounded-circle d-inline-block" src="${channel.channelCover.channelImgUrl}" width="100" height="100" alt="channel icon">
         <div class="d-inline-block ms-2 mt-4">
             <h2 class="">${channel.channelCover.name}</h2>
             <p class="">${channel.countOfSubscribers}</p>
         </div>
         <div class="list-group d-inline float-end m-2">
             <c:choose>
-                <c:when test="${requestScope.user.channelId == channel.id}">
+                <c:when test="${channel.id.equals(sessionScope.user.channelId)}">
                     <a href="${pageContext.servletContext.contextPath}${UrlPatterns.VIDEO_UPLOAD_PAGE}"
                        class="list-group-item list-group-item-action" aria-current="true">
                         Add video
