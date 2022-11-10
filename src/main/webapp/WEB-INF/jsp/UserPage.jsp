@@ -17,7 +17,7 @@
 <body background="${pageContext.servletContext.contextPath}/images/reg-background-img.jpg">
 
 <div id="box">
-  <form action="" method="post">
+  <form action="" method="post" enctype="multipart/form-data">
     <div class="form m-4">
       <h4 class="text-center mb-3">User Information</h4>
 
@@ -29,6 +29,9 @@
           <label for="formFile" class="form-label">Choose new icon</label>
           <input class="form-control" type="file" id="formFile" name="icon">
         </div>
+      </div>
+      <div class="mb-4 text-danger">
+        <o:problemOut name="icon" map="${requestScope.problems}"/>
       </div>
 
       <div class="input-group">
@@ -82,5 +85,7 @@
     </div>
   </form>
 </div>
+
+<jsp:include page="/WEB-INF/commonJsp/alertsHandler.jsp" />
 </body>
 </html>

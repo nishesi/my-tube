@@ -3,6 +3,7 @@ package ru.itis.MyTube.controllers.servlets;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.Alert;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.services.VideoService;
@@ -36,6 +37,8 @@ public class SearchPageServlet extends HttpServlet {
             list = videoService.getVideosByNameSubstring(req.getParameter("substring"));
         } catch (ServiceException ex) {
             alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
+        } catch (ValidationException e) {
+            throw new RuntimeException(e);
         }
 
 

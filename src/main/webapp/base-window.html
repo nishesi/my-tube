@@ -10,7 +10,20 @@
 </head>
 
 <body>
+<div class="toast-container position-fixed top-0 end-0 me-5 p-3">
+
+    <div class="toast show align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex alert alert-danger p-0">
+            <div class="toast-body">
+                Hello, world! This is a toast message.
+            </div>
+            <button type="button" class="btn-close btn-close me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 <header class="container-fluid">
+
     <nav class="navbar navbar-expand-md bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
@@ -282,6 +295,7 @@
 
     </div>
 </main>
+
 <footer class="container text-center">
     <div class="row">
         <div class="col m-3 fs-6">MyTube</div>

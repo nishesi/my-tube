@@ -15,4 +15,5 @@ public class User {
     private LocalDate birthdate;
     private String country;
     private String userImgUrl;
+    private Long channelId;
 }

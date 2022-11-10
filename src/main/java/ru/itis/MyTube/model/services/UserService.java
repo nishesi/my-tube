@@ -9,15 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    boolean save(User user);
+    void save(User user) throws ValidationException;
 
-    Optional<User> get(String username, String password);
+    Optional<User> get(String username, String password) throws ValidationException;
 
     void update(UserUpdateForm form, User user) throws ValidationException;
 
-    boolean delete(String username);
-
-    List<VideoCover> getSubscribedChannelsVideos(User user);
+    boolean delete(String username) throws ValidationException;
 
     boolean usernameIsExist(String username);
 }

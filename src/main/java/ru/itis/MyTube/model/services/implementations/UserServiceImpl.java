@@ -8,12 +8,12 @@ import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.auxiliary.validators.UserUpdateValidator;
 import ru.itis.MyTube.model.dao.interfaces.UserRepository;
 import ru.itis.MyTube.model.dto.User;
-import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.forms.UserUpdateForm;
 import ru.itis.MyTube.model.services.UserService;
+import ru.itis.MyTube.model.storage.Storage;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -23,13 +23,14 @@ public class UserServiceImpl implements UserService {
 
     private final UrlCreator urlCreator;
 
-    private final UserUpdateValidator userUpdateValidator;
+    private final UserUpdateValidator userUpdateValidator = new UserUpdateValidator();
+
+    private final Storage storage;
 
     @Override
-    public boolean save(User user) {
+    public void save(User user) {
         try {
             userRepository.save(user);
-            return true;
         } catch (RuntimeException ex) {
             throw new ServiceException(ex.getMessage());
         }
@@ -61,7 +62,8 @@ public class UserServiceImpl implements UserService {
 
         try {
             userRepository.update(updatedUser);
-        } catch (RuntimeException ex) {
+            storage.save(FileType.USER_ICON, user.getUsername(), form.getIconPart().getInputStream());
+        } catch (RuntimeException | IOException ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
@@ -69,11 +71,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean delete(String username) {
         return false;
-    }
-
-    @Override
-    public List<VideoCover> getSubscribedChannelsVideos(User user) {
-        return null;
     }
 
     @Override

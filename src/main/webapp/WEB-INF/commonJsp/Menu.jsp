@@ -7,7 +7,7 @@
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasRightLabel">
             ${sessionScope.user.firstName} ${sessionScope.user.lastName}
-            <img width="40" height="40" src="${sessionScope.user.userImgUrl}" alt="user image">
+            <img class="rounded-circle" width="50" height="50" src="${sessionScope.user.userImgUrl}" alt="user image">
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>

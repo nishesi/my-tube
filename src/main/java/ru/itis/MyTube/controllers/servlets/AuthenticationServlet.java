@@ -4,6 +4,7 @@ import ru.itis.MyTube.auxiliary.PassPerformer;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.constants.UrlPatterns;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.auxiliary.validators.AuthenticationValidator;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.forms.AuthenticationForm;
@@ -48,7 +49,12 @@ public class AuthenticationServlet extends HttpServlet {
         Map<String, String> problems = validator.validate(form);
 
         if (problems.isEmpty()) {
-            Optional<User> userOptional = userService.get(form.getUsername(), PassPerformer.hash(form.getPassword()));
+            Optional<User> userOptional;
+            try {
+                userOptional = userService.get(form.getUsername(), PassPerformer.hash(form.getPassword()));
+            } catch (ValidationException e) {
+                throw new RuntimeException(e);
+            }
 
             if (userOptional.isPresent()) {
 

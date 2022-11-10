@@ -3,6 +3,7 @@ package ru.itis.MyTube.controllers.servlets;
 import ru.itis.MyTube.auxiliary.PassPerformer;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.auxiliary.validators.RegistrationValidator;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.forms.RegistrationForm;
@@ -67,6 +68,8 @@ public class RegistrationServlet extends HttpServlet {
 
             } catch (ServiceException ex) {
                 resp.sendError(500, "something go wrong");
+            } catch (ValidationException e) {
+                throw new RuntimeException(e);
             }
 
         } else {
@@ -80,7 +83,7 @@ public class RegistrationServlet extends HttpServlet {
         }
     }
 
-    protected void saveUser(RegistrationForm form) {
+    protected void saveUser(RegistrationForm form) throws ValidationException {
         User newUser = User.builder()
                 .username(form.getUsername())
                 .password(PassPerformer.hash(form.getPassword()))

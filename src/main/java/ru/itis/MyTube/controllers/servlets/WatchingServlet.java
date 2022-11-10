@@ -3,6 +3,7 @@ package ru.itis.MyTube.controllers.servlets;
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.enums.FileType;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.Video;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.VideoService;
@@ -41,7 +42,12 @@ public class WatchingServlet extends HttpServlet {
             return;
         }
 
-        Video video = videoService.getVideo(uuid);
+        Video video;
+        try {
+            video = videoService.getVideo(uuid);
+        } catch (ValidationException e) {
+            throw new RuntimeException(e);
+        }
 
         List<VideoCover> list = videoService.getRandomVideos();
 

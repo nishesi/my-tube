@@ -6,6 +6,7 @@ import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
+import ru.itis.MyTube.auxiliary.validators.VideoValidator;
 import ru.itis.MyTube.model.dao.implementations.ChannelRepositoryJdbcImpl;
 import ru.itis.MyTube.model.dao.implementations.UserRepositoryJdbcImpl;
 import ru.itis.MyTube.model.dao.implementations.VideoRepositoryJdbcImpl;
@@ -93,11 +94,11 @@ public class ContextListener implements ServletContextListener {
 
         context.setAttribute(
                 Beans.USER_SERVICE,
-                new UserServiceImpl(userRepository, urlCreator)
+                new UserServiceImpl(userRepository, urlCreator, storage)
         );
         context.setAttribute(
                 Beans.VIDEO_SERVICE,
-                new VideoServiceImpl(videoRepository, channelRepository, searchValidator, urlCreator, storage)
+                new VideoServiceImpl(videoRepository, channelRepository,searchValidator,  urlCreator, storage, new VideoValidator())
         );
         context.setAttribute(
                 Beans.CHANNEL_SERVICE,

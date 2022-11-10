@@ -20,6 +20,8 @@ public class FileStorageImpl implements Storage {
     private static final Path CHANNEL_ICON_STORAGE = Paths.get("imageStorage/channelIcons");
     private static final Path USER_ICON_STORAGE = Paths.get("imageStorage/userIcons");
 
+    private static final File DEFAULT_USER_ICON = REPOSITORY.resolve(VIDEO_STORAGE).resolve("default" + VIDEO_TYPE).toFile();
+
     @Override
     public InputStream get(FileType fileType, String id) {
         if (fileType == null || id == null) {
@@ -67,7 +69,8 @@ public class FileStorageImpl implements Storage {
             case CHANNEL_ICON:
                 return REPOSITORY.resolve(CHANNEL_ICON_STORAGE).resolve(id + PHOTO_TYPE).toFile();
             case USER_ICON:
-                return REPOSITORY.resolve(USER_ICON_STORAGE).resolve(id + PHOTO_TYPE).toFile();
+                File icon = REPOSITORY.resolve(USER_ICON_STORAGE).resolve(id + PHOTO_TYPE).toFile();
+                return (icon.exists()) ? icon : DEFAULT_USER_ICON;
             default:
                 throw new RuntimeException("unknown fileType");
         }

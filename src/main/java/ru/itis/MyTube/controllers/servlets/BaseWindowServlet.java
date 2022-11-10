@@ -4,6 +4,7 @@ import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.VideoService;
@@ -38,12 +39,14 @@ public class BaseWindowServlet extends HttpServlet {
             if ("popular".equals(listType)) {
                 list = videoService.getPopularVideos();
             } else if ("subs".equals(listType)) {
-                list = videoService.getSubscriptionsVideos(((User) req.getSession().getAttribute(USER)).getUsername());
+                list = videoService.getSubscriptionsVideos(((User) req.getSession().getAttribute(USER)));
             } else {
                 list = videoService.getRandomVideos();
             }
         } catch (ServiceException ex) {
             ((List<Alert> ) req.getAttribute("alerts")).add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
+        } catch (ValidationException e) {
+            throw new RuntimeException(e);
         }
 
         req.setAttribute(Attributes.VIDEO_COVER_LIST, list);

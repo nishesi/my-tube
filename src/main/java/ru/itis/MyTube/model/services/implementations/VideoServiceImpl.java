@@ -4,17 +4,20 @@ import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
+import ru.itis.MyTube.auxiliary.validators.VideoValidator;
 import ru.itis.MyTube.model.dao.interfaces.ChannelRepository;
 import ru.itis.MyTube.model.dao.interfaces.VideoRepository;
 import ru.itis.MyTube.model.dto.ChannelCover;
+import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.Video;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.forms.VideoForm;
 import ru.itis.MyTube.model.services.VideoService;
 import ru.itis.MyTube.model.storage.Storage;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
@@ -30,35 +33,39 @@ public class VideoServiceImpl implements VideoService {
 
     private final Storage storage;
 
-    @Override
-    public void addVideo(Long channelId, VideoForm form, InputStream video, InputStream icon) {
-        String uuid = UUID.randomUUID().toString();
+    private final VideoValidator videoValidator;
 
-        ChannelCover channelCover = ChannelCover.builder().id(channelId).build();
-        //todo duration
+    @Override
+    public void addVideo(VideoForm form) throws ValidationException {
+        videoValidator.validate(form);
+
+        String uuidStr = UUID.randomUUID().toString();
+        ChannelCover channelCover = ChannelCover.builder().id(form.getChannelId()).build();
+
         VideoCover videoCover = VideoCover.builder()
                 .name(form.getName())
-                .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, uuid))
+                .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, uuidStr))
                 .channelCover(channelCover)
                 .duration(LocalTime.of(0, 0, 0))
                 .addedDate(LocalDateTime.now())
                 .build();
 
         Video video1 = Video.builder()
-                .uuid(UUID.fromString(uuid))
+                .uuid(UUID.fromString(uuidStr))
                 .videoCover(videoCover)
-                .videoUrl(urlCreator.createResourceUrl(FileType.VIDEO, uuid))
+                .videoUrl(urlCreator.createResourceUrl(FileType.VIDEO, uuidStr))
                 .info(form.getInfo())
                 .build();
 
         try {
             videoRepository.addVideo(video1);
-        } catch (RuntimeException ex) {
-            throw new ServiceException(ex);
-        }
 
-        storage.save(FileType.VIDEO_ICON, uuid, icon);
-        storage.save(FileType.VIDEO, uuid, video);
+            storage.save(FileType.VIDEO_ICON, uuidStr, form.getIconPart().getInputStream());
+            storage.save(FileType.VIDEO, uuidStr, form.getVideoPart().getInputStream());
+
+        } catch (IOException | RuntimeException e) {
+            throw new ServiceException(e.getMessage());
+        }
     }
 
     @Override
@@ -93,12 +100,12 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<VideoCover> getSubscriptionsVideos(String username) {
-        if (Objects.isNull(username)) {
-            throw new ServiceException("username is null");
+    public List<VideoCover> getSubscriptionsVideos(User user) throws ValidationException {
+        if (Objects.isNull(user.getUsername()) || "".equals(user.getUsername())) {
+            throw new ValidationException(Collections.singletonMap("username", "Username is void"));
         }
         try {
-            List<Long> channelsId = channelRepository.getSubscribedChannelsId(username);
+            List<Long> channelsId = channelRepository.getSubscribedChannelsId(user.getUsername());
 
             List<VideoCover> videoCovers = channelsId.stream()
                     .flatMap(channelId ->

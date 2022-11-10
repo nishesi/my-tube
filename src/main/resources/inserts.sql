@@ -25,10 +25,10 @@ values ('NishEsI', 2),
        ('KishMishKuraga', 1),
        ('KishMishKuraga', 2);
 
-insert into channels_videos (video_uuid, channel_id)
-values ('d1ee017c-e45c-43c3-ad09-299509a504a3', 1),
-       ('01eca157-f7d7-43d8-9228-587804d6434e', 2),
-       ('5483d754-540c-4acf-99cb-cc32653f256d', 3);
+-- insert into channels_videos (video_uuid, channel_id)
+-- values ('d1ee017c-e45c-43c3-ad09-299509a504a3', 1),
+--        ('01eca157-f7d7-43d8-9228-587804d6434e', 2),
+--        ('5483d754-540c-4acf-99cb-cc32653f256d', 3);
 
 insert into viewing (user_id, video_uuid, type)
 values ('NishEsI', '01eca157-f7d7-43d8-9228-587804d6434e', true),

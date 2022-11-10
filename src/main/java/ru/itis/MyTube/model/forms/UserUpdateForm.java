@@ -7,7 +7,7 @@ import javax.servlet.http.Part;
 
 @Data
 @Builder
-public class UserUpdateForm {
+public class UserUpdateForm extends AbstractForm{
     private Part iconPart;
     private String password;
     private String firstName;

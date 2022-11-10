@@ -64,7 +64,7 @@
                         <div class="navbar-brand fs-5 ms-md-5 btn" type="button" data-bs-toggle="offcanvas"
                              data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                                 ${sessionScope.user.firstName} ${sessionScope.user.lastName}
-                            <img width="40" height="40" src="${sessionScope.user.userImgUrl}" alt="user image">
+                            <img class="rounded-circle" width="40" height="40" src="${sessionScope.user.userImgUrl}" alt="user image">
                         </div>
                     </c:when>
 

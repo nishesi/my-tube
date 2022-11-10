@@ -25,7 +25,8 @@ create table users
     first_name varchar(15) not null,
     last_name  varchar(15) not null,
     birthdate  date        not null,
-    country    varchar(20) not null
+    country    varchar(20) not null,
+    channel_id bigint references channels (id)
 );
 
 create table channels
@@ -34,7 +35,7 @@ create table channels
     id             bigserial primary key,
     name           varchar(20) not null,
     owner_username varchar references users (username),
-    info           varchar(1000) default ''
+    info           varchar(3000) default ''
 );
 
 create table videos
@@ -57,11 +58,11 @@ create table users_subscriptions
     channel_id bigint references channels (id)     not null
 );
 
-create table channels_videos
-(
-    video_uuid uuid references videos (uuid)   not null,
-    channel_id bigint references channels (id) not null
-);
+-- create table channels_videos
+-- (
+--     video_uuid uuid references videos (uuid)   not null,
+--     channel_id bigint references channels (id) not null
+-- );
 
 create table viewing
 (
@@ -85,7 +86,7 @@ group by ch.id;
 
 create materialized view videos_inf as
 SELECT v.uuid,
-       v.name as v_name,
+       v.name     as v_name,
        v.added_date,
        channel_id as ch_id,
        ch.ch_name,

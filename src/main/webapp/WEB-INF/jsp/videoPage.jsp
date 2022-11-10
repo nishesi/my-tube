@@ -33,7 +33,7 @@
                 <div class="container p-0 align-baseline mt-2">
                     <img class="rounded-circle channel-image" src="${video.videoCover.channelCover.channelImgUrl}"
                          alt="channel cover">
-                    ${video.videoCover.name}
+                    ${video.videoCover.channelCover.name}
                 </div>
                 <div class="mt-2">
                     ${video.info}

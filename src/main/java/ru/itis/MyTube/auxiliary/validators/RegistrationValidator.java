@@ -1,20 +1,16 @@
 package ru.itis.MyTube.auxiliary.validators;
 
 import lombok.RequiredArgsConstructor;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.forms.RegistrationForm;
 import ru.itis.MyTube.model.services.UserService;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
-public class RegistrationValidator {
+public class RegistrationValidator extends AbstractValidator{
     private final UserService userService;
-
-    protected Pattern onlyLettersPat = Pattern.compile("[A-Za-zА-Яа-я]+");
 
     public Map<String, String> validate(RegistrationForm form) {
         Map<String, String> problems = new HashMap<>();
@@ -50,48 +46,6 @@ public class RegistrationValidator {
             problems.put("password", "Password can not be empty.");
         } else if (!password.equals(passRepeat)) {
             problems.put("passwordRepeat", "Password and it's repeat is not equal.");
-        }
-    }
-
-    protected void validateFirstName(String fName, Map<String, String> problems) {
-        if (fName == null || fName.equals("")) {
-            problems.put("firstName", "First name can not be empty.");
-        } else if (!onlyLettersPat.matcher(fName).matches()) {
-            problems.put("firstName", "First name should have only letters.");
-        }
-    }
-
-    protected void validateLastName(String lName, Map<String, String> problems) {
-        if (lName == null || lName.equals("")) {
-            problems.put("lastName", "Last name can not be empty.");
-        } else if (!onlyLettersPat.matcher(lName).matches()) {
-            problems.put("lastName", "Last name should have only letters.");
-        }
-    }
-
-    protected void validateBirthDate(String birthDate, Map<String, String> problems) {
-        LocalDate bDate;
-        try {
-            bDate = LocalDate.parse(birthDate);
-
-            if (bDate.isAfter(LocalDate.now()) || bDate.plusYears(100).isBefore(LocalDate.now())) {
-                problems.put("birthdate", "Unreal value of birth date.");
-
-            } else if (bDate.plusYears(10).isAfter(LocalDate.now())) {
-                problems.put("error", "You are too young for this site.");
-            }
-
-        } catch (DateTimeParseException ex) {
-            problems.put("birthdate", "Birth date can not be empty.");
-        }
-    }
-
-    protected void validateCountry(String country, Map<String, String> problems) {
-        if (country == null || country.equals("")) {
-            problems.put("country", "Country can not be empty.");
-
-        } else if (!onlyLettersPat.matcher(country).matches()) {
-            problems.put("country", "Country should have only letters.");
         }
     }
 
