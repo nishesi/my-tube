@@ -15,6 +15,7 @@ import ru.itis.MyTube.model.storage.Storage;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -71,14 +72,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(String username) {
-        return false;
-    }
-
-    @Override
     public boolean usernameIsExist(String username) {
         try {
             return userRepository.isPresent(username);
+        } catch (RuntimeException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public boolean isSubscribed(User user, Long channelId) {
+        if (Objects.isNull(user) || Objects.isNull(user.getUsername()) || Objects.isNull(channelId)) {
+            return false;
+        }
+
+        try {
+            return userRepository.isSubscribed(user.getUsername(), channelId);
         } catch (RuntimeException ex) {
             throw new ServiceException(ex.getMessage());
         }

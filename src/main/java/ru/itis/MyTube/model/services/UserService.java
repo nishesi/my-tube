@@ -13,7 +13,7 @@ public interface UserService {
 
     void update(UserUpdateForm form, User user) throws ValidationException;
 
-    boolean delete(String username) throws ValidationException;
-
     boolean usernameIsExist(String username);
+
+    boolean isSubscribed(User user, Long channelId);
 }

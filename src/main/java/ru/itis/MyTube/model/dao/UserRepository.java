@@ -7,16 +7,14 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-    boolean save(User user);
+    void save(User user);
 
     Optional<User> get(String login, String password);
     void update(User user);
 
     List<User> getAll();
 
-    boolean delete(long id);
-
     boolean isPresent(String username);
 
-
+    boolean isSubscribed(String username, Long channelId);
 }

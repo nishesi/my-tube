@@ -22,7 +22,8 @@
 <main class="container-fluid">
 
     <div class="container-fluid">
-        <img class="rounded-circle d-inline-block" src="${channel.channelCover.channelImgUrl}" width="100" height="100" alt="channel icon">
+        <img class="rounded-circle d-inline-block" src="${channel.channelCover.channelImgUrl}" width="100" height="100"
+             alt="channel icon">
         <div class="d-inline-block ms-2 mt-4">
             <h2 class="">${channel.channelCover.name}</h2>
             <p class="">${channel.countOfSubscribers} subscribers</p>
@@ -42,16 +43,16 @@
 
                 <c:otherwise>
                     <c:choose>
-                        <c:when test="">
+                        <c:when test="${requestScope.isSubscribed}">
                             <a href="#"
-                               class="list-group-item list-group-item-action" aria-current="true">
-                                Subscribe
+                               class="list-group-item list-group-item-action active" aria-current="true">
+                                Subscribed
                             </a>
                         </c:when>
                         <c:otherwise>
                             <a href="#"
-                               class="list-group-item list-group-item-action active" aria-current="true">
-                                Subscribed
+                               class="list-group-item list-group-item-action" aria-current="true">
+                                Subscribe
                             </a>
                         </c:otherwise>
                     </c:choose>

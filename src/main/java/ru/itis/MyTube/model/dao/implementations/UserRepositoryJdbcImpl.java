@@ -60,7 +60,7 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
     }
 
     @Override
-    public boolean save(User user) {
+    public void save(User user) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_USER)) {
 
@@ -72,16 +72,11 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
                     new Date(Date.from(user.getBirthdate().atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime()));
             preparedStatement.setString(6, user.getCountry());
 
-            return preparedStatement.executeUpdate() == 1;
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public boolean delete(long id) {
-        throw new RuntimeException("not implemented");
     }
 
     @Override
@@ -126,5 +121,20 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
     @Override
     public boolean isPresent(String username) {
         return getAll().stream().anyMatch(user -> user.getUsername().equals(username));
+    }
+
+    private static final String SQL_IS_SUBSCRIBED = "select * from users_subscriptions where username = ? and channel_id = ? limit 1";
+    @Override
+    public boolean isSubscribed(String username, Long channelId) {
+        try (Connection connection = dataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_SUBSCRIBED)) {
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setLong(2, channelId);
+
+            return preparedStatement.executeQuery().next();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
