@@ -25,7 +25,7 @@
         <img class="rounded-circle d-inline-block" src="${channel.channelCover.channelImgUrl}" width="100" height="100" alt="channel icon">
         <div class="d-inline-block ms-2 mt-4">
             <h2 class="">${channel.channelCover.name}</h2>
-            <p class="">${channel.countOfSubscribers}</p>
+            <p class="">${channel.countOfSubscribers} subscribers</p>
         </div>
         <div class="list-group d-inline float-end m-2">
             <c:choose>
@@ -60,10 +60,12 @@
 
         </div>
     </div>
-    <h3 class="d-inline-block m-4 mb-0">Channel Information</h3>
-    <p class="d-inline-block m-4 mt-0">
-        ${channel.info}
-    </p>
+    <div class="container text-center">
+        <h4 class="m-4 mb-0 text-muted">Channel Information</h4>
+        <p class=" m-4 mt-0">
+            ${channel.info}
+        </p>
+    </div>
 
     <jsp:include page="/WEB-INF/commonJsp/videoCoverList.jsp"/>
 

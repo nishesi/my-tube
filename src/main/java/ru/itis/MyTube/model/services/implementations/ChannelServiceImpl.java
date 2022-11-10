@@ -6,22 +6,21 @@ import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.dao.ChannelRepository;
 import ru.itis.MyTube.model.dto.Channel;
-import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.ChannelService;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 public class ChannelServiceImpl implements ChannelService {
 
     private final ChannelRepository channelRepository;
+
     private final UrlCreator urlCreator;
 
 
     @Override
     public Channel getChannel(String formId) {
-        Long id = null;
+        long id;
         try {
             id = Long.parseLong(formId);
         } catch (NumberFormatException | NullPointerException ex) {
@@ -44,10 +43,5 @@ public class ChannelServiceImpl implements ChannelService {
         } catch (RuntimeException ex) {
             throw new ServiceException(ex.getMessage());
         }
-    }
-
-    @Override
-    public List<VideoCover> getChannelVideoCovers(Long channelId) {
-        return null;
     }
 }

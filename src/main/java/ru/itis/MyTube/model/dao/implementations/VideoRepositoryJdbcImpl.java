@@ -128,9 +128,11 @@ public class VideoRepositoryJdbcImpl implements VideoRepository {
             preparedStatement.setLong(1, channelId);
             ResultSet resultSet = preparedStatement.executeQuery();
             List<VideoCover> videoCovers = new ArrayList<>(resultSet.getFetchSize());
+
             while (resultSet.next()) {
                 videoCovers.add(VIDEO_COVER_MAPPER.apply(resultSet));
             }
+
             return videoCovers;
         } catch (SQLException e) {
             throw new RuntimeException(e);

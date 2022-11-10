@@ -134,6 +134,18 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
+    @Override
+    public List<VideoCover> getChannelVideoCovers(Long channelId) {
+        try {
+            List<VideoCover> channelVideos = videoRepository.getChannelVideos(channelId);
+            setUrls(channelVideos);
+
+            return channelVideos;
+        } catch (RuntimeException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+
     private void setUrls(List<VideoCover> videoCovers) {
         videoCovers.forEach(videoCover -> {
 

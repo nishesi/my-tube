@@ -23,4 +23,5 @@ public interface VideoService {
 
     List<VideoCover> getVideosByNameSubstring(String substring) throws ValidationException;
 
+    List<VideoCover> getChannelVideoCovers(Long channelId);
 }
