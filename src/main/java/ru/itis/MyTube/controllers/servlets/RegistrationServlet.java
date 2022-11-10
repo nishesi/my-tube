@@ -6,7 +6,7 @@ import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.auxiliary.validators.RegistrationValidator;
 import ru.itis.MyTube.model.dto.User;
-import ru.itis.MyTube.model.forms.RegistrationForm;
+import ru.itis.MyTube.model.dto.forms.RegistrationForm;
 import ru.itis.MyTube.model.services.UserService;
 
 import javax.servlet.ServletException;

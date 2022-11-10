@@ -7,7 +7,7 @@ import ru.itis.MyTube.auxiliary.constants.UrlPatterns;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.auxiliary.validators.AuthenticationValidator;
 import ru.itis.MyTube.model.dto.User;
-import ru.itis.MyTube.model.forms.AuthenticationForm;
+import ru.itis.MyTube.model.dto.forms.AuthenticationForm;
 import ru.itis.MyTube.model.services.UserService;
 
 import javax.servlet.ServletException;

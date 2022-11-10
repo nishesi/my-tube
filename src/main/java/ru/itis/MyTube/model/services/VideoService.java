@@ -4,9 +4,8 @@ import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.Video;
 import ru.itis.MyTube.model.dto.VideoCover;
-import ru.itis.MyTube.model.forms.VideoForm;
+import ru.itis.MyTube.model.dto.forms.VideoForm;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 

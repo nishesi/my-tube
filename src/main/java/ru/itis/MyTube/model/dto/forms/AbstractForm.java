@@ -1,4 +1,4 @@
-package ru.itis.MyTube.model.forms;
+package ru.itis.MyTube.model.dto.forms;
 
 public abstract class AbstractForm {
 }

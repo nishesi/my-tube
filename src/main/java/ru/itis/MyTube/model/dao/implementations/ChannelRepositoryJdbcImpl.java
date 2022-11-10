@@ -1,7 +1,7 @@
 package ru.itis.MyTube.model.dao.implementations;
 
 import lombok.RequiredArgsConstructor;
-import ru.itis.MyTube.model.dao.interfaces.ChannelRepository;
+import ru.itis.MyTube.model.dao.ChannelRepository;
 import ru.itis.MyTube.model.dto.Channel;
 import ru.itis.MyTube.model.dto.ChannelCover;
 

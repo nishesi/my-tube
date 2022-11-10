@@ -1,4 +1,4 @@
-package ru.itis.MyTube.model.dao.interfaces;
+package ru.itis.MyTube.model.dao;
 
 import ru.itis.MyTube.model.dto.User;
 

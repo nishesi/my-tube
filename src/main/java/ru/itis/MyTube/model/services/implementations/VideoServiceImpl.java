@@ -7,13 +7,13 @@ import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
 import ru.itis.MyTube.auxiliary.validators.VideoValidator;
-import ru.itis.MyTube.model.dao.interfaces.ChannelRepository;
-import ru.itis.MyTube.model.dao.interfaces.VideoRepository;
+import ru.itis.MyTube.model.dao.ChannelRepository;
+import ru.itis.MyTube.model.dao.VideoRepository;
 import ru.itis.MyTube.model.dto.ChannelCover;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.Video;
 import ru.itis.MyTube.model.dto.VideoCover;
-import ru.itis.MyTube.model.forms.VideoForm;
+import ru.itis.MyTube.model.dto.forms.VideoForm;
 import ru.itis.MyTube.model.services.VideoService;
 import ru.itis.MyTube.model.storage.Storage;
 

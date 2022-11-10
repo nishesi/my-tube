@@ -1,7 +1,7 @@
 package ru.itis.MyTube.auxiliary.validators;
 
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.model.forms.VideoForm;
+import ru.itis.MyTube.model.dto.forms.VideoForm;
 
 import javax.servlet.http.Part;
 import java.util.HashMap;

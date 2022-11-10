@@ -1,8 +1,7 @@
 package ru.itis.MyTube.auxiliary.validators;
 
 import lombok.RequiredArgsConstructor;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.model.forms.RegistrationForm;
+import ru.itis.MyTube.model.dto.forms.RegistrationForm;
 import ru.itis.MyTube.model.services.UserService;
 
 import java.util.HashMap;

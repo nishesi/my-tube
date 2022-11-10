@@ -4,7 +4,7 @@ import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.User;
-import ru.itis.MyTube.model.forms.VideoForm;
+import ru.itis.MyTube.model.dto.forms.VideoForm;
 import ru.itis.MyTube.model.services.VideoService;
 
 import javax.servlet.ServletException;

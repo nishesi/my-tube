@@ -1,6 +1,6 @@
 package ru.itis.MyTube.auxiliary.validators;
 
-import ru.itis.MyTube.model.forms.AuthenticationForm;
+import ru.itis.MyTube.model.dto.forms.AuthenticationForm;
 
 import java.util.HashMap;
 import java.util.Map;

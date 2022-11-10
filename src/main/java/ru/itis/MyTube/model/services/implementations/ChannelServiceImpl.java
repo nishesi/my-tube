@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.model.dao.interfaces.ChannelRepository;
+import ru.itis.MyTube.model.dao.ChannelRepository;
 import ru.itis.MyTube.model.dto.Channel;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.ChannelService;

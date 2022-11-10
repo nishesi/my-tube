@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>
 
-<jsp:useBean id="form" scope="request" type="ru.itis.MyTube.model.forms.AuthenticationForm" />
+<jsp:useBean id="form" scope="request" type="ru.itis.MyTube.model.dto.forms.AuthenticationForm" />
 
 <!DOCTYPE html>
 <html lang="en">

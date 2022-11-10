@@ -1,7 +1,7 @@
 package ru.itis.MyTube.model.dao.implementations;
 
 import ru.itis.MyTube.auxiliary.PassPerformer;
-import ru.itis.MyTube.model.dao.interfaces.UserRepository;
+import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 
 import javax.sql.DataSource;
