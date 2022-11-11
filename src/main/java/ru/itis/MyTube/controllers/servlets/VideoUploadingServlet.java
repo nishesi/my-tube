@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.VIDEO_UPLOAD_PAGE;
 
@@ -46,10 +47,19 @@ public class VideoUploadingServlet extends HttpServlet {
         List<Alert> alerts = (List<Alert>) req.getAttribute("alerts");
         try {
             videoService.addVideo(videoForm);
+            alerts.add(new Alert(Alert.alertType.SUCCESS, "Video added."));
         } catch (ValidationException e) {
-            alerts.add(new Alert(Alert.alertType.DANGER, e.getMessage()));
+            Map<String, String> problems = e.getProblems();
+            req.setAttribute("problems", problems);
+            req.setAttribute("videoForm", videoForm);
+
+            if (problems.get("channelId") != null) {
+                alerts.add(new Alert(Alert.alertType.DANGER, problems.get("channelId")));
+            }
+
+            req.getRequestDispatcher("/WEB-INF/jsp/VideoUploadingPage.jsp").forward(req, resp);
+            return;
         }
-        alerts.add(new Alert(Alert.alertType.SUCCESS, "video Added"));
         req.getRequestDispatcher("/WEB-INF/jsp/BaseWindow.jsp").forward(req, resp);
     }
 }

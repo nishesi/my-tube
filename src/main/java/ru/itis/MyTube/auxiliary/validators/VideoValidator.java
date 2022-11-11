@@ -58,7 +58,7 @@ public class VideoValidator extends AbstractValidator {
             problems.put("video", "File type should be mp4. (2)");
         } else if (videoPart.getSize() <= 100) {
             problems.put("video", "File size very small.");
-        } else if (videoPart.getSize() >= 5 * 1024 * 1024) {
+        } else if (videoPart.getSize() >= 1000 * 1024 * 1024) {
             problems.put("video", "File size very big.");
         }
     }
