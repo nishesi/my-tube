@@ -1,4 +1,4 @@
-package ru.itis.MyTube.controllers.servlets;
+package ru.itis.MyTube.controllers.servlets.user;
 
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;

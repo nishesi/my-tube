@@ -1,4 +1,4 @@
-package ru.itis.MyTube.controllers.servlets;
+package ru.itis.MyTube.controllers.servlets.util;
 
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.User;

@@ -18,10 +18,11 @@
                 Change account information
             </a>
             <c:if test="${sessionScope.user.channelId == null}">
-                <a href="${pageContext.servletContext.contextPath}${UrlPatterns.CHANNEL_CREATE_PAGE}" class="list-group-item list-group-item-action">Create channel</a>
+                <a href="${pageContext.servletContext.contextPath}${UrlPatterns.CHANNEL_CREATE_PAGE}"
+                   class="list-group-item list-group-item-action">Create channel</a>
             </c:if>
             <c:if test="${sessionScope.user.channelId != null}">
-                <a href="${pageContext.servletContext.contextPath}${UrlPatterns.CHANNEL_PAGE}"
+                <a href="${pageContext.servletContext.contextPath}${UrlPatterns.CHANNEL_PAGE}?id=${sessionScope.user.channelId}"
                    class="list-group-item list-group-item-action">My channel</a>
             </c:if>
             <a href="${pageContext.servletContext.contextPath}${UrlPatterns.EXIT}"

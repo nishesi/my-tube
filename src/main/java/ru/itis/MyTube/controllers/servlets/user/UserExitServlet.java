@@ -1,4 +1,4 @@
-package ru.itis.MyTube.controllers.servlets;
+package ru.itis.MyTube.controllers.servlets.user;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
