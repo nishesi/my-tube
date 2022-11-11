@@ -6,14 +6,18 @@ import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
+import ru.itis.MyTube.auxiliary.validators.UserUpdateValidator;
 import ru.itis.MyTube.auxiliary.validators.VideoValidator;
-import ru.itis.MyTube.model.dao.implementations.ChannelRepositoryJdbcImpl;
-import ru.itis.MyTube.model.dao.implementations.UserRepositoryJdbcImpl;
-import ru.itis.MyTube.model.dao.implementations.VideoRepositoryJdbcImpl;
 import ru.itis.MyTube.model.dao.ChannelRepository;
+import ru.itis.MyTube.model.dao.ReactionRepository;
 import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dao.VideoRepository;
+import ru.itis.MyTube.model.dao.implementations.ChannelRepositoryJdbcImpl;
+import ru.itis.MyTube.model.dao.implementations.ReactionRepositoryJdbcImpl;
+import ru.itis.MyTube.model.dao.implementations.UserRepositoryJdbcImpl;
+import ru.itis.MyTube.model.dao.implementations.VideoRepositoryJdbcImpl;
 import ru.itis.MyTube.model.services.implementations.ChannelServiceImpl;
+import ru.itis.MyTube.model.services.implementations.ReactionServiceImpl;
 import ru.itis.MyTube.model.services.implementations.UserServiceImpl;
 import ru.itis.MyTube.model.services.implementations.VideoServiceImpl;
 import ru.itis.MyTube.model.storage.FileStorageImpl;
@@ -89,20 +93,30 @@ public class ContextListener implements ServletContextListener {
         UserRepository userRepository = new UserRepositoryJdbcImpl(dataSource);
         VideoRepository videoRepository = new VideoRepositoryJdbcImpl(dataSource);
         ChannelRepository channelRepository = new ChannelRepositoryJdbcImpl(dataSource);
+        ReactionRepository reactionRepository = new ReactionRepositoryJdbcImpl(dataSource);
 
         SearchValidator searchValidator = new SearchValidator();
+        UserUpdateValidator userUpdateValidator = new UserUpdateValidator();
 
         context.setAttribute(
                 Beans.USER_SERVICE,
-                new UserServiceImpl(userRepository, urlCreator, storage)
+                new UserServiceImpl(userRepository, reactionRepository, storage, urlCreator, userUpdateValidator)
         );
         context.setAttribute(
                 Beans.VIDEO_SERVICE,
-                new VideoServiceImpl(videoRepository, channelRepository,searchValidator,  urlCreator, storage, new VideoValidator())
+                new VideoServiceImpl(videoRepository,
+                        channelRepository,
+                        searchValidator,
+                        urlCreator,
+                        storage,
+                        new VideoValidator())
         );
         context.setAttribute(
                 Beans.CHANNEL_SERVICE,
                 new ChannelServiceImpl(channelRepository, urlCreator)
         );
+        context.setAttribute(
+                Beans.REACTION_SERVICE,
+                new ReactionServiceImpl(reactionRepository));
     }
 }

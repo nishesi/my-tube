@@ -21,9 +21,9 @@ refresh materialized view videos_inf;
 create table channels
 (
 --  channel_id matches with channel icon file name
-    id             bigserial primary key,
-    name           varchar(20) not null,
-    info           varchar(3000) default ''
+    id   bigserial primary key,
+    name varchar(20) not null,
+    info varchar(3000) default ''
 );
 
 create table users
@@ -65,10 +65,10 @@ create table users_subscriptions
 
 create table viewing
 (
-    user_id    varchar references users (username),
+    username   varchar references users (username),
     video_uuid uuid references videos (uuid),
 --      true - like, false - dislike, null - no reaction
-    type       boolean
+    reaction   smallint check ( reaction in (-1, 0, 1) ) default 0
 );
 
 -- MATERIALIZED VIEWS
@@ -98,9 +98,9 @@ SELECT v.uuid,
        likes,
        dislikes
 FROM (select vd.*,
-             count(*) - 1                                     as views,
-             sum(case when vw.type = true then 1 else 0 end)  as likes,
-             sum(case when vw.type = false then 1 else 0 end) as dislikes
+             count(*) - 1                                      as views,
+             sum(case when vw.reaction = 1 then 1 else 0 end)  as likes,
+             sum(case when vw.reaction = -1 then 1 else 0 end) as dislikes
       from videos vd
                left join viewing vw on vw.video_uuid = vd.uuid
       group by vd.uuid) v
@@ -121,4 +121,8 @@ create view video_covers as
 select uuid, v_name, ch_id, ch_name, duration, views, added_date
 from videos_inf;
 
+
+-- ANOTHER
+
+create unique index view_id on viewing (username, video_uuid);
 

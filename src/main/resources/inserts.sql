@@ -1,13 +1,13 @@
+insert into channels (id, name, info)
+values (1, 'channel number one', 'BEST OF THE BEST'),
+       (2, 'channel number two', 'SECOND OF THE SECOND'),
+       (3, 'channel number thr', 'THIRD OF THE THIRD');
+
 insert into users (username, password, first_name, last_name, birthdate, country, channel_id)
 values ('NishEsI', '48690                                             ', 'Nurislam', 'Zaripov', '2003-03-22', 'Russia', 1),
        ('MEDICHI', '48690                                             ', 'Saydash', 'Gilyazov', '2003-09-27', 'Russia', 2),
        ('KishMishKuraga', '48690                                             ', 'Farit', 'Ibragimov', '2003-07-25',
         'Russia', 3);
-
-insert into channels (id, name, info)
-values (1, 'channel number one', 'BEST OF THE BEST'),
-       (2, 'channel number two', 'SECOND OF THE SECOND'),
-       (3, 'channel number thr', 'THIRD OF THE THIRD');
 
 insert into videos (uuid, name, added_date, channel_id, duration, info)
 values ('d1ee017c-e45c-43c3-ad09-299509a504a3', 'video from fisrt channe name', '2022-11-2', 1, '00:11:10',
@@ -30,10 +30,10 @@ values ('NishEsI', 2),
 --        ('01eca157-f7d7-43d8-9228-587804d6434e', 2),
 --        ('5483d754-540c-4acf-99cb-cc32653f256d', 3);
 
-insert into viewing (user_id, video_uuid, type)
-values ('NishEsI', '01eca157-f7d7-43d8-9228-587804d6434e', true),
-       ('NishEsI', '5483d754-540c-4acf-99cb-cc32653f256d', null),
-       ('MEDICHI', 'd1ee017c-e45c-43c3-ad09-299509a504a3', false),
-       ('MEDICHI', '5483d754-540c-4acf-99cb-cc32653f256d', null),
-       ('KishMishKuraga', 'd1ee017c-e45c-43c3-ad09-299509a504a3', false),
-       ('KishMishKuraga', '01eca157-f7d7-43d8-9228-587804d6434e', true);
+insert into viewing (username, video_uuid, reaction)
+values ('NishEsI', '01eca157-f7d7-43d8-9228-587804d6434e', 1),
+       ('NishEsI', '5483d754-540c-4acf-99cb-cc32653f256d', 0),
+       ('MEDICHI', 'd1ee017c-e45c-43c3-ad09-299509a504a3', -1),
+       ('MEDICHI', '5483d754-540c-4acf-99cb-cc32653f256d', 0),
+       ('KishMishKuraga', 'd1ee017c-e45c-43c3-ad09-299509a504a3', -1),
+       ('KishMishKuraga', '01eca157-f7d7-43d8-9228-587804d6434e', 1);

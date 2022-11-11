@@ -5,6 +5,7 @@ import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.forms.UserUpdateForm;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserService {
     void save(User user) throws ValidationException;
@@ -16,4 +17,6 @@ public interface UserService {
     boolean usernameIsExist(String username);
 
     boolean isSubscribed(User user, Long channelId);
+
+    Byte getUserReaction(UUID videoUuid, String username);
 }

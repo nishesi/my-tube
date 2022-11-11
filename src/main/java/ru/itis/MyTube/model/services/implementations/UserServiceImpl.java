@@ -2,11 +2,12 @@ package ru.itis.MyTube.model.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.auxiliary.PassPerformer;
-import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.UrlCreator;
+import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.auxiliary.validators.UserUpdateValidator;
+import ru.itis.MyTube.model.dao.ReactionRepository;
 import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.forms.UserUpdateForm;
@@ -17,17 +18,16 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    private final UrlCreator urlCreator;
-
-    private final UserUpdateValidator userUpdateValidator = new UserUpdateValidator();
-
+    private final ReactionRepository reactionRepository;
     private final Storage storage;
+    private final UrlCreator urlCreator;
+    private final UserUpdateValidator userUpdateValidator;
 
     @Override
     public void save(User user) {
@@ -88,6 +88,15 @@ public class UserServiceImpl implements UserService {
 
         try {
             return userRepository.isSubscribed(user.getUsername(), channelId);
+        } catch (RuntimeException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public Byte getUserReaction(UUID videoUuid, String username) {
+        try {
+            return reactionRepository.getReaction(videoUuid, username).orElse((byte) 0);
         } catch (RuntimeException ex) {
             throw new ServiceException(ex.getMessage());
         }
