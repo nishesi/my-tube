@@ -8,6 +8,7 @@ import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
 import ru.itis.MyTube.auxiliary.validators.UserUpdateValidator;
 import ru.itis.MyTube.auxiliary.validators.VideoValidator;
+import ru.itis.MyTube.model.MVUpdater;
 import ru.itis.MyTube.model.dao.ChannelRepository;
 import ru.itis.MyTube.model.dao.ReactionRepository;
 import ru.itis.MyTube.model.dao.UserRepository;
@@ -39,6 +40,8 @@ public class ContextListener implements ServletContextListener {
 
     private Storage storage;
 
+    private MVUpdater  mvUpdater;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
@@ -55,12 +58,14 @@ public class ContextListener implements ServletContextListener {
 
         initPageAttributes(context);
 
-
+        mvUpdater = new MVUpdater(dataSource, 5000);
+        mvUpdater.start();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         dataSource.close();
+        mvUpdater.end();
     }
 
     private void initDataSource() {
