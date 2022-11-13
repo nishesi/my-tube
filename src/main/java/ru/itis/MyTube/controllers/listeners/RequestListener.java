@@ -20,6 +20,7 @@ public class RequestListener implements ServletRequestListener {
         try {
             req.setCharacterEncoding("UTF-8");
 
+
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

@@ -10,4 +10,6 @@ public interface ChannelRepository {
     List<ChannelCover> getSubscribedChannels(String username);
 
     Optional<Channel> get(Long id);
+    Optional<ChannelCover> get(String owner_username);
+    void create(Channel channel);
 }

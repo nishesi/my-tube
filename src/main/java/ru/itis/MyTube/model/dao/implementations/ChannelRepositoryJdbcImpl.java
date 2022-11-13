@@ -75,4 +75,40 @@ public class ChannelRepositoryJdbcImpl extends AbstractRepository implements Cha
             throw new RuntimeException(e);
         }
     }
+
+    private static final String SQL_GET_CHANNEL_BY_OWNER_USERNAME = "select * from channels where owner_id = ?";
+    @Override
+    public Optional<ChannelCover> get(String owner_username) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_CHANNEL_BY_OWNER_USERNAME)) {
+
+            preparedStatement.setString(1, owner_username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next() ?
+                    Optional.of(CHANNEL_COVER_MAPPER.apply(resultSet)) :
+                    Optional.empty();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final String SQL_CREATE_CHANNEL = "insert into channels (name, info, owner_id) VALUES (?, ?, ?);";
+    @Override
+    public void create(Channel channel) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE_CHANNEL)) {
+
+            preparedStatement.setString(1, channel.getChannelCover().getName());
+            preparedStatement.setString(2, channel.getInfo());
+            preparedStatement.setString(3, channel.getOwner().getUsername());
+
+            preparedStatement.executeUpdate();
+
+        } catch (
+                SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

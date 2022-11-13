@@ -18,14 +18,6 @@ refresh materialized view videos_inf;
 
 -- ENTITIES
 
-create table channels
-(
---  channel_id matches with channel icon file name
-    id   bigserial primary key,
-    name varchar(20) not null,
-    info varchar(3000) default ''
-);
-
 create table users
 (
     username   varchar(20) primary key,
@@ -33,8 +25,16 @@ create table users
     first_name varchar(15) not null,
     last_name  varchar(15) not null,
     birthdate  date        not null,
-    country    varchar(20) not null,
-    channel_id bigint references channels (id) default null
+    country    varchar(20) not null
+);
+
+create table channels
+(
+--  channel_id matches with channel icon file name
+    id   bigserial primary key,
+    name varchar(20) not null,
+    info varchar(3000) default '',
+    owner_id varchar references users(username)
 );
 
 create table videos
@@ -81,7 +81,7 @@ select id,
        info,
        count(us.username) as subs_count
 from channels ch
-         inner join users_subscriptions us on us.channel_id = ch.id
+         left join users_subscriptions us on us.channel_id = ch.id
 group by ch.id;
 
 -- VIDEO INFORMATION WITH VIEWS, LIKES AND DISLIKES
@@ -125,4 +125,5 @@ from videos_inf;
 -- ANOTHER
 
 create unique index view_id on viewing (username, video_uuid);
+alter table users add column channel_id bigint references channels (id) default null;
 

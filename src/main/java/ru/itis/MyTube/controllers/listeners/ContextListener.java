@@ -122,7 +122,7 @@ public class ContextListener implements ServletContextListener {
         );
         context.setAttribute(
                 Beans.CHANNEL_SERVICE,
-                new ChannelServiceImpl(channelRepository, urlCreator)
+                new ChannelServiceImpl(channelRepository, userRepository, storage, urlCreator)
         );
         context.setAttribute(
                 Beans.REACTION_SERVICE,
