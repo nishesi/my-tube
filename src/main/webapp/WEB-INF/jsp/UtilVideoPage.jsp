@@ -14,7 +14,7 @@
 
 
 <div id="box">
-    <form method="post" action="${pageContext.servletContext.contextPath}${UrlPatterns.VIDEO_UPLOAD_PAGE}" enctype="multipart/form-data">
+    <form method="post" action="${url}" enctype="multipart/form-data">
         <div class="form m-4">
             <h4 class="text-center mb-3">Upload Video</h4>
 
@@ -62,5 +62,7 @@
         </div>
     </form>
 </div>
+
+<jsp:include page="/WEB-INF/commonJsp/alertsHandler.jsp"/>
 </body>
 </html>

@@ -13,6 +13,10 @@ public interface VideoService {
 
     void addVideo(VideoForm videoForm) throws ValidationException;
 
+    void updateVideo(VideoForm videoForm) throws ValidationException;
+
+    void deleteVideo(String videoUuid, Long channelId) throws ValidationException;
+
     Video getVideo(UUID uuid) throws ValidationException;
 
     List<VideoCover> getRandomVideos();

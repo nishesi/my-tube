@@ -1,4 +1,4 @@
-package ru.itis.MyTube.controllers.servlets;
+package ru.itis.MyTube.controllers.servlets.video;
 
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.Beans;
@@ -22,9 +22,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.WATCH_PAGE;
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.VIDEO;
 
-@WebServlet(WATCH_PAGE)
+@WebServlet(VIDEO)
 public class WatchingServlet extends HttpServlet {
 
     private VideoService videoService;

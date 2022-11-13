@@ -7,9 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.EXIT;
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_EXIT;
 
-@WebServlet(EXIT)
+@WebServlet(PRIVATE_USER_EXIT)
 public class UserExitServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

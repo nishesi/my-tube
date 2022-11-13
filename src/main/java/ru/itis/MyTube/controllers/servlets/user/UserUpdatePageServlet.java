@@ -17,10 +17,10 @@ import java.io.IOException;
 import java.util.List;
 
 import static ru.itis.MyTube.auxiliary.constants.Beans.USER_SERVICE;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.EXIT;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.USER_PAGE;
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_EXIT;
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_UPDATE;
 
-@WebServlet(USER_PAGE)
+@WebServlet(PRIVATE_USER_UPDATE)
 @MultipartConfig
 public class UserUpdatePageServlet extends HttpServlet {
     private UserService userService;
@@ -55,7 +55,7 @@ public class UserUpdatePageServlet extends HttpServlet {
         }
         ((List<Alert>)req.getAttribute("alerts")).add(
                 new Alert(Alert.alertType.INFO, "Your account information updated"));
-        resp.sendRedirect(getServletContext().getContextPath() + EXIT);
+        resp.sendRedirect(getServletContext().getContextPath() + PRIVATE_USER_EXIT);
     }
 
 

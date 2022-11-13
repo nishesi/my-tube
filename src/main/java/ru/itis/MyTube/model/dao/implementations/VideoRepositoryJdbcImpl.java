@@ -57,13 +57,21 @@ public class VideoRepositoryJdbcImpl extends AbstractRepository implements Video
         }
     };
     private static final String SQL_GET_VIDEOS_BY_SUBSTRING = "select * from video_covers where v_name like ?";
+
     private static final String SQL_GET_VIDEO = "select * from videos_inf where uuid = ?";
+
     private static final String SQL_ADD_VIDEO = "insert into videos (uuid, name, added_date, channel_id, duration, info) values (?, ?, ?, ?, ?, ?)";
+
     private static final String SQL_GET_CHANNEL_VIDEOS = "select * from videos_inf where ch_id = ?";
+
     private static final String SQL_GET_RANDOM_VIDEOS = "select * from video_covers where random() < 0.01 limit 100";
+
     private static final String SQL_GET_SUBSCRIBED_CHANNELS_VIDEOS = "select * " +
             "from channel_covers " +
             "where id in (select channel_id from users_subscriptions where username = ?)";
+
+    private static final String SQL_UPDATE_VIDEO = "update videos set name = ?, info = ? where uuid = ?";
+
     private final DataSource dataSource;
 
     @Override
@@ -118,6 +126,36 @@ public class VideoRepositoryJdbcImpl extends AbstractRepository implements Video
     }
 
     @Override
+    public void updateVideo(Video video) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_VIDEO)) {
+
+            preparedStatement.setString(1, video.getVideoCover().getName());
+            preparedStatement.setString(2, video.getInfo());
+            preparedStatement.setObject(3, video.getUuid());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static final String SQL_DELETE_VIDEO = "delete from videos where uuid = ?";
+    @Override
+    public void deleteVideo(UUID videoUuid) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_VIDEO)) {
+
+            preparedStatement.setObject(1, videoUuid);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+        @Override
     public List<VideoCover> getChannelVideos(Long channelId) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_CHANNEL_VIDEOS)) {

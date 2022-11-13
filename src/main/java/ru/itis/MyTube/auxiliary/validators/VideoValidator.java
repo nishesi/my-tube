@@ -26,13 +26,13 @@ public class VideoValidator extends AbstractValidator {
         }
     }
 
-    private void validateChannelId(Long channelId, Map<String, String> problems) {
+    protected void validateChannelId(Long channelId, Map<String, String> problems) {
         if (Objects.isNull(channelId)) {
             problems.put("channelId", "You have not a channel.");
         }
     }
 
-    private void validateName(String name, Map<String, String> problems) {
+    protected void validateName(String name, Map<String, String> problems) {
         if (Objects.isNull(name) || "".equals(name)) {
             problems.put("name", "Void name.");
         } else if (name.length() <= 5  || name.length() > 70) {
@@ -41,7 +41,7 @@ public class VideoValidator extends AbstractValidator {
             problems.put("name", "Name contains invalid characters");
         }
     }
-    private void validateInfo(String info, Map<String, String> problems) {
+    protected void validateInfo(String info, Map<String, String> problems) {
         if (Objects.isNull(info) || "".equals(info)) {
             problems.put("info", "Void info.");
         } else if (info.length() > 1000) {
@@ -51,7 +51,7 @@ public class VideoValidator extends AbstractValidator {
         }
     }
 
-    private void validateVideoPart(Part videoPart, Map<String, String> problems) {
+    protected void validateVideoPart(Part videoPart, Map<String, String> problems) {
         if (!"video/mp4".equals(videoPart.getContentType())) {
             problems.put("video", "File type should be mp4.");
         } else if (!videoPart.getSubmittedFileName().endsWith(".mp4")) {

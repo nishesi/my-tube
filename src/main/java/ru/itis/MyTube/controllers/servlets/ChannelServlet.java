@@ -22,7 +22,7 @@ import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
 import static ru.itis.MyTube.auxiliary.constants.Attributes.VIDEO_COVER_LIST;
 import static ru.itis.MyTube.auxiliary.constants.Beans.*;
 
-@WebServlet(UrlPatterns.CHANNEL_PAGE)
+@WebServlet(UrlPatterns.CHANNEL)
 public class ChannelServlet extends HttpServlet {
     private ChannelService channelService;
 

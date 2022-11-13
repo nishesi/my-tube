@@ -12,7 +12,7 @@ public class Alert {
     public enum alertType {
         PRIMARY("alert-primary"),
         SECONDARY("alert-secondary"),
-        SUCCESS("alert-danger"),
+        SUCCESS("alert-success"),
         DANGER("alert-danger"),
         WARNING("alert-warning"),
         INFO("alert-info"),

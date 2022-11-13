@@ -6,6 +6,7 @@ import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
+import ru.itis.MyTube.auxiliary.validators.VideoUpdateValidator;
 import ru.itis.MyTube.auxiliary.validators.VideoValidator;
 import ru.itis.MyTube.model.dao.ChannelRepository;
 import ru.itis.MyTube.model.dao.VideoRepository;
@@ -26,7 +27,7 @@ import java.util.*;
 public class VideoServiceImpl implements VideoService {
 
     private final VideoRepository videoRepository;
-    
+
     private final ChannelRepository channelRepository;
     private final SearchValidator searchValidator;
     private final UrlCreator urlCreator;
@@ -35,11 +36,27 @@ public class VideoServiceImpl implements VideoService {
 
     private final VideoValidator videoValidator;
 
+    private final VideoUpdateValidator videoUpdateValidator;
+
     @Override
     public void addVideo(VideoForm form) throws ValidationException {
         videoValidator.validate(form);
 
         String uuidStr = UUID.randomUUID().toString();
+        Video video1 = getVideo(form, uuidStr);
+
+        try {
+            videoRepository.addVideo(video1);
+
+            storage.save(FileType.VIDEO_ICON, uuidStr, form.getIconPart().getInputStream());
+            storage.save(FileType.VIDEO, uuidStr, form.getVideoPart().getInputStream());
+
+        } catch (IOException | RuntimeException e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    private Video getVideo(VideoForm form, String uuidStr) {
         ChannelCover channelCover = ChannelCover.builder().id(form.getChannelId()).build();
 
         VideoCover videoCover = VideoCover.builder()
@@ -50,21 +67,58 @@ public class VideoServiceImpl implements VideoService {
                 .addedDate(LocalDateTime.now())
                 .build();
 
-        Video video1 = Video.builder()
+        return Video.builder()
                 .uuid(UUID.fromString(uuidStr))
                 .videoCover(videoCover)
                 .videoUrl(urlCreator.createResourceUrl(FileType.VIDEO, uuidStr))
                 .info(form.getInfo())
                 .build();
+    }
+
+    @Override
+    public void updateVideo(VideoForm form) throws ValidationException {
+        videoUpdateValidator.validate(form);
+        try {
+            UUID.fromString(form.getVideoUuid());
+        } catch (RuntimeException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+
+        Video video1 = getVideo(form, form.getVideoUuid());
 
         try {
-            videoRepository.addVideo(video1);
-
-            storage.save(FileType.VIDEO_ICON, uuidStr, form.getIconPart().getInputStream());
-            storage.save(FileType.VIDEO, uuidStr, form.getVideoPart().getInputStream());
+            videoRepository.updateVideo(video1);
+            if (form.getIconPart().getSize() != 0) {
+                storage.save(FileType.VIDEO_ICON, form.getVideoUuid(), form.getIconPart().getInputStream());
+            }
+            if (form.getVideoPart().getSize() != 0) {
+                storage.save(FileType.VIDEO, form.getVideoUuid(), form.getVideoPart().getInputStream());
+            }
 
         } catch (IOException | RuntimeException e) {
             throw new ServiceException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void deleteVideo(String videoUuid, Long channelId) {
+        UUID uuid;
+        try {
+            uuid = UUID.fromString(videoUuid);
+        } catch (IllegalArgumentException | NullPointerException ex) {
+            throw new ServiceException("invalid id");
+        }
+        try {
+            Video video = videoRepository.getVideo(uuid).orElseThrow(() -> new ServiceException("video not found"));
+
+            if (!video.getUuid().equals(uuid)) {
+                throw new ServiceException("you can't delete this video");
+            }
+
+            videoRepository.deleteVideo(uuid);
+
+        } catch (RuntimeException ex) {
+            throw new ServiceException(ex.getMessage());
         }
     }
 

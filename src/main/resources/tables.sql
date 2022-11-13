@@ -66,7 +66,7 @@ create table users_subscriptions
 create table viewing
 (
     username   varchar references users (username),
-    video_uuid uuid references videos (uuid),
+    video_uuid uuid references videos (uuid) on delete cascade,
 --      true - like, false - dislike, null - no reaction
     reaction   smallint check ( reaction in (-1, 0, 1) ) default 0
 );
@@ -98,7 +98,7 @@ SELECT v.uuid,
        likes,
        dislikes
 FROM (select vd.*,
-             count(*) - 1                                      as views,
+             count(*)                                          as views,
              sum(case when vw.reaction = 1 then 1 else 0 end)  as likes,
              sum(case when vw.reaction = -1 then 1 else 0 end) as dislikes
       from videos vd

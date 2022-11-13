@@ -34,7 +34,7 @@
         <o:problemOut name="icon" map="${requestScope.problems}"/>
       </div>
 
-      <div class="input-group">
+      <div class="input-group mb-4">
         <div class="input-group-text">Username</div>
         <div class="form-control" aria-label="Username">${user.username}</div>
       </div>

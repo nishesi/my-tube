@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns" %>
 
@@ -28,30 +29,46 @@
             <h2 class="">${channel.channelCover.name}</h2>
             <p class="">${channel.countOfSubscribers} subscribers</p>
         </div>
-        <div class="list-group d-inline float-end m-2">
+        <div class="btn-group-vertical d-inline float-end m-2">
             <c:choose>
                 <c:when test="${channel.id.equals(sessionScope.user.channelId)}">
-                    <a href="${pageContext.servletContext.contextPath}${UrlPatterns.VIDEO_UPLOAD_PAGE}"
-                       class="list-group-item list-group-item-action" aria-current="true">
+                    <a href="${pageContext.servletContext.contextPath}${UrlPatterns.PRIVATE_VIDEO}"
+                       class="btn btn-outline-secondary" aria-current="true">
                         Add video
                     </a>
-                    <a href="#"
-                       class="list-group-item list-group-item-action" aria-current="true">
-                        Update
-                    </a>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            Change
+                        </button>
+                        <ul class="dropdown-menu">
+                            <o:videoNamesList list="${requestScope.videoCoverList}"
+                                              url="${pageContext.servletContext.contextPath}${UrlPatterns.PRIVATE_VIDEO_UPDATE}"/>
+                        </ul>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            Delete
+                        </button>
+                        <ul class="dropdown-menu">
+                            <o:videoDeleteList list="${requestScope.videoCoverList}"
+                                               url="${pageContext.servletContext.contextPath}${UrlPatterns.PRIVATE_VIDEO_DELETE}"/>
+                        </ul>
+                    </div>
                 </c:when>
 
                 <c:otherwise>
                     <c:choose>
                         <c:when test="${requestScope.isSubscribed}">
                             <a href="#"
-                               class="list-group-item list-group-item-action active" aria-current="true">
+                               class="btn btn-primary" aria-current="true">
                                 Subscribed
                             </a>
                         </c:when>
                         <c:otherwise>
                             <a href="#"
-                               class="list-group-item list-group-item-action" aria-current="true">
+                               class="btn btn-outline-primary" aria-current="true">
                                 Subscribe
                             </a>
                         </c:otherwise>

@@ -7,6 +7,7 @@ import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
 import ru.itis.MyTube.auxiliary.validators.UserUpdateValidator;
+import ru.itis.MyTube.auxiliary.validators.VideoUpdateValidator;
 import ru.itis.MyTube.auxiliary.validators.VideoValidator;
 import ru.itis.MyTube.model.MVUpdater;
 import ru.itis.MyTube.model.dao.ChannelRepository;
@@ -102,6 +103,8 @@ public class ContextListener implements ServletContextListener {
 
         SearchValidator searchValidator = new SearchValidator();
         UserUpdateValidator userUpdateValidator = new UserUpdateValidator();
+        VideoValidator videoValidator = new VideoValidator();
+        VideoUpdateValidator videoUpdateValidator = new VideoUpdateValidator();
 
         context.setAttribute(
                 Beans.USER_SERVICE,
@@ -114,7 +117,8 @@ public class ContextListener implements ServletContextListener {
                         searchValidator,
                         urlCreator,
                         storage,
-                        new VideoValidator())
+                        videoValidator,
+                        videoUpdateValidator)
         );
         context.setAttribute(
                 Beans.CHANNEL_SERVICE,

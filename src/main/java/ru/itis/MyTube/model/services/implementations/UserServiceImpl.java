@@ -65,7 +65,9 @@ public class UserServiceImpl implements UserService {
                 .build();
         try {
             userRepository.update(updatedUser);
-            storage.save(FileType.USER_ICON, user.getUsername(), form.getIconPart().getInputStream());
+            if (form.getIconPart().getSize() != 0) {
+                storage.save(FileType.USER_ICON, user.getUsername(), form.getIconPart().getInputStream());
+            }
         } catch (RuntimeException | IOException ex) {
             throw new ServiceException(ex.getMessage());
         }

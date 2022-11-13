@@ -13,19 +13,19 @@
     </div>
     <div class="offcanvas-body">
         <div class="list-group">
-            <a href="${pageContext.servletContext.contextPath}${UrlPatterns.USER_PAGE}"
+            <a href="${pageContext.servletContext.contextPath}${UrlPatterns.PRIVATE_USER_UPDATE}"
                class="list-group-item list-group-item-action" aria-current="true">
                 Change account information
             </a>
             <c:if test="${sessionScope.user.channelId == null}">
-                <a href="${pageContext.servletContext.contextPath}${UrlPatterns.CHANNEL_CREATE_PAGE}"
+                <a href="${pageContext.servletContext.contextPath}${UrlPatterns.PRIVATE_CHANNEL_CREATE}"
                    class="list-group-item list-group-item-action">Create channel</a>
             </c:if>
             <c:if test="${sessionScope.user.channelId != null}">
-                <a href="${pageContext.servletContext.contextPath}${UrlPatterns.CHANNEL_PAGE}?id=${sessionScope.user.channelId}"
+                <a href="${pageContext.servletContext.contextPath}${UrlPatterns.CHANNEL}?id=${sessionScope.user.channelId}"
                    class="list-group-item list-group-item-action">My channel</a>
             </c:if>
-            <a href="${pageContext.servletContext.contextPath}${UrlPatterns.EXIT}"
+            <a href="${pageContext.servletContext.contextPath}${UrlPatterns.PRIVATE_USER_EXIT}"
                class="list-group-item list-group-item-action">Exit from account</a>
         </div>
     </div>

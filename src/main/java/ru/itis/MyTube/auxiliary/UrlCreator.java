@@ -17,10 +17,10 @@ public class UrlCreator {
     }
 
     public String createWatchUrl(String videoId) {
-        return contextPath + WATCH_PAGE + "?" + FileType.VIDEO.getType() + "=" + videoId;
+        return contextPath + VIDEO + "?" + FileType.VIDEO.getType() + "=" + videoId;
     }
 
     public String createChannelUrl(String channelId) {
-        return contextPath + CHANNEL_PAGE + "?id=" + channelId;
+        return contextPath + CHANNEL + "?id=" + channelId;
     }
 }

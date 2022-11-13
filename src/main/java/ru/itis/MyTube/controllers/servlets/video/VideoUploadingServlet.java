@@ -1,4 +1,4 @@
-package ru.itis.MyTube.controllers.servlets;
+package ru.itis.MyTube.controllers.servlets.video;
 
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.Beans;
@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.VIDEO_UPLOAD_PAGE;
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.*;
 
-@WebServlet(VIDEO_UPLOAD_PAGE)
+@WebServlet(PRIVATE_VIDEO)
 @MultipartConfig
 public class VideoUploadingServlet extends HttpServlet {
     private VideoService videoService;
@@ -32,7 +32,7 @@ public class VideoUploadingServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/jsp/VideoUploadingPage.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
     }
 
     @Override
@@ -56,10 +56,10 @@ public class VideoUploadingServlet extends HttpServlet {
             if (problems.get("channelId") != null) {
                 alerts.add(new Alert(Alert.alertType.DANGER, problems.get("channelId")));
             }
-
-            req.getRequestDispatcher("/WEB-INF/jsp/VideoUploadingPage.jsp").forward(req, resp);
+            req.setAttribute("url", getServletContext().getContextPath() + PRIVATE_VIDEO + "?uuid=" + videoForm.getVideoUuid());
+            req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
             return;
         }
-        req.getRequestDispatcher("/WEB-INF/jsp/BaseWindow.jsp").forward(req, resp);
+        resp.sendRedirect(getServletContext().getContextPath() + CHANNEL + "?id=" + videoForm.getChannelId());
     }
 }

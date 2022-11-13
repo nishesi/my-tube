@@ -14,6 +14,9 @@ public interface VideoRepository {
 
     void addVideo(Video video);
 
+    void updateVideo(Video video);
+    void deleteVideo(UUID videoUuid);
+
     List<VideoCover> getChannelVideos(Long channelId);
 
     List<VideoCover> getRandomVideos();
