@@ -1,9 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns"%>
+<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>
-
-<jsp:useBean id="form" scope="request" type="ru.itis.MyTube.model.dto.forms.AuthenticationForm" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,24 +29,25 @@
             <div class="input-group">
                 <div class="input-group-text">Username</div>
                 <input type="text" class="form-control" placeholder="Write your username..." aria-label="Username"
-                       name="username" value="${form.username}">
+                       name="username" value="${requestScope.form.username}">
             </div>
             <div class="mb-4 text-danger">
-                <o:problemOut name="usernameProblem" map="${requestScope.problems}"/>
+                <o:problemOut name="username" map="${requestScope.problems}"/>
             </div>
 
             <div class="input-group">
                 <div class="input-group-text">Password</div>
                 <input type="password" class="form-control" placeholder="Write your password..." aria-label="Password"
-                       name="password" value="${form.password}">
+                       name="password" value="${requestScope.form.password}">
             </div>
             <div class="mb-4 text-danger">
-                <o:problemOut name="passwordProblem" map="${requestScope.problems}"/>
+                <o:problemOut name="password" map="${requestScope.problems}"/>
             </div>
             <div class="container text-center">
 
                 <button type="submit" class="btn btn-outline-primary">Authorize</button>
-                <a class="btn btn-outline-secondary" href="${pageContext.servletContext.contextPath}${UrlPatterns.REGISTRATION_PAGE}">Register</a>
+                <a class="btn btn-outline-secondary"
+                   href="${pageContext.servletContext.contextPath}${UrlPatterns.REGISTRATION_PAGE}">Register</a>
             </div>
         </div>
     </form>

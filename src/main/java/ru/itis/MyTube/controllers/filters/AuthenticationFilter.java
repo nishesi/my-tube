@@ -11,21 +11,17 @@ import java.io.IOException;
 import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.*;
 
-
 @WebFilter(PRIVATE + "/*")
 public class AuthenticationFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
 
-        String url = req.getRequestURI();
-
-        if (req.getSession().getAttribute(USER) != null) {
-
-            chain.doFilter(req, res);
-        } else {
-            req.getSession().setAttribute("requestUrl", url);
+        if (req.getSession().getAttribute(USER) == null) {
+            req.getSession().setAttribute("requestUrl", req.getRequestURI());
             res.sendRedirect(getServletContext().getContextPath() + AUTHENTICATION_PAGE);
-        }
 
+        } else {
+            chain.doFilter(req, res);
+        }
     }
 }
