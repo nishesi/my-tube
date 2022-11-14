@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERT_QUEUE;
+import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
 import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
 
 
@@ -44,7 +44,7 @@ public class BaseWindowServlet extends HttpServlet {
             }
 
         } catch (ServiceException ex) {
-            ((Queue<? super Alert>) req.getAttribute(ALERT_QUEUE))
+            ((Queue<? super Alert>) req.getAttribute(ALERTS))
                     .add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
         }
 

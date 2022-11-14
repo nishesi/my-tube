@@ -6,11 +6,13 @@ import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.auxiliary.validators.AuthenticationValidator;
 import ru.itis.MyTube.auxiliary.validators.RegistrationValidator;
 import ru.itis.MyTube.auxiliary.validators.UserUpdateValidator;
 import ru.itis.MyTube.model.dao.ReactionRepository;
 import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dto.User;
+import ru.itis.MyTube.model.dto.forms.AuthenticationForm;
 import ru.itis.MyTube.model.dto.forms.RegistrationForm;
 import ru.itis.MyTube.model.dto.forms.UserUpdateForm;
 import ru.itis.MyTube.model.services.UserService;
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final UrlCreator urlCreator;
     private final UserUpdateValidator userUpdateValidator;
     private final RegistrationValidator registrationValidator;
+    private final AuthenticationValidator authenticationValidator;
 
     @Override
     public void save(RegistrationForm form) throws ValidationException {
@@ -51,15 +54,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> get(String username, String password) {
+    public User get(AuthenticationForm form) throws ServiceException, ValidationException {
+        authenticationValidator.validate(form);
+
         try {
-            Optional<User> userOpt = userRepository.get(username, password);
-            userOpt.ifPresent(user ->
-                    user.setUserImgUrl(urlCreator.createResourceUrl(FileType.USER_ICON, user.getUsername()))
+            Optional<User> userOpt = userRepository.get(
+                    form.getUsername(),
+                    PassPerformer.hash(form.getPassword())
             );
-            return userOpt;
+            User user = userOpt.orElseThrow(() -> new ServiceException("User not found."));
+
+            user.setUserImgUrl(urlCreator.createResourceUrl(FileType.USER_ICON, user.getUsername()));
+
+            return user;
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex);
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 

@@ -44,7 +44,7 @@ public class ContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
 
-        urlCreator = new UrlCreator("http://localhost:8080/MyTube");
+        urlCreator = new UrlCreator(context.getContextPath());
         context.setAttribute(Beans.URL_CREATOR, urlCreator);
 
         storage = new FileStorageImpl();
@@ -84,11 +84,10 @@ public class ContextListener implements ServletContextListener {
     }
 
     private void initPageAttributes(ServletContext context) {
-        context.setAttribute(
-                Attributes.APP_LOGO_URL,
+        context.setAttribute("logoUrl",
                 context.getContextPath() + "/images/reg-background-img.jpg"
         );
-        context.setAttribute(Attributes.APP_NAME, "MyTube");
+        context.setAttribute("appName", "MyTube");
         context.setAttribute(Attributes.COMMON_CSS_URL, context.getContextPath() + "/css/common.css");
     }
 
@@ -98,11 +97,12 @@ public class ContextListener implements ServletContextListener {
         ChannelRepository channelRepository = new ChannelRepositoryJdbcImpl(dataSource);
         ReactionRepository reactionRepository = new ReactionRepositoryJdbcImpl(dataSource);
 
+        VideoValidator videoValidator = new VideoValidator();
         SearchValidator searchValidator = new SearchValidator();
         UserUpdateValidator userUpdateValidator = new UserUpdateValidator();
-        VideoValidator videoValidator = new VideoValidator();
         VideoUpdateValidator videoUpdateValidator = new VideoUpdateValidator();
         RegistrationValidator registrationValidator = new RegistrationValidator(userRepository);
+        AuthenticationValidator authenticationValidator = new AuthenticationValidator();
 
         context.setAttribute(
                 Beans.USER_SERVICE,
@@ -111,7 +111,8 @@ public class ContextListener implements ServletContextListener {
                         storage,
                         urlCreator,
                         userUpdateValidator,
-                        registrationValidator)
+                        registrationValidator,
+                        authenticationValidator)
         );
         context.setAttribute(
                 Beans.VIDEO_SERVICE,

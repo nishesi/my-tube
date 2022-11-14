@@ -14,10 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.*;
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.CHANNEL;
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_VIDEO;
 
 @WebServlet(PRIVATE_VIDEO)
 @MultipartConfig
@@ -44,10 +45,12 @@ public class VideoUploadingServlet extends HttpServlet {
                 .iconPart(req.getPart("icon"))
                 .videoPart(req.getPart("video"))
                 .build();
-        List<Alert> alerts = (List<Alert>) req.getAttribute("alerts");
+        Queue<? super Alert> alerts = (Queue<? super Alert>) req.getSession().getAttribute("alerts");
+
         try {
             videoService.addVideo(videoForm);
             alerts.add(new Alert(Alert.alertType.SUCCESS, "Video added."));
+
         } catch (ValidationException e) {
             Map<String, String> problems = e.getProblems();
             req.setAttribute("problems", problems);

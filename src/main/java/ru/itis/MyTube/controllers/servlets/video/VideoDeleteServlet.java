@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.util.Queue;
 
 import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
 import static ru.itis.MyTube.auxiliary.constants.Beans.VIDEO_SERVICE;
@@ -35,11 +35,14 @@ public class VideoDeleteServlet extends HttpServlet {
 
         try {
             videoService.deleteVideo(videoUuid, userChannelId);
-        } catch (ValidationException | ServiceException e) {
-            ((List<Alert>) req.getAttribute("alerts"))
-                    .add(new Alert(Alert.alertType.WARNING, e.getMessage()));
 
+        } catch (ValidationException e) {
+            req.setAttribute("problems", e.getProblems());
+        } catch (ServiceException e) {
+            ((Queue<? super Alert>) req.getSession().getAttribute("alerts"))
+                    .add(new Alert(Alert.alertType.WARNING, e.getMessage()));
         }
+
         resp.sendRedirect(getServletContext().getContextPath() + CHANNEL + "?id=" + userChannelId);
     }
 }

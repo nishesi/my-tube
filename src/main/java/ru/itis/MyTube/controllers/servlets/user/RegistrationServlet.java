@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERT_QUEUE;
+import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.AUTHENTICATION_PAGE;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.REGISTRATION_PAGE;
 
@@ -51,7 +51,7 @@ public class RegistrationServlet extends HttpServlet {
                 .build();
 
         req.setAttribute("form", registrationForm);
-        Queue<? super Alert> alerts = (Queue<? super Alert>) req.getSession().getAttribute(ALERT_QUEUE);
+        Queue<? super Alert> alerts = (Queue<? super Alert>) req.getSession().getAttribute(ALERTS);
 
         try {
             userService.save(registrationForm);
@@ -63,7 +63,7 @@ public class RegistrationServlet extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/jsp/RegistrationPage.jsp").forward(req, resp);
 
         } catch (ServiceException e) {
-            alerts.add(new Alert(Alert.alertType.DANGER, "Something go wrong, please try again later."));
+            alerts.add(new Alert(Alert.alertType.DANGER, e.getMessage()));
             resp.sendRedirect(getServletContext().getContextPath());
         }
     }

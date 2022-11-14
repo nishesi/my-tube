@@ -88,11 +88,9 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                return Optional.of(USER_MAPPER.apply(resultSet));
-            } else {
-                return Optional.empty();
-            }
+            return (resultSet.next()) ?
+                    Optional.of(USER_MAPPER.apply(resultSet)) :
+                    Optional.empty();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

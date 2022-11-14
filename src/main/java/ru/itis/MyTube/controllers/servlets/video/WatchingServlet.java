@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.UUID;
 
 import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
@@ -38,7 +39,7 @@ public class WatchingServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Alert> alerts = ((List<Alert>) req.getAttribute("alerts"));
+        Queue<? super Alert> alerts = (Queue<? super Alert>) req.getAttribute("alerts");
         UUID uuid;
         Byte reaction = null;
 
