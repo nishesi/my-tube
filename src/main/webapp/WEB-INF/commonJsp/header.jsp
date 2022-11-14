@@ -28,11 +28,6 @@
                            aria-current="page" href="${pageContext.servletContext.contextPath}">Random</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link <c:if test="${\"popular\".equals(listType)}">active</c:if>"
-                           href="${pageContext.servletContext.contextPath}?listType=popular">Popular</a>
-                    </li>
-
                     <c:if test="${sessionScope.user != null}">
                         <li class="nav-item">
                             <a class="nav-link <c:if test="${\"subs\".equals(listType)}">active</c:if>"

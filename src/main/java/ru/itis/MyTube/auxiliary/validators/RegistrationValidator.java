@@ -1,6 +1,8 @@
 package ru.itis.MyTube.auxiliary.validators;
 
 import lombok.RequiredArgsConstructor;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dto.forms.RegistrationForm;
 import ru.itis.MyTube.model.services.UserService;
 
@@ -9,9 +11,9 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 public class RegistrationValidator extends AbstractValidator{
-    private final UserService userService;
+    private final UserRepository userRepository;
 
-    public Map<String, String> validate(RegistrationForm form) {
+    public void validate(RegistrationForm form) throws ValidationException {
         Map<String, String> problems = new HashMap<>();
 
         validateUsername(form.getUsername(), problems);
@@ -25,7 +27,9 @@ public class RegistrationValidator extends AbstractValidator{
 
         validateAgreement(form.getAgreement(), problems);
 
-        return problems;
+        if (!problems.isEmpty()) {
+            throw new ValidationException(problems);
+        }
     }
 
     protected void validateUsername(String username, Map<String, String> problems) {
@@ -35,7 +39,7 @@ public class RegistrationValidator extends AbstractValidator{
         } else if (!onlyLettersPat.matcher(username).matches()) {
             problems.put("username", "Username should have only letters.");
 
-        } else if (userService.usernameIsExist(username)) {
+        } else if (userRepository.isPresent(username)) {
             problems.put("username", "This username is exist.");
         }
     }

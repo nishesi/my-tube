@@ -5,10 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.constants.Beans;
-import ru.itis.MyTube.auxiliary.validators.SearchValidator;
-import ru.itis.MyTube.auxiliary.validators.UserUpdateValidator;
-import ru.itis.MyTube.auxiliary.validators.VideoUpdateValidator;
-import ru.itis.MyTube.auxiliary.validators.VideoValidator;
+import ru.itis.MyTube.auxiliary.validators.*;
 import ru.itis.MyTube.model.MVUpdater;
 import ru.itis.MyTube.model.dao.ChannelRepository;
 import ru.itis.MyTube.model.dao.ReactionRepository;
@@ -105,10 +102,16 @@ public class ContextListener implements ServletContextListener {
         UserUpdateValidator userUpdateValidator = new UserUpdateValidator();
         VideoValidator videoValidator = new VideoValidator();
         VideoUpdateValidator videoUpdateValidator = new VideoUpdateValidator();
+        RegistrationValidator registrationValidator = new RegistrationValidator(userRepository);
 
         context.setAttribute(
                 Beans.USER_SERVICE,
-                new UserServiceImpl(userRepository, reactionRepository, storage, urlCreator, userUpdateValidator)
+                new UserServiceImpl(userRepository,
+                        reactionRepository,
+                        storage,
+                        urlCreator,
+                        userUpdateValidator,
+                        registrationValidator)
         );
         context.setAttribute(
                 Beans.VIDEO_SERVICE,

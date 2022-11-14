@@ -10,7 +10,7 @@ drop table if exists users_subscriptions;
 drop table if exists channels_videos;
 drop table if exists viewing;
 drop table if exists videos;
-drop table if exists users;
+drop table if exists users cascade;
 drop table if exists channels;
 
 refresh materialized view channels_inf;
@@ -21,7 +21,7 @@ refresh materialized view videos_inf;
 create table users
 (
     username   varchar(20) primary key,
-    password   char(50)    not null,
+    password   char(32)    not null,
     first_name varchar(15) not null,
     last_name  varchar(15) not null,
     birthdate  date        not null,
@@ -30,11 +30,11 @@ create table users
 
 create table channels
 (
---  channel_id matches with channel icon file name
-    id   bigserial primary key,
-    name varchar(20) not null,
-    info varchar(3000) default '',
-    owner_id varchar references users(username)
+--  id matches with channel icon file name
+    id       bigserial primary key,
+    name     varchar(20) not null,
+    info     varchar(3000) default '',
+    owner_id varchar references users (username)
 );
 
 create table videos
@@ -56,12 +56,6 @@ create table users_subscriptions
     username   varchar references users (username) not null,
     channel_id bigint references channels (id)     not null
 );
-
--- create table channels_videos
--- (
---     video_uuid uuid references videos (uuid)   not null,
---     channel_id bigint references channels (id) not null
--- );
 
 create table viewing
 (
@@ -125,5 +119,6 @@ from videos_inf;
 -- ANOTHER
 
 create unique index view_id on viewing (username, video_uuid);
-alter table users add column channel_id bigint references channels (id) default null;
+alter table users
+    add column channel_id bigint references channels (id) default null;
 

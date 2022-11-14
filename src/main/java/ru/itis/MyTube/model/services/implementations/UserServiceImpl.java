@@ -6,10 +6,12 @@ import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.auxiliary.validators.RegistrationValidator;
 import ru.itis.MyTube.auxiliary.validators.UserUpdateValidator;
 import ru.itis.MyTube.model.dao.ReactionRepository;
 import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dto.User;
+import ru.itis.MyTube.model.dto.forms.RegistrationForm;
 import ru.itis.MyTube.model.dto.forms.UserUpdateForm;
 import ru.itis.MyTube.model.services.UserService;
 import ru.itis.MyTube.model.storage.Storage;
@@ -28,9 +30,19 @@ public class UserServiceImpl implements UserService {
     private final Storage storage;
     private final UrlCreator urlCreator;
     private final UserUpdateValidator userUpdateValidator;
+    private final RegistrationValidator registrationValidator;
 
     @Override
-    public void save(User user) {
+    public void save(RegistrationForm form) throws ValidationException {
+        registrationValidator.validate(form);
+        User user = User.builder()
+                .username(form.getUsername())
+                .password(PassPerformer.hash(form.getPassword()))
+                .firstName(form.getFirstName())
+                .lastName(form.getLastName())
+                .birthdate(LocalDate.parse(form.getBirthdate()))
+                .country(form.getCountry())
+                .build();
         try {
             userRepository.save(user);
         } catch (RuntimeException ex) {
@@ -69,15 +81,6 @@ public class UserServiceImpl implements UserService {
                 storage.save(FileType.USER_ICON, user.getUsername(), form.getIconPart().getInputStream());
             }
         } catch (RuntimeException | IOException ex) {
-            throw new ServiceException(ex.getMessage());
-        }
-    }
-
-    @Override
-    public boolean usernameIsExist(String username) {
-        try {
-            return userRepository.isPresent(username);
-        } catch (RuntimeException ex) {
             throw new ServiceException(ex.getMessage());
         }
     }

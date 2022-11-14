@@ -1,8 +1,7 @@
-insert into users (username, password, first_name, last_name, birthdate, country, channel_id)
-values ('NishEsI', '48690                                             ', 'Nurislam', 'Zaripov', '2003-03-22', 'Russia', 1),
-       ('MEDICHI', '48690                                             ', 'Saydash', 'Gilyazov', '2003-09-27', 'Russia', 2),
-       ('KishMishKuraga', '48690                                             ', 'Farit', 'Ibragimov', '2003-07-25',
-        'Russia', 3);
+insert into users (username, password, first_name, last_name, birthdate, country)
+values ('NishEsI', 'b62b9cc8893ad5f1e04ffc0f7f36410e', 'Nurislam', 'Zaripov', '2003-03-22', 'Russia'),
+       ('MEDICHI', 'b62b9cc8893ad5f1e04ffc0f7f36410e', 'Saydash', 'Gilyazov', '2003-09-27', 'Russia'),
+       ('KishMishKuraga', 'b62b9cc8893ad5f1e04ffc0f7f36410e', 'Farit', 'Ibragimov', '2003-07-25', 'Russia');
 
 insert into channels (id, name, info, owner_id)
 values (1, 'channel number one', 'BEST OF THE BEST', 'NishEsI'),
@@ -25,11 +24,6 @@ values ('NishEsI', 2),
        ('KishMishKuraga', 1),
        ('KishMishKuraga', 2);
 
--- insert into channels_videos (video_uuid, channel_id)
--- values ('d1ee017c-e45c-43c3-ad09-299509a504a3', 1),
---        ('01eca157-f7d7-43d8-9228-587804d6434e', 2),
---        ('5483d754-540c-4acf-99cb-cc32653f256d', 3);
-
 insert into viewing (username, video_uuid, reaction)
 values ('NishEsI', '01eca157-f7d7-43d8-9228-587804d6434e', 1),
        ('NishEsI', '5483d754-540c-4acf-99cb-cc32653f256d', 0),
@@ -37,3 +31,8 @@ values ('NishEsI', '01eca157-f7d7-43d8-9228-587804d6434e', 1),
        ('MEDICHI', '5483d754-540c-4acf-99cb-cc32653f256d', 0),
        ('KishMishKuraga', 'd1ee017c-e45c-43c3-ad09-299509a504a3', -1),
        ('KishMishKuraga', '01eca157-f7d7-43d8-9228-587804d6434e', 1);
+
+
+update users set channel_id = 1 where username = 'NishEsI';
+update users set channel_id = 2 where username = 'MEDICHI';
+update users set channel_id = 3 where username = 'KishMishKuraga';
