@@ -149,14 +149,9 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<VideoCover> getPopularVideos() {
-        return null;
-    }
-
-    @Override
-    public List<VideoCover> getSubscriptionsVideos(User user) throws ValidationException {
+    public List<VideoCover> getSubscriptionsVideos(User user) {
         if (Objects.isNull(user.getUsername()) || "".equals(user.getUsername())) {
-            throw new ValidationException(Collections.singletonMap("username", "Username is void"));
+            throw new ServiceException("You not authorized.");
         }
         try {
             List<VideoCover> videoCovers = videoRepository.getSubscribedChannelsVideos(user.getUsername());

@@ -21,9 +21,7 @@ public interface VideoService {
 
     List<VideoCover> getRandomVideos();
 
-    List<VideoCover> getPopularVideos();
-
-    List<VideoCover> getSubscriptionsVideos(User user) throws ValidationException;
+    List<VideoCover> getSubscriptionsVideos(User user);
 
     List<VideoCover> getVideosByNameSubstring(String substring) throws ValidationException;
 

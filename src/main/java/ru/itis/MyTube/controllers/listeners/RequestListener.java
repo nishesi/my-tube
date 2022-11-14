@@ -1,13 +1,11 @@
 package ru.itis.MyTube.controllers.listeners;
 
-import ru.itis.MyTube.auxiliary.Alert;
-
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 @WebListener
@@ -18,13 +16,10 @@ public class RequestListener implements ServletRequestListener {
         HttpServletRequest req =(HttpServletRequest) sre.getServletRequest();
 
         try {
-            req.setCharacterEncoding("UTF-8");
-
-
+            req.setCharacterEncoding(StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-        req.setAttribute("alerts", new ArrayList<Alert>());
         req.setAttribute("regPageCss", req.getContextPath() + "/css/reg-page.css");
         req.setAttribute("problems", new HashMap<String, String>());
     }

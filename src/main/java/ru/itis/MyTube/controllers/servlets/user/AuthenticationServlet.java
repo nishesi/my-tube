@@ -39,7 +39,7 @@ public class AuthenticationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        //todo refactoring
         AuthenticationForm form = AuthenticationForm.builder()
                 .username(req.getParameter("username"))
                 .password(req.getParameter("password"))

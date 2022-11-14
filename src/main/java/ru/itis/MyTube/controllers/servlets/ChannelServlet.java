@@ -47,7 +47,8 @@ public class ChannelServlet extends HttpServlet {
             channelVideos = videoService.getChannelVideoCovers(channel.getId());
             isSubscribed = userService.isSubscribed((User)req.getSession().getAttribute(USER), channel.getId());
         } catch (ServiceException ex) {
-            ((List<Alert>) req.getAttribute("alerts")).add(new Alert(Alert.alertType.WARNING, ex.getMessage()));
+            ((List<Alert>) req.getAttribute("alerts"))
+                    .add(new Alert(Alert.alertType.WARNING, ex.getMessage()));
             req.getRequestDispatcher("/WEB-INF/jsp/BaseWindow.jsp").forward(req, resp);
         }
         req.setAttribute("isSubscribed", isSubscribed);

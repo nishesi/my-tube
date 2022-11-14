@@ -14,8 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.util.Queue;
 
+import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERT_QUEUE;
 import static ru.itis.MyTube.auxiliary.constants.Beans.USER_SERVICE;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_EXIT;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_UPDATE;
@@ -44,17 +45,23 @@ public class UserUpdatePageServlet extends HttpServlet {
                 .lastName(req.getParameter("lastName"))
                 .birthdate(req.getParameter("birthdate"))
                 .country(req.getParameter("country")).build();
+
+        Queue<? super Alert> alerts = (Queue<? super Alert>)req.getAttribute(ALERT_QUEUE);
         try {
             userService.update(form,(User)req.getSession().getAttribute("user"));
+
         } catch (ValidationException e) {
             req.setAttribute("problems", e.getProblems());
             req.getRequestDispatcher("/WEB-INF/jsp/UserPage.jsp").forward(req, resp);
+
         } catch (ServiceException e) {
-            ((List<Alert>)req.getAttribute("alerts")).add(
-                    new Alert(Alert.alertType.DANGER, e.getMessage()));
+            alerts.add(new Alert(Alert.alertType.DANGER, "Something go wrong, please try again later."));
+            e.printStackTrace();
         }
-        ((List<Alert>)req.getAttribute("alerts")).add(
-                new Alert(Alert.alertType.INFO, "Your account information updated"));
+
+        alerts.add(new Alert(Alert.alertType.SUCCESS, "Your account information updated."));
+        alerts.add(new Alert(Alert.alertType.INFO, "Please do reauthorization"));
+
         resp.sendRedirect(getServletContext().getContextPath() + PRIVATE_USER_EXIT);
     }
 

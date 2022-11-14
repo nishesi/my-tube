@@ -46,6 +46,7 @@ public class ChannelCreateServlet extends HttpServlet {
         try {
             channelId = channelService.create(channelForm);
         } catch (ServiceException ex) {
+            //todo problem output
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().println(ex.getMessage());
             return;

@@ -4,7 +4,6 @@ import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.VideoService;
@@ -16,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Queue;
 
+import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERT_QUEUE;
 import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
 
 
@@ -36,17 +37,15 @@ public class BaseWindowServlet extends HttpServlet {
         List<VideoCover> list = null;
 
         try {
-            if ("popular".equals(listType)) {
-                list = videoService.getPopularVideos();
-            } else if ("subs".equals(listType)) {
+            if ("subs".equals(listType)) {
                 list = videoService.getSubscriptionsVideos(((User) req.getSession().getAttribute(USER)));
             } else {
                 list = videoService.getRandomVideos();
             }
+
         } catch (ServiceException ex) {
-            ((List<Alert> ) req.getAttribute("alerts")).add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
-        } catch (ValidationException e) {
-            throw new RuntimeException(e);
+            ((Queue<? super Alert>) req.getAttribute(ALERT_QUEUE))
+                    .add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
         }
 
         req.setAttribute(Attributes.VIDEO_COVER_LIST, list);

@@ -33,17 +33,21 @@ public class ReactionServlet extends HttpServlet {
                 .user((User) req.getSession().getAttribute(USER))
                 .build();
         String inf = null;
+
         try {
             inf = reactionService.getReaction(reactionForm);
+
         } catch (ValidationException e) {
             resp.sendError(400, String.join(", ", e.getProblems().values()));
         }
+
         resp.setContentType("application/json");
         resp.getWriter().println(inf);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        //todo remove redirection
         if (req.getSession().getAttribute(USER) == null) {
             resp.setContentType("application/json");
             resp.getWriter().println(
@@ -51,16 +55,18 @@ public class ReactionServlet extends HttpServlet {
                     "\"location\": \"" + getServletContext().getContextPath() + AUTHENTICATION_PAGE + "\"}");
             return;
         }
+
         ReactionForm reactionForm = ReactionForm.builder()
                 .videoUuid(req.getParameter("videoUuid"))
                 .user((User) req.getSession().getAttribute(USER))
                 .reaction(req.getParameter("reaction"))
                 .build();
-        String inf = null;
+        String inf;
         try {
             inf = reactionService.updateReaction(reactionForm);
         } catch (ValidationException e) {
             resp.sendError(400, String.join(", ", e.getProblems().values()));
+            return;
         }
         resp.setContentType("application/json");
         resp.getWriter().println(inf);
