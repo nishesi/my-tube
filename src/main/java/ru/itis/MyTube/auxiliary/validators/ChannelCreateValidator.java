@@ -18,4 +18,12 @@ public class ChannelCreateValidator extends VideoValidator{
             throw new ValidationException(problems);
         }
     }
+
+    @Override
+    protected void validateName(String name, Map<String, String> problems) {
+        super.validateName(name, problems);
+        if (name.length() > 20) {
+            problems.put("name", "Name length more then 20 symbols");
+        }
+    }
 }
