@@ -75,19 +75,21 @@ public class ResourceServlet extends HttpServlet {
         try (InputStream resource = storage.get(fileType1, id)) {
 
             resource.transferTo(resp.getOutputStream());
-        } catch (StorageException ex) {
 
+        } catch (StorageException ex) {
             resp.setStatus(200);
+            resp.getWriter().println(ex.getMessage());
+
+        } catch (RuntimeException ex) {
+            resp.setStatus(500);
             resp.getWriter().println(ex.getMessage());
         }
     }
 
     private boolean validateParameters(String type, String id, HttpServletResponse resp) throws IOException {
-        if (Objects.isNull(id)) {
-            resp.sendError(405, "void id");
-            return false;
-        } else if (Objects.isNull(type)) {
-            resp.sendError(405, "void type");
+
+        if (Objects.isNull(id) || Objects.isNull(type)) {
+            resp.sendError(405, "id = " + id + ", type = " + type);
             return false;
         }
         return true;

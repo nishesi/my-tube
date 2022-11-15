@@ -8,7 +8,6 @@ import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.auxiliary.validators.SearchValidator;
 import ru.itis.MyTube.auxiliary.validators.VideoUpdateValidator;
 import ru.itis.MyTube.auxiliary.validators.VideoValidator;
-import ru.itis.MyTube.model.dao.ChannelRepository;
 import ru.itis.MyTube.model.dao.VideoRepository;
 import ru.itis.MyTube.model.dto.ChannelCover;
 import ru.itis.MyTube.model.dto.User;
@@ -21,21 +20,19 @@ import ru.itis.MyTube.model.storage.Storage;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
 
     private final VideoRepository videoRepository;
-
-    private final ChannelRepository channelRepository;
-    private final SearchValidator searchValidator;
-    private final UrlCreator urlCreator;
-
     private final Storage storage;
-
+    private final UrlCreator urlCreator;
+    private final SearchValidator searchValidator;
     private final VideoValidator videoValidator;
-
     private final VideoUpdateValidator videoUpdateValidator;
 
     @Override
@@ -43,7 +40,7 @@ public class VideoServiceImpl implements VideoService {
         videoValidator.validate(form);
 
         String uuidStr = UUID.randomUUID().toString();
-        Video video1 = getVideo(form, uuidStr);
+        Video video1 = transferToVideo(form, uuidStr);
 
         try {
             videoRepository.addVideo(video1);
@@ -56,7 +53,7 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
-    private Video getVideo(VideoForm form, String uuidStr) {
+    private Video transferToVideo(VideoForm form, String uuidStr) {
         ChannelCover channelCover = ChannelCover.builder().id(form.getChannelId()).build();
 
         VideoCover videoCover = VideoCover.builder()
@@ -78,16 +75,18 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public void updateVideo(VideoForm form) throws ValidationException {
         videoUpdateValidator.validate(form);
+
         try {
             UUID.fromString(form.getVideoUuid());
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex.getMessage());
+            throw new ServiceException("invalid video id");
         }
 
-        Video video1 = getVideo(form, form.getVideoUuid());
+        Video video1 = transferToVideo(form, form.getVideoUuid());
 
         try {
             videoRepository.updateVideo(video1);
+
             if (form.getIconPart().getSize() != 0) {
                 storage.save(FileType.VIDEO_ICON, form.getVideoUuid(), form.getIconPart().getInputStream());
             }
@@ -96,7 +95,8 @@ public class VideoServiceImpl implements VideoService {
             }
 
         } catch (IOException | RuntimeException e) {
-            throw new ServiceException(e.getMessage());
+            e.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 
@@ -106,35 +106,52 @@ public class VideoServiceImpl implements VideoService {
         try {
             uuid = UUID.fromString(videoUuid);
         } catch (IllegalArgumentException | NullPointerException ex) {
-            throw new ServiceException("invalid id");
+            throw new ServiceException("Invalid video id.");
         }
         try {
-            Video video = videoRepository.getVideo(uuid).orElseThrow(() -> new ServiceException("video not found"));
+            Video video = videoRepository.getVideo(uuid).orElseThrow(() -> new ServiceException("Video not found."));
 
             if (!video.getUuid().equals(uuid)) {
-                throw new ServiceException("you can't delete this video");
+                throw new ServiceException("You can't delete this video.");
             }
 
             videoRepository.deleteVideo(uuid);
 
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex.getMessage());
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 
     @Override
-    public Video getVideo(UUID uuid) {
-        Optional<Video> video;
-
+    public Video getVideo(String videoId) {
+        UUID uuid;
         try {
-            video = videoRepository.getVideo(uuid);
-            video.ifPresent(video1 -> video1.setVideoUrl(urlCreator.createResourceUrl(FileType.VIDEO, video1.getUuid().toString())));
-
-        } catch (RuntimeException ex) {
-            throw new ServiceException(ex);
+            uuid = UUID.fromString(videoId);
+        } catch (IllegalArgumentException | NullPointerException ex) {
+            throw new ServiceException("Couldn't find or load a video.");
         }
 
-        return video.orElseThrow(() -> new ServiceException("Video not found."));
+        try {
+            Optional<Video> videoOpt = videoRepository.getVideo(uuid);
+            Video video = videoOpt.orElseThrow(() -> new ServiceException("Video not found."));
+
+            video.setVideoUrl(urlCreator.createResourceUrl(
+                    FileType.VIDEO,
+                    video.getUuid().toString())
+            );
+            ChannelCover channelCover = video.getVideoCover().getChannelCover();
+
+            channelCover.setChannelImgUrl(urlCreator.createResourceUrl(
+                    FileType.CHANNEL_ICON,
+                    channelCover.getId().toString()));
+
+            return video;
+
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
+        }
     }
 
     @Override
@@ -142,15 +159,18 @@ public class VideoServiceImpl implements VideoService {
         try {
             List<VideoCover> videoCovers = videoRepository.getRandomVideos();
             setUrls(videoCovers);
+
             return videoCovers;
+
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex.getMessage());
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 
     @Override
     public List<VideoCover> getSubscriptionsVideos(User user) {
-        if (Objects.isNull(user.getUsername()) || "".equals(user.getUsername())) {
+        if (Objects.isNull(user)) {
             throw new ServiceException("You not authorized.");
         }
         try {
@@ -158,8 +178,10 @@ public class VideoServiceImpl implements VideoService {
             setUrls(videoCovers);
 
             return videoCovers;
+
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex.getMessage());
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 
@@ -167,26 +189,34 @@ public class VideoServiceImpl implements VideoService {
     public List<VideoCover> getVideosByNameSubstring(String substring) {
         try {
             searchValidator.validate(substring);
+        } catch (IllegalArgumentException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+
+        try {
             List<VideoCover> videoCovers = videoRepository.getVideosByName(substring);
 
             setUrls(videoCovers);
 
             return videoCovers;
 
-        } catch (IllegalArgumentException ex) {
-            throw new ServiceException(ex.getMessage());
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 
     @Override
     public List<VideoCover> getChannelVideoCovers(Long channelId) {
+
         try {
             List<VideoCover> channelVideos = videoRepository.getChannelVideos(channelId);
             setUrls(channelVideos);
 
             return channelVideos;
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex.getMessage());
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 

@@ -23,7 +23,7 @@ import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_UPDATE
 
 @WebServlet(PRIVATE_USER_UPDATE)
 @MultipartConfig
-public class UserUpdatePageServlet extends HttpServlet {
+public class UserUpdateServlet extends HttpServlet {
     private UserService userService;
 
     @Override
@@ -50,19 +50,17 @@ public class UserUpdatePageServlet extends HttpServlet {
         try {
             userService.update(form,(User)req.getSession().getAttribute("user"));
 
+            alerts.add(new Alert(Alert.alertType.SUCCESS, "Your account information updated."));
+            alerts.add(new Alert(Alert.alertType.INFO, "Please do reauthorization."));
+
+            resp.sendRedirect(getServletContext().getContextPath() + PRIVATE_USER_EXIT);
+            return;
         } catch (ValidationException e) {
             req.setAttribute("problems", e.getProblems());
-            req.getRequestDispatcher("/WEB-INF/jsp/UserPage.jsp").forward(req, resp);
 
         } catch (ServiceException e) {
             alerts.add(new Alert(Alert.alertType.DANGER, e.getMessage()));
         }
-
-        alerts.add(new Alert(Alert.alertType.SUCCESS, "Your account information updated."));
-        alerts.add(new Alert(Alert.alertType.INFO, "Please do reauthorization"));
-
-        resp.sendRedirect(getServletContext().getContextPath() + PRIVATE_USER_EXIT);
+        req.getRequestDispatcher("/WEB-INF/jsp/UserPage.jsp").forward(req, resp);
     }
-
-
 }

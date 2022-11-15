@@ -14,7 +14,7 @@ public abstract class AbstractValidator {
     }
 
     protected void validatePassword(String password, Map<String, String> problems) {
-        if (password.length() < 5) {
+        if (password.length() < 10) {
             problems.put("password", "Password have less then 5 symbols");
         } else if (password.length() > 100) {
             problems.put("password", "Password have more then 100 symbols.");

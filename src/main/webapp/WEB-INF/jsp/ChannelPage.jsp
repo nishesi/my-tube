@@ -32,7 +32,7 @@
         <div class="btn-group-vertical d-inline float-end m-2">
             <c:choose>
                 <c:when test="${channel.id.equals(sessionScope.user.channelId)}">
-                    <a href="${pageContext.servletContext.contextPath}${UrlPatterns.PRIVATE_VIDEO}"
+                    <a href="${pageContext.servletContext.contextPath}${UrlPatterns.PRIVATE_VIDEO_UPLOAD}"
                        class="btn btn-outline-secondary" aria-current="true">
                         Add video
                     </a>

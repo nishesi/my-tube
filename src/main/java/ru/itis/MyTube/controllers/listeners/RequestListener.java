@@ -6,7 +6,6 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 
 @WebListener
 public class RequestListener implements ServletRequestListener {
@@ -21,6 +20,5 @@ public class RequestListener implements ServletRequestListener {
             throw new RuntimeException(e);
         }
         req.setAttribute("regPageCss", req.getContextPath() + "/css/reg-page.css");
-        req.setAttribute("problems", new HashMap<String, String>());
     }
 }

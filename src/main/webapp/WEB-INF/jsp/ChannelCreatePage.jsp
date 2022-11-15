@@ -35,13 +35,16 @@
 
       <div class="input-group mb-4">
         <div class="input-group-text">Name</div>
-        <input name="name" class="form-control" aria-label="Name" value="${channelForm.name}" placeholder="Write channel name...">
+        <input name="name" class="form-control" aria-label="Name" value="${requestScope.form.name}" placeholder="Write channel name...">
+      </div>
+      <div class="mb-4 text-danger">
+        <o:problemOut name="icon" map="${requestScope.problems}"/>
       </div>
 
       <div class="input-group">
         <div class="input-group-text">Information</div>
         <input type="text" class="form-control text-area" placeholder="Write channel info..." aria-label="Name"
-               name="info" value="${channelForm.info}">
+               name="info" value="${requestScope.form.info}">
       </div>
       <div class="mb-4 text-danger">
         <o:problemOut name="info" map="${requestScope.problems}"/>

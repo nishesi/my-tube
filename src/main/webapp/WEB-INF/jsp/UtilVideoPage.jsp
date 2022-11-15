@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns" %>
 <%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>
 <html>
 <head>
@@ -15,9 +14,9 @@
 <%@include file="/WEB-INF/commonJsp/alertsHandler.jsp" %>
 
 <div id="box">
-    <form method="post" action="${url}" enctype="multipart/form-data">
+    <form method="post" action="${requestScope.url}" enctype="multipart/form-data">
         <div class="form m-4">
-            <h4 class="text-center mb-3">Upload Video</h4>
+            <h4 class="text-center mb-3">${requestScope.pageType} video</h4>
 
             <div class="input-group">
                 <div class="mb-3">
@@ -32,7 +31,7 @@
             <div class="input-group">
                 <div class="input-group-text">Name</div>
                 <input type="text" class="form-control" placeholder="Write video name..." aria-label="Name"
-                       name="name" value="${videoForm.name}">
+                       name="name" value="${requestScope.form.name}">
             </div>
             <div class="mb-4 text-danger">
                 <o:problemOut name="name" map="${requestScope.problems}"/>
@@ -51,14 +50,14 @@
             <div class="input-group">
                 <div class="input-group-text">Information</div>
                 <input type="text" class="form-control text-area" placeholder="Write video info..." aria-label="Name"
-                       name="info" value="${videoForm.name}">
+                       name="info" value="${requestScope.form.name}">
             </div>
             <div class="mb-4 text-danger">
                 <o:problemOut name="info" map="${requestScope.problems}"/>
             </div>
 
             <div class="container text-center">
-                <button type="submit" class="btn btn-primary">Upload</button>
+                <button type="submit" class="btn btn-primary">${requestScope.pageType}</button>
             </div>
         </div>
     </form>

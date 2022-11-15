@@ -8,7 +8,6 @@ import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.dto.forms.VideoForm;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface VideoService {
 
@@ -18,13 +17,13 @@ public interface VideoService {
 
     void deleteVideo(String videoUuid, Long channelId) throws ServiceException, ValidationException;
 
-    Video getVideo(UUID uuid) throws ServiceException, ValidationException;
+    Video getVideo(String videoId) throws ServiceException;
 
     List<VideoCover> getRandomVideos() throws ServiceException;
 
     List<VideoCover> getSubscriptionsVideos(User user) throws ServiceException;
 
-    List<VideoCover> getVideosByNameSubstring(String substring) throws ServiceException, ValidationException;
+    List<VideoCover> getVideosByNameSubstring(String substring) throws ServiceException;
 
     List<VideoCover> getChannelVideoCovers(Long channelId) throws ServiceException;
 }

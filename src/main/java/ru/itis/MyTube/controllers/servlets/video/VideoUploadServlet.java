@@ -15,61 +15,55 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.CHANNEL;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_VIDEO_UPDATE;
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_VIDEO_UPLOAD;
 
-@WebServlet(PRIVATE_VIDEO_UPDATE)
+@WebServlet(PRIVATE_VIDEO_UPLOAD)
 @MultipartConfig
-public class VideoUpdatingServlet extends HttpServlet {
-
+public class VideoUploadServlet extends HttpServlet {
     private VideoService videoService;
 
+
     @Override
-    public void init() throws ServletException {
+    public void init() {
         videoService = (VideoService) getServletContext().getAttribute(Beans.VIDEO_SERVICE);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("url", getServletContext().getContextPath() + PRIVATE_VIDEO_UPDATE + "?uuid=" + req.getParameter("uuid"));
+        req.setAttribute("pageType", "Upload");
         req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         VideoForm videoForm = VideoForm.builder()
-                .videoUuid(req.getParameter("uuid"))
                 .channelId(((User)req.getSession().getAttribute("user")).getChannelId())
                 .name(req.getParameter("name"))
                 .info(req.getParameter("info"))
                 .iconPart(req.getPart("icon"))
                 .videoPart(req.getPart("video"))
                 .build();
-        Queue<? super Alert> alerts = (Queue<? super Alert>) req.getSession().getAttribute(ALERTS);
+
+        Queue<? super Alert> alerts = (Queue<? super Alert>) req.getSession().getAttribute("alerts");
 
         try {
-            videoService.updateVideo(videoForm);
+            videoService.addVideo(videoForm);
             alerts.add(new Alert(Alert.alertType.SUCCESS, "Video added."));
+            resp.sendRedirect(getServletContext().getContextPath() + CHANNEL + "?id=" + videoForm.getChannelId());
+            return;
+
+        } catch (ValidationException e) {
+            req.setAttribute("problems", e.getProblems());
+            req.setAttribute("videoForm", videoForm);
+
 
         } catch (ServiceException ex) {
             alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
-
-        } catch (ValidationException e) {
-            Map<String, String> problems = e.getProblems();
-            req.setAttribute("problems", problems);
-            req.setAttribute("videoForm", videoForm);
-
-            if (problems.get("channelId") != null) {
-                alerts.add(new Alert(Alert.alertType.DANGER, problems.get("channelId")));
-            }
-
-            req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
-            return;
         }
-        resp.sendRedirect(getServletContext().getContextPath() + CHANNEL + "?id=" + videoForm.getChannelId());
+        req.setAttribute("pageType", "Upload");
+        req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
     }
 }

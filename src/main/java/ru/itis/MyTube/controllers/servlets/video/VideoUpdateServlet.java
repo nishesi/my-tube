@@ -2,6 +2,7 @@ package ru.itis.MyTube.controllers.servlets.video;
 
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.Beans;
+import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.forms.VideoForm;
@@ -14,55 +15,56 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Queue;
 
+import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.CHANNEL;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_VIDEO;
+import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_VIDEO_UPDATE;
 
-@WebServlet(PRIVATE_VIDEO)
+@WebServlet(PRIVATE_VIDEO_UPDATE)
 @MultipartConfig
-public class VideoUploadingServlet extends HttpServlet {
+public class VideoUpdateServlet extends HttpServlet {
+
     private VideoService videoService;
 
-
     @Override
-    public void init() {
+    public void init() throws ServletException {
         videoService = (VideoService) getServletContext().getAttribute(Beans.VIDEO_SERVICE);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("pageType", "Update");
+        req.setAttribute("url", getServletContext().getContextPath() + PRIVATE_VIDEO_UPDATE + "?uuid=" + req.getParameter("uuid"));
         req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         VideoForm videoForm = VideoForm.builder()
+                .videoUuid(req.getParameter("uuid"))
                 .channelId(((User)req.getSession().getAttribute("user")).getChannelId())
                 .name(req.getParameter("name"))
                 .info(req.getParameter("info"))
                 .iconPart(req.getPart("icon"))
                 .videoPart(req.getPart("video"))
                 .build();
-        Queue<? super Alert> alerts = (Queue<? super Alert>) req.getSession().getAttribute("alerts");
+
+        Queue<? super Alert> alerts = (Queue<? super Alert>) req.getSession().getAttribute(ALERTS);
 
         try {
-            videoService.addVideo(videoForm);
-            alerts.add(new Alert(Alert.alertType.SUCCESS, "Video added."));
+            videoService.updateVideo(videoForm);
+            alerts.add(new Alert(Alert.alertType.SUCCESS, "Video updated."));
+            resp.sendRedirect(getServletContext().getContextPath() + CHANNEL + "?id=" + videoForm.getChannelId());
 
         } catch (ValidationException e) {
-            Map<String, String> problems = e.getProblems();
-            req.setAttribute("problems", problems);
+            req.setAttribute("problems", e.getProblems());
             req.setAttribute("videoForm", videoForm);
 
-            if (problems.get("channelId") != null) {
-                alerts.add(new Alert(Alert.alertType.DANGER, problems.get("channelId")));
-            }
-            req.setAttribute("url", getServletContext().getContextPath() + PRIVATE_VIDEO + "?uuid=" + videoForm.getVideoUuid());
             req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
-            return;
+
+        } catch (ServiceException ex) {
+            alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
         }
-        resp.sendRedirect(getServletContext().getContextPath() + CHANNEL + "?id=" + videoForm.getChannelId());
     }
 }

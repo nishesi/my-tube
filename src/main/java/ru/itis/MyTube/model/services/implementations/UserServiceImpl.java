@@ -56,20 +56,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User get(AuthenticationForm form) throws ServiceException, ValidationException {
         authenticationValidator.validate(form);
+        Optional<User> userOpt;
 
         try {
-            Optional<User> userOpt = userRepository.get(
+            userOpt = userRepository.get(
                     form.getUsername(),
                     PassPerformer.hash(form.getPassword())
             );
-            User user = userOpt.orElseThrow(() -> new ServiceException("User not found."));
-
-            user.setUserImgUrl(urlCreator.createResourceUrl(FileType.USER_ICON, user.getUsername()));
-
-            return user;
         } catch (RuntimeException ex) {
             throw new ServiceException("Something go wrong, please try again later.");
         }
+        
+        User user = userOpt.orElseThrow(() -> new ServiceException("User not found."));
+        user.setUserImgUrl(urlCreator.createResourceUrl(FileType.USER_ICON, user.getUsername()));
+        return user;
     }
 
     @Override

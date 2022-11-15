@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dto.forms.RegistrationForm;
-import ru.itis.MyTube.model.services.UserService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,8 +46,10 @@ public class RegistrationValidator extends AbstractValidator{
     protected void validatePassword(String password, String passRepeat, Map<String, String> problems) {
         if (password == null || password.equals("")) {
             problems.put("password", "Password can not be empty.");
+        } else if (password.length() <= 10) {
+            problems.put("password", "Password is too small.");
         } else if (!password.equals(passRepeat)) {
-            problems.put("passwordRepeat", "Password and it's repeat is not equal.");
+            problems.put("password", "Password and it's repeat is not equal.");
         }
     }
 

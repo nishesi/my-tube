@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
+import static ru.itis.MyTube.auxiliary.constants.Attributes.*;
 import static ru.itis.MyTube.auxiliary.constants.Beans.VIDEO_SERVICE;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_VIDEO_DELETE;
@@ -33,16 +33,16 @@ public class VideoDeleteServlet extends HttpServlet {
         String videoUuid = req.getParameter("videoUuid");
         Long userChannelId = ((User)req.getSession().getAttribute(USER)).getChannelId();
 
+        Queue<? super Alert> alerts = (Queue<? super Alert>)req.getSession().getAttribute(ALERTS);
         try {
             videoService.deleteVideo(videoUuid, userChannelId);
 
         } catch (ValidationException e) {
-            req.setAttribute("problems", e.getProblems());
+            req.setAttribute(PROBLEMS, e.getProblems());
         } catch (ServiceException e) {
-            ((Queue<? super Alert>) req.getSession().getAttribute("alerts"))
-                    .add(new Alert(Alert.alertType.WARNING, e.getMessage()));
+            alerts.add(new Alert(Alert.alertType.DANGER, e.getMessage()));
         }
-
+        alerts.add(new Alert(Alert.alertType.SUCCESS, "Video deleted"));
         resp.sendRedirect(getServletContext().getContextPath() + CHANNEL + "?id=" + userChannelId);
     }
 }

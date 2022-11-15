@@ -38,7 +38,7 @@ public class ContextListener implements ServletContextListener {
 
     private Storage storage;
 
-    private MVUpdater  mvUpdater;
+    private MVUpdater mvUpdater;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -102,6 +102,7 @@ public class ContextListener implements ServletContextListener {
         UserUpdateValidator userUpdateValidator = new UserUpdateValidator();
         VideoUpdateValidator videoUpdateValidator = new VideoUpdateValidator();
         RegistrationValidator registrationValidator = new RegistrationValidator(userRepository);
+        ChannelCreateValidator channelCreateValidator = new ChannelCreateValidator();
         AuthenticationValidator authenticationValidator = new AuthenticationValidator();
 
         context.setAttribute(
@@ -117,16 +118,15 @@ public class ContextListener implements ServletContextListener {
         context.setAttribute(
                 Beans.VIDEO_SERVICE,
                 new VideoServiceImpl(videoRepository,
-                        channelRepository,
-                        searchValidator,
-                        urlCreator,
                         storage,
+                        urlCreator,
+                        searchValidator,
                         videoValidator,
                         videoUpdateValidator)
         );
         context.setAttribute(
                 Beans.CHANNEL_SERVICE,
-                new ChannelServiceImpl(channelRepository, userRepository, storage, urlCreator)
+                new ChannelServiceImpl(channelRepository, userRepository, storage, urlCreator, channelCreateValidator)
         );
         context.setAttribute(
                 Beans.REACTION_SERVICE,

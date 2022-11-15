@@ -39,7 +39,8 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
             " first_name = ?, " +
             "last_name = ?, " +
             "birthdate = ?, " +
-            "country = ? " +
+            "country = ?, " +
+            "channel_id = ?" +
             "where username = ? ";
     private final DataSource dataSource;
 
@@ -107,7 +108,8 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
             preparedStatement.setString(3, user.getLastName());
             preparedStatement.setObject(4, user.getBirthdate());
             preparedStatement.setString(5, user.getCountry());
-            preparedStatement.setString(6, user.getUsername());
+            preparedStatement.setLong(6, user.getChannelId());
+            preparedStatement.setString(7, user.getUsername());
 
             preparedStatement.executeUpdate();
 
