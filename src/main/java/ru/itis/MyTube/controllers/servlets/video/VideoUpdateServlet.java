@@ -56,15 +56,17 @@ public class VideoUpdateServlet extends HttpServlet {
             videoService.updateVideo(videoForm);
             alerts.add(new Alert(Alert.alertType.SUCCESS, "Video updated."));
             resp.sendRedirect(getServletContext().getContextPath() + CHANNEL + "?id=" + videoForm.getChannelId());
+            return;
 
         } catch (ValidationException e) {
             req.setAttribute("problems", e.getProblems());
             req.setAttribute("videoForm", videoForm);
 
-            req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
-
         } catch (ServiceException ex) {
             alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
         }
+
+        req.setAttribute("pageType", "Update");
+        req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
     }
 }

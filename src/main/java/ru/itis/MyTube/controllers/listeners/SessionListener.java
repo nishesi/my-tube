@@ -16,8 +16,6 @@ public class SessionListener implements HttpSessionListener {
     public void sessionCreated(HttpSessionEvent se) {
         Queue<Alert> alertQueue = new LinkedList<>();
 
-        alertQueue.add(new Alert(Alert.alertType.INFO, "Pleasant watching."));
-
         se.getSession().setAttribute(ALERTS, alertQueue);
     }
 }

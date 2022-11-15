@@ -3,9 +3,11 @@ package ru.itis.MyTube.auxiliary;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.io.Serializable;
+
 @Getter
 @AllArgsConstructor
-public class Alert {
+public class Alert implements Serializable {
     private alertType type;
     private String message;
 

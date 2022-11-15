@@ -44,7 +44,7 @@ public class BaseWindowServlet extends HttpServlet {
             }
 
         } catch (ServiceException ex) {
-            ((Queue<? super Alert>) req.getAttribute(ALERTS))
+            ((Queue<? super Alert>) req.getSession().getAttribute(ALERTS))
                     .add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
         }
 
