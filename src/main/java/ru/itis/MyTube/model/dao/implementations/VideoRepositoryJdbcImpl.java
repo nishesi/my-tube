@@ -64,7 +64,7 @@ public class VideoRepositoryJdbcImpl extends AbstractRepository implements Video
 
     private static final String SQL_GET_CHANNEL_VIDEOS = "select * from videos_inf where ch_id = ?";
 
-    private static final String SQL_GET_RANDOM_VIDEOS = "select * from video_covers where random() < 0.01 limit 100";
+    private static final String SQL_GET_RANDOM_VIDEOS = "select * from video_covers where random() < 0.5 limit 100";
 
     private static final String SQL_GET_SUBSCRIBED_CHANNELS_VIDEOS = "select * " +
             "from video_covers " +

@@ -120,5 +120,4 @@ from videos_inf;
 
 create unique index view_id on viewing (username, video_uuid);
 alter table users
-    add column channel_id bigint references channels (id) default null;
-
+    add column channel_id bigint references channels (id) on delete cascade default null;

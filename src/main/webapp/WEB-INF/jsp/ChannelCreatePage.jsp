@@ -38,7 +38,7 @@
         <input name="name" class="form-control" aria-label="Name" value="${requestScope.form.name}" placeholder="Write channel name...">
       </div>
       <div class="mb-4 text-danger">
-        <o:problemOut name="icon" map="${requestScope.problems}"/>
+        <o:problemOut name="name" map="${requestScope.problems}"/>
       </div>
 
       <div class="input-group">

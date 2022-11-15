@@ -116,6 +116,8 @@ public class VideoServiceImpl implements VideoService {
             }
 
             videoRepository.deleteVideo(uuid);
+            storage.delete(FileType.VIDEO, uuid.toString());
+            storage.delete(FileType.VIDEO_ICON, uuid.toString());
 
         } catch (RuntimeException ex) {
             ex.printStackTrace();

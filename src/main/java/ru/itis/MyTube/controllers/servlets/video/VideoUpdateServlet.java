@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.Queue;
 
 import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
+import static ru.itis.MyTube.auxiliary.constants.Attributes.FORM;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_VIDEO_UPDATE;
 
@@ -60,7 +61,7 @@ public class VideoUpdateServlet extends HttpServlet {
 
         } catch (ValidationException e) {
             req.setAttribute("problems", e.getProblems());
-            req.setAttribute("videoForm", videoForm);
+            req.setAttribute(FORM, videoForm);
 
         } catch (ServiceException ex) {
             alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));

@@ -30,7 +30,7 @@
 
         <div class="col">
             <div class="container-fluid">
-                <div>${video.videoCover.name}</div>
+                <div class="m-2">${video.videoCover.name}</div>
                 <div class="container p-0 align-baseline d-inline mt-2">
                     <img class="rounded-circle channel-image" src="${video.videoCover.channelCover.channelImgUrl}"
                          alt="channel cover">

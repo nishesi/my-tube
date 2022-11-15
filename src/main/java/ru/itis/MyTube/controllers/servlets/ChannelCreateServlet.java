@@ -56,6 +56,7 @@ public class ChannelCreateServlet extends HttpServlet {
             alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
 
         } catch (ValidationException ex) {
+            req.setAttribute(FORM, channelForm);
             req.setAttribute(PROBLEMS, ex.getProblems());
         }
         req.getRequestDispatcher("/WEB-INF/jsp/ChannelCreatePage.jsp").forward(req, resp);

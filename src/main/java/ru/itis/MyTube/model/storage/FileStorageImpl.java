@@ -22,6 +22,8 @@ public class FileStorageImpl implements Storage {
     private static final Path USER_ICON_STORAGE = Paths.get("imageStorage/userIcons");
     private static final File USER_DEFAULT_ICON =
             REPOSITORY.resolve(USER_ICON_STORAGE).resolve("default" + IMAGE_TYPE).toFile();
+    private static final File CHANNEL_DEFAULT_ICON =
+            REPOSITORY.resolve(CHANNEL_ICON_STORAGE).resolve("default" + IMAGE_TYPE).toFile();
 
     @Override
     public InputStream get(FileType fileType, String id) {
@@ -29,7 +31,7 @@ public class FileStorageImpl implements Storage {
             throw new StorageException("fileType" + fileType + ", id" + id);
         }
 
-        File file = getFile(fileType, id);
+        File file = getFile(fileType, id, false);
 
         try {
             return new FileInputStream(file);
@@ -44,7 +46,7 @@ public class FileStorageImpl implements Storage {
             throw new StorageException("fileType = " + fileType + ", id = " + id + ", name = " + resource);
         }
 
-        File file = getFile(fileType, id);
+        File file = getFile(fileType, id, true);
 
         try  {
             file.createNewFile();
@@ -64,12 +66,12 @@ public class FileStorageImpl implements Storage {
         if (Objects.isNull(fileType) || Objects.isNull(id)) {
             throw new StorageException("fileType = " + fileType + ", id = " + id);
         }
-        File file = getFile(fileType, id);
+        File file = getFile(fileType, id, true);
 
         file.delete();
     }
 
-    private File getFile(FileType fileType, String id) {
+    private File getFile(FileType fileType, String id, boolean real) {
 
         switch (fileType) {
             case VIDEO:
@@ -77,10 +79,11 @@ public class FileStorageImpl implements Storage {
             case VIDEO_ICON:
                 return REPOSITORY.resolve(VIDEO_ICON_STORAGE).resolve(id + IMAGE_TYPE).toFile();
             case CHANNEL_ICON:
-                return REPOSITORY.resolve(CHANNEL_ICON_STORAGE).resolve(id + IMAGE_TYPE).toFile();
+                File file = REPOSITORY.resolve(CHANNEL_ICON_STORAGE).resolve(id + IMAGE_TYPE).toFile();
+                return (file.exists() || real) ? file : CHANNEL_DEFAULT_ICON;
             case USER_ICON:
                 File icon = REPOSITORY.resolve(USER_ICON_STORAGE).resolve(id + IMAGE_TYPE).toFile();
-                return (icon.exists()) ? icon : USER_DEFAULT_ICON;
+                return (icon.exists() || real) ? icon : USER_DEFAULT_ICON;
             default:
                 throw new StorageException("unknown fileType");
         }

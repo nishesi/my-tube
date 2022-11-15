@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Queue;
 
+import static ru.itis.MyTube.auxiliary.constants.Attributes.FORM;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_VIDEO_UPLOAD;
 
@@ -57,7 +58,7 @@ public class VideoUploadServlet extends HttpServlet {
 
         } catch (ValidationException e) {
             req.setAttribute("problems", e.getProblems());
-            req.setAttribute("videoForm", videoForm);
+            req.setAttribute(FORM, videoForm);
 
 
         } catch (ServiceException ex) {
