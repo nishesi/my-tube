@@ -61,16 +61,18 @@
                 <c:otherwise>
                     <c:choose>
                         <c:when test="${requestScope.isSubscribed}">
-                            <a href="#"
-                               class="btn btn-primary" aria-current="true">
-                                Subscribed
-                            </a>
+                            <form action="${pageContext.servletContext.contextPath}${UrlPatterns.PRIVATE_SUBSCRIBE}" method="post">
+                                <input style="display: none" type="text" name="channelId" value="${channel.id}">
+                                <input style="display: none" type="text" name="type" value="false">
+                                <input class="btn btn-primary" type="submit" value="Unsubscribe">
+                            </form>
                         </c:when>
                         <c:otherwise>
-                            <a href="#"
-                               class="btn btn-outline-primary" aria-current="true">
-                                Subscribe
-                            </a>
+                            <form action="${pageContext.servletContext.contextPath}${UrlPatterns.PRIVATE_SUBSCRIBE}" method="post">
+                                <input style="display: none" type="text" name="channelId" value="${channel.id}">
+                                <input style="display: none" type="text" name="type" value="true">
+                                <input class="btn btn-outline-primary" type="submit" value="Subscribe">
+                            </form>
                         </c:otherwise>
                     </c:choose>
                 </c:otherwise>

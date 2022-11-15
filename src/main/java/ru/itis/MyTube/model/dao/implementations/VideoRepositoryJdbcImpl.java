@@ -56,7 +56,7 @@ public class VideoRepositoryJdbcImpl extends AbstractRepository implements Video
             throw new RuntimeException(e);
         }
     };
-    private static final String SQL_GET_VIDEOS_BY_SUBSTRING = "select * from video_covers where v_name like ?";
+    private static final String SQL_GET_VIDEOS_BY_SUBSTRING = "select * from video_covers where v_name ilike ?";
 
     private static final String SQL_GET_VIDEO = "select * from videos_inf where uuid = ?";
 

@@ -3,9 +3,8 @@ package ru.itis.MyTube.auxiliary.tags;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
 
 public class WhenAddedTag extends TagSupport {
     private LocalDateTime addedDate;
@@ -14,18 +13,19 @@ public class WhenAddedTag extends TagSupport {
         this.addedDate = addedDate;
     }
 
-    private final SimpleDateFormat yearsFormat = new SimpleDateFormat("dd.MM.yyyy 'at' mm:hh");
+    private static final SimpleDateFormat yearsFormat = new SimpleDateFormat("dd.MM.yyyy 'at' mm:hh");
 
-    private final SimpleDateFormat monthsFormat = new SimpleDateFormat(" dd.MM 'at' mm:hh");
+    private static final SimpleDateFormat monthsFormat = new SimpleDateFormat(" dd.MM 'at' mm:hh");
 
     @Override
     public int doStartTag() {
-        long millis = Date.from(addedDate.toInstant(ZoneOffset.UTC)).getTime();
-        int minutes = (int) ((System.currentTimeMillis() - millis) / 1000 / 60);
-        int hours = (minutes / 60);
-        long days = hours / 24;
-        long months = days / 30;
-        long years = months / 12;
+        Duration t = Duration.between(addedDate, LocalDateTime.now());
+        long sec = t.getSeconds();
+        int minutes = (int) sec / 60;
+        int hours = minutes / 60;
+        int days = hours / 24;
+        int months = days / 30;
+        int years = months / 12;
 
         try {
             if (years >= 1) {
@@ -46,7 +46,8 @@ public class WhenAddedTag extends TagSupport {
                 pageContext.getOut().print("Added just now");
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("Tag can not be executed.");
         }
         return 0;
     }

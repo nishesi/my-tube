@@ -14,6 +14,7 @@ import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.forms.AuthenticationForm;
 import ru.itis.MyTube.model.dto.forms.RegistrationForm;
+import ru.itis.MyTube.model.dto.forms.SubscribeForm;
 import ru.itis.MyTube.model.dto.forms.UserUpdateForm;
 import ru.itis.MyTube.model.services.UserService;
 import ru.itis.MyTube.model.storage.Storage;
@@ -49,7 +50,8 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.save(user);
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex.getMessage());
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 
@@ -64,6 +66,7 @@ public class UserServiceImpl implements UserService {
                     PassPerformer.hash(form.getPassword())
             );
         } catch (RuntimeException ex) {
+            ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");
         }
         
@@ -90,7 +93,8 @@ public class UserServiceImpl implements UserService {
                 storage.save(FileType.USER_ICON, user.getUsername(), form.getIconPart().getInputStream());
             }
         } catch (RuntimeException | IOException ex) {
-            throw new ServiceException(ex.getMessage());
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 
@@ -103,7 +107,8 @@ public class UserServiceImpl implements UserService {
         try {
             return userRepository.isSubscribed(user.getUsername(), channelId);
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex.getMessage());
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 
@@ -112,7 +117,54 @@ public class UserServiceImpl implements UserService {
         try {
             return reactionRepository.getReaction(videoUuid, username).orElse((byte) 0);
         } catch (RuntimeException ex) {
-            throw new ServiceException(ex.getMessage());
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
+        }
+    }
+
+    @Override
+    public void userChannel(SubscribeForm form) throws ServiceException {
+        if (Objects.isNull(form.getUser()) ||
+                Objects.isNull(form.getToSubscribe()) ||
+                form.getToSubscribe().equals("") ||
+                Objects.isNull(form.getChannelId())
+        ) {
+            throw new ServiceException("Can not to subscribe");
+        }
+        long channelId;
+        boolean toSubscribe;
+        try {
+            channelId = Long.parseLong(form.getChannelId());
+            toSubscribe = Boolean.parseBoolean(form.getToSubscribe());
+
+        } catch (RuntimeException ex) {
+            throw new ServiceException("Can not to subscribe");
+        }
+
+        if (toSubscribe) {
+            subscribe(form.getUser(), channelId);
+        } else {
+            unsubscribe(form.getUser(), channelId);
+        }
+    }
+
+    public void subscribe(User user, long channelId) throws ServiceException {
+
+        try {
+            userRepository.subscribe(user.getUsername(), channelId);
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
+        }
+    }
+
+    public void unsubscribe(User user, long channelId) throws ServiceException {
+
+        try {
+            userRepository.unsubscribe(user.getUsername(), channelId);
+        } catch (RuntimeException ex) {
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 }

@@ -16,5 +16,7 @@ public interface UserRepository {
 
     boolean isPresent(String username);
 
-    boolean isSubscribed(String username, Long channelId);
+    boolean isSubscribed(String username, long channelId);
+    void subscribe(String username, long channelId);
+    void unsubscribe(String username, long channelId);
 }

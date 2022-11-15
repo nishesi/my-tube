@@ -42,6 +42,8 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
             "country = ?, " +
             "channel_id = ?" +
             "where username = ? ";
+    private static final String SQL_UNSUBSCRIBE = "delete from users_subscriptions where username = ? and channel_id = ?";
+    private static final String SQL_SUBSCRIBE = "insert into users_subscriptions (username, channel_id) values (?, ?)";
     private final DataSource dataSource;
 
     public UserRepositoryJdbcImpl(DataSource dataSource) {
@@ -125,13 +127,43 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
 
     private static final String SQL_IS_SUBSCRIBED = "select * from users_subscriptions where username = ? and channel_id = ? limit 1";
     @Override
-    public boolean isSubscribed(String username, Long channelId) {
+    public boolean isSubscribed(String username, long channelId) {
         try (Connection connection = dataSource.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_SUBSCRIBED)) {
 
             preparedStatement.setString(1, username);
             preparedStatement.setLong(2, channelId);
 
             return preparedStatement.executeQuery().next();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void subscribe(String username, long channelId) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SUBSCRIBE)) {
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setLong(2, channelId);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void unsubscribe(String username, long channelId) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UNSUBSCRIBE)) {
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setLong(2, channelId);
+
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
