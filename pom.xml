@@ -8,7 +8,7 @@
     <groupId>ru.itis.nishesi</groupId>
     <artifactId>MyTube</artifactId>
     <packaging>war</packaging>
-    <version>0.1</version>
+    <version>1.0</version>
 
 
     <properties>
