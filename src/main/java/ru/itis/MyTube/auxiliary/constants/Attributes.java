@@ -8,3 +8,4 @@ public class Attributes {
     public static final String FORM = "form";
     public static final String COMMON_CSS_URL = "commonCssUrl";
 }
+
