@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let videoUuid = document.getElementsByTagName('video')[0].id;
-    let reactionTypeButton = document.getElementsByClassName('reactionType')
+    const videoUuid = document.getElementsByTagName('video')[0].id;
+    const reactionTypeButtons = document.getElementsByClassName('reactionType')
 
-    for (let i = 0; i < reactionTypeButton.length; i++) {
-        reactionTypeButton[i].addEventListener("click", function (ev) {
-            let reactionTypeButton = document.getElementsByClassName('reactionType');
-            let id = reactionTypeButton[i].getAttribute("id");
+    for (let i = 0; i < reactionTypeButtons.length; i++) {
+        reactionTypeButtons[i].addEventListener("click", function (ev) {
+            let reactionTypeButton = document.getElementsByClassName('reactionType')[i];
+            let id = reactionTypeButton.getAttribute("id");
             let reactionType = 0;
 
             if (id === "like") {
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else if (id === "dislike") {
                 reactionType = -1;
             }
-            reactionTypeButton[i].removeAttribute("checked");
+            reactionTypeButton.removeAttribute("checked");
             ev.stopPropagation();
             return updateReactions(reactionType, videoUuid);
         })
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateReactions(reaction, videoUuid) {
 
-        return fetch('/MyTube/reaction?' + 'videoUuid=' + videoUuid + "&reaction=" + reaction, {
+        return fetch('/MyTube/private/reaction?' + 'videoUuid=' + videoUuid + "&reaction=" + reaction, {
             method: "POST"
         }).then(res => {
             return res.json();
@@ -36,11 +36,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function updateInf(likes, dislikes, reaction) {
-        let likeLbl = document.getElementById("likeLabel");
-        let dislikeLbl = document.getElementById("dislikeLabel");
-        let voidLbl = document.getElementById("voidLabel");
+        const likeLbl = document.getElementById("likeLabel");
+        const dislikeLbl = document.getElementById("dislikeLabel");
+        const voidLbl = document.getElementById("voidLabel");
+
         likeLbl.innerText = "like " + likes;
         dislikeLbl.innerText = "dislike " + dislikes;
+
         if (reaction === -1) {
             dislikeLbl.setAttribute("checked", "");
         } else if (reaction === 0) {

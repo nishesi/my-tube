@@ -29,10 +29,10 @@ public class WhenAddedTag extends TagSupport {
 
         try {
             if (years >= 1) {
-                pageContext.getOut().print(yearsFormat.format(addedDate));
+//                pageContext.getOut().print(yearsFormat.format(addedDate));
 
             } else if (months >= 1) {
-                pageContext.getOut().print(monthsFormat.format(addedDate));
+//                pageContext.getOut().print(monthsFormat.format(addedDate));
 
             } else if (days >= 1) {
                 pageContext.getOut().print(days + " days ago");
