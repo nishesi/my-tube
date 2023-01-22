@@ -2,10 +2,13 @@ package ru.itis.MyTube.controllers.listeners;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.validators.*;
+import ru.itis.MyTube.config.AppConfig;
 import ru.itis.MyTube.model.MVUpdater;
 import ru.itis.MyTube.model.dao.ChannelRepository;
 import ru.itis.MyTube.model.dao.ReactionRepository;
@@ -42,7 +45,10 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        ApplicationContext appContext = new AnnotationConfigApplicationContext(AppConfig.class);
         ServletContext context = sce.getServletContext();
+
+        context.setAttribute("context", appContext);
 
         urlCreator = new UrlCreator(context.getContextPath());
         context.setAttribute(Beans.URL_CREATOR, urlCreator);
@@ -52,7 +58,7 @@ public class ContextListener implements ServletContextListener {
 
         initDataSource();
 
-        setServices(context);
+        setServices(context, appContext);
 
         initPageAttributes(context);
 
@@ -91,24 +97,19 @@ public class ContextListener implements ServletContextListener {
         context.setAttribute(Attributes.COMMON_CSS_URL, context.getContextPath() + "/css/common.css");
     }
 
-    private void setServices(ServletContext context) {
-        UserRepository userRepository = new UserRepositoryJdbcImpl(dataSource);
-        VideoRepository videoRepository = new VideoRepositoryJdbcImpl(dataSource);
-        ChannelRepository channelRepository = new ChannelRepositoryJdbcImpl(dataSource);
-        ReactionRepository reactionRepository = new ReactionRepositoryJdbcImpl(dataSource);
-
+    private void setServices(ServletContext context, ApplicationContext appContext) {
         VideoValidator videoValidator = new VideoValidator();
         SearchValidator searchValidator = new SearchValidator();
         UserUpdateValidator userUpdateValidator = new UserUpdateValidator();
         VideoUpdateValidator videoUpdateValidator = new VideoUpdateValidator();
-        RegistrationValidator registrationValidator = new RegistrationValidator(userRepository);
+        RegistrationValidator registrationValidator = new RegistrationValidator(appContext.getBean(UserRepository.class));
         ChannelCreateValidator channelCreateValidator = new ChannelCreateValidator();
         AuthenticationValidator authenticationValidator = new AuthenticationValidator();
 
         context.setAttribute(
                 Beans.USER_SERVICE,
-                new UserServiceImpl(userRepository,
-                        reactionRepository,
+                new UserServiceImpl(appContext.getBean(UserRepository.class),
+                        appContext.getBean(ReactionRepository.class),
                         storage,
                         urlCreator,
                         userUpdateValidator,
@@ -117,7 +118,7 @@ public class ContextListener implements ServletContextListener {
         );
         context.setAttribute(
                 Beans.VIDEO_SERVICE,
-                new VideoServiceImpl(videoRepository,
+                new VideoServiceImpl(appContext.getBean(VideoRepository.class),
                         storage,
                         urlCreator,
                         searchValidator,
@@ -126,10 +127,14 @@ public class ContextListener implements ServletContextListener {
         );
         context.setAttribute(
                 Beans.CHANNEL_SERVICE,
-                new ChannelServiceImpl(channelRepository, userRepository, storage, urlCreator, channelCreateValidator)
+                new ChannelServiceImpl(appContext.getBean(ChannelRepository.class),
+                        appContext.getBean(UserRepository.class),
+                        storage,
+                        urlCreator,
+                        channelCreateValidator)
         );
         context.setAttribute(
                 Beans.REACTION_SERVICE,
-                new ReactionServiceImpl(reactionRepository));
+                new ReactionServiceImpl(appContext.getBean(ReactionRepository.class)));
     }
 }

@@ -1,6 +1,7 @@
 package ru.itis.MyTube.model.dao.implementations;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.model.dao.VideoRepository;
 import ru.itis.MyTube.model.dto.ChannelCover;
 import ru.itis.MyTube.model.dto.Video;
@@ -19,6 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
+@Repository
 @RequiredArgsConstructor
 public class VideoRepositoryJdbcImpl extends AbstractRepository implements VideoRepository {
 

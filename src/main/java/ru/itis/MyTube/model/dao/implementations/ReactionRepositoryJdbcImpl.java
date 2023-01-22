@@ -1,6 +1,7 @@
 package ru.itis.MyTube.model.dao.implementations;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.model.dao.ReactionRepository;
 import ru.itis.MyTube.model.dto.Reaction;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
+@Repository
 @RequiredArgsConstructor
 public class ReactionRepositoryJdbcImpl extends AbstractRepository implements ReactionRepository {
     private static final String SQL_UPDATE_REACTION = "update viewing set reaction = ? where video_uuid = ? and username = ?";

@@ -1,5 +1,7 @@
 package ru.itis.MyTube.model.dao.implementations;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dto.User;
 
@@ -11,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+@Repository
+@RequiredArgsConstructor
 public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRepository {
 
     private static final Function<ResultSet, User> USER_MAPPER = (set) -> {
@@ -45,10 +49,6 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
     private static final String SQL_UNSUBSCRIBE = "delete from users_subscriptions where username = ? and channel_id = ?";
     private static final String SQL_SUBSCRIBE = "insert into users_subscriptions (username, channel_id) values (?, ?)";
     private final DataSource dataSource;
-
-    public UserRepositoryJdbcImpl(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
     @Override
     public List<User> getAll() {

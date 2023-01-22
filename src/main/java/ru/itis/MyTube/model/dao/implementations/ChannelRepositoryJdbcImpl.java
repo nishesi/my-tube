@@ -1,6 +1,7 @@
 package ru.itis.MyTube.model.dao.implementations;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.model.dao.ChannelRepository;
 import ru.itis.MyTube.model.dto.Channel;
 import ru.itis.MyTube.model.dto.ChannelCover;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+@Repository
 @RequiredArgsConstructor
 public class ChannelRepositoryJdbcImpl extends AbstractRepository implements ChannelRepository {
     private static final Function<ResultSet, ChannelCover> CHANNEL_COVER_MAPPER = set -> {
