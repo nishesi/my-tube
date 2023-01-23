@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.servlets.util;
 
-import ru.itis.MyTube.auxiliary.constants.Beans;
+import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.StorageException;
 import ru.itis.MyTube.model.storage.Storage;
@@ -22,7 +22,8 @@ public class ResourceServlet extends HttpServlet {
 
     @Override
     public void init() {
-        storage = (Storage) getServletContext().getAttribute(Beans.STORAGE);
+        storage = ((ApplicationContext) getServletContext().getAttribute("context"))
+                .getBean(Storage.class);
     }
 
     @Override
@@ -30,9 +31,9 @@ public class ResourceServlet extends HttpServlet {
         String id = req.getParameter("id");
         String type = req.getParameter("fileType");
 
-         if (!validateParameters(type, id, resp)) {
-             return;
-         }
+        if (!validateParameters(type, id, resp)) {
+            return;
+        }
 
         FileType fileType1 = null;
 
@@ -66,10 +67,9 @@ public class ResourceServlet extends HttpServlet {
                     break;
             }
         } catch (IllegalArgumentException ex) {
-            resp.sendError(405 , "invalid id = " + id);
+            resp.sendError(405, "invalid id = " + id);
             return;
         }
-
 
 
         try (InputStream resource = storage.get(fileType1, id)) {

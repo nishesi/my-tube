@@ -1,14 +1,15 @@
 package ru.itis.MyTube.auxiliary;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.*;
 
-@RequiredArgsConstructor
+@Component
 public class UrlCreator {
-    private final String contextPath;
-
+    @Value("${context.path}")
+    private String contextPath;
 
     public String createResourceUrl(FileType fileType, String id) {
         String url = contextPath + RESOURCE + "?id=" + id + "&fileType=";

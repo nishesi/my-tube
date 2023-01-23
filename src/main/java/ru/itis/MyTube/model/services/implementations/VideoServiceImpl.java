@@ -1,6 +1,7 @@
 package ru.itis.MyTube.model.services.implementations;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.enums.FileType;
@@ -26,6 +27,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 @RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
 

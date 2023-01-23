@@ -1,7 +1,7 @@
 package ru.itis.MyTube.controllers.servlets.video;
 
+import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.auxiliary.Alert;
-import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.Video;
@@ -30,8 +30,8 @@ public class WatchingServlet extends HttpServlet {
 
     @Override
     public void init() {
-        videoService = (VideoService) getServletContext().getAttribute(Beans.VIDEO_SERVICE);
-        userService = (UserService) getServletContext().getAttribute(Beans.USER_SERVICE);
+        videoService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(VideoService.class);
+        userService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(UserService.class);
     }
 
     @Override

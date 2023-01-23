@@ -1,11 +1,13 @@
 package ru.itis.MyTube.auxiliary.validators;
 
+import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.forms.AuthenticationForm;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class AuthenticationValidator {
 
     public void validate(AuthenticationForm form) throws ValidationException {

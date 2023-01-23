@@ -1,11 +1,13 @@
 package ru.itis.MyTube.auxiliary.validators;
 
+import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.forms.ChannelForm;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class ChannelCreateValidator extends VideoValidator{
     public void validate(ChannelForm form) throws ValidationException {
         Map<String, String> problems = new HashMap<>();

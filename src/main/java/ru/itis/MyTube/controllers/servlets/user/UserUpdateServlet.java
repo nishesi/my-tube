@@ -1,5 +1,6 @@
 package ru.itis.MyTube.controllers.servlets.user;
 
+import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
@@ -17,7 +18,6 @@ import java.io.IOException;
 import java.util.Queue;
 
 import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
-import static ru.itis.MyTube.auxiliary.constants.Beans.USER_SERVICE;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_EXIT;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_UPDATE;
 
@@ -28,7 +28,7 @@ public class UserUpdateServlet extends HttpServlet {
 
     @Override
     public void init() {
-        userService = (UserService) getServletContext().getAttribute(USER_SERVICE);
+        userService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(UserService.class);
     }
 
     @Override

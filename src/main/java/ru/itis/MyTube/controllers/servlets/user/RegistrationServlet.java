@@ -1,5 +1,6 @@
 package ru.itis.MyTube.controllers.servlets.user;
 
+import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
@@ -25,7 +26,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     public void init() {
-        userService = (UserService) getServletContext().getAttribute(Beans.USER_SERVICE);
+        userService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(UserService.class);
     }
 
     @Override

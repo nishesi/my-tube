@@ -1,8 +1,11 @@
 package ru.itis.MyTube.auxiliary.validators;
 
+import org.springframework.stereotype.Component;
+
 import javax.servlet.http.Part;
 import java.util.Map;
 
+@Component
 public class VideoUpdateValidator extends VideoValidator {
 
     @Override

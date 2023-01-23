@@ -1,5 +1,6 @@
 package ru.itis.MyTube.controllers.servlets;
 
+import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.UrlPatterns;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
@@ -7,6 +8,7 @@ import ru.itis.MyTube.model.dto.Channel;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.ChannelService;
+import ru.itis.MyTube.model.services.ReactionService;
 import ru.itis.MyTube.model.services.UserService;
 import ru.itis.MyTube.model.services.VideoService;
 
@@ -32,9 +34,9 @@ public class ChannelServlet extends HttpServlet {
 
     @Override
     public void init() {
-        channelService = (ChannelService) getServletContext().getAttribute(CHANNEL_SERVICE);
-        videoService = (VideoService) getServletContext().getAttribute(VIDEO_SERVICE);
-        userService = (UserService) getServletContext().getAttribute(USER_SERVICE);
+        channelService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(ChannelService.class);
+        videoService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(VideoService.class);
+        userService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(UserService.class);
     }
 
     @Override

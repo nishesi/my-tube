@@ -1,5 +1,7 @@
 package ru.itis.MyTube.auxiliary.validators;
 
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.forms.VideoForm;
 
@@ -9,6 +11,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Primary
+@Component
 public class VideoValidator extends AbstractValidator {
     private static final Pattern invalidChars = Pattern.compile("[<>{}\\[\\];]");
 

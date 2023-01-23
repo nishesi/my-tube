@@ -1,5 +1,6 @@
 package ru.itis.MyTube.auxiliary.validators;
 
+import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.forms.UserUpdateForm;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.Part;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class UserUpdateValidator extends AbstractValidator {
 
     public void validate(UserUpdateForm form) throws ValidationException {

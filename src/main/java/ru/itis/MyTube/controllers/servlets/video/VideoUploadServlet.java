@@ -1,5 +1,6 @@
 package ru.itis.MyTube.controllers.servlets.video;
 
+import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
@@ -29,7 +30,7 @@ public class VideoUploadServlet extends HttpServlet {
 
     @Override
     public void init() {
-        videoService = (VideoService) getServletContext().getAttribute(Beans.VIDEO_SERVICE);
+        videoService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(VideoService.class);
     }
 
     @Override

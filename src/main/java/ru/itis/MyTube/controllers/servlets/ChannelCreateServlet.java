@@ -1,5 +1,6 @@
 package ru.itis.MyTube.controllers.servlets;
 
+import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
@@ -17,7 +18,6 @@ import java.io.IOException;
 import java.util.Queue;
 
 import static ru.itis.MyTube.auxiliary.constants.Attributes.*;
-import static ru.itis.MyTube.auxiliary.constants.Beans.CHANNEL_SERVICE;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_CHANNEL_CREATE;
 
@@ -29,7 +29,7 @@ public class ChannelCreateServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        channelService = (ChannelService) getServletContext().getAttribute(CHANNEL_SERVICE);
+        channelService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(ChannelService.class);
     }
 
     @Override

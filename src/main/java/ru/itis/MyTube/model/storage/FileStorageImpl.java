@@ -1,5 +1,6 @@
 package ru.itis.MyTube.model.storage;
 
+import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.StorageException;
 
@@ -9,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+@Component
 public class FileStorageImpl implements Storage {
 
     private static final String VIDEO_TYPE = ".mp4";

@@ -19,6 +19,7 @@ import ru.itis.MyTube.model.storage.Storage;
 import java.io.IOException;
 import java.util.Optional;
 
+@Component
 @RequiredArgsConstructor
 public class ChannelServiceImpl implements ChannelService {
 

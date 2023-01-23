@@ -1,5 +1,6 @@
 package ru.itis.MyTube.controllers.servlets.video;
 
+import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.auxiliary.Alert;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
@@ -15,7 +16,6 @@ import java.io.IOException;
 import java.util.Queue;
 
 import static ru.itis.MyTube.auxiliary.constants.Attributes.*;
-import static ru.itis.MyTube.auxiliary.constants.Beans.VIDEO_SERVICE;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_VIDEO_DELETE;
 
@@ -25,7 +25,7 @@ public class VideoDeleteServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        videoService = (VideoService) getServletContext().getAttribute(VIDEO_SERVICE);
+        videoService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(VideoService.class);
     }
 
     @Override

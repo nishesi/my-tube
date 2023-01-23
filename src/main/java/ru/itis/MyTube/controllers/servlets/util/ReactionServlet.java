@@ -1,5 +1,6 @@
 package ru.itis.MyTube.controllers.servlets.util;
 
+import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.forms.ReactionForm;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
-import static ru.itis.MyTube.auxiliary.constants.Beans.REACTION_SERVICE;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.AUTHENTICATION_PAGE;
 import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_REACTION;
 
@@ -23,7 +23,7 @@ public class ReactionServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        reactionService = (ReactionService) getServletContext().getAttribute(REACTION_SERVICE);
+        reactionService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(ReactionService.class);
     }
 
     @Override

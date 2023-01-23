@@ -1,7 +1,10 @@
 package ru.itis.MyTube.auxiliary.validators;
 
+import org.springframework.stereotype.Component;
+
 import java.util.regex.Pattern;
 
+@Component
 public class SearchValidator {
 
     private static final Pattern pattern = Pattern.compile("[A-Za-zА-Яа-я0-9!?,.)( #:\"-]+");
