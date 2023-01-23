@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns" %>
+<%@ page import="ru.itis.MyTube.controllers.UrlPatterns" %>
 
 <jsp:useBean id="commonCssUrl" scope="application" type="java.lang.String"/>
 <jsp:useBean id="channel" scope="request" type="ru.itis.MyTube.model.dto.Channel"/>

@@ -1,7 +1,7 @@
 package ru.itis.MyTube.controllers.servlets.util;
 
 import org.springframework.context.ApplicationContext;
-import ru.itis.MyTube.auxiliary.enums.FileType;
+import ru.itis.MyTube.model.storage.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.StorageException;
 import ru.itis.MyTube.model.storage.Storage;
 
@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.UUID;
 
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.RESOURCE;
+import static ru.itis.MyTube.controllers.UrlPatterns.RESOURCE;
 
 @WebServlet(RESOURCE)
 public class ResourceServlet extends HttpServlet {

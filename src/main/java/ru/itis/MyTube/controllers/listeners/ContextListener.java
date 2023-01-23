@@ -1,7 +1,7 @@
 package ru.itis.MyTube.controllers.listeners;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ru.itis.MyTube.auxiliary.constants.Attributes;
+import ru.itis.MyTube.view.Attributes;
 import ru.itis.MyTube.config.AppConfig;
 
 import javax.servlet.ServletContext;

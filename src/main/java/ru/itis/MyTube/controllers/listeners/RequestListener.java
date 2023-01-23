@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
+import static ru.itis.MyTube.view.Attributes.ALERTS;
 
 @WebListener
 public class RequestListener implements ServletRequestListener {

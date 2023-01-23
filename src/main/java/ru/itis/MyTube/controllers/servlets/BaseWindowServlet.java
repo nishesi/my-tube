@@ -2,7 +2,7 @@ package ru.itis.MyTube.controllers.servlets;
 
 import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.view.Alert;
-import ru.itis.MyTube.auxiliary.constants.Attributes;
+import ru.itis.MyTube.view.Attributes;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.VideoCover;
@@ -17,8 +17,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
-import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
+import static ru.itis.MyTube.view.Attributes.ALERTS;
+import static ru.itis.MyTube.view.Attributes.USER;
 
 
 @WebServlet("")

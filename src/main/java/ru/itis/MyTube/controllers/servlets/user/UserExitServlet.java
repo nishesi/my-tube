@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
-import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_EXIT;
+import static ru.itis.MyTube.view.Attributes.ALERTS;
+import static ru.itis.MyTube.view.Attributes.USER;
+import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_USER_EXIT;
 
 @WebServlet(PRIVATE_USER_EXIT)
 public class UserExitServlet extends HttpServlet {

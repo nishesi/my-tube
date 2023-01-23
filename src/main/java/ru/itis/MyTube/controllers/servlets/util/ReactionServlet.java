@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.AUTHENTICATION_PAGE;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_REACTION;
+import static ru.itis.MyTube.view.Attributes.USER;
+import static ru.itis.MyTube.controllers.UrlPatterns.AUTHENTICATION_PAGE;
+import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_REACTION;
 
 @WebServlet(PRIVATE_REACTION)
 public class ReactionServlet extends HttpServlet {

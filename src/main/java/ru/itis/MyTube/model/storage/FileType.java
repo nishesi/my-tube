@@ -1,4 +1,4 @@
-package ru.itis.MyTube.auxiliary.enums;
+package ru.itis.MyTube.model.storage;
 
 public enum FileType {
     VIDEO("v"),

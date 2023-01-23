@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.*;
+import static ru.itis.MyTube.view.Attributes.USER;
+import static ru.itis.MyTube.controllers.UrlPatterns.*;
 
 @WebFilter(PRIVATE + "/*")
 public class AuthenticationFilter extends HttpFilter {

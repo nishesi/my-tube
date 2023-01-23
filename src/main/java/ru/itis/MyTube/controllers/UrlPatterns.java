@@ -1,4 +1,4 @@
-package ru.itis.MyTube.auxiliary.constants;
+package ru.itis.MyTube.controllers;
 
 public class UrlPatterns {
     public static final String PRIVATE = "/private";

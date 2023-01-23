@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_EXIT;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_USER_UPDATE;
+import static ru.itis.MyTube.view.Attributes.ALERTS;
+import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_USER_EXIT;
+import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_USER_UPDATE;
 
 @WebServlet(PRIVATE_USER_UPDATE)
 @MultipartConfig

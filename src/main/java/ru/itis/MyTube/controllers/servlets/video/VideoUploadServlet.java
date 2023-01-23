@@ -17,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.FORM;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.CHANNEL;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.PRIVATE_VIDEO_UPLOAD;
+import static ru.itis.MyTube.view.Attributes.FORM;
+import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
+import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_VIDEO_UPLOAD;
 
 @WebServlet(PRIVATE_VIDEO_UPLOAD)
 @MultipartConfig

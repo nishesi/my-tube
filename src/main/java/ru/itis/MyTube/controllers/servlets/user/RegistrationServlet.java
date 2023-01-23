@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.ALERTS;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.AUTHENTICATION_PAGE;
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.REGISTRATION_PAGE;
+import static ru.itis.MyTube.view.Attributes.ALERTS;
+import static ru.itis.MyTube.controllers.UrlPatterns.AUTHENTICATION_PAGE;
+import static ru.itis.MyTube.controllers.UrlPatterns.REGISTRATION_PAGE;
 
 @WebServlet(REGISTRATION_PAGE)
 public class RegistrationServlet extends HttpServlet {

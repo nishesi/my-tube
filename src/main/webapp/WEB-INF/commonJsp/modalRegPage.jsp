@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
-<%@ page import="ru.itis.MyTube.auxiliary.constants.UrlPatterns" %>
+<%@ page import="ru.itis.MyTube.controllers.UrlPatterns" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>

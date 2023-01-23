@@ -2,7 +2,7 @@ package ru.itis.MyTube.controllers.servlets.user;
 
 import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.view.Alert;
-import ru.itis.MyTube.auxiliary.constants.UrlPatterns;
+import ru.itis.MyTube.controllers.UrlPatterns;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.User;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Queue;
 
-import static ru.itis.MyTube.auxiliary.constants.Attributes.*;
+import static ru.itis.MyTube.view.Attributes.*;
 
 @WebServlet(UrlPatterns.AUTHENTICATION_PAGE)
 public class AuthenticationServlet extends HttpServlet {

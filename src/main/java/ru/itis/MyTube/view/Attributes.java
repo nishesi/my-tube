@@ -1,4 +1,4 @@
-package ru.itis.MyTube.auxiliary.constants;
+package ru.itis.MyTube.view;
 
 public class Attributes {
     public static final String VIDEO_COVER_LIST = "videoCoverList";

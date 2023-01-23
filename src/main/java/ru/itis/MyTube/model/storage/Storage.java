@@ -1,7 +1,5 @@
 package ru.itis.MyTube.model.storage;
 
-import ru.itis.MyTube.auxiliary.enums.FileType;
-
 import java.io.InputStream;
 
 

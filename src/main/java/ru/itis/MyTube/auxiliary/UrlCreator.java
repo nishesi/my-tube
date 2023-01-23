@@ -2,9 +2,9 @@ package ru.itis.MyTube.auxiliary;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.itis.MyTube.auxiliary.enums.FileType;
+import ru.itis.MyTube.model.storage.FileType;
 
-import static ru.itis.MyTube.auxiliary.constants.UrlPatterns.*;
+import static ru.itis.MyTube.controllers.UrlPatterns.*;
 
 @Component
 public class UrlCreator {
