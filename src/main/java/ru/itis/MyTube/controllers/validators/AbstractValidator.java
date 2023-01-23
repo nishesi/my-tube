@@ -1,4 +1,4 @@
-package ru.itis.MyTube.auxiliary.validators;
+package ru.itis.MyTube.controllers.validators;
 
 import javax.servlet.http.Part;
 import java.time.LocalDate;

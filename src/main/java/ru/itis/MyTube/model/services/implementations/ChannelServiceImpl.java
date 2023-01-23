@@ -6,7 +6,7 @@ import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.auxiliary.validators.ChannelCreateValidator;
+import ru.itis.MyTube.controllers.validators.ChannelCreateValidator;
 import ru.itis.MyTube.model.dao.ChannelRepository;
 import ru.itis.MyTube.model.dao.UserRepository;
 import ru.itis.MyTube.model.dto.Channel;

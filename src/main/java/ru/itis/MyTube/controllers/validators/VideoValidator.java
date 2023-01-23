@@ -1,4 +1,4 @@
-package ru.itis.MyTube.auxiliary.validators;
+package ru.itis.MyTube.controllers.validators;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;

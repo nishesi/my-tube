@@ -8,7 +8,6 @@ import ru.itis.MyTube.model.dto.Channel;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.ChannelService;
-import ru.itis.MyTube.model.services.ReactionService;
 import ru.itis.MyTube.model.services.UserService;
 import ru.itis.MyTube.model.services.VideoService;
 
@@ -22,7 +21,6 @@ import java.util.List;
 
 import static ru.itis.MyTube.auxiliary.constants.Attributes.USER;
 import static ru.itis.MyTube.auxiliary.constants.Attributes.VIDEO_COVER_LIST;
-import static ru.itis.MyTube.auxiliary.constants.Beans.*;
 
 @WebServlet(UrlPatterns.CHANNEL)
 public class ChannelServlet extends HttpServlet {

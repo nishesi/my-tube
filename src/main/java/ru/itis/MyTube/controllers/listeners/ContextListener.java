@@ -1,21 +1,9 @@
 package ru.itis.MyTube.controllers.listeners;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
-import ru.itis.MyTube.auxiliary.constants.Beans;
-import ru.itis.MyTube.auxiliary.validators.*;
 import ru.itis.MyTube.config.AppConfig;
 import ru.itis.MyTube.model.MVUpdater;
-import ru.itis.MyTube.model.dao.ChannelRepository;
-import ru.itis.MyTube.model.dao.ReactionRepository;
-import ru.itis.MyTube.model.dao.UserRepository;
-import ru.itis.MyTube.model.dao.VideoRepository;
-import ru.itis.MyTube.model.services.UserService;
-import ru.itis.MyTube.model.services.implementations.ChannelServiceImpl;
-import ru.itis.MyTube.model.services.implementations.ReactionServiceImpl;
-import ru.itis.MyTube.model.services.implementations.VideoServiceImpl;
-import ru.itis.MyTube.model.storage.Storage;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;

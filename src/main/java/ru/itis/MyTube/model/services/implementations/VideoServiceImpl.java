@@ -1,15 +1,14 @@
 package ru.itis.MyTube.model.services.implementations;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.enums.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.auxiliary.validators.SearchValidator;
-import ru.itis.MyTube.auxiliary.validators.VideoUpdateValidator;
-import ru.itis.MyTube.auxiliary.validators.VideoValidator;
+import ru.itis.MyTube.controllers.validators.SearchValidator;
+import ru.itis.MyTube.controllers.validators.VideoUpdateValidator;
+import ru.itis.MyTube.controllers.validators.VideoValidator;
 import ru.itis.MyTube.model.dao.VideoRepository;
 import ru.itis.MyTube.model.dto.ChannelCover;
 import ru.itis.MyTube.model.dto.User;

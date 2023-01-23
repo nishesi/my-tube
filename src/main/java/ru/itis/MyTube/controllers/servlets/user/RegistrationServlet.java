@@ -2,7 +2,6 @@ package ru.itis.MyTube.controllers.servlets.user;
 
 import org.springframework.context.ApplicationContext;
 import ru.itis.MyTube.auxiliary.Alert;
-import ru.itis.MyTube.auxiliary.constants.Beans;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.forms.RegistrationForm;
