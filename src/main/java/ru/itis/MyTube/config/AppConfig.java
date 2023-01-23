@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import ru.itis.MyTube.model.MvUpdater;
+
+import javax.sql.DataSource;
 
 @Configuration
 @RequiredArgsConstructor
@@ -17,12 +20,7 @@ import org.springframework.context.annotation.PropertySource;
 public class AppConfig {
 
     @Bean(destroyMethod = "close")
-    public HikariDataSource dataSource(HikariConfig hikariConfig) {
-        return new HikariDataSource(hikariConfig);
-    }
-
-    @Bean
-    public HikariConfig hikariConfig(
+    public HikariDataSource dataSource(
             @Value("${db.username}") String username,
             @Value("${db.password}") String password,
             @Value("${db.url}") String url,
@@ -33,6 +31,15 @@ public class AppConfig {
         hikariConfig.setPassword(password);
         hikariConfig.setJdbcUrl(url);
         hikariConfig.setMaximumPoolSize(maxPoolSize);
-        return hikariConfig;
+
+        return new HikariDataSource(hikariConfig);
+    }
+
+    @Bean(initMethod = "start", destroyMethod = "finish")
+    public MvUpdater mvUpdater(
+            DataSource dataSource,
+            @Value("${db.mvUpdateTimeout}") long timeout
+    ) {
+        return new MvUpdater(dataSource, timeout);
     }
 }
