@@ -10,7 +10,7 @@
 
     <tag>
         <name>alertList</name>
-        <tag-class>ru.itis.MyTube.auxiliary.tags.AlertHandler</tag-class>
+        <tag-class>ru.itis.MyTube.view.tags.AlertHandler</tag-class>
         <body-content>empty</body-content>
 
         <attribute>

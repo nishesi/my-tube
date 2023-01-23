@@ -1,4 +1,4 @@
-package ru.itis.MyTube.auxiliary;
+package ru.itis.MyTube.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

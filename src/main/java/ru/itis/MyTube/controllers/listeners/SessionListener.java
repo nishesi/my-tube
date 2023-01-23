@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.listeners;
 
-import ru.itis.MyTube.auxiliary.Alert;
+import ru.itis.MyTube.view.Alert;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;

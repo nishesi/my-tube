@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.servlets.user;
 
-import ru.itis.MyTube.auxiliary.Alert;
+import ru.itis.MyTube.view.Alert;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

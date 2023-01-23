@@ -9,7 +9,7 @@
     <uri>/WEB-INF/tags/VideoCover</uri>
     <tag>
         <name>whenAdded</name>
-        <tag-class>ru.itis.MyTube.auxiliary.tags.WhenAddedTag</tag-class>
+        <tag-class>ru.itis.MyTube.view.tags.WhenAddedTag</tag-class>
         <body-content>empty</body-content>
 
         <attribute>
@@ -22,7 +22,7 @@
 
     <tag>
         <name>views</name>
-        <tag-class>ru.itis.MyTube.auxiliary.tags.ViewsTag</tag-class>
+        <tag-class>ru.itis.MyTube.view.tags.ViewsTag</tag-class>
         <body-content>empty</body-content>
 
         <attribute>
@@ -35,7 +35,7 @@
 
     <tag>
         <name>duration</name>
-        <tag-class>ru.itis.MyTube.auxiliary.tags.DurationTag</tag-class>
+        <tag-class>ru.itis.MyTube.view.tags.DurationTag</tag-class>
         <body-content>empty</body-content>
 
         <attribute>

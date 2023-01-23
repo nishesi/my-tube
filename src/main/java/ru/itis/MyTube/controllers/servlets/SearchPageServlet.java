@@ -1,7 +1,7 @@
 package ru.itis.MyTube.controllers.servlets;
 
 import org.springframework.context.ApplicationContext;
-import ru.itis.MyTube.auxiliary.Alert;
+import ru.itis.MyTube.view.Alert;
 import ru.itis.MyTube.auxiliary.constants.Attributes;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.dto.VideoCover;

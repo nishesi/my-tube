@@ -1,6 +1,6 @@
-package ru.itis.MyTube.auxiliary.tags;
+package ru.itis.MyTube.view.tags;
 
-import ru.itis.MyTube.auxiliary.Alert;
+import ru.itis.MyTube.view.Alert;
 
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;

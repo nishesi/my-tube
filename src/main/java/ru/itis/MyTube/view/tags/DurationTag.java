@@ -1,4 +1,4 @@
-package ru.itis.MyTube.auxiliary.tags;
+package ru.itis.MyTube.view.tags;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
