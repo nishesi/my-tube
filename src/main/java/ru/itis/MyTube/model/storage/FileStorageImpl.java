@@ -1,5 +1,6 @@
 package ru.itis.MyTube.model.storage;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.StorageException;
 
@@ -14,18 +15,25 @@ public class FileStorageImpl implements Storage {
 
     private static final String VIDEO_TYPE = ".mp4";
     private static final String IMAGE_TYPE = ".jpg";
+    private final Path VIDEO_STORAGE = Paths.get("videoStorage");
+    private final Path VIDEO_ICON_STORAGE = Paths.get("imageStorage/videoIcons");
+    private final Path CHANNEL_ICON_STORAGE = Paths.get("imageStorage/channelIcons");
+    private final Path USER_ICON_STORAGE = Paths.get("imageStorage/userIcons");
+    private final Path REPOSITORY;
+    private final File USER_DEFAULT_ICON;
+    private final File CHANNEL_DEFAULT_ICON;
 
-    private static final Path REPOSITORY = Paths.get("D://MyTube");
+    public FileStorageImpl(@Value("${context.repository}") String path) {
+        REPOSITORY = Paths.get(path);
 
-    private static final Path VIDEO_STORAGE = Paths.get("videoStorage");
-    private static final Path VIDEO_ICON_STORAGE = Paths.get("imageStorage/videoIcons");
-    private static final Path CHANNEL_ICON_STORAGE = Paths.get("imageStorage/channelIcons");
-    private static final Path USER_ICON_STORAGE = Paths.get("imageStorage/userIcons");
-    private static final File USER_DEFAULT_ICON =
-            REPOSITORY.resolve(USER_ICON_STORAGE).resolve("default" + IMAGE_TYPE).toFile();
-    private static final File CHANNEL_DEFAULT_ICON =
-            REPOSITORY.resolve(CHANNEL_ICON_STORAGE).resolve("default" + IMAGE_TYPE).toFile();
+        USER_DEFAULT_ICON = REPOSITORY
+                .resolve(USER_ICON_STORAGE)
+                .resolve("default" + IMAGE_TYPE).toFile();
 
+        CHANNEL_DEFAULT_ICON = REPOSITORY
+                .resolve(CHANNEL_ICON_STORAGE)
+                .resolve("default" + IMAGE_TYPE).toFile();
+    }
     @Override
     public InputStream get(FileType fileType, String id) {
         if (fileType == null || id == null) {
@@ -49,7 +57,7 @@ public class FileStorageImpl implements Storage {
 
         File file = getFile(fileType, id, true);
 
-        try  {
+        try {
             file.createNewFile();
             OutputStream outputStream = Files.newOutputStream(file.toPath());
             resource.transferTo(outputStream);
