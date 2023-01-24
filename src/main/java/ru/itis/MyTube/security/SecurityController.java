@@ -1,16 +1,17 @@
 package ru.itis.MyTube.security;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class SecurityController {
 
-    @RequestMapping("/perform_login")
+    @PostMapping("/login")
     @ResponseBody
     public String handle1() {
-        return "login";
+        return "login processed";
     }
     @RequestMapping("/perform_logout")
     @ResponseBody
