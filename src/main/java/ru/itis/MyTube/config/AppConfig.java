@@ -8,11 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ru.itis.MyTube.model.MvUpdater;
 
 import javax.sql.DataSource;
 
 @Configuration
+@EnableWebMvc
 @RequiredArgsConstructor
 @ComponentScan("ru.itis.MyTube")
 @PropertySource("classpath:db.properties")
