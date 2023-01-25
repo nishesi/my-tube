@@ -19,7 +19,7 @@ import static ru.itis.MyTube.view.Attributes.*;
 import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_VIDEO_DELETE;
 
-@WebServlet(PRIVATE_VIDEO_DELETE)
+//@WebServlet(PRIVATE_VIDEO_DELETE)
 public class VideoDeleteServlet extends HttpServlet {
     private VideoService videoService;
 

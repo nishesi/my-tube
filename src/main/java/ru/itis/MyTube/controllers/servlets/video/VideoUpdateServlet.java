@@ -22,7 +22,7 @@ import static ru.itis.MyTube.view.Attributes.FORM;
 import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_VIDEO_UPDATE;
 
-@WebServlet(PRIVATE_VIDEO_UPDATE)
+//@WebServlet(PRIVATE_VIDEO_UPDATE)
 @MultipartConfig
 public class VideoUpdateServlet extends HttpServlet {
 

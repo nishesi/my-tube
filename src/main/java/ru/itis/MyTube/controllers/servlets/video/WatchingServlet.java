@@ -22,7 +22,7 @@ import java.util.Queue;
 import static ru.itis.MyTube.view.Attributes.USER;
 import static ru.itis.MyTube.controllers.UrlPatterns.VIDEO;
 
-@WebServlet(VIDEO)
+//@WebServlet(VIDEO)
 public class WatchingServlet extends HttpServlet {
 
     private VideoService videoService;

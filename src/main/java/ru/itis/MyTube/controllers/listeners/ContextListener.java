@@ -21,8 +21,6 @@ public class ContextListener implements ServletContextListener {
         servletContext.setAttribute("context", context);
 
         initPageAttributes(servletContext);
-
-
     }
 
     @Override
