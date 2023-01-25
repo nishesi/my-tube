@@ -13,4 +13,13 @@ public enum FileType {
     public String getType() {
         return type;
     }
+
+    public static FileType from(String type) {
+        for (FileType s : FileType.values()) {
+            if (s.type.equals(type)) {
+                return s;
+            }
+        }
+        return null;
+    }
 }

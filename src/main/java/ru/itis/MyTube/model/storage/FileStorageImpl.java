@@ -50,6 +50,21 @@ public class FileStorageImpl implements Storage {
     }
 
     @Override
+    public String getMimeType(FileType fileType, String id) {
+        if (fileType == null || id == null) {
+            throw new StorageException("fileType" + fileType + ", id" + id);
+        }
+
+        File file = getFile(fileType, id, false);
+
+        try {
+            return Files.probeContentType(file.toPath());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void save(FileType fileType, String id, InputStream resource) {
         if (fileType == null || id == null || resource == null) {
             throw new StorageException("fileType = " + fileType + ", id = " + id + ", name = " + resource);
