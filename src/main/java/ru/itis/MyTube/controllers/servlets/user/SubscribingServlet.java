@@ -20,18 +20,13 @@ import static ru.itis.MyTube.view.Attributes.USER;
 import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_SUBSCRIBE;
 
-@WebServlet(PRIVATE_SUBSCRIBE)
+//@WebServlet(PRIVATE_SUBSCRIBE)
 public class SubscribingServlet extends HttpServlet {
     private UserService userService;
 
     @Override
     public void init() throws ServletException {
         userService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(UserService.class);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(getServletContext().getContextPath());
     }
 
     @Override

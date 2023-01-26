@@ -19,7 +19,7 @@ import static ru.itis.MyTube.view.Attributes.ALERTS;
 import static ru.itis.MyTube.controllers.UrlPatterns.AUTHENTICATION_PAGE;
 import static ru.itis.MyTube.controllers.UrlPatterns.REGISTRATION_PAGE;
 
-@WebServlet(REGISTRATION_PAGE)
+//@WebServlet(REGISTRATION_PAGE)
 public class RegistrationServlet extends HttpServlet {
     private UserService userService;
 
