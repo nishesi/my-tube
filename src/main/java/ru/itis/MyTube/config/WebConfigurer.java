@@ -1,6 +1,5 @@
 package ru.itis.MyTube.config;
 
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
