@@ -33,7 +33,7 @@ import static ru.itis.MyTube.view.Attributes.*;
 @RequestMapping("/channel")
 public class ChannelController {
     @Value("${context.path}")
-    private final String contextPath;
+    private String contextPath;
     private final ChannelService channelService;
     private final VideoService videoService;
     private final UserService userService;
@@ -41,7 +41,7 @@ public class ChannelController {
     @GetMapping("/{id}")
     public void getChannel(@PathVariable String id, HttpServletRequest req, HttpServletResponse resp
     ) throws ServletException, IOException {
-        
+
         Channel channel = null;
         List<VideoCover> channelVideos = null;
         Boolean isSubscribed = null;
