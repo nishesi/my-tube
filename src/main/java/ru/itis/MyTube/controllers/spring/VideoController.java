@@ -2,9 +2,10 @@ package ru.itis.MyTube.controllers.spring;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.User;
@@ -36,10 +37,10 @@ public class VideoController {
     private String contextPath;
 
     @GetMapping("/{id}")
-    public ModelAndView getVideo(@PathVariable String id,
-                                 @SessionAttribute(required = false) User user) {
+    public String getVideo(Model model,
+                           @PathVariable String id,
+                           @SessionAttribute(required = false) User user) {
         Byte reaction = null;
-        ModelAndView modelAndView = new ModelAndView();
         try {
             Video video = videoService.getVideo(id);
 
@@ -48,27 +49,24 @@ public class VideoController {
             }
             List<VideoCover> list = videoService.getRandomVideos();
 
-
-            modelAndView.addObject("reaction", reaction);
-            modelAndView.addObject("video", video);
-            modelAndView.addObject("videoCoverList", list);
-            modelAndView.addObject("videoReactionsScriptUrl", contextPath + "/js/ReactionRequester.js");
-            modelAndView.setViewName("/jsp/VideoPage");
+            model.addAttribute("reaction", reaction);
+            model.addAttribute("video", video);
+            model.addAttribute("videoCoverList", list);
+            model.addAttribute("videoReactionsScriptUrl",
+                    contextPath + "/js/ReactionRequester.js");
+            return "/jsp/VideoPage";
 
         } catch (ServiceException ex) {
 //            alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
-            modelAndView.setViewName("/jsp/BaseWindow");
+            return "/jsp/BaseWindow";
         }
-        return modelAndView;
     }
 
     @GetMapping("/update/{id}")
-    public ModelAndView getVideoUpdatePage(@PathVariable String id) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/jsp/UtilVideoPage");
-        modelAndView.addObject("pageType", "Update");
-        modelAndView.addObject("url", contextPath + "/update/" + id);
-        return modelAndView;
+    public String getVideoUpdatePage(Model model, @PathVariable String id) {
+        model.addAttribute("pageType", "Update");
+        model.addAttribute("url", contextPath + "/update/" + id);
+        return "/jsp/UtilVideoPage";
     }
 
     @PostMapping("/update/{id}")
@@ -107,11 +105,9 @@ public class VideoController {
     }
 
     @GetMapping("/add")
-    public ModelAndView getVideoAddPage() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("pageType", "Upload");
-        modelAndView.setViewName("/jsp/UtilVideoPage");
-        return modelAndView;
+    public String  getVideoAddPage(Model model) {
+        model.addAttribute("pageType", "Upload");
+        return "/jsp/UtilVideoPage";
     }
 
     @PostMapping
@@ -146,17 +142,18 @@ public class VideoController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteVideo(@PathVariable String id,
-                            @SessionAttribute User user,
-                            HttpServletResponse response) throws IOException {
-
-        Long userChannelId = user.getChannelId();
+    public ResponseEntity<?> deleteVideo(@PathVariable String id,
+                            @SessionAttribute User user) {
         try {
+            Long userChannelId = user.getChannelId();
             videoService.deleteVideo(id, userChannelId);
+            return ResponseEntity.ok().build();
+
         } catch (ValidationException e) {
-            response.sendError(400, "invalid parameters");
+            return ResponseEntity.badRequest().build();
+
         } catch (ServiceException e) {
-            response.sendError(500, "internal error");
+            return ResponseEntity.internalServerError().build();
         }
     }
 }
