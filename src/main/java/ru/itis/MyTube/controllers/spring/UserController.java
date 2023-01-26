@@ -35,6 +35,7 @@ public class UserController {
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
         model.addAttribute("form", new RegistrationForm());
+        model.addAttribute("regPageCss", contextPath + "/static/css/reg-page.css");
         return "/jsp/RegistrationPage";
     }
 
