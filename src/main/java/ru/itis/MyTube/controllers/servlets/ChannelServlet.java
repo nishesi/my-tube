@@ -22,7 +22,7 @@ import java.util.List;
 import static ru.itis.MyTube.view.Attributes.USER;
 import static ru.itis.MyTube.view.Attributes.VIDEO_COVER_LIST;
 
-@WebServlet(UrlPatterns.CHANNEL)
+//@WebServlet(UrlPatterns.CHANNEL)
 public class ChannelServlet extends HttpServlet {
     private ChannelService channelService;
 
