@@ -1,6 +1,7 @@
 package ru.itis.MyTube.model.dao;
 
 import ru.itis.MyTube.model.dto.Reaction;
+import ru.itis.MyTube.model.dto.Reactions;
 
 import java.util.Map;
 import java.util.Optional;
@@ -16,4 +17,6 @@ public interface ReactionRepository {
     Optional<Byte> getReaction(UUID videoUuid, String username) throws RuntimeException;
 
     Map<String, Long> getVideoReactions(UUID videoUuid) throws RuntimeException;
+
+    Reactions getReactions(UUID videoUuid, String username) throws RuntimeException;
 }

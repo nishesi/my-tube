@@ -12,13 +12,11 @@ public class UrlCreator {
     private String contextPath;
 
     public String createResourceUrl(FileType fileType, String id) {
-        String url = contextPath + RESOURCE + "?id=" + id + "&fileType=";
-
-        return url + fileType.getType();
+        return contextPath + RESOURCE + "/" + fileType.getType() + "/" + id;
     }
 
     public String createWatchUrl(String videoId) {
-        return contextPath + VIDEO + "?uuid=" + videoId;
+        return contextPath + VIDEO + "/" + videoId;
     }
 
     public String createChannelUrl(String channelId) {

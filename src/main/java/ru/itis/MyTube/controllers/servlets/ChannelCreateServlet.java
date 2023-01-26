@@ -21,7 +21,7 @@ import static ru.itis.MyTube.view.Attributes.*;
 import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_CHANNEL_CREATE;
 
-@WebServlet(PRIVATE_CHANNEL_CREATE)
+//@WebServlet(PRIVATE_CHANNEL_CREATE)
 @MultipartConfig
 public class ChannelCreateServlet extends HttpServlet {
 

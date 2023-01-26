@@ -21,7 +21,7 @@ import static ru.itis.MyTube.view.Attributes.FORM;
 import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_VIDEO_UPLOAD;
 
-@WebServlet(PRIVATE_VIDEO_UPLOAD)
+//@WebServlet(PRIVATE_VIDEO_UPLOAD)
 @MultipartConfig
 public class VideoUploadServlet extends HttpServlet {
     private VideoService videoService;

@@ -21,7 +21,7 @@ import static ru.itis.MyTube.view.Attributes.ALERTS;
 import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_USER_EXIT;
 import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_USER_UPDATE;
 
-@WebServlet(PRIVATE_USER_UPDATE)
+//@WebServlet(PRIVATE_USER_UPDATE)
 @MultipartConfig
 public class UserUpdateServlet extends HttpServlet {
     private UserService userService;

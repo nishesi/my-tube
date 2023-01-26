@@ -13,4 +13,19 @@ public enum FileType {
     public String getType() {
         return type;
     }
+
+    public static FileType from(String type) {
+        for (FileType s : FileType.values()) {
+            if (s.type.equals(type)) {
+                return s;
+            }
+        }
+        throw new UnknownFileTypeException("unknown file type: " + type);
+    }
+
+    public static class UnknownFileTypeException extends RuntimeException {
+        public UnknownFileTypeException(String message) {
+            super(message);
+        }
+    }
 }

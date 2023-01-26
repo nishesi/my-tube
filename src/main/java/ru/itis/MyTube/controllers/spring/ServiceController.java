@@ -1,16 +1,16 @@
-package ru.itis.MyTube.controllers.servlets;
+package ru.itis.MyTube.controllers.spring;
 
-import org.springframework.context.ApplicationContext;
-import ru.itis.MyTube.view.Alert;
-import ru.itis.MyTube.view.Attributes;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.VideoCover;
 import ru.itis.MyTube.model.services.VideoService;
+import ru.itis.MyTube.view.Alert;
+import ru.itis.MyTube.view.Attributes;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,19 +20,13 @@ import java.util.Queue;
 import static ru.itis.MyTube.view.Attributes.ALERTS;
 import static ru.itis.MyTube.view.Attributes.USER;
 
+@Controller
+@RequiredArgsConstructor
+public class ServiceController {
+    private final VideoService videoService;
 
-//@WebServlet("")
-public class BaseWindowServlet extends HttpServlet {
-
-    private VideoService videoService;
-
-    @Override
-    public void init() {
-        videoService = ((ApplicationContext)getServletContext().getAttribute("context")).getBean(VideoService.class);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping
+    public void getBaseWindow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String listType = req.getParameter("listType");
         List<VideoCover> list = null;
 

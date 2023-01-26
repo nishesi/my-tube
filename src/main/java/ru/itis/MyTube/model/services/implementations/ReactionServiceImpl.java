@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dao.ReactionRepository;
 import ru.itis.MyTube.model.dto.Reaction;
+import ru.itis.MyTube.model.dto.Reactions;
 import ru.itis.MyTube.model.dto.forms.ReactionForm;
 import ru.itis.MyTube.model.services.ReactionService;
 
@@ -16,7 +17,6 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class ReactionServiceImpl implements ReactionService {
-
 
     private final ReactionRepository reactionRepository;
 
@@ -55,7 +55,6 @@ public class ReactionServiceImpl implements ReactionService {
         Map<String, Long> reactions = reactionRepository.getVideoReactions(videoUuid);
 
 
-
         return "{" +
                 "\"reaction\": " + reaction2 +
                 ",\"likes\": " + (reactions.get("likes") + ((reaction == 1) ? 1 : 0)) +
@@ -64,7 +63,7 @@ public class ReactionServiceImpl implements ReactionService {
     }
 
     @Override
-    public String getReaction(ReactionForm form) throws ValidationException {
+    public Reactions getReaction(ReactionForm form) throws ValidationException {
         Map<String, String> problems = new HashMap<>();
         String username = form.getUser() == null ? null : form.getUser().getUsername();
         UUID videoUuid = null;
@@ -77,13 +76,6 @@ public class ReactionServiceImpl implements ReactionService {
         if (!problems.isEmpty()) {
             throw new ValidationException(problems);
         }
-        Byte reaction = reactionRepository.getReaction(videoUuid, username).orElse((byte) 0);
-
-        Map<String, Long> reactions = reactionRepository.getVideoReactions(videoUuid);
-        return "{" +
-                "'reaction': " + reaction +
-                ",'likes': " + reactions.get("likes") +
-                ",'dislikes': " + reactions.get("dislikes") +
-                "}";
+        return reactionRepository.getReactions(videoUuid, username);
     }
 }

@@ -11,7 +11,7 @@ import java.io.IOException;
 import static ru.itis.MyTube.view.Attributes.USER;
 import static ru.itis.MyTube.controllers.UrlPatterns.*;
 
-@WebFilter(PRIVATE + "/*")
+//@WebFilter(PRIVATE + "/*")
 public class AuthenticationFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
