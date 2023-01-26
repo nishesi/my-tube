@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.model.dao.ReactionRepository;
 import ru.itis.MyTube.model.dto.Reaction;
+import ru.itis.MyTube.model.dto.Reactions;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -125,5 +126,13 @@ public class ReactionRepositoryJdbcImpl extends AbstractRepository implements Re
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Reactions getReactions(UUID videoUuid, String username) throws RuntimeException {
+        Optional<Byte> reaction = getReaction(videoUuid, username);
+        Map<String, Long> reactions = getVideoReactions(videoUuid);
+
+        return new Reactions(reactions.get("likes"), reactions.get("dislikes"), reaction.orElse((byte) 0));
     }
 }

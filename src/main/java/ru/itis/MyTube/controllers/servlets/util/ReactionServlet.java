@@ -17,7 +17,7 @@ import static ru.itis.MyTube.view.Attributes.USER;
 import static ru.itis.MyTube.controllers.UrlPatterns.AUTHENTICATION_PAGE;
 import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_REACTION;
 
-@WebServlet(PRIVATE_REACTION)
+//@WebServlet(PRIVATE_REACTION)
 public class ReactionServlet extends HttpServlet {
     private ReactionService reactionService;
 
@@ -34,15 +34,16 @@ public class ReactionServlet extends HttpServlet {
                 .build();
         String inf = null;
 
-        try {
-            inf = reactionService.getReaction(reactionForm);
+        throw new RuntimeException("broken");
+//        try {
+//            inf = reactionService.getReaction(reactionForm);
+//
+//        } catch (ValidationException e) {
+//            resp.sendError(400, String.join(", ", e.getProblems().values()));
+//        }
 
-        } catch (ValidationException e) {
-            resp.sendError(400, String.join(", ", e.getProblems().values()));
-        }
-
-        resp.setContentType("application/json");
-        resp.getWriter().println(inf);
+//        resp.setContentType("application/json");
+//        resp.getWriter().println(inf);
     }
 
     @Override
