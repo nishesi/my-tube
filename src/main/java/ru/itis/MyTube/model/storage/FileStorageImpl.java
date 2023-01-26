@@ -36,9 +36,7 @@ public class FileStorageImpl implements Storage {
     }
     @Override
     public InputStream get(FileType fileType, String id) {
-        if (fileType == null || id == null) {
-            throw new StorageException("fileType" + fileType + ", id" + id);
-        }
+        validateParams(fileType, id);
 
         File file = getFile(fileType, id, false);
 
@@ -50,24 +48,22 @@ public class FileStorageImpl implements Storage {
     }
 
     @Override
-    public String getMimeType(FileType fileType, String id) {
+    public File getFile(FileType fileType, String id) {
+        validateParams(fileType, id);
+        return getFile(fileType, id, false);
+    }
+
+    private static void validateParams(FileType fileType, String id) {
         if (fileType == null || id == null) {
             throw new StorageException("fileType" + fileType + ", id" + id);
-        }
-
-        File file = getFile(fileType, id, false);
-
-        try {
-            return Files.probeContentType(file.toPath());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void save(FileType fileType, String id, InputStream resource) {
-        if (fileType == null || id == null || resource == null) {
-            throw new StorageException("fileType = " + fileType + ", id = " + id + ", name = " + resource);
+        validateParams(fileType, id);
+        if (resource == null) {
+            throw new StorageException("name = null");
         }
 
         File file = getFile(fileType, id, true);

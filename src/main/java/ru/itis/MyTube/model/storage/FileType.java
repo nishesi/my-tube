@@ -20,6 +20,12 @@ public enum FileType {
                 return s;
             }
         }
-        return null;
+        throw new UnknownFileTypeException("unknown file type: " + type);
+    }
+
+    public static class UnknownFileTypeException extends RuntimeException {
+        public UnknownFileTypeException(String message) {
+            super(message);
+        }
     }
 }
