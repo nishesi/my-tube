@@ -30,7 +30,7 @@ public class SearchController {
             list = videoService.getVideosByNameSubstring(req.getParameter("substring"));
         } catch (ServiceException e) {
             ((Queue<? super Alert>)req.getSession().getAttribute(ALERTS))
-                    .add(new Alert(Alert.alertType.DANGER, e.getMessage()));
+                    .add(new Alert(Alert.AlertType.DANGER, e.getMessage()));
         }
 
         req.setAttribute("substring", req.getParameter("substring"));

@@ -15,14 +15,14 @@ import javax.servlet.ServletRegistration;
 public class WebConfigurer implements WebApplicationInitializer {
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(AppConfig.class);
         context.register(SecurityConfig.class);
 
         servletContext.addListener(new ContextLoaderListener(context));
         servletContext.setAttribute("context", context);
-        initPageAttributes(servletContext);
+        initContextAttributes(servletContext);
 
         ServletRegistration.Dynamic registration =
                 servletContext.addServlet("dispatcher", new DispatcherServlet(context));
@@ -34,11 +34,12 @@ public class WebConfigurer implements WebApplicationInitializer {
                 .addMappingForUrlPatterns(null, false, "/*");
     }
 
-    private void initPageAttributes(ServletContext context) {
+    private void initContextAttributes(ServletContext context) {
         context.setAttribute("logoUrl",
-                context.getContextPath() + "/images/reg-background-img.jpg"
+                context.getContextPath() + "/static/images/reg-background-img.jpg"
         );
         context.setAttribute("appName", "MyTube");
         context.setAttribute(Attributes.COMMON_CSS_URL, context.getContextPath() + "/css/common.css");
+        context.setAttribute("contextPath", context.getContextPath());
     }
 }

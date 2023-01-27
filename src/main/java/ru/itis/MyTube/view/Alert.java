@@ -1,17 +1,21 @@
 package ru.itis.MyTube.view;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Alert implements Serializable {
-    private alertType type;
-    private String message;
+    private final AlertType type;
+    private final String message;
 
-    public enum alertType {
+    public static Alert of(AlertType type, String message) {
+        return new Alert(type, message);
+    }
+
+    public enum AlertType {
         PRIMARY("alert-primary"),
         SECONDARY("alert-secondary"),
         SUCCESS("alert-success"),
@@ -23,7 +27,7 @@ public class Alert implements Serializable {
 
         private final String alertType;
 
-        alertType(String str) {
+        AlertType(String str) {
             alertType = str;
         }
 

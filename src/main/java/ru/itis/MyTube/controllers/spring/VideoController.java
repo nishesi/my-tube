@@ -57,7 +57,7 @@ public class VideoController {
             return "/jsp/VideoPage";
 
         } catch (ServiceException ex) {
-//            alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
+//            alerts.add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
             return "/jsp/BaseWindow";
         }
     }
@@ -88,7 +88,7 @@ public class VideoController {
 
         try {
             videoService.updateVideo(videoForm);
-            alerts.add(new Alert(Alert.alertType.SUCCESS, "Video updated."));
+            alerts.add(new Alert(Alert.AlertType.SUCCESS, "Video updated."));
             resp.sendRedirect(contextPath + CHANNEL + "?id=" + videoForm.getChannelId());
             return;
 
@@ -97,7 +97,7 @@ public class VideoController {
             req.setAttribute(FORM, videoForm);
 
         } catch (ServiceException ex) {
-            alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
+            alerts.add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
         }
 
         req.setAttribute("pageType", "Update");
@@ -125,7 +125,7 @@ public class VideoController {
 
         try {
             videoService.addVideo(videoForm);
-            alerts.add(new Alert(Alert.alertType.SUCCESS, "Video added."));
+            alerts.add(new Alert(Alert.AlertType.SUCCESS, "Video added."));
             resp.sendRedirect(contextPath + CHANNEL + "?id=" + videoForm.getChannelId());
             return;
 
@@ -135,7 +135,7 @@ public class VideoController {
 
 
         } catch (ServiceException ex) {
-            alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
+            alerts.add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
         }
         req.setAttribute("pageType", "Upload");
         req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);

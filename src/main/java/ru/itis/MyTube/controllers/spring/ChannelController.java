@@ -51,7 +51,7 @@ public class ChannelController {
             isSubscribed = userService.isSubscribed((User)req.getSession().getAttribute(USER), channel.getId());
         } catch (ServiceException ex) {
             ((List<Alert>) req.getAttribute("alerts"))
-                    .add(new Alert(Alert.alertType.WARNING, ex.getMessage()));
+                    .add(new Alert(Alert.AlertType.WARNING, ex.getMessage()));
             req.getRequestDispatcher("/WEB-INF/jsp/BaseWindow.jsp").forward(req, resp);
         }
         req.setAttribute("isSubscribed", isSubscribed);
@@ -83,7 +83,7 @@ public class ChannelController {
             return;
 
         } catch (ServiceException ex) {
-            alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
+            alerts.add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
 
         } catch (ValidationException ex) {
             req.setAttribute(FORM, channelForm);

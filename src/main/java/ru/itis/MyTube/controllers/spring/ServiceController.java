@@ -39,7 +39,7 @@ public class ServiceController {
 
         } catch (ServiceException ex) {
             ((Queue<? super Alert>) req.getSession().getAttribute(ALERTS))
-                    .add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
+                    .add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
         }
 
         req.setAttribute(Attributes.VIDEO_COVER_LIST, list);
