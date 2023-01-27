@@ -2,10 +2,13 @@ package ru.itis.MyTube.controllers.spring;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
@@ -22,7 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Queue;
 
-import static ru.itis.MyTube.controllers.UrlPatterns.*;
+import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
+import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_USER_EXIT;
 import static ru.itis.MyTube.view.Attributes.USER;
 
 @Controller
@@ -34,40 +38,40 @@ public class UserController {
 
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
-        model.addAttribute("form", new RegistrationForm());
         model.addAttribute("regPageCss", contextPath + "/static/css/reg-page.css");
         return "/jsp/RegistrationPage";
     }
 
-    @PostMapping("/register")
-    public void register(HttpServletRequest req,
+    @PostMapping(value = "/register", consumes = "application/json")
+    public ResponseEntity<?> register(
+            @RequestBody RegistrationForm registrationForm,
+            @SessionAttribute Queue<Alert> alerts) throws ValidationException {
+
+        userService.save(registrationForm);
+        alerts.add(Alert.of(Alert.AlertType.SUCCESS, "You registered."));
+
+        return ResponseEntity
+                .status(HttpStatus.TEMPORARY_REDIRECT)
+                .header("Location", contextPath + "/login").build();
+    }
+
+    @PostMapping(value = "/register", consumes = "application/x-www-form-urlencoded")
+    public void register(RegistrationForm form,
+                         HttpServletRequest req,
                          HttpServletResponse resp,
-                         @SessionAttribute Queue<? super Alert> alerts
-    ) throws IOException, ServletException {
-
-        RegistrationForm registrationForm = RegistrationForm.builder()
-                .username(req.getParameter("username"))
-                .password(req.getParameter("password"))
-                .passwordRepeat(req.getParameter("passwordRepeat"))
-                .firstName(req.getParameter("firstName"))
-                .lastName(req.getParameter("lastName"))
-                .birthdate(req.getParameter("birthdate"))
-                .country(req.getParameter("country"))
-                .agreement(req.getParameter("agreement"))
-                .build();
-
-        req.setAttribute("form", registrationForm);
+                         @SessionAttribute Queue<? super Alert> alerts) throws IOException, ServletException {
+        req.setAttribute("form", form);
         try {
-            userService.save(registrationForm);
-            alerts.add(new Alert(Alert.alertType.SUCCESS, "You registered."));
-            resp.sendRedirect(contextPath + AUTHENTICATION_PAGE);
+            userService.save(form);
+            alerts.add(new Alert(Alert.AlertType.SUCCESS, "You registered."));
+            resp.sendRedirect(contextPath + "/login");
 
         } catch (ValidationException e) {
             req.setAttribute("problems", e.getProblems());
             req.getRequestDispatcher("/WEB-INF/jsp/RegistrationPage.jsp").forward(req, resp);
 
         } catch (ServiceException e) {
-            alerts.add(new Alert(Alert.alertType.DANGER, e.getMessage()));
+            alerts.add(new Alert(Alert.AlertType.DANGER, e.getMessage()));
             resp.sendRedirect(contextPath);
         }
     }
@@ -92,10 +96,10 @@ public class UserController {
                 .country(req.getParameter("country")).build();
 
         try {
-            userService.update(form,(User)req.getSession().getAttribute("user"));
+            userService.update(form, (User) req.getSession().getAttribute("user"));
 
-            alerts.add(new Alert(Alert.alertType.SUCCESS, "Your account information updated."));
-            alerts.add(new Alert(Alert.alertType.INFO, "Please do reauthorization."));
+            alerts.add(new Alert(Alert.AlertType.SUCCESS, "Your account information updated."));
+            alerts.add(new Alert(Alert.AlertType.INFO, "Please do reauthorization."));
 
             resp.sendRedirect(contextPath + PRIVATE_USER_EXIT);
             return;
@@ -103,7 +107,7 @@ public class UserController {
             req.setAttribute("problems", e.getProblems());
 
         } catch (ServiceException e) {
-            alerts.add(new Alert(Alert.alertType.DANGER, e.getMessage()));
+            alerts.add(new Alert(Alert.AlertType.DANGER, e.getMessage()));
         }
         req.getRequestDispatcher("/WEB-INF/jsp/UserPage.jsp").forward(req, resp);
     }
@@ -121,7 +125,7 @@ public class UserController {
         try {
             userService.userChannel(subscribeForm);
         } catch (ServiceException ex) {
-            alerts.add(new Alert(Alert.alertType.DANGER, ex.getMessage()));
+            alerts.add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
         }
         resp.sendRedirect(contextPath + CHANNEL + "?id=" + subscribeForm.getChannelId());
     }
