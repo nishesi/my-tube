@@ -1,37 +1,47 @@
 package ru.itis.MyTube.security;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.model.dto.User;
+import ru.itis.MyTube.model.dto.forms.AuthenticationForm;
+import ru.itis.MyTube.model.services.UserService;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
+@RequiredArgsConstructor
 public class SecurityController {
-
-    @PostMapping("/login")
-    @ResponseBody
-    public String handle1() {
-        return "login processed";
-    }
-    @RequestMapping("/perform_logout")
-    @ResponseBody
-    public String handle2() {
-        return "logout";
-    }
-    @RequestMapping("/admin")
-    @ResponseBody
-    public String handle3() {
-        return "admin";
-    }
-    @RequestMapping("/anonymous")
-    @ResponseBody
-    public String handle4() {
-        return "anonymous";
-    }
-    @RequestMapping
-    @ResponseBody
-    public String handle5() {
-        return null;
+    @Value("${context.path}")
+    private String contextPath;
+    private final UserService userService;
+    @GetMapping("/login")
+    public String getLoginPage(Model model) {
+        model.addAttribute("regPageCss",  contextPath + "/static/css/reg-page.css");
+        model.addAttribute("backImgUrl", contextPath + "/static/images/reg-background-img.jpg");
+        return "/jsp/AuthenticationPage";
     }
 
+    @PostMapping("/pr_lg")
+    public ResponseEntity<?> processLogin(@RequestParam String username,
+                                          @RequestParam String password,
+                                          HttpSession session) {
+        try {
+            User user = userService.get(username, password);
+            session.setAttribute("user", user);
+            return ResponseEntity.ok().build();
+
+        } catch (ValidationException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

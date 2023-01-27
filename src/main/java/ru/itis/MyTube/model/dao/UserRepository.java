@@ -10,6 +10,7 @@ public interface UserRepository {
     void save(User user);
 
     Optional<User> get(String login, String password);
+    Optional<User> get(String login);
     void update(User user);
 
     List<User> getAll();

@@ -100,6 +100,25 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
         }
     }
 
+    private static final String SQL_GET_USER_BY_LOGIN = "select * from users where username = ?";
+
+    @Override
+    public Optional<User> get(String login) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_USER_BY_LOGIN)) {
+
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return (resultSet.next()) ?
+                    Optional.of(USER_MAPPER.apply(resultSet)) :
+                    Optional.empty();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void update(User user) {
         try (Connection connection = dataSource.getConnection();

@@ -1,6 +1,7 @@
 package ru.itis.MyTube.model.services.implementations;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.PassPerformer;
 import ru.itis.MyTube.auxiliary.UrlCreator;
@@ -37,6 +38,8 @@ public class UserServiceImpl implements UserService {
     private final UserUpdateValidator userUpdateValidator;
     private final RegistrationValidator registrationValidator;
     private final AuthenticationValidator authenticationValidator;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void save(RegistrationForm form) throws ValidationException {
@@ -75,6 +78,23 @@ public class UserServiceImpl implements UserService {
         User user = userOpt.orElseThrow(() -> new ServiceException("User not found."));
         user.setUserImgUrl(urlCreator.createResourceUrl(FileType.USER_ICON, user.getUsername()));
         return user;
+    }
+
+    @Override
+    public User get(String username, String password) throws ServiceException, ValidationException {
+        User user;
+        try {
+            user = userRepository.get(username)
+                    .orElseThrow(() -> new ServiceException("User not found."));
+
+        } catch (RuntimeException ex) {
+            throw new ServiceException("something go wrong");
+        }
+        
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        }
+        throw new ServiceException("Invalid login or password");
     }
 
     @Override
