@@ -48,6 +48,7 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
             "where username = ? ";
     private static final String SQL_UNSUBSCRIBE = "delete from users_subscriptions where username = ? and channel_id = ?";
     private static final String SQL_SUBSCRIBE = "insert into users_subscriptions (username, channel_id) values (?, ?)";
+    private static final String SQL_ADD_AUTHORITY = "insert into authorities (username, authority) VALUES (?, ?)";
     private final DataSource dataSource;
 
     @Override
@@ -184,6 +185,18 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
 
             preparedStatement.executeUpdate();
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void addAuthority(String username, String authority) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_AUTHORITY)) {
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, authority);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

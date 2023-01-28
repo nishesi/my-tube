@@ -20,4 +20,5 @@ public interface UserRepository {
     boolean isSubscribed(String username, long channelId);
     void subscribe(String username, long channelId);
     void unsubscribe(String username, long channelId);
+    void addAuthority(String username, String authority);
 }

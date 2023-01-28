@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         try {
             userRepository.save(user);
+            userRepository.addAuthority(user.getUsername(), "USER");
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");

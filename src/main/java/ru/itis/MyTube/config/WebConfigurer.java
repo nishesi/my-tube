@@ -9,7 +9,6 @@ import ru.itis.MyTube.security.SecurityConfig;
 import ru.itis.MyTube.view.Attributes;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class WebConfigurer implements WebApplicationInitializer {
