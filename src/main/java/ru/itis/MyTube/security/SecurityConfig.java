@@ -25,11 +25,10 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/login").anonymous()
-//                .antMatchers(HttpMethod.POST).authenticated()
+                .antMatchers("/login", "/register").anonymous()
+                .antMatchers(HttpMethod.POST).authenticated()
                 .antMatchers(HttpMethod.DELETE).authenticated()
                 .antMatchers(HttpMethod.PATCH).authenticated()
-                .antMatchers("/test").authenticated()
                 .anyRequest().permitAll()
                 .and()
 
