@@ -54,27 +54,6 @@ public class UserController {
                 .header("Location", contextPath + "/login").build();
     }
 
-    @PostMapping(value = "/register", consumes = "application/x-www-form-urlencoded")
-    public void register(RegistrationForm form,
-                         HttpServletRequest req,
-                         HttpServletResponse resp,
-                         @SessionAttribute Queue<? super Alert> alerts) throws IOException, ServletException {
-        req.setAttribute("form", form);
-        try {
-            userService.save(form);
-            alerts.add(new Alert(Alert.AlertType.SUCCESS, "You registered."));
-            resp.sendRedirect(contextPath + "/login");
-
-        } catch (ValidationException e) {
-            req.setAttribute("problems", e.getProblems());
-            req.getRequestDispatcher("/WEB-INF/jsp/RegistrationPage.jsp").forward(req, resp);
-
-        } catch (ServiceException e) {
-            alerts.add(new Alert(Alert.AlertType.DANGER, e.getMessage()));
-            resp.sendRedirect(contextPath);
-        }
-    }
-
     @GetMapping("/user/update")
     public String getUserUpdatePage() {
         return "/jsp/UserPage";
