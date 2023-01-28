@@ -3,6 +3,7 @@ package ru.itis.MyTube.model.services.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.controllers.validators.RegistrationValidator;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ReactionRepository reactionRepository;
     private final Storage storage;
+    private final UrlCreator urlCreator;
     private final UserUpdateValidator userUpdateValidator;
     private final RegistrationValidator registrationValidator;
     private final PasswordEncoder passwordEncoder;
@@ -59,7 +61,7 @@ public class UserServiceImpl implements UserService {
         try {
             user = userRepository.get(username)
                     .orElseThrow(() -> new ServiceException("User not found."));
-
+            user.setUserImgUrl(urlCreator.createResourceUrl(FileType.USER_ICON, username));
         } catch (RuntimeException ex) {
             throw new ServiceException("something go wrong");
         }
