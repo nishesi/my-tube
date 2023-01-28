@@ -10,89 +10,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="${requestScope.regPageCss}">
-    <script defer src="${contextPath}/static/js/Registration.js"></script>
 </head>
+
 <body background="${contextPath}/static/images/reg-background-img.jpg">
 <%@include file="/WEB-INF/commonJsp/alertsHandler.jsp" %>
 <div id="box">
-    <div id="regForm" class="form m-4">
-        <h4 class="text-center mb-3">Registration</h4>
+    <h4 class="text-center m-3">Registration</h4>
+    <%@include file="/WEB-INF/commonJsp/registrationForm.jsp"%>
 
-        <div class="input-group">
-            <div class="input-group-text">Username</div>
-            <input type="text" class="form-control" placeholder="Write your username..." aria-label="Username"
-                   name="username" value="${form.username}">
-        </div>
-        <div id="usernameProblem" class="mb-4 text-danger">
-            <o:problemOut name="username" map="${requestScope.problems}"/>
-        </div>
-
-        <div class="input-group">
-            <div class="input-group-text">Password</div>
-            <input type="password" class="form-control" placeholder="Write your password..." aria-label="Password"
-                   name="password" value="${form.password}">
-        </div>
-        <div id="passwordProblem" class="mb-4 text-danger">
-            <o:problemOut name="password" map="${requestScope.problems}"/>
-        </div>
-
-        <div class="input-group">
-            <span class="input-group-text">Repeat password</span>
-            <input type="password" class="form-control" placeholder="Repeat your password..."
-                   aria-label="Repeat password"
-                   name="passwordRepeat" value="${form.passwordRepeat}">
-        </div>
-        <div id="passwordRepeatProblem" class="mb-4 text-danger">
-            <o:problemOut name="passwordRepeat" map="${requestScope.problems}"/>
-        </div>
-
-        <div class="input-group">
-            <div class="input-group-text">First name</div>
-            <input type="text" class="form-control" placeholder="Write..." aria-label="First name" name="firstName"
-                   value="${form.firstName}">
-            <div class="input-group-text">Last name</div>
-            <input type="text" class="form-control" placeholder="Write..." aria-label="Last name" name="lastName"
-                   value="${form.lastName}">
-        </div>
-        <div class="mb-4 text-danger">
-            <span id="firstNameProblem"></span>
-            <span id="lastNameProblem"></span>
-            <o:problemOut name="firstName" map="${requestScope.problems}"/>
-            <o:problemOut name="lastName" map="${requestScope.problems}"/>
-        </div>
-
-        <div class="input-group">
-            <div class="input-group-text">Birthdate</div>
-            <input type="date" class="form-control" placeholder="Write your birthdate..." aria-label="Birthdate"
-                   name="birthdate" value="${form.birthdate}">
-        </div>
-        <div id="birthdateProblem" class="mb-4 text-danger">
-            <o:problemOut name="birthdate" map="${requestScope.problems}"/>
-        </div>
-
-        <div class="input-group">
-            <div class="input-group-text">Country</div>
-            <input type="text" class="form-control" placeholder="Write your country..." aria-label="Country"
-                   name="country" value="${form.country}">
-        </div>
-        <div id="countryProblem" class="mb-5 text-danger">
-            <o:problemOut name="country" map="${requestScope.problems}"/>
-        </div>
-
-
-        <div class="input-group">
-            <div class="input-group-text">
-                <input id="agreement" type="checkbox" aria-label="agreement" class="form-check-input" name="agreement">
-            </div>
-            <span class="form-control">I am agree with processing my personal data</span>
-        </div>
-        <div id="agreementProblem" class="mb-4 text-danger">
-            <o:problemOut name="agreement" map="${requestScope.problems}"/>
-        </div>
-
-        <div class="container text-center">
-            <button id="submitButton" type="submit" class="btn btn-primary">Register</button>
-        </div>
+    <div class="container text-center mb-3">
+        <button id="submitButton" type="submit" class="btn btn-primary">Register</button>
     </div>
 </div>
 
