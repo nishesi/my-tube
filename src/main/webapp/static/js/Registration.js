@@ -1,11 +1,12 @@
-const submitButton = document.getElementById("submitButton");
-submitButton.addEventListener("click", function () {
-    function printErrors(resp) {
-        let json = resp.json();
-        const usernameProblem = document.getElementById("usernameProblem");
-        usernameProblem.innerText = json['username'];
-    }
+document.getElementById("submitButton").addEventListener("click", onSubmitFunction);
 
+function onSubmitFunction() {
+    let agreementValue;
+    if (document.getElementById("agreement").checked === true) {
+        agreementValue = "on";
+    } else {
+        agreementValue = "";
+    }
     const jsonForm = {
         username: document.getElementsByName("username")[0].value,
         password: document.getElementsByName("password")[0].value,
@@ -14,48 +15,83 @@ submitButton.addEventListener("click", function () {
         lastName: document.getElementsByName("lastName")[0].value,
         birthdate: document.getElementsByName("birthdate")[0].value,
         country: document.getElementsByName("country")[0].value,
-        agreement: document.getElementById("agreement").value,
+        agreement: agreementValue,
     };
-    fetch("/MyTube/register", {
-        method : "POST",
-        headers : {
-            "Content-Type" : "application/json"
+    fetch( "register", {
+        mode: "cors",
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body : JSON.stringify(jsonForm)
+        redirect: "follow",
+        body: JSON.stringify(jsonForm)
+
     }).then(resp => {
-        if (resp.status === 200) {
-            return resp.json();
+        if (resp.status === 400) {
+            resp.json().then(jsonForm => printProblems(jsonForm));
 
-        } else if (resp.status === 302) {
-            window.location.href = resp.headers.get("Location");
-
+        } else if (resp.status === 200) {
+            window.location.href = resp.url;
         } else {
-            console.log(resp.text());
-        }
-    }).then(jsonForm => {
-        if (jsonForm.username !== undefined) {
-            document.getElementById("usernameProblem").innerText = jsonForm.username;
-        }
-        if (jsonForm.password !== undefined) {
-            document.getElementById("passwordProblem").innerText = jsonForm.password;
-        }
-        if (jsonForm.passwordRepeat !== undefined) {
-            document.getElementById("passwordRepeatProblem").innerText = jsonForm.passwordRepeat;
-        }
-        if (jsonForm.firstName!== undefined) {
-            document.getElementById("firstNameProblem").innerText = jsonForm.firstName;
-        }
-        if (jsonForm.lastName!== undefined) {
-            document.getElementById("lastNameProblem").innerText = jsonForm.lastName;
-        }
-        if (jsonForm.birthdate!== undefined) {
-            document.getElementById("birthdateProblem").innerText = jsonForm.birthdate;
-        }
-        if (jsonForm.country!== undefined) {
-            document.getElementById("countryProblem").innerText = jsonForm.country;
-        }
-        if (jsonForm.agreement!== undefined) {
-            document.getElementById("agreementProblem").innerText = jsonForm.agreement;
+            resp.text().then(text => console.log(text))
         }
     })
-});
+}
+
+function printProblems(jsonForm) {
+    let usernameProblem = document.getElementById("usernameProblem");
+    if (jsonForm.username !== undefined) {
+        usernameProblem.innerText = jsonForm.username;
+    } else {
+        usernameProblem.innerText = "";
+    }
+
+    let passwordProblem = document.getElementById("passwordProblem");
+    if (jsonForm.password !== undefined) {
+        passwordProblem.innerText = jsonForm.password;
+    } else {
+        passwordProblem.innerText = "";
+    }
+
+    let passwordRepeatProblem = document.getElementById("passwordRepeatProblem");
+    if (jsonForm.passwordRepeat !== undefined) {
+        passwordRepeatProblem.innerText = jsonForm.passwordRepeat;
+    } else {
+        passwordRepeatProblem.innerText = "";
+    }
+
+    let firstNameProblem = document.getElementById("firstNameProblem");
+    if (jsonForm.firstName !== undefined) {
+        firstNameProblem.innerText = jsonForm.firstName;
+    } else {
+        firstNameProblem.innerText = "";
+    }
+
+    let lastNameProblem = document.getElementById("lastNameProblem");
+    if (jsonForm.lastName !== undefined) {
+        lastNameProblem.innerText = jsonForm.lastName;
+    } else {
+        lastNameProblem.innerText = "";
+    }
+
+    let birthdateProblem = document.getElementById("birthdateProblem");
+    if (jsonForm.birthdate !== undefined) {
+        birthdateProblem.innerText = jsonForm.birthdate;
+    } else {
+        birthdateProblem.innerText = "";
+    }
+
+    let countryProblem = document.getElementById("countryProblem");
+    if (jsonForm.country !== undefined) {
+        countryProblem.innerText = jsonForm.country;
+    } else {
+        countryProblem.innerText = "";
+    }
+
+    let agreementProblem = document.getElementById("agreementProblem");
+    if (jsonForm.agreement !== undefined) {
+        agreementProblem.innerText = jsonForm.agreement;
+    } else {
+        agreementProblem.innerText = "";
+    }
+}

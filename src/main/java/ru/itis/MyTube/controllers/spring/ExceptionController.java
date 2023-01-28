@@ -1,11 +1,9 @@
 package ru.itis.MyTube.controllers.spring;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.view.Alert;
@@ -20,6 +18,7 @@ public class ExceptionController {
 
     @ExceptionHandler(ValidationException.class)
     @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handle(ValidationException ex) {
         return ex.getProblems();
     }

@@ -84,7 +84,7 @@
 
             <div class="input-group">
                 <div class="input-group-text">
-                    <input id="agreement" disabled type="checkbox" aria-label="agreement" class="form-check-input" name="agreement">
+                    <input id="agreement" type="checkbox" aria-label="agreement" class="form-check-input" name="agreement">
                 </div>
                 <span class="form-control">I am agree with processing my personal data</span>
             </div>

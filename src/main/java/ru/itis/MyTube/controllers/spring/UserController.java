@@ -2,7 +2,6 @@ package ru.itis.MyTube.controllers.spring;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,7 +50,7 @@ public class UserController {
         alerts.add(Alert.of(Alert.AlertType.SUCCESS, "You registered."));
 
         return ResponseEntity
-                .status(HttpStatus.TEMPORARY_REDIRECT)
+                .status(302)
                 .header("Location", contextPath + "/login").build();
     }
 
