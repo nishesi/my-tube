@@ -32,11 +32,15 @@ import static ru.itis.MyTube.view.Attributes.*;
 @RequiredArgsConstructor
 @RequestMapping("/channel")
 public class ChannelController {
+
+    private final ChannelService channelService;
+
+    private final VideoService videoService;
+
+    private final UserService userService;
+
     @Value("${context.path}")
     private String contextPath;
-    private final ChannelService channelService;
-    private final VideoService videoService;
-    private final UserService userService;
 
     @GetMapping("/{id}")
     public void getChannel(@PathVariable String id, HttpServletRequest req, HttpServletResponse resp
@@ -48,7 +52,7 @@ public class ChannelController {
         try {
             channel = channelService.getChannel(id);
             channelVideos = videoService.getChannelVideoCovers(channel.getId());
-            isSubscribed = userService.isSubscribed((User)req.getSession().getAttribute(USER), channel.getId());
+            isSubscribed = userService.isSubscribed((User) req.getSession().getAttribute(USER), channel.getId());
         } catch (ServiceException ex) {
             ((List<Alert>) req.getAttribute("alerts"))
                     .add(new Alert(Alert.AlertType.WARNING, ex.getMessage()));

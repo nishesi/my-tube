@@ -41,12 +41,10 @@ public class ChannelRepositoryJdbcImpl extends AbstractRepository implements Cha
             throw new RuntimeException(e);
         }
     };
+    private final DataSource dataSource;
     private static final String SQL_GET_SUBSCRIBED_CHANNELS = "select * " +
             "from channel_covers " +
             "where id in (select channel_id from users_subscriptions where username = 'NishEsI');";
-    private static final String SQL_GET_CHANNEL = "select * from channels_inf where id = ?";
-    private final DataSource dataSource;
-
     @Override
     public List<ChannelCover> getSubscribedChannels(String username) {
         try (Connection connection = dataSource.getConnection();
@@ -60,6 +58,8 @@ public class ChannelRepositoryJdbcImpl extends AbstractRepository implements Cha
             throw new RuntimeException(e);
         }
     }
+
+    private static final String SQL_GET_CHANNEL = "select * from channels_inf where id = ?";
 
     @Override
     public Optional<Channel> get(Long id) {
