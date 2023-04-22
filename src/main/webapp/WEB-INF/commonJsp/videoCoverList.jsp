@@ -11,7 +11,7 @@
         </div>
     </c:when>
     <c:otherwise>
-        <jsp:useBean id="videoCoverList" scope="request" type="java.util.List<ru.itis.MyTube.model.dto.VideoCover>"/>
+        <jsp:useBean id="videoCoverList" scope="request" type="java.util.List<ru.itis.MyTube.dto.VideoCover>"/>
         <c:choose>
             <c:when test="${empty videoCoverList}">
                 <div class="alert alert-info text-center" role="alert">

@@ -4,7 +4,7 @@
 <%@ page import="ru.itis.MyTube.controllers.UrlPatterns" %>
 
 <jsp:useBean id="commonCssUrl" scope="application" type="java.lang.String"/>
-<jsp:useBean id="channel" scope="request" type="ru.itis.MyTube.model.dto.Channel"/>
+<jsp:useBean id="channel" scope="request" type="ru.itis.MyTube.dto.Channel"/>
 
 <!DOCTYPE html>
 <html>

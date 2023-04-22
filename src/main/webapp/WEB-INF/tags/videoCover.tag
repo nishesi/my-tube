@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="v" uri="/WEB-INF/tag/VideoCoverAuxiliary.tld" %>
 
-<%@attribute name="videoCover" required="true" type="ru.itis.MyTube.model.dto.VideoCover" %>
+<%@attribute name="videoCover" required="true" type="ru.itis.MyTube.dto.VideoCover" %>
 
 <div class="col">
     <div class="card">

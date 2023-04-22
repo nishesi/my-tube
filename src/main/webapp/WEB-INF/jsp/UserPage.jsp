@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="o" tagdir="/WEB-INF/tags" %>
 
-<jsp:useBean id="user" scope="session" type="ru.itis.MyTube.model.dto.User"/>
+<jsp:useBean id="user" scope="session" type="ru.itis.MyTube.dto.User"/>
 <jsp:useBean id="appName" scope="application" type="java.lang.String"/>
 
 <!DOCTYPE html>

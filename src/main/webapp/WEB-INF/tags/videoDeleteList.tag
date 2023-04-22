@@ -1,6 +1,6 @@
 <%@tag description="list of names of videos" pageEncoding="UTF-8" %>
 
-<%@ attribute name="list" required="true" type="java.util.List<ru.itis.MyTube.model.dto.VideoCover>" %>
+<%@ attribute name="list" required="true" type="java.util.List<ru.itis.MyTube.dto.VideoCover>" %>
 <%@ attribute name="url" required="true" type="java.lang.String" %>
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>

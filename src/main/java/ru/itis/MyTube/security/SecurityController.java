@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.model.dto.User;
-import ru.itis.MyTube.model.services.UserService;
+import ru.itis.MyTube.dto.User;
+import ru.itis.MyTube.services.UserService;
 
 import jakarta.servlet.http.HttpSession;
 

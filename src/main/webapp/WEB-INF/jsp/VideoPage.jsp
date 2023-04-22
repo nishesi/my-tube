@@ -2,7 +2,7 @@
 
 <jsp:useBean id="commonCssUrl" scope="application" type="java.lang.String"/>
 
-<jsp:useBean id="video" scope="request" type="ru.itis.MyTube.model.dto.Video"/>
+<jsp:useBean id="video" scope="request" type="ru.itis.MyTube.dto.Video"/>
 
 <!DOCTYPE html>
 <html lang="en">

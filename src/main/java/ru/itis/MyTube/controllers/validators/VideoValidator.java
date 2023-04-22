@@ -3,7 +3,7 @@ package ru.itis.MyTube.controllers.validators;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.model.dto.forms.VideoForm;
+import ru.itis.MyTube.dto.forms.VideoForm;
 
 import jakarta.servlet.http.Part;
 import java.util.HashMap;
