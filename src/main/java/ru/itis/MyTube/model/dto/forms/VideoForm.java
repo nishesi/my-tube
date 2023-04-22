@@ -3,7 +3,7 @@ package ru.itis.MyTube.model.dto.forms;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 
 @Builder
 @Data

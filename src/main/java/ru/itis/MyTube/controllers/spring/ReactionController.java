@@ -10,7 +10,7 @@ import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.dto.forms.ReactionForm;
 import ru.itis.MyTube.model.services.ReactionService;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequiredArgsConstructor

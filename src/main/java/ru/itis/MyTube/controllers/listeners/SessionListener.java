@@ -2,9 +2,9 @@ package ru.itis.MyTube.controllers.listeners;
 
 import ru.itis.MyTube.view.Alert;
 
-import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
+import jakarta.servlet.annotation.WebListener;
+import jakarta.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionListener;
 import java.util.LinkedList;
 import java.util.Queue;
 

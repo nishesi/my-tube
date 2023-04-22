@@ -1,6 +1,6 @@
 package ru.itis.MyTube.controllers.validators;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Map;

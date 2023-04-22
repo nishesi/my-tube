@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.forms.VideoForm;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

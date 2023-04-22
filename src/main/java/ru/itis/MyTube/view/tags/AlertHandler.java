@@ -2,7 +2,7 @@ package ru.itis.MyTube.view.tags;
 
 import ru.itis.MyTube.view.Alert;
 
-import javax.servlet.jsp.tagext.TagSupport;
+import jakarta.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.util.Queue;
 

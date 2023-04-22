@@ -2,7 +2,7 @@ package ru.itis.MyTube.controllers.validators;
 
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 import java.util.Map;
 
 @Component

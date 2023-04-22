@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import ru.itis.MyTube.model.dto.User;
 
-import javax.servlet.http.Part;
+import jakarta.servlet.http.Part;
 
 @Data
 @Builder

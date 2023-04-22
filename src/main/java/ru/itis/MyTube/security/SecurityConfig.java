@@ -24,11 +24,11 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/login", "/register").anonymous()
-                .antMatchers(HttpMethod.POST).authenticated()
-                .antMatchers(HttpMethod.DELETE).authenticated()
-                .antMatchers(HttpMethod.PATCH).authenticated()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/login", "/register").anonymous()
+                .requestMatchers(HttpMethod.POST).authenticated()
+                .requestMatchers(HttpMethod.DELETE).authenticated()
+                .requestMatchers(HttpMethod.PATCH).authenticated()
                 .anyRequest().permitAll()
                 .and()
 

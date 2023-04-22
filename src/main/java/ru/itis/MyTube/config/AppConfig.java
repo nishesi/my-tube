@@ -3,20 +3,28 @@ package ru.itis.MyTube.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.http.HttpSessionListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
+import ru.itis.MyTube.controllers.listeners.SessionListener;
 import ru.itis.MyTube.model.MvUpdater;
+import ru.itis.MyTube.view.Attributes;
 
 import javax.sql.DataSource;
 
@@ -55,8 +63,10 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/WEB-INF");
         viewResolver.setSuffix(".jsp");
+        viewResolver.setRedirectContextRelative(false);
         return viewResolver;
     }
 
@@ -67,7 +77,32 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public MultipartResolver multipartResolver() {
-        return new CommonsMultipartResolver();
+        return new StandardServletMultipartResolver();
+    }
+
+    @Bean
+    ServletListenerRegistrationBean<ServletContextListener> initdefaultValues() {
+        var bean = new ServletListenerRegistrationBean<ServletContextListener>();
+        bean.setListener(new ServletContextListener() {
+            @Override
+            public void contextInitialized(ServletContextEvent sce) {
+                ServletContext context = sce.getServletContext();
+                context.setAttribute("logoUrl",
+                        context.getContextPath() + "/static/images/reg-background-img.jpg"
+                );
+                context.setAttribute("appName", "MyTube");
+                context.setAttribute(Attributes.COMMON_CSS_URL, context.getContextPath() + "/static/css/common.css");
+                context.setAttribute("contextPath", context.getContextPath());
+            }
+        });
+        return bean;
+    }
+
+    @Bean
+    ServletListenerRegistrationBean<HttpSessionListener> initSessList() {
+        var bean = new ServletListenerRegistrationBean<HttpSessionListener>();
+        bean.setListener(new SessionListener());
+        return bean;
     }
 
     @Override

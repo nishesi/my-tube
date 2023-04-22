@@ -13,7 +13,7 @@ import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.model.dto.User;
 import ru.itis.MyTube.model.services.UserService;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
