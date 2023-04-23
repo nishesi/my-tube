@@ -54,11 +54,11 @@ public class VideoController {
             model.addAttribute("videoCoverList", list);
             model.addAttribute("videoReactionsScriptUrl",
                     contextPath + "/js/ReactionRequester.js");
-            return "/jsp/VideoPage";
+            return "VideoPage";
 
         } catch (ServiceException ex) {
 //            alerts.add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
-            return "/jsp/BaseWindow";
+            return "BaseWindow";
         }
     }
 
@@ -66,7 +66,7 @@ public class VideoController {
     public String getVideoUpdatePage(Model model, @PathVariable String id) {
         model.addAttribute("pageType", "Update");
         model.addAttribute("url", contextPath + "/update/" + id);
-        return "/jsp/UtilVideoPage";
+        return "UtilVideoPage";
     }
 
     @PostMapping("/update/{id}")
@@ -107,7 +107,7 @@ public class VideoController {
     @GetMapping("/add")
     public String  getVideoAddPage(Model model) {
         model.addAttribute("pageType", "Upload");
-        return "/jsp/UtilVideoPage";
+        return "UtilVideoPage";
     }
 
     @PostMapping

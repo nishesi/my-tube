@@ -66,7 +66,7 @@ public class ChannelController {
 
     @GetMapping("/update")
     public String getChannelCreatePage() {
-        return "/jsp/ChannelCreatePage";
+        return "ChannelCreatePage";
     }
 
     @PostMapping

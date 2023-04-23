@@ -38,7 +38,7 @@ public class UserController {
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
         model.addAttribute("regPageCss", contextPath + "/static/css/reg-page.css");
-        return "/jsp/RegistrationPage";
+        return "RegistrationPage";
     }
 
     @PostMapping(value = "/register", consumes = "application/json")
@@ -56,7 +56,7 @@ public class UserController {
 
     @GetMapping("/user/update")
     public String getUserUpdatePage() {
-        return "/jsp/UserPage";
+        return "UserPage";
     }
 
     @PostMapping("/user")
