@@ -1,0 +1,9 @@
+{% extends "part/base" %}
+
+{% block head %}
+<script src="somesing like that"></script>
+{% endblock %}
+
+{% block content %}
+    <h1>content</h1>
+{% endblock %}
