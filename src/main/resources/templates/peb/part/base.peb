@@ -18,7 +18,7 @@
 </head>
 <body>
     {% include "part/header" %}
-    {% block content %}{% endblock %}
+    {% block content %}Content not found{% endblock %}
     {% include "part/footer" %}
 </body>
 </html>

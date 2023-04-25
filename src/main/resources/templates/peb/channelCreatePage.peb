@@ -1,0 +1,21 @@
+    {% extends "part/base" %}
+
+        {% import 'macro/inputField' %}
+
+    {% block content %}
+
+    <form action="" method="post" enctype="multipart/form-data">
+        <div class="form m-4">
+            <h4 class="text-center mb-3">Channel Create Page</h4>
+
+            {{ inputField('icon', null, 'Choose new icon', 'file', _context) }}
+            {{ inputField('name', form.name, 'Name', 'text', _context) }}
+            {{ inputField('info', form.info, 'Description', 'textarea', _context) }}
+
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </form>
+
+    {% endblock %}

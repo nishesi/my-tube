@@ -54,23 +54,23 @@ public class MvcConfig implements WebMvcConfigurer {
         return new StandardServletMultipartResolver();
     }
 
-    @Bean
-    ServletListenerRegistrationBean<ServletContextListener> initdefaultValues() {
-        var bean = new ServletListenerRegistrationBean<ServletContextListener>();
-        bean.setListener(new ServletContextListener() {
-            @Override
-            public void contextInitialized(ServletContextEvent sce) {
-                ServletContext context = sce.getServletContext();
-                context.setAttribute("logoUrl",
-                        context.getContextPath() + "/static/images/reg-background-img.jpg"
-                );
-                context.setAttribute("appName", "MyTube");
-                context.setAttribute(Attributes.COMMON_CSS_URL, context.getContextPath() + "/static/css/common.css");
-                context.setAttribute("contextPath", context.getContextPath());
-            }
-        });
-        return bean;
-    }
+//    @Bean
+//    ServletListenerRegistrationBean<ServletContextListener> initdefaultValues() {
+//        var bean = new ServletListenerRegistrationBean<ServletContextListener>();
+//        bean.setListener(new ServletContextListener() {
+//            @Override
+//            public void contextInitialized(ServletContextEvent sce) {
+//                ServletContext context = sce.getServletContext();
+//                context.setAttribute("logoUrl",
+//                        context.getContextPath() + "/static/images/reg-background-img.jpg"
+//                );
+//                context.setAttribute("appName", "MyTube");
+//                context.setAttribute(Attributes.COMMON_CSS_URL, context.getContextPath() + "/static/css/common.css");
+//                context.setAttribute("contextPath", context.getContextPath());
+//            }
+//        });
+//        return bean;
+//    }
 
     @Bean
     ServletListenerRegistrationBean<HttpSessionListener> initSessList() {

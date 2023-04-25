@@ -43,7 +43,7 @@ public class ChannelController {
     private String contextPath;
 
     @GetMapping("/{id}")
-    public void getChannel(@PathVariable String id, HttpServletRequest req, HttpServletResponse resp
+    public String getChannel(@PathVariable String id, HttpServletRequest req, HttpServletResponse resp
     ) throws ServletException, IOException {
 
         Channel channel = null;
@@ -56,22 +56,24 @@ public class ChannelController {
         } catch (ServiceException ex) {
             ((List<Alert>) req.getAttribute("alerts"))
                     .add(new Alert(Alert.AlertType.WARNING, ex.getMessage()));
-            req.getRequestDispatcher("/WEB-INF/jsp/BaseWindow.jsp").forward(req, resp);
+            return "homePage";
         }
         req.setAttribute("isSubscribed", isSubscribed);
         req.setAttribute("channel", channel);
         req.setAttribute(VIDEO_COVER_LIST, channelVideos);
-        req.getRequestDispatcher("/WEB-INF/jsp/ChannelPage.jsp").forward(req, resp);
+
+        return "channelPage";
     }
 
     @GetMapping("/update")
     public String getChannelCreatePage() {
-        return "ChannelCreatePage";
+        return "channelCreatePage";
     }
 
     @PostMapping
     public void createChannel(HttpServletRequest req, HttpServletResponse resp
     ) throws ServletException, IOException {
+
 
         ChannelForm channelForm = ChannelForm.builder()
                 .user((User) req.getSession().getAttribute(USER))

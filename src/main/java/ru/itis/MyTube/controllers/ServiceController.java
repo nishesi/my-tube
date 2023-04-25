@@ -44,6 +44,6 @@ public class ServiceController {
 
         req.setAttribute(Attributes.VIDEO_COVER_LIST, list);
         req.setAttribute("listType", req.getParameter("listType"));
-        return "HomePage";
+        return "homePage";
     }
 }

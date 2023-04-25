@@ -1,0 +1,72 @@
+{% extends "part/base" %}
+
+{% block content %}
+
+<main class="container-fluid">
+
+    <div class="container-fluid">
+        <img class="rounded-circle d-inline-block" src="{{ channel.channelCover.channelImgUrl }}" width="100"
+             height="100"
+             alt="channel icon">
+        <div class="d-inline-block ms-2 mt-4">
+            <h2 class="">{{ channel.channelCover.name }}</h2>
+            <p class="">{{ channel.countOfSubscribers }} subscribers</p>
+        </div>
+        <div class="btn-group-vertical d-inline float-end m-2">
+            {% if channel.id equals user.channelId %}
+
+                <a href="{{ href(urlPatterns.PRIVATE_VIDEO_UPLOAD) }}"
+                   class="btn btn-outline-secondary" aria-current="true">
+                    Add video
+                </a>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        Change
+                    </button>
+                    <ul class="dropdown-menu">
+                            {{ videoNamesList(videoCoverList, href(urlPatterns.PRIVATE_VIDEO_UPDATE)) }}
+                    </ul>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        Delete
+                    </button>
+                    <ul class="dropdown-menu">
+                            {{ videoDeleteList(videoCoverList, href(urlPatterns.PRIVATE_VIDEO_DELETE)) }}
+                    </ul>
+                </div>
+
+                {% elseif isSubscribed %}
+
+                <form action="{{ href(urlPatterns.PRIVATE_SUBSCRIBE) }}"
+                      method="post">
+                    <input style="display: none" type="text" name="channelId" value="${channel.id}">
+                    <input style="display: none" type="text" name="type" value="false">
+                    <input class="btn btn-primary" type="submit" value="Unsubscribe">
+                </form>
+
+                {% else %}
+
+                <form action="{{ href(urlPatterns.PRIVATE_SUBSCRIBE) }}"
+                      method="post">
+                    <input style="display: none" type="text" name="channelId" value="${channel.id}">
+                    <input style="display: none" type="text" name="type" value="true">
+                    <input class="btn btn-outline-primary" type="submit" value="Subscribe">
+                </form>
+
+            {% endif %}
+        </div>
+    </div>
+    <div class="container text-center">
+        <h4 class="m-4 mb-0 text-muted">Channel Information</h4>
+        <p class=" m-4 mt-0">
+            {{ channel.info }}
+        </p>
+    </div>
+
+    {% include "part/videoCoverList" %}
+</main>
+
+{% endblock %}
