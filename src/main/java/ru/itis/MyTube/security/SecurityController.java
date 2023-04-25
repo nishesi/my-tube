@@ -25,7 +25,7 @@ public class SecurityController {
     public String getLoginPage(Model model) {
         model.addAttribute("regPageCss",  contextPath + "/static/css/reg-page.css");
         model.addAttribute("backImgUrl", contextPath + "/static/images/reg-background-img.jpg");
-        return "/jsp/AuthenticationPage";
+        return "AuthenticationPage";
     }
 
     @PostMapping("/pr_lg")

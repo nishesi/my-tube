@@ -1,10 +1,13 @@
 package ru.itis.MyTube.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.pebbletemplates.pebble.PebbleEngine;
+import io.pebbletemplates.spring.servlet.PebbleViewResolver;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.http.HttpSessionListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,15 +29,20 @@ import ru.itis.MyTube.view.Attributes;
         "ru.itis.MyTube.controllers",
 })
 public class MvcConfig implements WebMvcConfigurer {
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/jsp/");
-        viewResolver.setSuffix(".jsp");
-        viewResolver.setRedirectContextRelative(false);
-        return viewResolver;
-    }
+//    @Autowired
+//    public void configurePebbleViewResolver(PebbleViewResolver viewResolver) {
+//        viewResolver.setOrder(Integer.MAX_VALUE);
+//    }
+
+//    @Bean
+//    public ViewResolver viewResolver() {
+//        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+//        viewResolver.setViewClass(JstlView.class);
+//        viewResolver.setPrefix("/WEB-INF/jsp/");
+//        viewResolver.setSuffix(".jsp");
+//        viewResolver.setRedirectContextRelative(false);
+//        return viewResolver;
+//    }
 
     @Bean
     public ObjectMapper objectMapper() {

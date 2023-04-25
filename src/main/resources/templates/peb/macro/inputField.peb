@@ -1,0 +1,12 @@
+{% macro inputField(fieldName, value, label, type, _context) %}
+    {% import "macro/problem" %}
+
+<div class="input-group">
+    <div class="input-group-text">{{ label }}</div>
+    <input type="{{ type }}" class="form-control" placeholder="Write your {{ fieldName }}..."
+           aria-label="{{ label }}"
+           name="{{ fieldName }}" value="{{ form.username }}">
+</div>
+{{ problem(fieldName, _context) }}
+
+{% endmacro %}
