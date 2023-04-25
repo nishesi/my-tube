@@ -1,0 +1,9 @@
+{% extends "part/base" %}
+
+{% block content %}
+
+<main class="container-fluid">
+    {% include "part/videoCoverList" %}
+</main>
+
+{% endblock %}

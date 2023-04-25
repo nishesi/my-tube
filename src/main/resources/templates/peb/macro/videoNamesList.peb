@@ -1,0 +1,9 @@
+{% macro videoNamesList(list, url) %}
+
+    {% for videoCover in list %}
+    <li>
+        <a class="dropdown-item" href="{{ url + '?uuid=' + videoCover.uuid}}">{{ videoCover.name }}</a>
+    </li>
+    {% endfor %}
+
+{% endmacro %}

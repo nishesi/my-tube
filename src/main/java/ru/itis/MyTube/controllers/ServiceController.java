@@ -26,7 +26,7 @@ public class ServiceController {
     private final VideoService videoService;
 
     @GetMapping("/")
-    public void getBaseWindow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String getBaseWindow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String listType = req.getParameter("listType");
         List<VideoCover> list = null;
 
@@ -44,6 +44,6 @@ public class ServiceController {
 
         req.setAttribute(Attributes.VIDEO_COVER_LIST, list);
         req.setAttribute("listType", req.getParameter("listType"));
-        req.getRequestDispatcher("/WEB-INF/jsp/BaseWindow.jsp").forward(req, resp);
+        return "HomePage";
     }
 }

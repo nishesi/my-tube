@@ -1,0 +1,42 @@
+{% macro videoCover(videoCov) %}
+
+<div class="col">
+    <div class="card">
+        <a href="{{ videoCov.watchUrl }}">
+            <img src="{{ videoCov.videoCoverImgUrl }}" class="card-img-top" alt="video icon">
+        </a>
+
+        <div class="card-body p-1">
+
+            <h6 class="card-title">
+                <a class="" href="{{ videoCov.watchUrl }}">
+                        {{ videoCov.name }}
+                </a>
+            </h6>
+
+            <a href="{{ videoCov.channelCover.channelUrl }}">
+                <div class="container p-0 align-baseline">
+                    <img class="rounded-circle channel-image" src="{{ videoCov.channelCover.channelImgUrl }}"
+                         alt="channel cover">
+                    {{ videoCov.channelCover.name }}
+                </div>
+            </a>
+
+            <div class="container m-1">
+
+                <p class="d-inline">
+                        {{ videoCov.views | views }}
+                </p>
+                —
+                <p class="d-inline">
+                        {{ videoCov.duration | duration }}
+                </p>
+            </div>
+            <p class="m-0 text-center">
+                    {{ videoCov.addedDate | whenAdded }}
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endmacro %}

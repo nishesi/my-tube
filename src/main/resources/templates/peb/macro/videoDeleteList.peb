@@ -1,0 +1,12 @@
+{% macro videoDeleteList(list, url) %}
+
+    {% for videoCover in list %}
+    <li>
+        <form method="post" action="{{ url }}">
+            <input type="text" value="{{ videoCover.uuid }}" style="display: none" name="videoUuid">
+            <button type="submit" class="dropdown-item">{{ videoCover.name }}</button>
+        </form>
+    </li>
+    {% endfor %}
+
+{% endmacro %}
