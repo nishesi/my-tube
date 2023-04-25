@@ -21,6 +21,7 @@ import ru.itis.MyTube.view.Alert;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.Queue;
 
@@ -56,13 +57,12 @@ public class UserController {
 
     @GetMapping("/user/update")
     public String getUserUpdatePage() {
-        return "UserPage";
+        return "userPage";
     }
 
     @PostMapping("/user")
-    public void updateUser(HttpServletRequest req,
-                           HttpServletResponse resp,
-                           @SessionAttribute Queue<? super Alert> alerts
+    public String updateUser(HttpServletRequest req,
+                             @SessionAttribute Queue<? super Alert> alerts
     ) throws ServletException, IOException {
 
         UserUpdateForm form = UserUpdateForm.builder()
@@ -79,15 +79,14 @@ public class UserController {
             alerts.add(new Alert(Alert.AlertType.SUCCESS, "Your account information updated."));
             alerts.add(new Alert(Alert.AlertType.INFO, "Please do reauthorization."));
 
-            resp.sendRedirect(contextPath + PRIVATE_USER_EXIT);
-            return;
+            return "redirect:" + contextPath + PRIVATE_USER_EXIT;
         } catch (ValidationException e) {
             req.setAttribute("problems", e.getProblems());
 
         } catch (ServiceException e) {
             alerts.add(new Alert(Alert.AlertType.DANGER, e.getMessage()));
         }
-        req.getRequestDispatcher("/WEB-INF/jsp/UserPage.jsp").forward(req, resp);
+        return "userPage";
     }
 
     @PostMapping

@@ -1,0 +1,48 @@
+{% extends "part/base" %}
+
+{% block content %}
+<main class="container-fluid">
+    <div class="row">
+
+        <div class="col">
+            <video id="{{ video.uuid }}" height="480" width="640" type="video/mp4" controls="controls">
+                <source src="{{ video.videoUrl }}">
+            </video>
+        </div>
+
+        <div class="col">
+            <div class="container-fluid">
+                <div class="m-2">{{ video.videoCover.name }}</div>
+                <div class="container p-0 align-baseline d-inline mt-2">
+                    <img class="rounded-circle channel-image" src="{{ video.videoCover.channelCover.channelImgUrl }}"
+                         alt="channel cover">
+                    {{ video.videoCover.channelCover.name }}
+                </div>
+                <div id="reactions" class="btn-group float-end" role="group">
+                    <input type="radio" class="btn-check reactionType" name="btnradio" id="like" autocomplete="off"
+                           {% if reaction == 1 %}checked{% endif %}>
+                    <label id="likeLabel" class="btn btn-outline-success" for="like">Like {{ video.likes }}</label>
+
+                    <input type="radio" class="btn-check reactionType" name="btnradio" id="void" autocomplete="off"
+                           {% if reaction == 0 %}checked{% endif %}>
+                    <label id="voidLabel" class="btn btn-outline-secondary" for="void"> </label>
+
+                    <input type="radio" class="btn-check reactionType" name="btnradio" id="dislike" autocomplete="off"
+                           {% if reaction == -1 %}checked{% endif %}>
+                    <label id="dislikeLabel" class="btn btn-outline-danger"
+                           for="dislike">Dislike {{  video.dislikes }}</label>
+                </div>
+                <div class="mt-2">
+                    {{ video.info }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container-fluid p-0 mt-5">
+        {% include "part/videoCoverList" %}
+    </div>
+</main>
+{% endblock %}

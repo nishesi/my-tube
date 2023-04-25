@@ -26,8 +26,9 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-target="#regModal"
-                                data-bs-toggle="modal">Register
+                        <button type="button" class="btn btn-outline-secondary"
+                                data-bs-target="#regModal" data-bs-toggle="modal">
+                            Register
                         </button>
                         <button type="submit" class="btn btn-primary">Authorize</button>
                     </div>

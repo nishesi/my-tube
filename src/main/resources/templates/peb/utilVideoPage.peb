@@ -1,0 +1,25 @@
+    {% extends "part/base" %}
+
+    {% import "macro/inputField" %}
+
+    {% block content %}
+
+    <div id="box">
+        <form method="post" action="{{ url }}" enctype="multipart/form-data">
+            <div class="form m-4">
+                <h4 class="text-center mb-3">{{ pageType }} video</h4>
+
+
+                {{ inputField('icon', null, 'Choose icon', 'file', _content) }}
+                {{ inputField('name', form.name, 'Name', 'text', _content) }}
+                {{ inputField('video', null, 'Choose video', 'file', _content) }}
+                {{ inputField('info', form.info, 'Description', 'text', _content) }}
+
+                <div class="container text-center">
+                    <button type="submit" class="btn btn-primary">{{ pageType }}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    {% endblock %}

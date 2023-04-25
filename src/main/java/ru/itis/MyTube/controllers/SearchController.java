@@ -24,7 +24,7 @@ public class SearchController {
     private final VideoService videoService;
 
     @GetMapping("/search")
-    public void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String search(HttpServletRequest req, HttpServletResponse resp) {
         List<VideoCover> list = null;
         try {
             list = videoService.getVideosByNameSubstring(req.getParameter("substring"));
@@ -35,6 +35,6 @@ public class SearchController {
 
         req.setAttribute("substring", req.getParameter("substring"));
         req.setAttribute(Attributes.VIDEO_COVER_LIST, list);
-        req.getRequestDispatcher("WEB-INF/jsp/SearchPage.jsp").forward(req, resp);
+        return "homePage";
     }
 }

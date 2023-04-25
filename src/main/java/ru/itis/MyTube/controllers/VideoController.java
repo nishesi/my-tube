@@ -19,6 +19,7 @@ import ru.itis.MyTube.view.Alert;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -54,11 +55,11 @@ public class VideoController {
             model.addAttribute("videoCoverList", list);
             model.addAttribute("videoReactionsScriptUrl",
                     contextPath + "/js/ReactionRequester.js");
-            return "VideoPage";
+            return "videoPage";
 
         } catch (ServiceException ex) {
 //            alerts.add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
-            return "BaseWindow";
+            return "homePage";
         }
     }
 
@@ -66,15 +67,15 @@ public class VideoController {
     public String getVideoUpdatePage(Model model, @PathVariable String id) {
         model.addAttribute("pageType", "Update");
         model.addAttribute("url", contextPath + "/update/" + id);
-        return "UtilVideoPage";
+        return "utilVideoPage";
     }
 
     @PostMapping("/update/{id}")
-    public void updateVideo(@PathVariable String id,
-                            @SessionAttribute User user,
-                            @SessionAttribute(required = false) Queue<? super Alert> alerts,
-                            HttpServletRequest req,
-                            HttpServletResponse resp
+    public String updateVideo(@PathVariable String id,
+                              @SessionAttribute User user,
+                              @SessionAttribute(required = false) Queue<? super Alert> alerts,
+                              HttpServletRequest req,
+                              HttpServletResponse resp
     ) throws ServletException, IOException {
 
         VideoForm videoForm = VideoForm.builder()
@@ -89,8 +90,7 @@ public class VideoController {
         try {
             videoService.updateVideo(videoForm);
             alerts.add(new Alert(Alert.AlertType.SUCCESS, "Video updated."));
-            resp.sendRedirect(contextPath + CHANNEL + "?id=" + videoForm.getChannelId());
-            return;
+            return "redirect:" + contextPath + CHANNEL + "?id=" + videoForm.getChannelId();
 
         } catch (ValidationException e) {
             req.setAttribute("problems", e.getProblems());
@@ -101,20 +101,21 @@ public class VideoController {
         }
 
         req.setAttribute("pageType", "Update");
-        req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
+        return "utilVideoPage";
     }
 
     @GetMapping("/add")
-    public String  getVideoAddPage(Model model) {
+    public String getVideoAddPage(Model model) {
         model.addAttribute("pageType", "Upload");
-        return "UtilVideoPage";
+        model.addAttribute("url", contextPath + "/video");
+        return "utilVideoPage";
     }
 
     @PostMapping
-    public void addVideo(@SessionAttribute User user,
-                         @SessionAttribute(required = false) Queue<? super Alert> alerts,
-                         HttpServletRequest req,
-                         HttpServletResponse resp) throws IOException, ServletException {
+    public String addVideo(@SessionAttribute User user,
+                           @SessionAttribute(required = false) Queue<? super Alert> alerts,
+                           HttpServletRequest req,
+                           HttpServletResponse resp) throws IOException, ServletException {
         VideoForm videoForm = VideoForm.builder()
                 .channelId(user.getChannelId())
                 .name(req.getParameter("name"))
@@ -126,8 +127,7 @@ public class VideoController {
         try {
             videoService.addVideo(videoForm);
             alerts.add(new Alert(Alert.AlertType.SUCCESS, "Video added."));
-            resp.sendRedirect(contextPath + CHANNEL + "?id=" + videoForm.getChannelId());
-            return;
+            return "redirect:" + contextPath + CHANNEL + "?id=" + videoForm.getChannelId();
 
         } catch (ValidationException e) {
             req.setAttribute("problems", e.getProblems());
@@ -138,12 +138,12 @@ public class VideoController {
             alerts.add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
         }
         req.setAttribute("pageType", "Upload");
-        req.getRequestDispatcher("/WEB-INF/jsp/UtilVideoPage.jsp").forward(req, resp);
+        return "utilVideoPage";
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteVideo(@PathVariable String id,
-                            @SessionAttribute User user) {
+                                         @SessionAttribute User user) {
         try {
             Long userChannelId = user.getChannelId();
             videoService.deleteVideo(id, userChannelId);
