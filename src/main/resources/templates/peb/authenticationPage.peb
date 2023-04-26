@@ -1,22 +1,9 @@
-{% import "macro/inputField" %}
+    {% extends "part/base" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Authentication</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        {% import "macro/inputField" %}
 
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-            crossorigin="anonymous"></script>
+    {% block content %}
 
-    <link rel="stylesheet" href="{{ href('/static/css/common.css') }}">
-</head>
-<body>
-<%@include file="/WEB-INF/commonJsp/alertsHandler.jsp" %>
-<div id="box">
     <form action="" method="post">
         <div class="form m-4">
             <h4 class="text-center mb-3">Authentication</h4>
@@ -37,6 +24,5 @@
             </div>
         </div>
     </form>
-</div>
-</body>
-</html>
+
+    {% endblock %}

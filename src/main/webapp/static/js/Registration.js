@@ -24,15 +24,14 @@ function onSubmitFunction() {
         headers: {
             "Content-Type": "application/json"
         },
-        redirect: "follow",
         body: JSON.stringify(jsonForm)
 
     }).then(resp => {
         if (resp.status === 400) {
             resp.json().then(jsonForm => printProblems(jsonForm));
 
-        } else if (resp.status === 200) {
-            window.location.href = resp.url;
+        } else if (resp.status === 202) {
+            resp.json().then(json => window.location.href = json.location)
         } else {
             resp.text().then(text => console.log(text))
         }

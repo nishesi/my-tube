@@ -1,10 +1,11 @@
 {% macro problem(fieldName, _context) %}
 
 <div id="{{ fieldName }}Problem" class="mb-4 text-danger">
-        {% if _context.problems.fieldName is not null %}
-            <div class="alert alert-danger text-center p-1">{{ _context.problems.fieldName }}</div>
 
-        {% endif %}
+    {% if _context.problems[fieldName] is not null %}
+        <div class="alert alert-danger text-center p-1">{{ _context.problems[fieldName] }}</div>
+
+    {% endif %}
 </div>
 
 {% endmacro %}

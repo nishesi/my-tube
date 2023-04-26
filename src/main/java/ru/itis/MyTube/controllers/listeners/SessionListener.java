@@ -1,5 +1,6 @@
 package ru.itis.MyTube.controllers.listeners;
 
+import org.springframework.stereotype.Component;
 import ru.itis.MyTube.view.Alert;
 
 import jakarta.servlet.annotation.WebListener;
@@ -10,12 +11,11 @@ import java.util.Queue;
 
 import static ru.itis.MyTube.view.Attributes.ALERTS;
 
-@WebListener
+@Component
 public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         Queue<Alert> alertQueue = new LinkedList<>();
-
-        se.getSession().setAttribute(ALERTS, alertQueue);
+//        se.getSession().setAttribute(ALERTS, alertQueue);
     }
 }

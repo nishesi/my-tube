@@ -2,9 +2,11 @@ package ru.itis.MyTube.view.peb;
 
 import io.pebbletemplates.pebble.extension.AbstractExtension;
 import io.pebbletemplates.pebble.extension.Filter;
+import io.pebbletemplates.pebble.extension.Function;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.controllers.UrlPatterns;
+import ru.itis.MyTube.view.peb.filters.AlertHandlerFunction;
 import ru.itis.MyTube.view.peb.filters.DurationFilter;
 import ru.itis.MyTube.view.peb.filters.ViewsFilter;
 import ru.itis.MyTube.view.peb.filters.WhenAddedFilter;
@@ -33,5 +35,10 @@ public class MyTubeExtension extends AbstractExtension {
                 "duration", new DurationFilter(),
                 "whenAdded", new WhenAddedFilter()
         );
+    }
+
+    @Override
+    public Map<String, Function> getFunctions() {
+        return Map.of("handleAlerts", new AlertHandlerFunction());
     }
 }

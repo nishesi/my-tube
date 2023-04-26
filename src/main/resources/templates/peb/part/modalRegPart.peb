@@ -7,7 +7,7 @@
             </div>
 
             <div class="modal-body">
-                {% include "/part/regForm" %}}
+                {% include "/part/regForm" %}
             </div>
 
             <div class="modal-footer">

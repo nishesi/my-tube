@@ -12,6 +12,7 @@ import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import ru.itis.MyTube.auxiliary.ListConverter;
 import ru.itis.MyTube.controllers.listeners.SessionListener;
 import ru.itis.MyTube.view.Attributes;
 
@@ -29,6 +31,8 @@ import ru.itis.MyTube.view.Attributes;
         "ru.itis.MyTube.controllers",
 })
 public class MvcConfig implements WebMvcConfigurer {
+    @Autowired
+    private ListConverter listConverter;
 //    @Autowired
 //    public void configurePebbleViewResolver(PebbleViewResolver viewResolver) {
 //        viewResolver.setOrder(Integer.MAX_VALUE);
@@ -77,6 +81,11 @@ public class MvcConfig implements WebMvcConfigurer {
         var bean = new ServletListenerRegistrationBean<HttpSessionListener>();
         bean.setListener(new SessionListener());
         return bean;
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(listConverter);
     }
 
     @Override

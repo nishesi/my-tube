@@ -17,6 +17,7 @@
     {% block head %}{% endblock %}
 </head>
 <body>
+{{ handleAlerts(alerts) | raw }}
     {% include "part/header" %}
     {% block content %}Content not found{% endblock %}
     {% include "part/footer" %}

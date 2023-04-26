@@ -18,13 +18,12 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequiredArgsConstructor
 public class SecurityController {
+    private final UserService userService;
     @Value("${context.path}")
     private String contextPath;
-    private final UserService userService;
+
     @GetMapping("/login")
     public String getLoginPage(Model model) {
-        model.addAttribute("regPageCss",  contextPath + "/static/css/reg-page.css");
-        model.addAttribute("backImgUrl", contextPath + "/static/images/reg-background-img.jpg");
         return "authenticationPage";
     }
 
@@ -36,7 +35,7 @@ public class SecurityController {
             User user = userService.get(username, password);
             session.setAttribute("user", user);
             return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
-                    .header("Location",contextPath).build();
+                    .header("Location", contextPath).build();
 
         } catch (ValidationException e) {
             return ResponseEntity.badRequest().build();

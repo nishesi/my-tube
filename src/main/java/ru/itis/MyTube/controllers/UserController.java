@@ -2,13 +2,18 @@ package ru.itis.MyTube.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.dto.User;
@@ -23,6 +28,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
@@ -38,11 +45,10 @@ public class UserController {
 
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
-        model.addAttribute("regPageCss", contextPath + "/static/css/reg-page.css");
-        return "RegistrationPage";
+        return "registrationPage";
     }
 
-    @PostMapping(value = "/register", consumes = "application/json")
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> register(
             @RequestBody RegistrationForm registrationForm,
             @SessionAttribute Queue<Alert> alerts) throws ValidationException {
@@ -54,6 +60,26 @@ public class UserController {
                 .status(302)
                 .header("Location", contextPath + "/login").build();
     }
+
+    @PostMapping(value="/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String register(
+            RegistrationForm registrationForm,
+            RedirectAttributes redirectAttributes,
+            ModelMap modelMap
+    ) {
+        try {
+            userService.save(registrationForm);
+            List<Alert> alerts = new ArrayList<>();
+            alerts.add(Alert.of(Alert.AlertType.SUCCESS, "You registered."));
+            redirectAttributes.addFlashAttribute("alerts", alerts);
+
+            return "redirect:/login";
+        } catch (ValidationException e) {
+            modelMap.put("problems", e.getProblems());
+            return "registrationPage";
+        }
+    }
+
 
     @GetMapping("/user/update")
     public String getUserUpdatePage() {

@@ -1,40 +1,50 @@
     {% import "macro/inputField" %}
-    {% import "macro/problem" %}
+        {% import "macro/problem" %}
 
-    <script defer src="{{ href('/static/js/Registration.js') }}"></script>
+    {#    <script defer src="{{ href('/static/js/Registration.js') }}"></script>#}
 
-    <div id="regForm" class="form m-4">
+    <form method="post" action="">
+        <div id="regForm" class="form m-4">
 
-        {{ inputField('username', form.username, 'Username', 'text', _context) }}
-        {{ inputField('password', form.password, 'Password', 'password', _context) }}
-        {{ inputField('passwordRepeat', form.passwordRepeat, 'Password Repeat', 'password', _context) }}
+            {{ inputField('username', form.username, 'Username', 'text', _context) }}
+            {{ inputField('password', form.password, 'Password', 'password', _context) }}
+            {{ inputField('passwordRepeat', form.passwordRepeat, 'Password Repeat', 'password', _context) }}
 
-        <div class="input-group">
-            <div class="input-group-text">First name</div>
-            <input type="text" class="form-control" placeholder="Write..." aria-label="First name"
-                   name="firstName"
-                   value="{{ form.firstName }}">
-            <div class="input-group-text">Last name</div>
-            <input type="text" class="form-control" placeholder="Write..." aria-label="Last name"
-                   name="lastName"
-                   value="{{ form.lastName }}">
-        </div>
-        <div class="mb-4 text-danger">
-            <span id="firstNameProblem"></span>
-            <span id="lastNameProblem"></span>
-            {{ problem('firstName', _context) }}
-            {{ problem('lastName', _context) }}
-        </div>
-
-        {{ inputField('birthdate', form.birthdate, 'Birthdate', 'date', _context) }}
-        {{ inputField('country', form.country, 'Country', 'text', _context) }}
-
-        <div class="input-group">
-            <div class="input-group-text">
-                <input id="agreement" type="checkbox" aria-label="agreement" class="form-check-input"
-                       name="agreement">
+            <div class="input-group">
+                <div class="input-group-text">First name</div>
+                <input type="text" class="form-control" placeholder="Write..." aria-label="First name"
+                       name="firstName"
+                       value="{{ form.firstName }}">
+                <div class="input-group-text">Last name</div>
+                <input type="text" class="form-control" placeholder="Write..." aria-label="Last name"
+                       name="lastName"
+                       value="{{ form.lastName }}">
             </div>
-            <span class="form-control">I am agree with processing my personal data</span>
+            <div class="mb-4 text-danger">
+                <span id="firstNameProblem"></span>
+                <span id="lastNameProblem"></span>
+                {% if _context.problems['firstName'] is not null or _context.problems['lastName'] is not null %}
+                    <div class="alert alert-danger text-center p-1">
+                            {{ _context.problems['firstName'] | default('') + ' ' + _context.problems['lastName'] | default('') }}
+                    </div>
+                {% endif %}
+            </div>
+
+            {{ inputField('birthdate', form.birthdate, 'Birthdate', 'date', _context) }}
+            {{ inputField('country', form.country, 'Country', 'text', _context) }}
+
+            <div class="input-group">
+                <div class="input-group-text">
+                    <input id="agreement" type="checkbox" aria-label="agreement" class="form-check-input"
+                           name="agreement">
+                </div>
+                <span class="form-control">I am agree with processing my personal data</span>
+            </div>
+            {{ problem('agreement', _context) }}
+
+            <div class="container text-center">
+
+                <button type="submit" class="btn btn-outline-primary">Register</button>
+            </div>
         </div>
-        {{ problem('agreement', _context) }}
-    </div>
+    </form>
