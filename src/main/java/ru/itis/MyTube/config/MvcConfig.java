@@ -1,11 +1,6 @@
 package ru.itis.MyTube.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.pebbletemplates.pebble.PebbleEngine;
-import io.pebbletemplates.spring.servlet.PebbleViewResolver;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.http.HttpSessionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -15,15 +10,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 import ru.itis.MyTube.auxiliary.ListConverter;
 import ru.itis.MyTube.controllers.listeners.SessionListener;
-import ru.itis.MyTube.view.Attributes;
 
 @Configuration
 @EnableWebMvc
@@ -33,20 +24,6 @@ import ru.itis.MyTube.view.Attributes;
 public class MvcConfig implements WebMvcConfigurer {
     @Autowired
     private ListConverter listConverter;
-//    @Autowired
-//    public void configurePebbleViewResolver(PebbleViewResolver viewResolver) {
-//        viewResolver.setOrder(Integer.MAX_VALUE);
-//    }
-
-//    @Bean
-//    public ViewResolver viewResolver() {
-//        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-//        viewResolver.setViewClass(JstlView.class);
-//        viewResolver.setPrefix("/WEB-INF/jsp/");
-//        viewResolver.setSuffix(".jsp");
-//        viewResolver.setRedirectContextRelative(false);
-//        return viewResolver;
-//    }
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -57,24 +34,6 @@ public class MvcConfig implements WebMvcConfigurer {
     public MultipartResolver multipartResolver() {
         return new StandardServletMultipartResolver();
     }
-
-//    @Bean
-//    ServletListenerRegistrationBean<ServletContextListener> initdefaultValues() {
-//        var bean = new ServletListenerRegistrationBean<ServletContextListener>();
-//        bean.setListener(new ServletContextListener() {
-//            @Override
-//            public void contextInitialized(ServletContextEvent sce) {
-//                ServletContext context = sce.getServletContext();
-//                context.setAttribute("logoUrl",
-//                        context.getContextPath() + "/static/images/reg-background-img.jpg"
-//                );
-//                context.setAttribute("appName", "MyTube");
-//                context.setAttribute(Attributes.COMMON_CSS_URL, context.getContextPath() + "/static/css/common.css");
-//                context.setAttribute("contextPath", context.getContextPath());
-//            }
-//        });
-//        return bean;
-//    }
 
     @Bean
     ServletListenerRegistrationBean<HttpSessionListener> initSessList() {
@@ -88,10 +47,12 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addConverter(listConverter);
     }
 
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
                 .addResourceHandler("/static/**")
-                .addResourceLocations("/static/");
+                .addResourceLocations("classpath:/static/")
+                .setCachePeriod(10);
     }
 }
