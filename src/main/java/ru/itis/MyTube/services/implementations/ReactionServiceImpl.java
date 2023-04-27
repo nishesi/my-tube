@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.dao.ReactionRepository;
-import ru.itis.MyTube.dto.Reaction;
-import ru.itis.MyTube.dto.Reactions;
+import ru.itis.MyTube.model.Reaction;
+import ru.itis.MyTube.model.Reactions;
 import ru.itis.MyTube.dto.forms.ReactionForm;
 import ru.itis.MyTube.services.ReactionService;
 

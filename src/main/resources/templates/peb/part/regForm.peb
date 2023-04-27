@@ -1,50 +1,61 @@
-    {% import "macro/inputField" %}
-        {% import "macro/problem" %}
+{% import "macro/inputField" %}
+{% import "macro/problem" %}
+{# @pebvariable name="formName" type="java.lang.String" #}
+{% set formName = "newUserForm" %}
 
-    {#    <script defer src="{{ href('/static/js/Registration.js') }}"></script>#}
-
-    <form method="post" action="">
-        <div id="regForm" class="form m-4">
-
-            {{ inputField('username', form.username, 'Username', 'text', _context) }}
-            {{ inputField('password', form.password, 'Password', 'password', _context) }}
-            {{ inputField('passwordRepeat', form.passwordRepeat, 'Password Repeat', 'password', _context) }}
-
-            <div class="input-group">
-                <div class="input-group-text">First name</div>
-                <input type="text" class="form-control" placeholder="Write..." aria-label="First name"
-                       name="firstName"
-                       value="{{ form.firstName }}">
-                <div class="input-group-text">Last name</div>
-                <input type="text" class="form-control" placeholder="Write..." aria-label="Last name"
-                       name="lastName"
-                       value="{{ form.lastName }}">
+<form method="post" action="{{ href('/user') }}">
+    <div id="regForm" class="form m-4">
+        {% if hasGlobalErrors(formName) %}
+            <div class="alert alert-danger text-center p-1">
+                {% for err in getGlobalErrors(formName) %}
+                    {{ err }}
+                {% endfor %}
             </div>
-            <div class="mb-4 text-danger">
-                <span id="firstNameProblem"></span>
-                <span id="lastNameProblem"></span>
-                {% if _context.problems['firstName'] is not null or _context.problems['lastName'] is not null %}
-                    <div class="alert alert-danger text-center p-1">
-                            {{ _context.problems['firstName'] | default('') + ' ' + _context.problems['lastName'] | default('') }}
-                    </div>
-                {% endif %}
-            </div>
+        {% endif %}
 
-            {{ inputField('birthdate', form.birthdate, 'Birthdate', 'date', _context) }}
-            {{ inputField('country', form.country, 'Country', 'text', _context) }}
+        {{ inputField(formName, 'email', 'text', 'Email', _context) }}
+        {{ inputField(formName, 'password', 'password', 'Password', _context) }}
+        {{ inputField(formName, 'passwordRepeat', 'password', 'Password Repeat', _context) }}
 
-            <div class="input-group">
-                <div class="input-group-text">
-                    <input id="agreement" type="checkbox" aria-label="agreement" class="form-check-input"
-                           name="agreement">
-                </div>
-                <span class="form-control">I am agree with processing my personal data</span>
-            </div>
-            {{ problem('agreement', _context) }}
-
-            <div class="container text-center">
-
-                <button type="submit" class="btn btn-outline-primary">Register</button>
-            </div>
+        <div class="input-group">
+            <div class="input-group-text">First name</div>
+            <input type="text" class="form-control" placeholder="Write your first name..." aria-label="First name"
+                   name="firstName"
+                   value="{{ _context[formName]['firstName'] }}">
+            <div class="input-group-text">Last name</div>
+            <input type="text" class="form-control" placeholder="Write your last name..." aria-label="Last name"
+                   name="lastName"
+                   value="{{ _context[formName]['lastName'] }}">
         </div>
-    </form>
+        <div class="mb-4 text-danger">
+            <span id="firstNameProblem"></span>
+            <span id="lastNameProblem"></span>
+            {% if hasFieldErrors(formName, 'firstName') or hasFieldErrors(formName, 'lastName') %}
+            <div class="alert alert-danger text-center p-1">
+                {% for err in getFieldErrors(formName, 'firstName') %}
+                    {{ 'First Name ' + err + ' ' }}
+                {% endfor %}
+                {% for err in getFieldErrors(formName, 'lastName') %}
+                    {{ 'Last Name ' + err + ' ' }}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        {{ inputField(formName, 'birthdate', 'date', 'Birthdate', _context) }}
+        {{ inputField(formName, 'country', 'text', 'Country', _context) }}
+
+        <div class="input-group">
+            <div class="input-group-text">
+                <input id="agreement" type="checkbox" aria-label="agreement" class="form-check-input"
+                       name="agreement" {% if _context[formName]['agreement'] is not null %}checked{% endif %}>
+            </div>
+            <span class="form-control">I am agree with processing my personal data</span>
+        </div>
+        {{ problem(formName, 'agreement', _context) }}
+
+        <div class="container text-center">
+            <button type="submit" class="btn btn-outline-primary">Register</button>
+        </div>
+    </div>
+</form>

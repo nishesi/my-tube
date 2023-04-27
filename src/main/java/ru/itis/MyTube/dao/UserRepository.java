@@ -1,6 +1,6 @@
 package ru.itis.MyTube.dao;
 
-import ru.itis.MyTube.dto.User;
+import ru.itis.MyTube.model.User;
 
 import java.util.List;
 import java.util.Optional;

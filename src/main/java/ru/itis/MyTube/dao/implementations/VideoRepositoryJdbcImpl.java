@@ -3,9 +3,9 @@ package ru.itis.MyTube.dao.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.dao.VideoRepository;
-import ru.itis.MyTube.dto.ChannelCover;
-import ru.itis.MyTube.dto.Video;
-import ru.itis.MyTube.dto.VideoCover;
+import ru.itis.MyTube.model.ChannelCover;
+import ru.itis.MyTube.model.Video;
+import ru.itis.MyTube.model.VideoCover;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

@@ -1,6 +1,6 @@
 {% import "macro/videoCover" %}
 
-{# @pebvariable name="videoCoverList" type="java.util.List<ru.itis.MyTube.dto.VideoCover>" #}
+{# @pebvariable name="videoCoverList" type="java.util.List<ru.itis.MyTube.model.VideoCover>" #}
 {% if videoCoverList is null %}
 
 <div class="alert alert-warning text-center">

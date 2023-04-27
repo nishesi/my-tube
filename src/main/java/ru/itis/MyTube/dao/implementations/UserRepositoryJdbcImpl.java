@@ -3,7 +3,7 @@ package ru.itis.MyTube.dao.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.dao.UserRepository;
-import ru.itis.MyTube.dto.User;
+import ru.itis.MyTube.model.User;
 
 import javax.sql.DataSource;
 import java.sql.*;

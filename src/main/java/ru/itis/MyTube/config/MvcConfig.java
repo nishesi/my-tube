@@ -13,7 +13,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ru.itis.MyTube.auxiliary.ListConverter;
+import ru.itis.MyTube.auxiliary.AlertsDtoConverter;
 import ru.itis.MyTube.controllers.listeners.SessionListener;
 
 @Configuration
@@ -23,7 +23,12 @@ import ru.itis.MyTube.controllers.listeners.SessionListener;
 })
 public class MvcConfig implements WebMvcConfigurer {
     @Autowired
-    private ListConverter listConverter;
+    private AlertsDtoConverter alertsDtoConverter;
+
+//    @Autowired
+//    void confPebble(PebbleEngine.Builder engineBuilder) {
+//        engineBuilder.autoEscaping(true);
+//    }
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -44,7 +49,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(listConverter);
+        registry.addConverter(alertsDtoConverter);
     }
 
 

@@ -1,7 +1,7 @@
 package ru.itis.MyTube.dao;
 
-import ru.itis.MyTube.dto.Reaction;
-import ru.itis.MyTube.dto.Reactions;
+import ru.itis.MyTube.model.Reaction;
+import ru.itis.MyTube.model.Reactions;
 
 import java.util.Map;
 import java.util.Optional;

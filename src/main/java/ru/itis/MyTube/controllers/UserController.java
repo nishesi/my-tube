@@ -1,35 +1,30 @@
 package ru.itis.MyTube.controllers;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.dto.User;
-import ru.itis.MyTube.dto.forms.RegistrationForm;
-import ru.itis.MyTube.dto.forms.SubscribeForm;
-import ru.itis.MyTube.dto.forms.UserUpdateForm;
-import ru.itis.MyTube.services.UserService;
-import ru.itis.MyTube.view.Alert;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.itis.MyTube.auxiliary.exceptions.ExistsException;
+import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
+import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.dto.AlertsDto;
+import ru.itis.MyTube.dto.forms.NewUserForm;
+import ru.itis.MyTube.dto.forms.SubscribeForm;
+import ru.itis.MyTube.dto.forms.UserUpdateForm;
+import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.services.UserService;
+import ru.itis.MyTube.view.Alert;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 
 import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
@@ -38,22 +33,23 @@ import static ru.itis.MyTube.view.Attributes.USER;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
     @Value("${context.path}")
     private String contextPath;
 
     @GetMapping("/register")
-    public String getRegisterPage(Model model) {
+    public String getRegisterPage() {
         return "registrationPage";
     }
 
-    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> register(
-            @RequestBody RegistrationForm registrationForm,
+            @RequestBody NewUserForm newUserForm,
             @SessionAttribute Queue<Alert> alerts) throws ValidationException {
 
-        userService.save(registrationForm);
+        userService.save(newUserForm);
         alerts.add(Alert.of(Alert.AlertType.SUCCESS, "You registered."));
 
         return ResponseEntity
@@ -61,32 +57,34 @@ public class UserController {
                 .header("Location", contextPath + "/login").build();
     }
 
-    @PostMapping(value="/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String register(
-            RegistrationForm registrationForm,
-            RedirectAttributes redirectAttributes,
-            ModelMap modelMap
+            @Valid NewUserForm newUserForm,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
     ) {
-        try {
-            userService.save(registrationForm);
-            List<Alert> alerts = new ArrayList<>();
-            alerts.add(Alert.of(Alert.AlertType.SUCCESS, "You registered."));
-            redirectAttributes.addFlashAttribute("alerts", alerts);
+        if (!bindingResult.hasErrors()) {
+            try {
+                userService.save(newUserForm);
+                AlertsDto alertsDto = new AlertsDto(
+                        Alert.of(Alert.AlertType.SUCCESS, "You registered."));
+                redirectAttributes.addFlashAttribute("alerts", alertsDto);
 
-            return "redirect:/login";
-        } catch (ValidationException e) {
-            modelMap.put("problems", e.getProblems());
-            return "registrationPage";
+                return "redirect:/login";
+            } catch (ExistsException ex) {
+                bindingResult.addError(new ObjectError("newUserForm", ex.getMessage()));
+            }
         }
+        return "registrationPage";
     }
 
 
-    @GetMapping("/user/update")
+    @GetMapping("/update")
     public String getUserUpdatePage() {
         return "userPage";
     }
 
-    @PostMapping("/user")
+    @PutMapping
     public String updateUser(HttpServletRequest req,
                              @SessionAttribute Queue<? super Alert> alerts
     ) throws ServletException, IOException {
@@ -106,16 +104,13 @@ public class UserController {
             alerts.add(new Alert(Alert.AlertType.INFO, "Please do reauthorization."));
 
             return "redirect:" + contextPath + PRIVATE_USER_EXIT;
-        } catch (ValidationException e) {
-            req.setAttribute("problems", e.getProblems());
-
         } catch (ServiceException e) {
             alerts.add(new Alert(Alert.AlertType.DANGER, e.getMessage()));
         }
         return "userPage";
     }
 
-    @PostMapping
+    @PostMapping("/subscribe")
     public void subscribeToChannel(HttpServletRequest req,
                                    HttpServletResponse resp,
                                    @SessionAttribute Queue<? super Alert> alerts) throws IOException {

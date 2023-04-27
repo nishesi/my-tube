@@ -2,9 +2,9 @@ package ru.itis.MyTube.services;
 
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.dto.User;
-import ru.itis.MyTube.dto.Video;
-import ru.itis.MyTube.dto.VideoCover;
+import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.Video;
+import ru.itis.MyTube.model.VideoCover;
 import ru.itis.MyTube.dto.forms.VideoForm;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package ru.itis.MyTube.dao;
 
-import ru.itis.MyTube.dto.Channel;
-import ru.itis.MyTube.dto.ChannelCover;
+import ru.itis.MyTube.model.Channel;
+import ru.itis.MyTube.model.ChannelCover;
 
 import java.util.List;
 import java.util.Optional;

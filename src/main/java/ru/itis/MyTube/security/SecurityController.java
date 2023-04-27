@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.dto.User;
+import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.services.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -23,7 +23,7 @@ public class SecurityController {
     private String contextPath;
 
     @GetMapping("/login")
-    public String getLoginPage(Model model) {
+    public String getLoginPage() {
         return "authenticationPage";
     }
 
@@ -31,14 +31,10 @@ public class SecurityController {
     public ResponseEntity<?> processLogin(@RequestParam String username,
                                           @RequestParam String password,
                                           HttpSession session) {
-        try {
-            User user = userService.get(username, password);
-            session.setAttribute("user", user);
-            return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
-                    .header("Location", contextPath).build();
+        User user = userService.get(username, password);
+        session.setAttribute("user", user);
+        return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
+                .header("Location", contextPath).build();
 
-        } catch (ValidationException e) {
-            return ResponseEntity.badRequest().build();
-        }
     }
 }

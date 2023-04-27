@@ -4,16 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.UrlCreator;
+import ru.itis.MyTube.auxiliary.exceptions.ExistsException;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.controllers.validators.RegistrationValidator;
 import ru.itis.MyTube.controllers.validators.UserUpdateValidator;
 import ru.itis.MyTube.dao.ReactionRepository;
 import ru.itis.MyTube.dao.UserRepository;
-import ru.itis.MyTube.dto.User;
-import ru.itis.MyTube.dto.forms.RegistrationForm;
+import ru.itis.MyTube.dto.forms.NewUserForm;
 import ru.itis.MyTube.dto.forms.SubscribeForm;
 import ru.itis.MyTube.dto.forms.UserUpdateForm;
+import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.storage.Storage;
@@ -32,18 +32,19 @@ public class UserServiceImpl implements UserService {
     private final Storage storage;
     private final UrlCreator urlCreator;
     private final UserUpdateValidator userUpdateValidator;
-    private final RegistrationValidator registrationValidator;
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void save(RegistrationForm form) throws ValidationException {
-        registrationValidator.validate(form);
+    public void save(NewUserForm form) {
+        if (userRepository.isPresent(form.getEmail()))
+            throw new ExistsException("Username is exists.");
+        
         User user = User.builder()
-                .username(form.getUsername())
+                .username(form.getEmail())
                 .password(passwordEncoder.encode(form.getPassword()))
                 .firstName(form.getFirstName())
                 .lastName(form.getLastName())
-                .birthdate(LocalDate.parse(form.getBirthdate()))
+                .birthdate(form.getBirthdate())
                 .country(form.getCountry())
                 .build();
         try {
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User get(String username, String password) throws ServiceException, ValidationException {
+    public User get(String username, String password) throws ServiceException {
         User user;
         try {
             user = userRepository.get(username)
@@ -73,8 +74,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UserUpdateForm form, User user) throws ValidationException, ServiceException {
-        userUpdateValidator.validate(form);
+    public void update(UserUpdateForm form, User user) throws ServiceException {
+        try {
+            userUpdateValidator.validate(form);
+        } catch (ValidationException ex) {
+            throw new RuntimeException(ex);
+        }
 
         User updatedUser = User.builder()
                 .username(user.getUsername())

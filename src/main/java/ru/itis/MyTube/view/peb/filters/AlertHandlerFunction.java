@@ -3,6 +3,7 @@ package ru.itis.MyTube.view.peb.filters;
 import io.pebbletemplates.pebble.extension.Function;
 import io.pebbletemplates.pebble.template.EvaluationContext;
 import io.pebbletemplates.pebble.template.PebbleTemplate;
+import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.view.Alert;
 
 import java.util.List;
@@ -14,13 +15,13 @@ public class AlertHandlerFunction implements Function {
 
     @Override
     public Object execute(Map<String, Object> args, PebbleTemplate self, EvaluationContext context, int lineNumber) {
-        List<? extends Alert> alerts = (List<? extends Alert>) args.get("alerts");
+        AlertsDto alerts = (AlertsDto) args.get("alerts");
         if (alerts == null) {
             return null;
         }
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<div class=\"toast-container position-fixed top-0 end-0 me-5 p-3\">");
-        for (Alert alert : alerts) {
+        for (Alert alert : alerts.alerts()) {
             stringBuilder.append("<div class=\"toast show align-items-center border-0 mb-1\" role=\"alert\" aria-live=\"assertive\" aria-atomic=\"true\">\n");
             stringBuilder.append("<div class=\"d-flex alert ").append(alert.getType().getAlertType()).append(" p-0\">\n");
             stringBuilder.append("<div class=\"toast-body\">").append(alert.getMessage()).append("</div>\n");

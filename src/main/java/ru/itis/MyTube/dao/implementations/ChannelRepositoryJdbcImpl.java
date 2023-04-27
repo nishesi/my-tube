@@ -3,8 +3,8 @@ package ru.itis.MyTube.dao.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.dao.ChannelRepository;
-import ru.itis.MyTube.dto.Channel;
-import ru.itis.MyTube.dto.ChannelCover;
+import ru.itis.MyTube.model.Channel;
+import ru.itis.MyTube.model.ChannelCover;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

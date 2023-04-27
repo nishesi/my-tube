@@ -3,8 +3,8 @@ package ru.itis.MyTube.dao.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.dao.ReactionRepository;
-import ru.itis.MyTube.dto.Reaction;
-import ru.itis.MyTube.dto.Reactions;
+import ru.itis.MyTube.model.Reaction;
+import ru.itis.MyTube.model.Reactions;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

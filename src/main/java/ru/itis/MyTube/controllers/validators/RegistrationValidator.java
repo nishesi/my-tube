@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.dao.UserRepository;
-import ru.itis.MyTube.dto.forms.RegistrationForm;
+import ru.itis.MyTube.dto.forms.NewUserForm;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,16 +14,16 @@ import java.util.Map;
 public class RegistrationValidator extends AbstractValidator{
     private final UserRepository userRepository;
 
-    public void validate(RegistrationForm form) throws ValidationException {
+    public void validate(NewUserForm form) throws ValidationException {
         Map<String, String> problems = new HashMap<>();
 
-        validateUsername(form.getUsername(), problems);
+        validateUsername(form.getEmail(), problems);
         validatePassword(form.getPassword(), form.getPasswordRepeat(), problems);
 
         validateFirstName(form.getFirstName(), problems);
         validateLastName(form.getLastName(), problems);
 
-        validateBirthDate(form.getBirthdate(), problems);
+//        validateBirthDate(form.getBirthdate(), problems);
         validateCountry(form.getCountry(), problems);
 
         validateAgreement(form.getAgreement(), problems);

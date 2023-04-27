@@ -1,12 +1,12 @@
-{% macro inputField(fieldName, value, label, type, _context) %}
+{% macro inputField(formName, fieldName, type, label, _context) %}
     {% import "macro/problem" %}
 
 <div class="input-group">
     <div class="input-group-text">{{ label }}</div>
     <input type="{{ type }}" class="form-control" placeholder="Write your {{ fieldName }}..."
            aria-label="{{ label }}"
-           name="{{ fieldName }}" value="{{ form.username }}">
+           name="{{ fieldName }}" value="{{ _context[formName][fieldName] }}">
 </div>
-{{ problem(fieldName, _context) }}
+{{ problem(formName, fieldName, _context) }}
 
 {% endmacro %}

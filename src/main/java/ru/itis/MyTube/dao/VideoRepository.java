@@ -1,7 +1,7 @@
 package ru.itis.MyTube.dao;
 
-import ru.itis.MyTube.dto.Video;
-import ru.itis.MyTube.dto.VideoCover;
+import ru.itis.MyTube.model.Video;
+import ru.itis.MyTube.model.VideoCover;
 
 import java.util.List;
 import java.util.Optional;

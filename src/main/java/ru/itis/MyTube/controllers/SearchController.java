@@ -4,15 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.dto.VideoCover;
+import ru.itis.MyTube.model.VideoCover;
 import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.view.Alert;
 import ru.itis.MyTube.view.Attributes;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Queue;
 

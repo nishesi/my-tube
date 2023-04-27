@@ -11,7 +11,7 @@ public class UrlPatterns {
     public static final String PRIVATE_USER_UPDATE = PRIVATE + "/user/update";
     public static final String PRIVATE_USER_EXIT = PRIVATE + "/user/exit";
     public static final String AUTHENTICATION_PAGE = "/login";
-    public static final String REGISTRATION_PAGE = "/register";
+    public static final String REGISTRATION_PAGE = "/user/register";
     public static final String PRIVATE_REACTION = PRIVATE + "/reaction";
     public static final String PRIVATE_SUBSCRIBE = PRIVATE + "/subscribe";
     public static final String SEARCH_PAGE = "/search";
