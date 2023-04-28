@@ -1,31 +1,27 @@
 package ru.itis.MyTube.controllers;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.dto.AlertsDto;
+import ru.itis.MyTube.dto.forms.ChannelForm;
 import ru.itis.MyTube.model.Channel;
 import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.model.VideoCover;
-import ru.itis.MyTube.dto.forms.ChannelForm;
 import ru.itis.MyTube.services.ChannelService;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.view.Alert;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Queue;
 
-import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
 import static ru.itis.MyTube.view.Attributes.*;
 
 @Controller
@@ -39,41 +35,41 @@ public class ChannelController {
 
     private final UserService userService;
 
-    @Value("${context.path}")
-    private String contextPath;
-
     @GetMapping("/{id}")
-    public String getChannel(@PathVariable String id, HttpServletRequest req, HttpServletResponse resp
-    ) throws ServletException, IOException {
-
-        Channel channel = null;
-        List<VideoCover> channelVideos = null;
-        Boolean isSubscribed = null;
+    public String getChannelPage(ModelMap modelMap,
+                                 @PathVariable String id,
+                                 @SessionAttribute User user
+    ) {
+        Channel channel;
+        List<VideoCover> channelVideos;
+        boolean isSubscribed;
         try {
             channel = channelService.getChannel(id);
             channelVideos = videoService.getChannelVideoCovers(channel.getId());
-            isSubscribed = userService.isSubscribed((User) req.getSession().getAttribute(USER), channel.getId());
+            isSubscribed = userService.isSubscribed(user, channel.getId());
+
         } catch (ServiceException ex) {
-            ((List<Alert>) req.getAttribute("alerts"))
-                    .add(new Alert(Alert.AlertType.WARNING, ex.getMessage()));
+            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.WARNING, ex.getMessage()));
+            modelMap.put("alerts", alertsDto);
             return "homePage";
         }
-        req.setAttribute("isSubscribed", isSubscribed);
-        req.setAttribute("channel", channel);
-        req.setAttribute(VIDEO_COVER_LIST, channelVideos);
+        modelMap.put("isSubscribed", isSubscribed);
+        modelMap.put("channel", channel);
+        modelMap.put(VIDEO_COVER_LIST, channelVideos);
 
         return "channelPage";
     }
 
-    @GetMapping("/update")
-    public String getChannelCreatePage() {
-        return "channelCreatePage";
+    @GetMapping("/add")
+    public String getCreateChannelPage() {
+        return "createChannelPage";
     }
 
     @PostMapping
-    public void createChannel(HttpServletRequest req, HttpServletResponse resp
+    public String createChannel(ModelMap modelMap,
+                                HttpServletRequest req,
+                                RedirectAttributes redirectAttributes
     ) throws ServletException, IOException {
-
 
         ChannelForm channelForm = ChannelForm.builder()
                 .user((User) req.getSession().getAttribute(USER))
@@ -81,20 +77,19 @@ public class ChannelController {
                 .iconPart(req.getPart("icon"))
                 .info(req.getParameter("info"))
                 .build();
-        Queue<? super Alert> alerts = (Queue<? super Alert>) req.getSession().getAttribute(ALERTS);
-
         try {
             Long channelId = channelService.create(channelForm);
-            resp.sendRedirect(contextPath + CHANNEL + "?id=" + channelId);
-            return;
+            redirectAttributes.addAttribute("id", channelId);
+            return "redirect:/channel";
 
         } catch (ServiceException ex) {
-            alerts.add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+            modelMap.put("alerts", alertsDto);
 
         } catch (ValidationException ex) {
             req.setAttribute(FORM, channelForm);
             req.setAttribute(PROBLEMS, ex.getProblems());
         }
-        req.getRequestDispatcher("/WEB-INF/jsp/ChannelCreatePage.jsp").forward(req, resp);
+        return "createChannelPage";
     }
 }

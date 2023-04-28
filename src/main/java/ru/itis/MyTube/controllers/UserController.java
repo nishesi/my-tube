@@ -1,12 +1,7 @@
 package ru.itis.MyTube.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -14,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.itis.MyTube.auxiliary.exceptions.ExistsException;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.forms.NewUserForm;
 import ru.itis.MyTube.dto.forms.SubscribeForm;
@@ -23,44 +17,21 @@ import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.view.Alert;
 
-import java.io.IOException;
-import java.util.Queue;
-
-import static ru.itis.MyTube.controllers.UrlPatterns.CHANNEL;
-import static ru.itis.MyTube.controllers.UrlPatterns.PRIVATE_USER_EXIT;
-import static ru.itis.MyTube.view.Attributes.USER;
-
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
-    @Value("${context.path}")
-    private String contextPath;
 
     @GetMapping("/register")
-    public String getRegisterPage() {
+    public String getRegistrationPage() {
         return "registrationPage";
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> register(
-            @RequestBody NewUserForm newUserForm,
-            @SessionAttribute Queue<Alert> alerts) throws ValidationException {
-
-        userService.save(newUserForm);
-        alerts.add(Alert.of(Alert.AlertType.SUCCESS, "You registered."));
-
-        return ResponseEntity
-                .status(302)
-                .header("Location", contextPath + "/login").build();
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String register(
-            @Valid NewUserForm newUserForm,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
+    @PostMapping
+    public String register(@Valid NewUserForm newUserForm,
+                           BindingResult bindingResult,
+                           RedirectAttributes redirectAttributes
     ) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -79,16 +50,15 @@ public class UserController {
 
 
     @GetMapping("/update")
-    public String getUserUpdatePage() {
+    public String getUpdateUserPage() {
         return "updateUserPage";
     }
 
     @PutMapping
-    public String updateUser(
-            @Valid UpdateUserForm updateUserForm,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes,
-            @SessionAttribute User user
+    public String updateUser(@Valid UpdateUserForm updateUserForm,
+                             BindingResult bindingResult,
+                             RedirectAttributes redirectAttributes,
+                             @SessionAttribute User user
     ) {
         if (!bindingResult.hasErrors()) {
             try {
@@ -99,7 +69,7 @@ public class UserController {
                 );
                 redirectAttributes.addFlashAttribute("alerts", alerts);
 
-                return "redirect:" + contextPath + PRIVATE_USER_EXIT;
+                return "redirect:/logout";
             } catch (ServiceException e) {
                 AlertsDto alerts = new AlertsDto(new Alert(Alert.AlertType.DANGER, e.getMessage()));
                 redirectAttributes.addFlashAttribute("alerts", alerts);
@@ -109,20 +79,17 @@ public class UserController {
     }
 
     @PostMapping("/subscribe")
-    public void subscribeToChannel(HttpServletRequest req,
-                                   HttpServletResponse resp,
-                                   @SessionAttribute Queue<? super Alert> alerts) throws IOException {
-        SubscribeForm subscribeForm = SubscribeForm.builder()
-                .user((User) req.getSession().getAttribute(USER))
-                .toSubscribe(req.getParameter("type"))
-                .channelId(req.getParameter("channelId"))
-                .build();
-
+    public String subscribeToChannel(SubscribeForm subscribeForm,
+                                     @SessionAttribute User user,
+                                     RedirectAttributes redirectAttributes) {
         try {
+            subscribeForm.setUser(user);
             userService.userChannel(subscribeForm);
         } catch (ServiceException ex) {
-            alerts.add(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+            redirectAttributes.addFlashAttribute("alerts", alertsDto);
         }
-        resp.sendRedirect(contextPath + CHANNEL + "?id=" + subscribeForm.getChannelId());
+        redirectAttributes.addAttribute("id", subscribeForm.getChannelId());
+        return "redirect:/channel";
     }
 }
