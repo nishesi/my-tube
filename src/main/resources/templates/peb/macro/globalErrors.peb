@@ -1,0 +1,9 @@
+{% macro globalErrors(formName, _context) %}
+    {% if hasGlobalErrors(formName) %}
+    <div class="alert alert-danger text-center p-1">
+            {% for err in getGlobalErrors(formName) %}
+                    {{ err }}
+                {% endfor %}
+    </div>
+    {% endif %}
+{% endmacro %}
