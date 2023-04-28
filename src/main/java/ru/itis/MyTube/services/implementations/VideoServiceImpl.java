@@ -178,7 +178,7 @@ public class VideoServiceImpl implements VideoService {
             throw new ServiceException("You not authorized.");
         }
         try {
-            List<VideoCover> videoCovers = videoRepository.getSubscribedChannelsVideos(user.getUsername());
+            List<VideoCover> videoCovers = videoRepository.getSubscribedChannelsVideos(user.getEmail());
             setUrls(videoCovers);
 
             return videoCovers;

@@ -1,11 +1,6 @@
 {% extends "part/base" %}
 
 {% block content %}
-
 <h4 class="text-center m-3">Registration</h4>
 {% include "part/regForm" %}
-{#<div class="container text-center mb-3">#}
-{#    <button id="submitButton" type="submit" class="btn btn-primary">Register</button>#}
-{#</div>#}
-
 {% endblock %}

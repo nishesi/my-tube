@@ -2,7 +2,7 @@ package ru.itis.MyTube.controllers.validators;
 
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.dto.forms.UserUpdateForm;
+import ru.itis.MyTube.dto.forms.UpdateUserForm;
 
 import jakarta.servlet.http.Part;
 import java.util.HashMap;
@@ -11,13 +11,13 @@ import java.util.Map;
 @Component
 public class UserUpdateValidator extends AbstractValidator {
 
-    public void validate(UserUpdateForm form) throws ValidationException {
+    public void validate(UpdateUserForm form) throws ValidationException {
         Map<String, String> problems = new HashMap<>();
-        validateIconPart(form.getIconPart(), problems);
+//        validateIconPart(form.getIconPart(), problems);
         validatePassword(form.getPassword(), problems);
         validateFirstName(form.getFirstName(), problems);
         validateLastName(form.getLastName(), problems);
-        validateBirthDate(form.getBirthdate(), problems);
+//        validateBirthDate(form.getBirthdate(), problems);
         validateCountry(form.getCountry(), problems);
 
         if (!problems.isEmpty()) {

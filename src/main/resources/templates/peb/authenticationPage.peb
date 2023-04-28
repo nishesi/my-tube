@@ -13,8 +13,8 @@
                 </div>
             {% endif %}
 
-            {{ inputField('username', form.username, 'Username', 'text', _context) }}
-            {{ inputField('passoword', form.password, 'Password', 'password', _context) }}
+            {{ inputField(null, 'username', 'text', 'Username', _context) }}
+            {{ inputField(null, 'password', 'password', 'Password', _context) }}
 
             <div class="container text-center">
 

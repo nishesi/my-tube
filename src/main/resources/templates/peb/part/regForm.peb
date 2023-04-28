@@ -1,17 +1,12 @@
 {% import "macro/inputField" %}
 {% import "macro/problem" %}
+{% import "macro/globalErrors" %}
 {# @pebvariable name="formName" type="java.lang.String" #}
 {% set formName = "newUserForm" %}
 
 <form method="post" action="{{ href('/user') }}">
     <div id="regForm" class="form m-4">
-        {% if hasGlobalErrors(formName) %}
-            <div class="alert alert-danger text-center p-1">
-                {% for err in getGlobalErrors(formName) %}
-                    {{ err }}
-                {% endfor %}
-            </div>
-        {% endif %}
+        {{ globalErrors(formName, _context) }}
 
         {{ inputField(formName, 'email', 'text', 'Email', _context) }}
         {{ inputField(formName, 'password', 'password', 'Password', _context) }}

@@ -20,7 +20,7 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
     private static final Function<ResultSet, User> USER_MAPPER = (set) -> {
         try {
             return User.builder()
-                    .username(set.getString("username"))
+                    .email(set.getString("username"))
                     .password(set.getString("password"))
                     .firstName(set.getString("first_name"))
                     .lastName(set.getString("last_name"))
@@ -68,7 +68,7 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_USER)) {
 
-            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getFirstName());
             preparedStatement.setString(4, user.getLastName());
@@ -131,7 +131,7 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
             preparedStatement.setObject(4, user.getBirthdate());
             preparedStatement.setString(5, user.getCountry());
             preparedStatement.setObject(6, user.getChannelId());
-            preparedStatement.setString(7, user.getUsername());
+            preparedStatement.setString(7, user.getEmail());
 
             preparedStatement.executeUpdate();
 
@@ -142,7 +142,7 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
 
     @Override
     public boolean isPresent(String username) {
-        return getAll().stream().anyMatch(user -> user.getUsername().equals(username));
+        return getAll().stream().anyMatch(user -> user.getEmail().equals(username));
     }
 
     private static final String SQL_IS_SUBSCRIBED = "select * from users_subscriptions where username = ? and channel_id = ? limit 1";

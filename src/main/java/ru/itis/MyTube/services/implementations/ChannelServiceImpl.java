@@ -78,7 +78,7 @@ public class ChannelServiceImpl implements ChannelService {
             channelRepository.create(channel);
 
 
-            channel1 = channelRepository.get(user.getUsername());
+            channel1 = channelRepository.get(user.getEmail());
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");

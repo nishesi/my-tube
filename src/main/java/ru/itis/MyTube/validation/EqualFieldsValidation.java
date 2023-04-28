@@ -21,11 +21,22 @@ public class EqualFieldsValidation implements ConstraintValidator<EqualFields, O
             //should not happen
             throw new ValidationException("Class level validator get as input null value");
         }
+        Object[] fieldValues = getRequiredFieldValues(value);
+
+        for (int i = 0; i < fieldValues.length - 1; i++) {
+            if (!Objects.equals(fieldValues[i], fieldValues[i+1])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Object[] getRequiredFieldValues(Object value) {
         Object[] fieldValues = new Object[fieldNames.length];
         Class<?> cl = value.getClass();
 
         try {
-            for (int i = 0; i < fieldValues.length; i++) {
+            for (int i = 0; i < fieldNames.length; i++) {
                 Field field = cl.getDeclaredField(fieldNames[i]);
                 field.setAccessible(true);
                 fieldValues[i] = field.get(value);
@@ -33,11 +44,6 @@ public class EqualFieldsValidation implements ConstraintValidator<EqualFields, O
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new ValidationException("evaluation exception", e);
         }
-
-        for (int i = 0; i < fieldValues.length - 1; i++) {
-            if (!Objects.equals(fieldValues[i], fieldValues[i+1])) {
-                return false;
-            }
-        }
+        return fieldValues;
     }
 }

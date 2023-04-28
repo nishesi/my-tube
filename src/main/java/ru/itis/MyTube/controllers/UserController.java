@@ -1,6 +1,5 @@
 package ru.itis.MyTube.controllers;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -19,7 +18,7 @@ import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.forms.NewUserForm;
 import ru.itis.MyTube.dto.forms.SubscribeForm;
-import ru.itis.MyTube.dto.forms.UserUpdateForm;
+import ru.itis.MyTube.dto.forms.UpdateUserForm;
 import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.view.Alert;
@@ -81,33 +80,32 @@ public class UserController {
 
     @GetMapping("/update")
     public String getUserUpdatePage() {
-        return "userPage";
+        return "updateUserPage";
     }
 
     @PutMapping
-    public String updateUser(HttpServletRequest req,
-                             @SessionAttribute Queue<? super Alert> alerts
-    ) throws ServletException, IOException {
+    public String updateUser(
+            @Valid UpdateUserForm updateUserForm,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes,
+            @SessionAttribute User user
+    ) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                userService.update(updateUserForm, user);
+                AlertsDto alerts = new AlertsDto(
+                        new Alert(Alert.AlertType.SUCCESS, "Your account information updated."),
+                        new Alert(Alert.AlertType.INFO, "Please do reauthorization.")
+                );
+                redirectAttributes.addFlashAttribute("alerts", alerts);
 
-        UserUpdateForm form = UserUpdateForm.builder()
-                .iconPart(req.getPart("icon"))
-                .password(req.getParameter("password"))
-                .firstName(req.getParameter("firstName"))
-                .lastName(req.getParameter("lastName"))
-                .birthdate(req.getParameter("birthdate"))
-                .country(req.getParameter("country")).build();
-
-        try {
-            userService.update(form, (User) req.getSession().getAttribute("user"));
-
-            alerts.add(new Alert(Alert.AlertType.SUCCESS, "Your account information updated."));
-            alerts.add(new Alert(Alert.AlertType.INFO, "Please do reauthorization."));
-
-            return "redirect:" + contextPath + PRIVATE_USER_EXIT;
-        } catch (ServiceException e) {
-            alerts.add(new Alert(Alert.AlertType.DANGER, e.getMessage()));
+                return "redirect:" + contextPath + PRIVATE_USER_EXIT;
+            } catch (ServiceException e) {
+                AlertsDto alerts = new AlertsDto(new Alert(Alert.AlertType.DANGER, e.getMessage()));
+                redirectAttributes.addFlashAttribute("alerts", alerts);
+            }
         }
-        return "userPage";
+        return "updateUserPage";
     }
 
     @PostMapping("/subscribe")

@@ -1,11 +1,10 @@
 package ru.itis.MyTube.services;
 
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.dto.forms.UpdateUserForm;
 import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.dto.forms.NewUserForm;
 import ru.itis.MyTube.dto.forms.SubscribeForm;
-import ru.itis.MyTube.dto.forms.UserUpdateForm;
 
 import java.util.UUID;
 
@@ -14,7 +13,7 @@ public interface UserService {
 
     User get(String username, String password) throws ServiceException;
 
-    void update(UserUpdateForm form, User user) throws ServiceException;
+    void update(UpdateUserForm form, User user) throws ServiceException;
 
     boolean isSubscribed(User user, Long channelId) throws ServiceException;
 

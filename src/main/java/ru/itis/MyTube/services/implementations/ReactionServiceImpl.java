@@ -24,7 +24,7 @@ public class ReactionServiceImpl implements ReactionService {
     public String updateReaction(ReactionForm form) throws ValidationException {
         UUID videoUuid = null;
         Byte reaction = null;
-        String username = form.getUser() == null ? null : form.getUser().getUsername();
+        String username = form.getUser() == null ? null : form.getUser().getEmail();
 
         Map<String, String> problems = new HashMap<>();
 
@@ -65,7 +65,7 @@ public class ReactionServiceImpl implements ReactionService {
     @Override
     public Reactions getReaction(ReactionForm form) throws ValidationException {
         Map<String, String> problems = new HashMap<>();
-        String username = form.getUser() == null ? null : form.getUser().getUsername();
+        String username = form.getUser() == null ? null : form.getUser().getEmail();
         UUID videoUuid = null;
         try {
             videoUuid = UUID.fromString(form.getVideoUuid());

@@ -104,7 +104,7 @@ public class ChannelRepositoryJdbcImpl extends AbstractRepository implements Cha
 
             preparedStatement.setString(1, channel.getChannelCover().getName());
             preparedStatement.setString(2, channel.getInfo());
-            preparedStatement.setString(3, channel.getOwner().getUsername());
+            preparedStatement.setString(3, channel.getOwner().getEmail());
 
             preparedStatement.executeUpdate();
 

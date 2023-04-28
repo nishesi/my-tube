@@ -29,7 +29,7 @@ public @interface EqualFields {
     @Target({ TYPE })
     @Retention(RUNTIME)
     @Documented
-    public @interface List {
+    @interface List {
 
         EqualFields[] value();
     }
