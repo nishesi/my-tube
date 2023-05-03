@@ -1,21 +1,22 @@
 package ru.itis.MyTube.services;
 
+import ru.itis.MyTube.auxiliary.exceptions.NotFoundException;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.dto.forms.video.NewVideoForm;
+import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.model.Video;
 import ru.itis.MyTube.model.VideoCover;
-import ru.itis.MyTube.dto.forms.VideoForm;
 
 import java.util.List;
 
 public interface VideoService {
 
-    void addVideo(VideoForm videoForm) throws ServiceException, ValidationException;
+    void addVideo(NewVideoForm form, User user) throws ServiceException;
 
-    void updateVideo(VideoForm videoForm) throws ServiceException, ValidationException;
+    void updateVideo(UpdateVideoForm form, User user) throws ServiceException, NotFoundException;
 
-    void deleteVideo(String videoUuid, Long channelId) throws ServiceException, ValidationException;
+    void deleteVideo(String videoUuid, Long channelId) throws ServiceException;
 
     Video getVideo(String videoId) throws ServiceException;
 

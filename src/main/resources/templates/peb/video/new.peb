@@ -1,0 +1,29 @@
+{% extends "part/base" %}
+
+{% block content %}
+    {% import "macro/inputField" %}
+    {% import "macro/problem" %}
+    {% import "macro/globalErrors" %}
+{# @pebvariable name="formName" type="java.lang.String" #}
+    {% set formName = "newVideoForm" %}
+
+<div id="box">
+    <form method="post" action="{{ href('/video') }}" enctype="multipart/form-data">
+        <div class="form m-4">
+            <h4 class="text-center mb-3">New video</h4>
+
+            {{ globalErrors(formName, _context) }}
+
+            {{ inputField(formName, 'iconFile', 'file', 'Choose icon', _context) }}
+            {{ inputField(formName, 'name', 'text', 'Name', _context) }}
+            {{ inputField(formName, 'videoFile', 'file', 'Choose video', _context) }}
+            {{ inputField(formName, 'info', 'text', 'Description', _context) }}
+
+            <div class="container text-center">
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

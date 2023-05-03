@@ -2,20 +2,20 @@ package ru.itis.MyTube.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import ru.itis.MyTube.auxiliary.UrlCreator;
-import ru.itis.MyTube.storage.FileType;
+import ru.itis.MyTube.auxiliary.exceptions.NotFoundException;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.controllers.validators.SearchValidator;
-import ru.itis.MyTube.controllers.validators.VideoUpdateValidator;
-import ru.itis.MyTube.controllers.validators.VideoValidator;
 import ru.itis.MyTube.dao.VideoRepository;
+import ru.itis.MyTube.dto.forms.video.NewVideoForm;
+import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
+import ru.itis.MyTube.dto.forms.video.VideoForm;
 import ru.itis.MyTube.model.ChannelCover;
 import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.model.Video;
 import ru.itis.MyTube.model.VideoCover;
-import ru.itis.MyTube.dto.forms.VideoForm;
 import ru.itis.MyTube.services.VideoService;
+import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.storage.Storage;
 
 import java.io.IOException;
@@ -33,22 +33,22 @@ public class VideoServiceImpl implements VideoService {
     private final VideoRepository videoRepository;
     private final Storage storage;
     private final UrlCreator urlCreator;
-    private final SearchValidator searchValidator;
-    private final VideoValidator videoValidator;
-    private final VideoUpdateValidator videoUpdateValidator;
 
     @Override
-    public void addVideo(VideoForm form) throws ValidationException {
-        videoValidator.validate(form);
-
-        String uuidStr = UUID.randomUUID().toString();
-        Video video1 = transferToVideo(form, uuidStr);
+    public void addVideo(NewVideoForm form, User user) {
+        String uuid = UUID.randomUUID().toString();
+        VideoForm videoForm = VideoForm.builder()
+                .channelId(user.getChannelId())
+                .name(form.getName())
+                .info(form.getInfo())
+                .build();
+        Video video = transferToVideo(videoForm, uuid);
 
         try {
-            videoRepository.addVideo(video1);
+            videoRepository.addVideo(video);
 
-            storage.save(FileType.VIDEO_ICON, uuidStr, form.getIconPart().getInputStream());
-            storage.save(FileType.VIDEO, uuidStr, form.getVideoPart().getInputStream());
+            storage.save(FileType.VIDEO_ICON, uuid, form.getIconFile().getInputStream());
+            storage.save(FileType.VIDEO, uuid, form.getVideoFile().getInputStream());
 
         } catch (IOException | RuntimeException e) {
             throw new ServiceException(e.getMessage());
@@ -75,26 +75,28 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public void updateVideo(VideoForm form) throws ValidationException {
-        videoUpdateValidator.validate(form);
-
+    public void updateVideo(UpdateVideoForm form, User user) {
+        UUID id;
         try {
-            UUID.fromString(form.getVideoUuid());
+            id = UUID.fromString(form.getUuid());
         } catch (RuntimeException ex) {
             throw new ServiceException("invalid video id");
         }
+        Video video = videoRepository.getVideo(id)
+                .orElseThrow(() -> new NotFoundException("Video not found."));
 
-        Video video1 = transferToVideo(form, form.getVideoUuid());
+        long videoChannelId = video.getVideoCover().getChannelCover().getId();
+        if (videoChannelId != user.getChannelId())
+            throw new ServiceException("You cannot update this video.");
+
+        if (form.getName() != null) video.getVideoCover().setName(form.getName());
+        if (form.getInfo() != null) video.setInfo(form.getInfo());
 
         try {
-            videoRepository.updateVideo(video1);
-
-            if (form.getIconPart().getSize() != 0) {
-                storage.save(FileType.VIDEO_ICON, form.getVideoUuid(), form.getIconPart().getInputStream());
-            }
-            if (form.getVideoPart().getSize() != 0) {
-                storage.save(FileType.VIDEO, form.getVideoUuid(), form.getVideoPart().getInputStream());
-            }
+            videoRepository.updateVideo(video);
+            MultipartFile icon = form.getIconFile();
+            if (!icon.isEmpty())
+                storage.save(FileType.VIDEO_ICON, form.getUuid(), icon.getInputStream());
 
         } catch (IOException | RuntimeException e) {
             e.printStackTrace();
@@ -113,7 +115,7 @@ public class VideoServiceImpl implements VideoService {
         try {
             Video video = videoRepository.getVideo(uuid).orElseThrow(() -> new ServiceException("Video not found."));
 
-            if (!video.getUuid().equals(uuid)) {
+            if (!video.getVideoCover().getChannelCover().getId().equals(channelId)) {
                 throw new ServiceException("You can't delete this video.");
             }
 
@@ -191,12 +193,6 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public List<VideoCover> getVideosByNameSubstring(String substring) {
-        try {
-            searchValidator.validate(substring);
-        } catch (IllegalArgumentException ex) {
-            throw new ServiceException(ex.getMessage());
-        }
-
         try {
             List<VideoCover> videoCovers = videoRepository.getVideosByName(substring);
 

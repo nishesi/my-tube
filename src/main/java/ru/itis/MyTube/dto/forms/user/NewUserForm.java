@@ -1,14 +1,12 @@
-package ru.itis.MyTube.dto.forms;
+package ru.itis.MyTube.dto.forms.user;
 
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 import ru.itis.MyTube.validation.EqualFields;
-import ru.itis.MyTube.validation.NullOrNotBlank;
 
 import java.time.LocalDate;
 
@@ -17,30 +15,39 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualFields(value = {"password", "passwordRepeat"}, message = "Passwords not equals")
-public class UpdateUserForm {
-    private MultipartFile iconFile;
+public class NewUserForm {
 
-    @NullOrNotBlank
+    @NotBlank
+    @Size(max = 255)
+    @Email
+    private String email;
+
+    @NotBlank
     @Size(min = 4, max = 60)
     private String password;
 
     private String passwordRepeat;
 
-    @NullOrNotBlank
+    @NotBlank
     @Size(max=15)
     private String firstName;
 
-    @NullOrNotBlank
+    @NotBlank
     @Size(max=15)
     private String lastName;
 
+    @NotNull
     @Past
     private LocalDate birthdate;
 
-    @NullOrNotBlank
+    @NotBlank
     @Size(max = 20)
     private String country;
+
+    @NotNull(message = "You should agree with agreement.")
+    private String agreement;
 }
+
 
 
 

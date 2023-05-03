@@ -66,13 +66,13 @@ public abstract class AbstractValidator {
 
     protected void validateIconPart(Part iconPart, Map<String, String> problems) {
         if (!"image/jpeg".equals(iconPart.getContentType())) {
-            problems.put("icon", "File type should be jpg.");
+            problems.put("icon", "FileType type should be jpg.");
         } else if (!iconPart.getSubmittedFileName().endsWith(".jpg")) {
-            problems.put("icon", "File type should be jpg. (2)");
+            problems.put("icon", "FileType type should be jpg. (2)");
         } else if (iconPart.getSize() <= 100) {
-            problems.put("icon", "File size very small.");
+            problems.put("icon", "FileType size very small.");
         } else if (iconPart.getSize() >= 5 * 1024 * 1024) {
-            problems.put("icon", "File size very big.");
+            problems.put("icon", "FileType size very big.");
         }
     }
 }

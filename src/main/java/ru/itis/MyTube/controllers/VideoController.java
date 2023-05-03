@@ -1,18 +1,16 @@
 package ru.itis.MyTube.controllers;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.dto.AlertsDto;
-import ru.itis.MyTube.dto.forms.VideoForm;
+import ru.itis.MyTube.dto.forms.video.NewVideoForm;
+import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.model.Video;
 import ru.itis.MyTube.model.VideoCover;
@@ -20,11 +18,7 @@ import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.view.Alert;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
-
-import static ru.itis.MyTube.view.Attributes.FORM;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,8 +26,33 @@ import static ru.itis.MyTube.view.Attributes.FORM;
 public class VideoController {
     private final VideoService videoService;
     private final UserService userService;
-    @Value("${context.path}")
-    private String contextPath;
+
+    @GetMapping("/add")
+    public String getAddVideoPage() {
+        return "video/new";
+    }
+
+    @PostMapping
+    public String addVideo(@SessionAttribute User user,
+                           @Valid NewVideoForm newVideoForm,
+                           BindingResult bindingResult,
+                           RedirectAttributes redirectAttributes
+    ) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                videoService.addVideo(newVideoForm, user);
+                AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.SUCCESS, "Video added."));
+                redirectAttributes.addFlashAttribute("alerts", alertsDto);
+                redirectAttributes.addAttribute("id", user.getChannelId());
+                return "redirect:/channel";
+
+            } catch (ServiceException ex) {
+                AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+                redirectAttributes.addFlashAttribute("alerts", alertsDto);
+            }
+        }
+        return "video/new";
+    }
 
     @GetMapping("/{id}")
     public String getVideoPage(ModelMap modelMap,
@@ -43,16 +62,15 @@ public class VideoController {
         try {
             Video video = videoService.getVideo(id);
 
-            if (Objects.nonNull(user)) {
+            if (user != null)
                 reaction = userService.getUserReaction(video.getUuid(), user.getEmail());
-            }
+
             List<VideoCover> list = videoService.getRandomVideos();
 
             modelMap.put("reaction", reaction);
             modelMap.put("video", video);
             modelMap.put("videoCoverList", list);
-            modelMap.put("videoReactionsScriptUrl", contextPath + "/js/ReactionRequester.js");
-            return "videoPage";
+            return "video/page";
 
         } catch (ServiceException ex) {
             AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
@@ -61,100 +79,64 @@ public class VideoController {
         }
     }
 
-    @GetMapping("/update/{id}")
-    public String getUpdateVideoPage(ModelMap modelMap, @PathVariable String id) {
-        modelMap.put("pageType", "Update");
-        modelMap.put("url", contextPath + "/update/" + id);
-        return "utilVideoPage";
+    @GetMapping("/{id}/update")
+    public String getUpdateVideoPage(ModelMap modelMap,
+                                     @PathVariable String id,
+                                     RedirectAttributes redirectAttributes) {
+        try {
+            Video video = videoService.getVideo(id);
+            UpdateVideoForm videoForm = UpdateVideoForm.builder()
+                    .uuid(video.getUuid().toString())
+                    .name(video.getVideoCover().getName())
+                    .info(video.getInfo())
+                    .build();
+            modelMap.put("updateVideoForm", videoForm);
+            return "video/update";
+
+        } catch (ServiceException e) {
+            AlertsDto alertsDto = new AlertsDto(Alert.of(Alert.AlertType.DANGER, e.getMessage()));
+            redirectAttributes.addFlashAttribute("alerts", alertsDto);
+            return "redirect:/";
+        }
     }
 
-    @PostMapping("/update/{id}")
-    public String updateVideo(@PathVariable String id,
+    @PutMapping
+    public String updateVideo(ModelMap modelMap,
+                              @Valid UpdateVideoForm updateVideoForm,
+                              BindingResult bindingResult,
                               @SessionAttribute User user,
-                              HttpServletRequest req,
                               RedirectAttributes redirectAttributes
-    ) throws ServletException, IOException {
+    ) {
+        if (!bindingResult.hasErrors()) {
+            try {
+                videoService.updateVideo(updateVideoForm, user);
+                AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.SUCCESS, "Video updated."));
+                redirectAttributes.addFlashAttribute("alerts", alertsDto);
+                return "redirect:/channel/" + user.getChannelId();
 
-        VideoForm videoForm = VideoForm.builder()
-                .videoUuid(id)
-                .channelId(user.getChannelId())
-                .name(req.getParameter("name"))
-                .info(req.getParameter("info"))
-                .iconPart(req.getPart("icon"))
-                .videoPart(req.getPart("video"))
-                .build();
-
-        try {
-            videoService.updateVideo(videoForm);
-            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.SUCCESS, "Video updated."));
-            redirectAttributes.addFlashAttribute("alerts", alertsDto);
-            redirectAttributes.addAttribute("id", videoForm.getChannelId());
-            return "redirect:/channel";
-
-        } catch (ValidationException e) {
-            req.setAttribute("problems", e.getProblems());
-            req.setAttribute(FORM, videoForm);
-
-        } catch (ServiceException ex) {
-            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
-            redirectAttributes.addFlashAttribute("alerts", alertsDto);
+            } catch (ServiceException ex) {
+                AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+                modelMap.put("alerts", alertsDto);
+            }
         }
-        req.setAttribute("pageType", "Update");
-        return "utilVideoPage";
-    }
-
-    @GetMapping("/add")
-    public String getAddVideoPage(ModelMap modelMap) {
-        modelMap.put("pageType", "Upload");
-        modelMap.put("url", contextPath + "/video");
-        return "utilVideoPage";
-    }
-
-    @PostMapping
-    public String addVideo(@SessionAttribute User user,
-                           HttpServletRequest req,
-                           RedirectAttributes redirectAttributes
-    ) throws IOException, ServletException {
-        VideoForm videoForm = VideoForm.builder()
-                .channelId(user.getChannelId())
-                .name(req.getParameter("name"))
-                .info(req.getParameter("info"))
-                .iconPart(req.getPart("icon"))
-                .videoPart(req.getPart("video"))
-                .build();
-
-        try {
-            videoService.addVideo(videoForm);
-            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.SUCCESS, "Video added."));
-            redirectAttributes.addFlashAttribute("alerts", alertsDto);
-            redirectAttributes.addAttribute("id", videoForm.getChannelId());
-            return "redirect:/channel";
-
-        } catch (ValidationException e) {
-            req.setAttribute("problems", e.getProblems());
-            req.setAttribute(FORM, videoForm);
-
-        } catch (ServiceException ex) {
-            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
-            redirectAttributes.addFlashAttribute("alerts", alertsDto);
-        }
-        req.setAttribute("pageType", "Upload");
-        return "utilVideoPage";
+        return "video/update";
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteVideo(@PathVariable String id,
-                                         @SessionAttribute User user) {
+    public String deleteVideo(@PathVariable String id,
+                              @SessionAttribute User user,
+                              RedirectAttributes redirectAttributes) {
+        Long userChannelId = user.getChannelId();
+        AlertsDto alertsDto;
         try {
-            Long userChannelId = user.getChannelId();
             videoService.deleteVideo(id, userChannelId);
-            return ResponseEntity.ok().build();
-
-        } catch (ValidationException e) {
-            return ResponseEntity.badRequest().build();
+            alertsDto = new AlertsDto(Alert.of(Alert.AlertType.SUCCESS, "Video deleted."));
 
         } catch (ServiceException e) {
-            return ResponseEntity.internalServerError().build();
+            alertsDto = new AlertsDto(Alert.of(Alert.AlertType.DANGER, e.getMessage()));
         }
+
+        redirectAttributes.addFlashAttribute("alerts", alertsDto);
+        return "redirect:/channel/" + userChannelId;
     }
 }

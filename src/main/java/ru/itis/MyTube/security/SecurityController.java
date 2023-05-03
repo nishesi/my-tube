@@ -24,7 +24,7 @@ public class SecurityController {
 
     @GetMapping("/login")
     public String getLoginPage() {
-        return "authenticationPage";
+        return "user/auth";
     }
 
     @PostMapping("/pr_lg")

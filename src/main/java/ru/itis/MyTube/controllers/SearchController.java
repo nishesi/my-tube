@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
@@ -21,17 +22,17 @@ import java.util.List;
 public class SearchController {
     private final VideoService videoService;
 
-    @GetMapping
-    public String search(ModelMap modelMap, HttpServletRequest req) {
+    @GetMapping("/{substring}")
+    public String search(ModelMap modelMap, @PathVariable String substring) {
         List<VideoCover> list = null;
         try {
-            list = videoService.getVideosByNameSubstring(req.getParameter("substring"));
+            list = videoService.getVideosByNameSubstring(substring);
         } catch (ServiceException e) {
             AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, e.getMessage()));
             modelMap.put("alerts", alertsDto);
         }
-        req.setAttribute("substring", req.getParameter("substring"));
-        req.setAttribute(Attributes.VIDEO_COVER_LIST, list);
+        modelMap.put("substring", substring);
+        modelMap.put(Attributes.VIDEO_COVER_LIST, list);
         return "homePage";
     }
 }

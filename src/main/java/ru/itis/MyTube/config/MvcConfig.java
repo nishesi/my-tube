@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.validation.Validator;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -45,15 +46,16 @@ public class MvcConfig implements WebMvcConfigurer {
         bean.setListener(new HttpSessionListener() {
             @Override
             public void sessionCreated(HttpSessionEvent se) {
-//                se.getSession().setAttribute("user",
-//                        User.builder()
-//                                .username("email@gmail.com")
-//                                .password("askjfhkshdfjsdhkfhh")
-//                                .firstName("first name")
-//                                .lastName("last name")
-//                                .country("Prussia")
-//                                .birthdate(LocalDate.of(2003, 3, 22))
-//                                .build());
+                se.getSession().setAttribute("user",
+                        User.builder()
+                                .email("email@gmail.com")
+                                .password("askjfhkshdfjsdhkfhh")
+                                .firstName("first name")
+                                .lastName("last name")
+                                .country("Prussia")
+                                .birthdate(LocalDate.of(2003, 3, 22))
+                                .channelId(7L)
+                                .build());
             }
         });
         return bean;
@@ -69,7 +71,6 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addConverter(alertsDtoConverter);
     }
 
-    
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry

@@ -1,12 +1,19 @@
-package ru.itis.MyTube.dto.forms;
+package ru.itis.MyTube.dto.forms.video;
 
 import lombok.Builder;
 import lombok.Data;
 
 import jakarta.servlet.http.Part;
 
-@Builder
+import lombok.Data;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class VideoForm {
     private Long channelId;
     private String videoUuid;

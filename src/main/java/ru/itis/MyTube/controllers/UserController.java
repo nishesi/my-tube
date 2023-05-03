@@ -10,9 +10,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.itis.MyTube.auxiliary.exceptions.ExistsException;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
-import ru.itis.MyTube.dto.forms.NewUserForm;
+import ru.itis.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.MyTube.dto.forms.SubscribeForm;
-import ru.itis.MyTube.dto.forms.UpdateUserForm;
+import ru.itis.MyTube.dto.forms.user.UpdateUserForm;
 import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.view.Alert;
@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping("/register")
     public String getRegistrationPage() {
-        return "registrationPage";
+        return "user/new";
     }
 
     @PostMapping
@@ -45,13 +45,13 @@ public class UserController {
                 bindingResult.addError(new ObjectError("newUserForm", ex.getMessage()));
             }
         }
-        return "registrationPage";
+        return "user/new";
     }
 
 
     @GetMapping("/update")
     public String getUpdateUserPage() {
-        return "updateUserPage";
+        return "user/update";
     }
 
     @PutMapping
@@ -75,7 +75,7 @@ public class UserController {
                 redirectAttributes.addFlashAttribute("alerts", alerts);
             }
         }
-        return "updateUserPage";
+        return "user/update";
     }
 
     @PostMapping("/subscribe")

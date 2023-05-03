@@ -3,7 +3,7 @@ package ru.itis.MyTube.controllers.validators;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.dto.forms.VideoForm;
+import ru.itis.MyTube.dto.forms.video.VideoForm;
 
 import jakarta.servlet.http.Part;
 import java.util.HashMap;
@@ -57,13 +57,13 @@ public class VideoValidator extends AbstractValidator {
 
     protected void validateVideoPart(Part videoPart, Map<String, String> problems) {
         if (!"video/mp4".equals(videoPart.getContentType())) {
-            problems.put("video", "File type should be mp4.");
+            problems.put("video", "FileType type should be mp4.");
         } else if (!videoPart.getSubmittedFileName().endsWith(".mp4")) {
-            problems.put("video", "File type should be mp4. (2)");
+            problems.put("video", "FileType type should be mp4. (2)");
         } else if (videoPart.getSize() <= 100) {
-            problems.put("video", "File size very small.");
+            problems.put("video", "FileType size very small.");
         } else if (videoPart.getSize() >= 1000 * 1024 * 1024) {
-            problems.put("video", "File size very big.");
+            problems.put("video", "FileType size very big.");
         }
     }
 

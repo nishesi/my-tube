@@ -5,10 +5,12 @@ import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
+import static java.lang.annotation.ElementType.*;
+
 @Documented
 @Constraint(validatedBy = NullOrNotBlankValidator.class)
-@Target( { ElementType.METHOD, ElementType.FIELD })
-@Retention(RetentionPolicy.SOURCE)
+@Target( { FIELD })
+@Retention(RetentionPolicy.RUNTIME)
 public @interface NullOrNotBlank {
     String message() default "{jakarta.validation.constraints.NotBlank.message}";
     Class<?>[] groups() default {};

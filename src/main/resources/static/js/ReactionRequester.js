@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateReactions(reaction, videoUuid) {
 
-        return fetch('/MyTube/private/reaction?' + 'videoUuid=' + videoUuid + "&reaction=" + reaction, {
+        return fetch('/MyTube/reaction/' + videoUuid + "?reaction=" + reaction, {
             method: "POST"
         }).then(res => {
             return res.json();

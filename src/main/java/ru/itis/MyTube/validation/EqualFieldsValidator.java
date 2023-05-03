@@ -5,7 +5,7 @@ import jakarta.validation.*;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
-public class EqualFieldsValidation implements ConstraintValidator<EqualFields, Object> {
+public class EqualFieldsValidator implements ConstraintValidator<EqualFields, Object> {
     private String[] fieldNames;
 
     @Override

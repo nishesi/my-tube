@@ -15,9 +15,13 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({ TYPE })
 @Retention(RUNTIME)
 @Repeatable(EqualFields.List.class)
-@Constraint(validatedBy = {EqualFieldsValidation.class})
+@Constraint(validatedBy = {EqualFieldsValidator.class})
 public @interface EqualFields {
 
+    /**
+     * Field names that should be equal.
+     * @return field names
+     */
     String[] value();
 
     String message() default "Fields not equals.";

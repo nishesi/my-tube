@@ -1,9 +1,9 @@
 package ru.itis.MyTube.services;
 
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.dto.forms.UpdateUserForm;
+import ru.itis.MyTube.dto.forms.user.UpdateUserForm;
 import ru.itis.MyTube.model.User;
-import ru.itis.MyTube.dto.forms.NewUserForm;
+import ru.itis.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.MyTube.dto.forms.SubscribeForm;
 
 import java.util.UUID;

@@ -1,5 +1,10 @@
 {% extends "part/base" %}
 
+    {% block head %}
+        <script defer src="{{ href('/static/js/ReactionRequester.js') }}"></script>
+    {% endblock %}
+
+
 {% block content %}
 <main class="container-fluid">
     <div class="row">

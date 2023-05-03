@@ -1,4 +1,4 @@
-package ru.itis.MyTube.dto.forms;
+package ru.itis.MyTube.dto.forms.user;
 
 
 import lombok.AllArgsConstructor;

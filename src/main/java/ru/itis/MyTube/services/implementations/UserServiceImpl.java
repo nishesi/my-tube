@@ -9,9 +9,9 @@ import ru.itis.MyTube.auxiliary.exceptions.ExistsException;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.dao.ReactionRepository;
 import ru.itis.MyTube.dao.UserRepository;
-import ru.itis.MyTube.dto.forms.NewUserForm;
+import ru.itis.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.MyTube.dto.forms.SubscribeForm;
-import ru.itis.MyTube.dto.forms.UpdateUserForm;
+import ru.itis.MyTube.dto.forms.user.UpdateUserForm;
 import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.storage.FileType;
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.update(user);
             MultipartFile icon = form.getIconFile();
-            if (icon != null && !icon.isEmpty()) {
+            if (!icon.isEmpty()) {
                 storage.save(FileType.USER_ICON, user.getEmail(), icon.getInputStream());
             }
         } catch (RuntimeException | IOException ex) {
