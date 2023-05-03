@@ -3,17 +3,15 @@ package ru.itis.MyTube.services.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.UrlCreator;
-import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
-import ru.itis.MyTube.controllers.validators.ChannelCreateValidator;
 import ru.itis.MyTube.dao.ChannelRepository;
 import ru.itis.MyTube.dao.UserRepository;
+import ru.itis.MyTube.dto.forms.channel.NewChannelForm;
 import ru.itis.MyTube.model.Channel;
 import ru.itis.MyTube.model.ChannelCover;
 import ru.itis.MyTube.model.User;
-import ru.itis.MyTube.dto.forms.ChannelForm;
 import ru.itis.MyTube.services.ChannelService;
+import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.storage.Storage;
 
 import java.io.IOException;
@@ -29,7 +27,6 @@ public class ChannelServiceImpl implements ChannelService {
     private final Storage storage;
 
     private final UrlCreator urlCreator;
-    private final ChannelCreateValidator channelCreateValidator;
 
 
     @Override
@@ -60,42 +57,28 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public Long create(ChannelForm form) throws ValidationException {
-        channelCreateValidator.validate(form);
-
+    public Long create(NewChannelForm form, User user) {
         Channel channel = Channel.builder()
                 .channelCover(ChannelCover.builder()
                         .name(form.getName())
                         .build())
                 .info(form.getInfo())
-                .owner(form.getUser())
+                .owner(user)
                 .build();
-
-        Optional<ChannelCover> channel1;
-        User user = form.getUser();
 
         try {
             channelRepository.create(channel);
-
-
-            channel1 = channelRepository.get(user.getEmail());
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw new ServiceException("Something go wrong, please try again later.");
-        }
-
-        Long channelId = channel1.orElseThrow(() -> new ServiceException("Сan not create channel.")).getId();
-
-        try {
-            user.setChannelId(channelId);
-
+            ChannelCover channel1 = channelRepository.get(user.getEmail())
+                    .orElseThrow(() -> new ServiceException("Сan not create channel."));
+            user.setChannelId(channel1.getId());
             userRepository.update(user);
 
-            storage.save(FileType.CHANNEL_ICON, channelId.toString(), form.getIconPart().getInputStream());
+            storage.save(FileType.CHANNEL_ICON, channel1.getId().toString(), form.getIconFile().getInputStream());
+            return channel1.getId();
+
         } catch (RuntimeException | IOException ex) {
             ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");
         }
-        return channelId;
     }
 }
