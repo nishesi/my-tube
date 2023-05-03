@@ -1,7 +1,8 @@
-package ru.itis.MyTube.validation;
+package ru.itis.MyTube.validation.constraints;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+import ru.itis.MyTube.validation.validators.FileTypeValidator;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

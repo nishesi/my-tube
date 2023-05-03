@@ -7,9 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-import ru.itis.MyTube.validation.EqualFields;
-import ru.itis.MyTube.validation.FileSize;
-import ru.itis.MyTube.validation.NullOrNotBlank;
+import ru.itis.MyTube.validation.constraints.EqualFields;
+import ru.itis.MyTube.validation.constraints.FileSize;
+import ru.itis.MyTube.validation.constraints.NullOrNotBlank;
 
 import java.time.LocalDate;
 

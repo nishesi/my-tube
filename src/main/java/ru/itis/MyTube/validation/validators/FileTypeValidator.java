@@ -1,8 +1,9 @@
-package ru.itis.MyTube.validation;
+package ru.itis.MyTube.validation.validators;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.web.multipart.MultipartFile;
+import ru.itis.MyTube.validation.constraints.FileType;
 
 public class FileTypeValidator implements ConstraintValidator<FileType, MultipartFile> {
     private String[] acceptableTypes;

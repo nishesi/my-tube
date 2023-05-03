@@ -1,6 +1,7 @@
-package ru.itis.MyTube.validation;
+package ru.itis.MyTube.validation.validators;
 
 import jakarta.validation.*;
+import ru.itis.MyTube.validation.constraints.EqualFields;
 
 import java.lang.reflect.Field;
 import java.util.Objects;

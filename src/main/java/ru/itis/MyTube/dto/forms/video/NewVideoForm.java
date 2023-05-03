@@ -7,9 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
-import ru.itis.MyTube.validation.FileSize;
-import ru.itis.MyTube.validation.FileType;
-import ru.itis.MyTube.validation.NotEmptyFile;
+import ru.itis.MyTube.validation.constraints.FileSize;
+import ru.itis.MyTube.validation.constraints.FileType;
+import ru.itis.MyTube.validation.constraints.NotEmptyFile;
 
 @Data
 @Builder

@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.itis.MyTube.validation.EqualFields;
+import ru.itis.MyTube.validation.constraints.EqualFields;
 
 import java.time.LocalDate;
 
