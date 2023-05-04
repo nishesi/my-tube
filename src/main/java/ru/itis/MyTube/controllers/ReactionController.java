@@ -19,19 +19,11 @@ public class ReactionController {
     private final ReactionService reactionService;
 
     @GetMapping("/{videoId}")
-    public ResponseEntity<?> getReaction(@PathVariable String videoId, @SessionAttribute(required = false) User user) {
-        ReactionForm reactionForm = ReactionForm.builder()
-                .videoUuid(videoId)
-                .user(user)
-                .build();
-        try {
-            return ResponseEntity.ok()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(reactionService.getReaction(reactionForm));
-
-        } catch (ValidationException e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<?> getReaction(@PathVariable String videoId,
+                                         @SessionAttribute(required = false) User user) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(reactionService.getReaction(videoId, user));
     }
 
     @PostMapping("/{videoId}")

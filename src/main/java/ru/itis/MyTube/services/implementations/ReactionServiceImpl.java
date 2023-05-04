@@ -2,11 +2,13 @@ package ru.itis.MyTube.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
 import ru.itis.MyTube.dao.ReactionRepository;
 import ru.itis.MyTube.model.Reaction;
 import ru.itis.MyTube.model.Reactions;
 import ru.itis.MyTube.dto.forms.ReactionForm;
+import ru.itis.MyTube.model.User;
 import ru.itis.MyTube.services.ReactionService;
 
 import java.util.HashMap;
@@ -63,19 +65,14 @@ public class ReactionServiceImpl implements ReactionService {
     }
 
     @Override
-    public Reactions getReaction(ReactionForm form) throws ValidationException {
-        Map<String, String> problems = new HashMap<>();
-        String username = form.getUser() == null ? null : form.getUser().getEmail();
-        UUID videoUuid = null;
+    public Reactions getReaction(String videoUuid, User user) {
         try {
-            videoUuid = UUID.fromString(form.getVideoUuid());
+            String username = user == null ? null : user.getEmail();
+            UUID uuid = UUID.fromString(videoUuid);
+            return reactionRepository.getReactions(uuid, username);
 
         } catch (IllegalArgumentException | NullPointerException ex) {
-            problems.put("videoUuid", "invalid video id");
+            throw new ServiceException("Not valid id.");
         }
-        if (!problems.isEmpty()) {
-            throw new ValidationException(problems);
-        }
-        return reactionRepository.getReactions(videoUuid, username);
     }
 }
