@@ -1,4 +1,4 @@
-{% macro videoCover(videoCov) %}
+{% macro videoCover(videoCov, _context) %}
 
 <div class="col">
     <div class="card">
@@ -25,16 +25,28 @@
             <div class="container m-1">
 
                 <p class="d-inline">
-                        {{ videoCov.views | views }}
+                    {{ videoCov.views | views }}
                 </p>
                 —
                 <p class="d-inline">
-                        {{ videoCov.duration | duration }}
+                    {{ videoCov.duration | duration }}
                 </p>
             </div>
             <p class="m-0 text-center">
-                    {{ videoCov.addedDate | whenAdded }}
+                {{ videoCov.addedDate | whenAdded }}
             </p>
+
+            {% if videoCov.channelCover.id equals _context.user.channelId %}
+
+                <div class="container m-1">
+                    <a class="btn btn-outline-primary d-inline" href="{{ href('/video/' + videoCov.uuid + '/update') }}">Modify</a>
+                    <form class="d-inline" method="post" action="{{ href('/video/' + videoCov.uuid) }}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="submit" class="btn btn-outline-danger d-inline" value="Delete">
+                    </form>
+                </div>
+
+            {% endif %}
         </div>
     </div>
 </div>

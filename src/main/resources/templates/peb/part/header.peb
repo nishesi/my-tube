@@ -2,10 +2,10 @@
     <nav class="navbar navbar-expand-md bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                {# @pebvariable name="logoUrl" type="java.lang.String" #}
-                {# @pebvariable name="appName" type="java.lang.String" #}
-                <img id="logo" src="{{ logoUrl }}" alt="logo">
-                <strong>{{ appName }}</strong>
+                {# @pebvariable name="LOGO_URL" type="java.lang.String" #}
+                {# @pebvariable name="APP_NAME" type="java.lang.String" #}
+                <img id="logo" src="{{ LOGO_URL }}" alt="logo">
+                <strong>{{ APP_NAME }}</strong>
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -55,7 +55,7 @@
                         <img class="rounded-circle" width="40" height="40" src="{{ user.userImgUrl }}" alt="user image">
                     </div>
 
-                    {% else  %}
+                {% else  %}
 
                     <ul class="navbar-nav ms-md-5 mb-2 mb-md-0">
                         {% if request.servletPath != urlPatterns.REGISTRATION_PAGE %}
@@ -80,8 +80,6 @@
                         {% endif %}
                     </ul>
 
-                    {#                    {% include "/part/modalRegPart" %}#}
-                    {#                    {% include "/part/modalAuthPart" %}#}
                 {% endif %}
             </div>
         </div>

@@ -22,8 +22,8 @@ public class MyTubeExtension extends AbstractExtension {
     @Override
     public Map<String, Object> getGlobalVariables() {
         Map<String, Object> varMap = new HashMap<>();
-        varMap.put("logoUrl", contextPath + "/static/images/reg-background-img.jpg");
-        varMap.put("appName", "MyTube");
+        varMap.put("LOGO_URL", contextPath + "/static/images/reg-background-img.jpg");
+        varMap.put("APP_NAME", "MyTube");
         varMap.put("urlPatterns", new UrlPatterns());
         return varMap;
     }

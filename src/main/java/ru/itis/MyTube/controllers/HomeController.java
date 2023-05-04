@@ -19,7 +19,7 @@ import static ru.itis.MyTube.view.Attributes.USER;
 
 @Controller
 @RequiredArgsConstructor
-public class ServiceController {
+public class HomeController {
     private final VideoService videoService;
 
     @GetMapping("/")
