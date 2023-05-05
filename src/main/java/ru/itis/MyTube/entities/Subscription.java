@@ -27,7 +27,10 @@ public class Subscription {
     @JoinColumn
     private Channel channel;
 
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class SubscriptionId implements Serializable {
         private User user;
         private Channel channel;

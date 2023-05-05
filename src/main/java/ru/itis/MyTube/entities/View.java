@@ -32,7 +32,10 @@ public class View {
     @JoinColumn(nullable = false)
     private Reaction reaction = Reaction.NONE;
 
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class ViewId implements Serializable {
         private User user;
         private Video video;
