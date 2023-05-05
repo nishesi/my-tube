@@ -1,4 +1,4 @@
-package ru.itis.MyTube.auxiliary.exceptions;
+package ru.itis.MyTube.exceptions;
 
 public class StorageException extends RuntimeException {
     public StorageException(String message) {
