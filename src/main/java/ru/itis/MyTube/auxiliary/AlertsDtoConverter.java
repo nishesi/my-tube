@@ -3,6 +3,7 @@ package ru.itis.MyTube.auxiliary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.GenericConverter;
+import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.view.Alert;

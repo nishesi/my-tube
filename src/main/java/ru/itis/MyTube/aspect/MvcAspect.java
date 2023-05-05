@@ -15,7 +15,7 @@ import java.util.Queue;
 
 @ControllerAdvice
 public class MvcAspect {
-    @Value("${context.path}")
+    @Value("${server.servlet.context-path}")
     private String contextPath;
 
     @InitBinder

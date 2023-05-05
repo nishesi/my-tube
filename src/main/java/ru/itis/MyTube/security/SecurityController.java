@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class SecurityController {
     private final UserService userService;
-    @Value("${context.path}")
+    @Value("${server.servlet.context-path}")
     private String contextPath;
 
     @GetMapping("/login")

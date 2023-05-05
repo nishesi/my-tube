@@ -8,7 +8,7 @@ import static ru.itis.MyTube.controllers.UrlPatterns.*;
 
 @Component
 public class UrlCreator {
-    @Value("${context.path}")
+    @Value("${server.servlet.context-path}")
     private String contextPath;
 
     public String createResourceUrl(FileType fileType, String id) {
