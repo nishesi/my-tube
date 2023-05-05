@@ -11,7 +11,7 @@ import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.model.Video;
 import ru.itis.MyTube.model.VideoCover;
 import ru.itis.MyTube.services.UserService;
@@ -33,17 +33,17 @@ public class VideoController {
     }
 
     @PostMapping
-    public String addVideo(@SessionAttribute User user,
+    public String addVideo(@SessionAttribute UserDto userDto,
                            @Valid NewVideoForm newVideoForm,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes
     ) {
         if (!bindingResult.hasErrors()) {
             try {
-                videoService.addVideo(newVideoForm, user);
+                videoService.addVideo(newVideoForm, userDto);
                 AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.SUCCESS, "Video added."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
-                redirectAttributes.addAttribute("id", user.getChannelId());
+                redirectAttributes.addAttribute("id", userDto.getChannelId());
                 return "redirect:/channel";
 
             } catch (ServiceException ex) {
@@ -57,13 +57,13 @@ public class VideoController {
     @GetMapping("/{id}")
     public String getVideoPage(ModelMap modelMap,
                                @PathVariable String id,
-                               @SessionAttribute(required = false) User user) {
+                               @SessionAttribute(required = false) UserDto userDto) {
         Byte reaction = null;
         try {
             Video video = videoService.getVideo(id);
 
-            if (user != null)
-                reaction = userService.getUserReaction(video.getUuid(), user.getEmail());
+            if (userDto != null)
+                reaction = userService.getUserReaction(video.getUuid(), userDto.getEmail());
 
             List<VideoCover> list = videoService.getRandomVideos();
 
@@ -104,15 +104,15 @@ public class VideoController {
     public String updateVideo(ModelMap modelMap,
                               @Valid UpdateVideoForm updateVideoForm,
                               BindingResult bindingResult,
-                              @SessionAttribute User user,
+                              @SessionAttribute UserDto userDto,
                               RedirectAttributes redirectAttributes
     ) {
         if (!bindingResult.hasErrors()) {
             try {
-                videoService.updateVideo(updateVideoForm, user);
+                videoService.updateVideo(updateVideoForm, userDto);
                 AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.SUCCESS, "Video updated."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
-                return "redirect:/channel/" + user.getChannelId();
+                return "redirect:/channel/" + userDto.getChannelId();
 
             } catch (ServiceException ex) {
                 AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
@@ -124,9 +124,9 @@ public class VideoController {
 
     @DeleteMapping("/{id}")
     public String deleteVideo(@PathVariable String id,
-                              @SessionAttribute User user,
+                              @SessionAttribute UserDto userDto,
                               RedirectAttributes redirectAttributes) {
-        Long userChannelId = user.getChannelId();
+        Long userChannelId = userDto.getChannelId();
         AlertsDto alertsDto;
         try {
             videoService.deleteVideo(id, userChannelId);

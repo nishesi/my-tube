@@ -1,27 +1,34 @@
 package ru.itis.MyTube.services.implementations;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.auxiliary.exceptions.ExistsException;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.dao.ReactionRepository;
-import ru.itis.MyTube.dao.UserRepository;
-import ru.itis.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.MyTube.dto.forms.SubscribeForm;
+import ru.itis.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.MyTube.dto.forms.user.UpdateUserForm;
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.entities.User;
+import ru.itis.MyTube.entities.enums.Authority;
+import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.repositories.UserRepository;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.storage.Storage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Component
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -33,9 +40,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(NewUserForm form) {
-        if (userRepository.isPresent(form.getEmail()))
-            throw new ExistsException("Username is exists.");
-
         User user = User.builder()
                 .email(form.getEmail())
                 .password(passwordEncoder.encode(form.getPassword()))
@@ -43,35 +47,41 @@ public class UserServiceImpl implements UserService {
                 .lastName(form.getLastName())
                 .birthdate(form.getBirthdate())
                 .country(form.getCountry())
+                .authorities(List.of(Authority.ROLE_USER))
                 .build();
         try {
             userRepository.save(user);
-            userRepository.addAuthority(user.getEmail(), "USER");
         } catch (RuntimeException ex) {
+            if (ex instanceof DataIntegrityViolationException &&
+                    ex.getCause() instanceof ConstraintViolationException)
+                throw new ExistsException("Email already exists.");
+
             ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 
     @Override
-    public User get(String username, String password) throws ServiceException {
+    public UserDto get(String username, String password) throws ServiceException {
         User user;
         try {
-            user = userRepository.get(username)
+            user = userRepository.getByEmail(username)
                     .orElseThrow(() -> new ServiceException("User not found."));
-            user.setUserImgUrl(urlCreator.createResourceUrl(FileType.USER_ICON, username));
+
+//            user.setUserImgUrl(urlCreator.createResourceUrl(FileType.USER_ICON, username));
         } catch (RuntimeException ex) {
             throw new ServiceException("something go wrong");
         }
 
         if (passwordEncoder.matches(password, user.getPassword())) {
-            return user;
+            return new UserDto();
+//            return user;
         }
         throw new ServiceException("Invalid login or password");
     }
 
     @Override
-    public void update(UpdateUserForm form, User user) throws ServiceException {
+    public void update(UpdateUserForm form, UserDto user) throws ServiceException {
 
         if (form.getPassword() != null) user.setPassword(passwordEncoder.encode(form.getPassword()));
         if (form.getFirstName() != null) user.setFirstName(form.getFirstName());
@@ -80,7 +90,7 @@ public class UserServiceImpl implements UserService {
         if (form.getCountry() != null) user.setCountry(form.getCountry());
 
         try {
-            userRepository.update(user);
+//            userRepository.update(user);
             MultipartFile icon = form.getIconFile();
             if (!icon.isEmpty()) {
                 storage.save(FileType.USER_ICON, user.getEmail(), icon.getInputStream());
@@ -92,17 +102,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean isSubscribed(User user, Long channelId) {
+    public boolean isSubscribed(UserDto user, Long channelId) {
         if (Objects.isNull(user) || Objects.isNull(user.getEmail()) || Objects.isNull(channelId)) {
             return false;
         }
 
         try {
-            return userRepository.isSubscribed(user.getEmail(), channelId);
+//            return userRepository.isSubscribed(user.getEmail(), channelId);
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");
         }
+        throw new RuntimeException("broken method");
     }
 
     @Override
@@ -117,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userChannel(SubscribeForm form) throws ServiceException {
-        if (Objects.isNull(form.getUser()) ||
+        if (Objects.isNull(form.getUserDto()) ||
                 Objects.isNull(form.getToSubscribe()) ||
                 form.getToSubscribe().equals("") ||
                 Objects.isNull(form.getChannelId())
@@ -135,16 +146,16 @@ public class UserServiceImpl implements UserService {
         }
 
         if (toSubscribe) {
-            subscribe(form.getUser(), channelId);
+//            subscribe(form.getUserDto(), channelId);
         } else {
-            unsubscribe(form.getUser(), channelId);
+//            unsubscribe(form.getUserDto(), channelId);
         }
     }
 
     public void subscribe(User user, long channelId) throws ServiceException {
 
         try {
-            userRepository.subscribe(user.getEmail(), channelId);
+//            userRepository.subscribe(user.getEmail(), channelId);
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");
@@ -154,7 +165,7 @@ public class UserServiceImpl implements UserService {
     public void unsubscribe(User user, long channelId) throws ServiceException {
 
         try {
-            userRepository.unsubscribe(user.getEmail(), channelId);
+//            userRepository.unsubscribe(user.getEmail(), channelId);
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");

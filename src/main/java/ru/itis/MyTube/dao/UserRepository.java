@@ -1,19 +1,19 @@
 package ru.itis.MyTube.dao;
 
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.UserDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
 
-    void save(User user);
+    void save(UserDto userDto);
 
-    Optional<User> get(String login, String password);
-    Optional<User> get(String login);
-    void update(User user);
+    Optional<UserDto> get(String login, String password);
+    Optional<UserDto> get(String login);
+    void update(UserDto userDto);
 
-    List<User> getAll();
+    List<UserDto> getAll();
 
     boolean isPresent(String username);
 

@@ -6,9 +6,16 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
+import lombok.Data;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
 @Data
 @Builder
-public class User {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDto {
     private String email;
     private String password;
     private String firstName;

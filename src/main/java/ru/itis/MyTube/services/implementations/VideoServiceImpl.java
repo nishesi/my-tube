@@ -11,7 +11,7 @@ import ru.itis.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.dto.forms.video.VideoForm;
 import ru.itis.MyTube.model.ChannelCover;
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.model.Video;
 import ru.itis.MyTube.model.VideoCover;
 import ru.itis.MyTube.services.VideoService;
@@ -35,10 +35,10 @@ public class VideoServiceImpl implements VideoService {
     private final UrlCreator urlCreator;
 
     @Override
-    public void addVideo(NewVideoForm form, User user) {
+    public void addVideo(NewVideoForm form, UserDto userDto) {
         String uuid = UUID.randomUUID().toString();
         VideoForm videoForm = VideoForm.builder()
-                .channelId(user.getChannelId())
+                .channelId(userDto.getChannelId())
                 .name(form.getName())
                 .info(form.getInfo())
                 .build();
@@ -75,7 +75,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public void updateVideo(UpdateVideoForm form, User user) {
+    public void updateVideo(UpdateVideoForm form, UserDto userDto) {
         UUID id;
         try {
             id = UUID.fromString(form.getUuid());
@@ -86,7 +86,7 @@ public class VideoServiceImpl implements VideoService {
                 .orElseThrow(() -> new NotFoundException("Video not found."));
 
         long videoChannelId = video.getVideoCover().getChannelCover().getId();
-        if (videoChannelId != user.getChannelId())
+        if (videoChannelId != userDto.getChannelId())
             throw new ServiceException("You cannot update this video.");
 
         if (form.getName() != null) video.getVideoCover().setName(form.getName());
@@ -175,12 +175,12 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<VideoCover> getSubscriptionsVideos(User user) {
-        if (Objects.isNull(user)) {
+    public List<VideoCover> getSubscriptionsVideos(UserDto userDto) {
+        if (Objects.isNull(userDto)) {
             throw new ServiceException("You not authorized.");
         }
         try {
-            List<VideoCover> videoCovers = videoRepository.getSubscribedChannelsVideos(user.getEmail());
+            List<VideoCover> videoCovers = videoRepository.getSubscribedChannelsVideos(userDto.getEmail());
             setUrls(videoCovers);
 
             return videoCovers;

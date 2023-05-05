@@ -9,7 +9,7 @@ import ru.itis.MyTube.dao.UserRepository;
 import ru.itis.MyTube.dto.forms.channel.NewChannelForm;
 import ru.itis.MyTube.model.Channel;
 import ru.itis.MyTube.model.ChannelCover;
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.services.ChannelService;
 import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.storage.Storage;
@@ -57,21 +57,21 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public Long create(NewChannelForm form, User user) {
+    public Long create(NewChannelForm form, UserDto userDto) {
         Channel channel = Channel.builder()
                 .channelCover(ChannelCover.builder()
                         .name(form.getName())
                         .build())
                 .info(form.getInfo())
-                .owner(user)
+                .owner(userDto)
                 .build();
 
         try {
             channelRepository.create(channel);
-            ChannelCover channel1 = channelRepository.get(user.getEmail())
+            ChannelCover channel1 = channelRepository.get(userDto.getEmail())
                     .orElseThrow(() -> new ServiceException("Сan not create channel."));
-            user.setChannelId(channel1.getId());
-            userRepository.update(user);
+            userDto.setChannelId(channel1.getId());
+            userRepository.update(userDto);
 
             storage.save(FileType.CHANNEL_ICON, channel1.getId().toString(), form.getIconFile().getInputStream());
             return channel1.getId();

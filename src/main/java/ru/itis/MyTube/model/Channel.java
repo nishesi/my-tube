@@ -8,7 +8,7 @@ import lombok.Data;
 public class Channel {
     private Long id;
     private ChannelCover channelCover;
-    private User owner;
+    private UserDto owner;
     private Long countOfSubscribers;
     private String info;
 }

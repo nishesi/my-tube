@@ -30,7 +30,7 @@ public class Video implements Serializable {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "channel_id")
+    @JoinColumn
     private Channel channel;
 
     @Column(nullable = false)

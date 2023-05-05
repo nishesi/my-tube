@@ -8,7 +8,7 @@ import ru.itis.MyTube.dao.ReactionRepository;
 import ru.itis.MyTube.model.Reaction;
 import ru.itis.MyTube.model.Reactions;
 import ru.itis.MyTube.dto.forms.ReactionForm;
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.services.ReactionService;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class ReactionServiceImpl implements ReactionService {
     public String updateReaction(ReactionForm form) throws ValidationException {
         UUID videoUuid = null;
         Byte reaction = null;
-        String username = form.getUser() == null ? null : form.getUser().getEmail();
+        String username = form.getUserDto() == null ? null : form.getUserDto().getEmail();
 
         Map<String, String> problems = new HashMap<>();
 
@@ -65,9 +65,9 @@ public class ReactionServiceImpl implements ReactionService {
     }
 
     @Override
-    public Reactions getReaction(String videoUuid, User user) {
+    public Reactions getReaction(String videoUuid, UserDto userDto) {
         try {
-            String username = user == null ? null : user.getEmail();
+            String username = userDto == null ? null : userDto.getEmail();
             UUID uuid = UUID.fromString(videoUuid);
             return reactionRepository.getReactions(uuid, username);
 

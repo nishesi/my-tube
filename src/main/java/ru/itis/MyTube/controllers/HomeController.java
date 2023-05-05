@@ -7,7 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.model.VideoCover;
 import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.view.Alert;
@@ -29,7 +29,7 @@ public class HomeController {
 
         try {
             if ("subs".equals(listType)) {
-                list = videoService.getSubscriptionsVideos(((User) req.getSession().getAttribute(USER)));
+                list = videoService.getSubscriptionsVideos(((UserDto) req.getSession().getAttribute(USER)));
             } else {
                 list = videoService.getRandomVideos();
             }

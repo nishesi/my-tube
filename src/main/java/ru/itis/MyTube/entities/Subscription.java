@@ -19,12 +19,12 @@ public class Subscription {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     private User user;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "channel_id")
+    @JoinColumn
     private Channel channel;
 
     @Builder

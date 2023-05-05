@@ -20,12 +20,12 @@ public class View {
 
     @Id
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
+    @JoinColumn(nullable = false)
     private User user;
 
     @Id
     @ManyToOne
-    @JoinColumn(name="video_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Video video;
 
     @Enumerated(EnumType.STRING)

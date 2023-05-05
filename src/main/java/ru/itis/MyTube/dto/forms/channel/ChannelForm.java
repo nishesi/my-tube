@@ -5,14 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.UserDto;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChannelForm {
-    private User user;
+    private UserDto userDto;
     private String name;
     private Part iconPart;
     private String info;

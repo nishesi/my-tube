@@ -11,7 +11,7 @@ import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.forms.channel.NewChannelForm;
 import ru.itis.MyTube.model.Channel;
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.model.VideoCover;
 import ru.itis.MyTube.services.ChannelService;
 import ru.itis.MyTube.services.UserService;
@@ -42,12 +42,12 @@ public class ChannelController {
     public String createChannel(ModelMap modelMap,
                                 @Valid NewChannelForm newChannelForm,
                                 BindingResult bindingResult,
-                                @SessionAttribute User user,
+                                @SessionAttribute UserDto userDto,
                                 RedirectAttributes redirectAttributes
     ) {
         if (!bindingResult.hasErrors()) {
             try {
-                Long channelId = channelService.create(newChannelForm, user);
+                Long channelId = channelService.create(newChannelForm, userDto);
                 redirectAttributes.addAttribute("id", channelId);
                 return "redirect:/channel";
 
@@ -62,7 +62,7 @@ public class ChannelController {
     @GetMapping("/{id}")
     public String getChannelPage(ModelMap modelMap,
                                  @PathVariable String id,
-                                 @SessionAttribute User user
+                                 @SessionAttribute UserDto userDto
     ) {
         Channel channel;
         List<VideoCover> channelVideos;
@@ -70,7 +70,7 @@ public class ChannelController {
         try {
             channel = channelService.getChannel(id);
             channelVideos = videoService.getChannelVideoCovers(channel.getId());
-            isSubscribed = userService.isSubscribed(user, channel.getId());
+            isSubscribed = userService.isSubscribed(userDto, channel.getId());
 
         } catch (ServiceException ex) {
             AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.WARNING, ex.getMessage()));

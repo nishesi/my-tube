@@ -40,7 +40,7 @@ public class User implements Serializable {
     private String country;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "channel_id", unique = true)
+    @JoinColumn(unique = true)
     private Channel channel;
 
     @ManyToMany

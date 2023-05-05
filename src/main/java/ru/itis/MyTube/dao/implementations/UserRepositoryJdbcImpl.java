@@ -3,7 +3,7 @@ package ru.itis.MyTube.dao.implementations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.dao.UserRepository;
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.UserDto;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -17,9 +17,9 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRepository {
 
-    private static final Function<ResultSet, User> USER_MAPPER = (set) -> {
+    private static final Function<ResultSet, UserDto> USER_MAPPER = (set) -> {
         try {
-            return User.builder()
+            return UserDto.builder()
                     .email(set.getString("username"))
                     .password(set.getString("password"))
                     .firstName(set.getString("first_name"))
@@ -52,7 +52,7 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
     private final DataSource dataSource;
 
     @Override
-    public List<User> getAll() {
+    public List<UserDto> getAll() {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL_USERS)) {
 
@@ -64,17 +64,17 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
     }
 
     @Override
-    public void save(User user) {
+    public void save(UserDto userDto) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_USER)) {
 
-            preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getFirstName());
-            preparedStatement.setString(4, user.getLastName());
+            preparedStatement.setString(1, userDto.getEmail());
+            preparedStatement.setString(2, userDto.getPassword());
+            preparedStatement.setString(3, userDto.getFirstName());
+            preparedStatement.setString(4, userDto.getLastName());
             preparedStatement.setDate(5,
-                    new Date(Date.from(user.getBirthdate().atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime()));
-            preparedStatement.setString(6, user.getCountry());
+                    new Date(Date.from(userDto.getBirthdate().atStartOfDay(ZoneId.systemDefault()).toInstant()).getTime()));
+            preparedStatement.setString(6, userDto.getCountry());
 
             preparedStatement.executeUpdate();
 
@@ -84,7 +84,7 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
     }
 
     @Override
-    public Optional<User> get(String login, String password) {
+    public Optional<UserDto> get(String login, String password) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_USER)) {
 
@@ -104,7 +104,7 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
     private static final String SQL_GET_USER_BY_LOGIN = "select * from users where username = ?";
 
     @Override
-    public Optional<User> get(String login) {
+    public Optional<UserDto> get(String login) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_USER_BY_LOGIN)) {
 
@@ -121,17 +121,17 @@ public class UserRepositoryJdbcImpl extends AbstractRepository implements UserRe
     }
 
     @Override
-    public void update(User user) {
+    public void update(UserDto userDto) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_USER)) {
 
-            preparedStatement.setString(1, user.getPassword());
-            preparedStatement.setString(2, user.getFirstName());
-            preparedStatement.setString(3, user.getLastName());
-            preparedStatement.setObject(4, user.getBirthdate());
-            preparedStatement.setString(5, user.getCountry());
-            preparedStatement.setObject(6, user.getChannelId());
-            preparedStatement.setString(7, user.getEmail());
+            preparedStatement.setString(1, userDto.getPassword());
+            preparedStatement.setString(2, userDto.getFirstName());
+            preparedStatement.setString(3, userDto.getLastName());
+            preparedStatement.setObject(4, userDto.getBirthdate());
+            preparedStatement.setString(5, userDto.getCountry());
+            preparedStatement.setObject(6, userDto.getChannelId());
+            preparedStatement.setString(7, userDto.getEmail());
 
             preparedStatement.executeUpdate();
 

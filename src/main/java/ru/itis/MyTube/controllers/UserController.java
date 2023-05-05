@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -13,7 +14,7 @@ import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.MyTube.dto.forms.SubscribeForm;
 import ru.itis.MyTube.dto.forms.user.UpdateUserForm;
-import ru.itis.MyTube.model.User;
+import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.view.Alert;
 
@@ -42,7 +43,7 @@ public class UserController {
 
                 return "redirect:/login";
             } catch (ExistsException ex) {
-                bindingResult.addError(new ObjectError("newUserForm", ex.getMessage()));
+                bindingResult.addError(new FieldError("newUserForm", "email", ex.getMessage()));
             }
         }
         return "user/new";
@@ -58,11 +59,11 @@ public class UserController {
     public String updateUser(@Valid UpdateUserForm updateUserForm,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes,
-                             @SessionAttribute User user
+                             @SessionAttribute UserDto userDto
     ) {
         if (!bindingResult.hasErrors()) {
             try {
-                userService.update(updateUserForm, user);
+                userService.update(updateUserForm, userDto);
                 AlertsDto alerts = new AlertsDto(
                         new Alert(Alert.AlertType.SUCCESS, "Your account information updated."),
                         new Alert(Alert.AlertType.INFO, "Please do reauthorization.")
@@ -80,10 +81,10 @@ public class UserController {
 
     @PostMapping("/subscribe")
     public String subscribeToChannel(SubscribeForm subscribeForm,
-                                     @SessionAttribute User user,
+                                     @SessionAttribute UserDto userDto,
                                      RedirectAttributes redirectAttributes) {
         try {
-            subscribeForm.setUser(user);
+            subscribeForm.setUserDto(userDto);
             userService.userChannel(subscribeForm);
         } catch (ServiceException ex) {
             AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
