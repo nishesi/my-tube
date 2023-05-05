@@ -19,21 +19,21 @@ import javax.sql.DataSource;
 @PropertySource("classpath:app.properties")
 public class AppConfig {
 
-    @Bean(destroyMethod = "close")
-    public HikariDataSource dataSource(
-            @Value("${db.username}") String username,
-            @Value("${db.password}") String password,
-            @Value("${db.url}") String url,
-            @Value("${db.maxPoolSize}") int maxPoolSize
-    ) {
-        HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setUsername(username);
-        hikariConfig.setPassword(password);
-        hikariConfig.setJdbcUrl(url);
-        hikariConfig.setMaximumPoolSize(maxPoolSize);
-
-        return new HikariDataSource(hikariConfig);
-    }
+//    @Bean(destroyMethod = "close")
+//    public HikariDataSource dataSource(
+//            @Value("${db.username}") String username,
+//            @Value("${db.password}") String password,
+//            @Value("${db.url}") String url,
+//            @Value("${db.maxPoolSize}") int maxPoolSize
+//    ) {
+//        HikariConfig hikariConfig = new HikariConfig();
+//        hikariConfig.setUsername(username);
+//        hikariConfig.setPassword(password);
+//        hikariConfig.setJdbcUrl(url);
+//        hikariConfig.setMaximumPoolSize(maxPoolSize);
+//
+//        return new HikariDataSource(hikariConfig);
+//    }
 
     @Bean(initMethod = "start", destroyMethod = "finish")
     public MvUpdater mvUpdater(
