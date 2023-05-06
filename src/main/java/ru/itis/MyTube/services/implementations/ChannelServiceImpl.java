@@ -1,15 +1,26 @@
 package ru.itis.MyTube.services.implementations;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.UrlCreator;
-import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.dao.ChannelRepository;
 import ru.itis.MyTube.dao.UserRepository;
+import ru.itis.MyTube.dto.ChannelDto;
+import ru.itis.MyTube.dto.Converter;
 import ru.itis.MyTube.dto.forms.channel.NewChannelForm;
+import ru.itis.MyTube.entities.Video;
+import ru.itis.MyTube.exceptions.NotFoundException;
+import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.model.Channel;
 import ru.itis.MyTube.model.ChannelCover;
 import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.repositories.SubscriptionRepository;
+import ru.itis.MyTube.repositories.VideoRepository;
 import ru.itis.MyTube.services.ChannelService;
 import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.storage.Storage;
@@ -21,8 +32,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ChannelServiceImpl implements ChannelService {
 
+    @Value("${spring.data.web.pageable.default-page-size}")
+    private int pageSize;
+
     private final ChannelRepository channelRepository;
+    private final ru.itis.MyTube.repositories.ChannelRepository channelRep;
     private final UserRepository userRepository;
+    private final VideoRepository videoRepository;
+    private final SubscriptionRepository subscriptionRepository;
+    private final Converter converter;
 
     private final Storage storage;
 
@@ -54,6 +72,23 @@ public class ChannelServiceImpl implements ChannelService {
             throw new ServiceException(ex.getMessage());
         }
         return channelOpt.orElseThrow(() -> new ServiceException("Channel not found."));
+    }
+
+    @Override
+    public ChannelDto getChannel(long id, int pageNum) {
+        ru.itis.MyTube.entities.Channel channel = channelRep.findById(id)
+                .orElseThrow(() -> new NotFoundException("Channel not found."));
+
+        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by("addedDate").descending());
+        Page<Video> page = videoRepository.getByChannelId(id, pageable);
+        return converter.from(channel, page);
+    }
+
+    @Override
+    public ChannelDto getChannelRegardingUser(long id, int pageNum, UserDto user) {
+        ChannelDto channelDto = this.getChannel(id, pageNum);
+        channelDto.setSubscribed(subscriptionRepository.existsByUserEmailAndChannelId(user.getEmail(), id));
+        return channelDto;
     }
 
     @Override

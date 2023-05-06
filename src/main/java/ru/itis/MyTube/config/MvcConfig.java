@@ -45,16 +45,16 @@ public class MvcConfig implements WebMvcConfigurer {
         bean.setListener(new HttpSessionListener() {
             @Override
             public void sessionCreated(HttpSessionEvent se) {
-//                se.getSession().setAttribute("user",
-//                        UserDto.builder()
-//                                .email("email@gmail.com")
-//                                .password("askjfhkshdfjsdhkfhh")
-//                                .firstName("first name")
-//                                .lastName("last name")
-//                                .country("Prussia")
-//                                .birthdate(LocalDate.of(2003, 3, 22))
-//                                .channelId(7L)
-//                                .build());
+                se.getSession().setAttribute("user",
+                        UserDto.builder()
+                                .email("email@gmail.com")
+                                .password("askjfhkshdfjsdhkfhh")
+                                .firstName("first name")
+                                .lastName("last name")
+                                .country("Prussia")
+                                .birthdate(LocalDate.of(2003, 3, 22))
+                                .channelId(7L)
+                                .build());
             }
         });
         return bean;

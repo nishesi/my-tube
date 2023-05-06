@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.exceptions.ValidationException;
 import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.dto.forms.ReactionForm;
 import ru.itis.MyTube.services.ReactionService;

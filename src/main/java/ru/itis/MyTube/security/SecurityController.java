@@ -29,8 +29,8 @@ public class SecurityController {
     public ResponseEntity<?> processLogin(@RequestParam String username,
                                           @RequestParam String password,
                                           HttpSession session) {
-        UserDto userDto = userService.get(username, password);
-        session.setAttribute("user", userDto);
+//        UserDto userDto = userService.get(username, password);
+//        session.setAttribute("user", userDto);
         return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
                 .header("Location", contextPath).build();
 

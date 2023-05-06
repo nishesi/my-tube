@@ -7,20 +7,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
+import ru.itis.MyTube.dto.ChannelDto;
 import ru.itis.MyTube.dto.forms.channel.NewChannelForm;
-import ru.itis.MyTube.model.Channel;
+import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.model.UserDto;
-import ru.itis.MyTube.model.VideoCover;
 import ru.itis.MyTube.services.ChannelService;
-import ru.itis.MyTube.services.UserService;
-import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.view.Alert;
-
-import java.util.List;
-
-import static ru.itis.MyTube.view.Attributes.VIDEO_COVER_LIST;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,10 +21,6 @@ import static ru.itis.MyTube.view.Attributes.VIDEO_COVER_LIST;
 public class ChannelController {
 
     private final ChannelService channelService;
-
-    private final VideoService videoService;
-
-    private final UserService userService;
 
     @GetMapping("/add")
     public String getCreateChannelPage() {
@@ -61,26 +50,21 @@ public class ChannelController {
 
     @GetMapping("/{id}")
     public String getChannelPage(ModelMap modelMap,
-                                 @PathVariable String id,
-                                 @SessionAttribute UserDto userDto
+                                 @PathVariable Long id,
+                                 @SessionAttribute(required = false) UserDto user,
+                                 @RequestParam(defaultValue = "0") int pageNum
     ) {
-        Channel channel;
-        List<VideoCover> channelVideos;
-        boolean isSubscribed;
         try {
-            channel = channelService.getChannel(id);
-            channelVideos = videoService.getChannelVideoCovers(channel.getId());
-            isSubscribed = userService.isSubscribed(userDto, channel.getId());
+            ChannelDto channelDto = (user != null)
+                    ? channelService.getChannelRegardingUser(id, pageNum, user)
+                    : channelService.getChannel(id, pageNum);
+            modelMap.put("channel", channelDto);
+            return "channel/page";
 
         } catch (ServiceException ex) {
             AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.WARNING, ex.getMessage()));
             modelMap.put("alerts", alertsDto);
             return "homePage";
         }
-        modelMap.put("isSubscribed", isSubscribed);
-        modelMap.put("channel", channel);
-        modelMap.put(VIDEO_COVER_LIST, channelVideos);
-
-        return "channel/page";
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
+import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;

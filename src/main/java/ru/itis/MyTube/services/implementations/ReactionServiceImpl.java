@@ -2,8 +2,8 @@ package ru.itis.MyTube.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.exceptions.ServiceException;
+import ru.itis.MyTube.exceptions.ValidationException;
 import ru.itis.MyTube.dao.ReactionRepository;
 import ru.itis.MyTube.model.Reaction;
 import ru.itis.MyTube.model.Reactions;

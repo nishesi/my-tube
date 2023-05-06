@@ -1,7 +1,7 @@
 package ru.itis.MyTube.services;
 
-import ru.itis.MyTube.auxiliary.exceptions.NotFoundException;
-import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
+import ru.itis.MyTube.exceptions.NotFoundException;
+import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.model.UserDto;

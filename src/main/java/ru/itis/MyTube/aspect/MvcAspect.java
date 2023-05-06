@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ru.itis.MyTube.auxiliary.exceptions.ServiceException;
-import ru.itis.MyTube.auxiliary.exceptions.ValidationException;
+import ru.itis.MyTube.exceptions.ServiceException;
+import ru.itis.MyTube.exceptions.ValidationException;
 import ru.itis.MyTube.view.Alert;
 
 import java.util.Map;
