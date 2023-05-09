@@ -25,14 +25,14 @@ public class Alert implements Serializable {
         LIGHT("alert-light"),
         DARK("alert-dark");
 
-        private final String alertType;
+        private final String str;
 
         AlertType(String str) {
-            alertType = str;
+            this.str = str;
         }
 
-        public String getAlertType() {
-            return alertType;
+        public String getStr() {
+            return str;
         }
     }
 }

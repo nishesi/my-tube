@@ -1,0 +1,20 @@
+{# @pebvariable name="alertsDto" type="ru.itis.MyTube.dto.AlertsDto" #}
+
+{% macro handleAlerts(alertsDto) %}
+
+    {% if alertsDto is not null %}
+        <div class="toast-container position-fixed top-0 end-0 me-5 p-3">
+                {% for alert in alertsDto.alerts %}
+                    <div class="toast show align-items-center border-0 mb-1" role="alert" aria-live="assertive"
+                         aria-atomic="true">
+                        <div class="d-flex alert {{ alert.type.str }} p-0">
+                            <div class="toast-body">{{ alert.message}}</div>
+                            <button type="button" class="btn-close btn-close me-2 m-auto" data-bs-dismiss="toast"
+                                    aria-label="Close"></button>
+                        </div>
+                    </div>
+                {% endfor %}
+        </div>
+    {% endif %}
+
+{% endmacro %}

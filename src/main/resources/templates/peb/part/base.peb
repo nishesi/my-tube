@@ -1,9 +1,12 @@
+{# @pebvariable name="title" type="java.lang.String" #}
+{# @pebvariable name="alerts" type="ru.itis.MyTube.dto.AlertsDto" #}
+{% import "macro/handleAlerts" %}
+
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta charset="UTF-8">
-    {# @pebvariable name="title" type="java.lang.String" #}
     <title>{{ title }}</title>
     <link href="{{ href('/static/css/bootstrap.min.css') }}" rel="stylesheet">
     <script defer src="{{ href('/static/js/bootstrap.bundle.min.js') }}"></script>

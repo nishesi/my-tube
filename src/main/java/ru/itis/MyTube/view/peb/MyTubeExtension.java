@@ -6,7 +6,6 @@ import io.pebbletemplates.pebble.extension.Function;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.controllers.UrlPatterns;
-import ru.itis.MyTube.view.peb.functions.HandleAlertsFunction;
 import ru.itis.MyTube.view.peb.filters.DurationFilter;
 import ru.itis.MyTube.view.peb.filters.ViewsFilter;
 import ru.itis.MyTube.view.peb.filters.WhenAddedFilter;
@@ -41,7 +40,6 @@ public class MyTubeExtension extends AbstractExtension {
     @Override
     public Map<String, Function> getFunctions() {
         return Map.of(
-                "handleAlerts", new HandleAlertsFunction(),
                 "generatePages", new GeneratePagesFunction());
     }
 }
