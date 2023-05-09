@@ -1,7 +1,8 @@
-package ru.itis.MyTube.model;
+package ru.itis.MyTube.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import ru.itis.MyTube.model.ChannelCover;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

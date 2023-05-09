@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.itis.MyTube.dao.VideoRepository;
 import ru.itis.MyTube.model.ChannelCover;
 import ru.itis.MyTube.model.Video;
-import ru.itis.MyTube.model.VideoCover;
+import ru.itis.MyTube.dto.VideoCover;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

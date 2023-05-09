@@ -1,13 +1,13 @@
 {% import "macro/videoCover" %}
 
-{# @pebvariable name="videoCoverList" type="java.util.List<ru.itis.MyTube.model.VideoCover>" #}
-{% if videoCoverList is null %}
+{# @pebvariable name="videoCoverPage" type="org.springframework.data.domain.Page" #}
+{% if videoCoverPage is null %}
 
 <div class="alert alert-warning text-center">
     Videos not loaded :(
 </div>
 
-{% elseif videoCoverList is empty %}
+{% elseif videoCoverPage is empty %}
 
 <div class="alert alert-info text-center" role="alert">
     No suitable videos found :(
@@ -18,11 +18,14 @@
 <div class="container-fluid p-0">
     <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
 
-            {% for videoCov in videoCoverList %}
+            {% for videoCov in videoCoverPage.toList() %}
                 {{ videoCover(videoCov, _context) }}
             {% endfor %}
 
     </div>
+</div>
+<div class="container text-center">
+    {{ pages(videoCoverPage, href(channelUrl)) | raw }}
 </div>
 
 {% endif %}

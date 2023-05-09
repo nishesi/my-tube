@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
-import ru.itis.MyTube.model.VideoCover;
+import ru.itis.MyTube.dto.VideoCover;
 import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.view.Alert;
 import ru.itis.MyTube.view.Attributes;

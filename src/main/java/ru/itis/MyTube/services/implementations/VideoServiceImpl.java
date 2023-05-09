@@ -13,7 +13,7 @@ import ru.itis.MyTube.dto.forms.video.VideoForm;
 import ru.itis.MyTube.model.ChannelCover;
 import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.model.Video;
-import ru.itis.MyTube.model.VideoCover;
+import ru.itis.MyTube.dto.VideoCover;
 import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.storage.Storage;

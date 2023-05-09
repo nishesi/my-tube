@@ -2,6 +2,7 @@ package ru.itis.MyTube.model;
 
 import lombok.Builder;
 import lombok.Data;
+import ru.itis.MyTube.dto.VideoCover;
 
 import java.util.UUID;
 

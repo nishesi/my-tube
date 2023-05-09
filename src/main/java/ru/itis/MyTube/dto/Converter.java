@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.Video;
-import ru.itis.MyTube.model.VideoCover;
 
 @Component
 @RequiredArgsConstructor
@@ -21,6 +20,7 @@ public class Converter {
                 .name(channel.getName())
                 .info(channel.getInfo())
                 .videosPage(page.map(video -> VideoCover.builder()
+                        .name(video.getName())
                         .addedDate(video.getAddedDate().toLocalDateTime())
                         .build()))
                 .build();

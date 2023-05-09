@@ -46,7 +46,7 @@
         </p>
     </div>
 
-    {% set videoCoverList = channel.videosPage %}
+    {% set videoCoverPage = channel.videosPage %}
     {% include "part/videoCoverList" %}
 </main>
 

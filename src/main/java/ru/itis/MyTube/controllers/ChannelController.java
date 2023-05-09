@@ -52,13 +52,14 @@ public class ChannelController {
     public String getChannelPage(ModelMap modelMap,
                                  @PathVariable Long id,
                                  @SessionAttribute(required = false) UserDto user,
-                                 @RequestParam(defaultValue = "0") int pageNum
+                                 @RequestParam(defaultValue = "0") int pageInd
     ) {
         try {
             ChannelDto channelDto = (user != null)
-                    ? channelService.getChannelRegardingUser(id, pageNum, user)
-                    : channelService.getChannel(id, pageNum);
+                    ? channelService.getChannelRegardingUser(id, pageInd, user)
+                    : channelService.getChannel(id, pageInd);
             modelMap.put("channel", channelDto);
+            modelMap.put("channelUrl", "/channel/" + id);
             return "channel/page";
 
         } catch (ServiceException ex) {

@@ -75,11 +75,11 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public ChannelDto getChannel(long id, int pageNum) {
+    public ChannelDto getChannel(long id, int pageIndex) {
         ru.itis.MyTube.entities.Channel channel = channelRep.findById(id)
                 .orElseThrow(() -> new NotFoundException("Channel not found."));
 
-        Pageable pageable = PageRequest.of(pageNum, pageSize, Sort.by("addedDate").descending());
+        Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by("addedDate").descending());
         Page<Video> page = videoRepository.getByChannelId(id, pageable);
         return converter.from(channel, page);
     }
