@@ -1,0 +1,19 @@
+{# @pebvariable name="list" type="java.util.List<ru.itis.MyTube.view.peb.functions.GeneratePagesFunction.PageEl>" #}
+
+{% macro pages(list) %}
+    {% for page in list %}
+
+        {% if page.num is not null %}
+
+            {% if page.url is not null %}
+                <a href="{{ page.url }}">{{ page.num }}</a>
+            {% else %}
+                {{ page.num }}
+            {% endif %}
+
+        {% else %}
+            ...
+        {% endif %}
+
+    {% endfor %}
+{% endmacro %}

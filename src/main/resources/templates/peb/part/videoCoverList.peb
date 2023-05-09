@@ -1,31 +1,26 @@
 {% import "macro/videoCover" %}
+{% import "macro/pages" %}
 
 {# @pebvariable name="videoCoverPage" type="org.springframework.data.domain.Page" #}
 {% if videoCoverPage is null %}
-
-<div class="alert alert-warning text-center">
-    Videos not loaded :(
-</div>
-
+    <div class="alert alert-warning text-center">
+        Videos not loaded :(
+    </div>
 {% elseif videoCoverPage is empty %}
-
-<div class="alert alert-info text-center" role="alert">
-    No suitable videos found :(
-</div>
-
+    <div class="alert alert-info text-center" role="alert">
+        No suitable videos found :(
+    </div>
 {% else %}
 
-<div class="container-fluid p-0">
-    <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
-
+    <div class="container-fluid p-0">
+        <div class="row row-cols-2 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
             {% for videoCov in videoCoverPage.toList() %}
                 {{ videoCover(videoCov, _context) }}
             {% endfor %}
-
+        </div>
     </div>
-</div>
-<div class="container text-center">
-    {{ pages(videoCoverPage, href(channelUrl)) | raw }}
-</div>
+    <div class="container text-center">
+        {{ pages(generatePages(videoCoverPage, href(channelUrl))) }}
+    </div>
 
 {% endif %}

@@ -13,19 +13,19 @@ import java.util.Map;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-public class PagingFunction implements Function {
+public class GeneratePagesFunction implements Function {
     private final List<String> argumentNames;
 
-    public PagingFunction() {
+    public GeneratePagesFunction() {
         argumentNames = List.of("page", "url");
     }
 
-    private static String generateUrl(int pageNum, int currentPageNum, String url) {
+    private static PageEl generateUrl(int pageNum, int currentPageNum, String url) {
         if (currentPageNum != pageNum) {
             String r = url + "?pageInd=" + (pageNum - 1);
-            return "<a href=\"" + r + "\">" + pageNum + "</a>";
+            return new PageEl(pageNum, r);
         }
-        return String.valueOf(pageNum);
+        return new PageEl(pageNum, null);
     }
 
     @Override
@@ -40,13 +40,13 @@ public class PagingFunction implements Function {
 
         if (totalPages < 0) return null;
 
-        List<String> pages = new ArrayList<>();
+        List<PageEl> pages = new ArrayList<>();
 
         for (int i = 1; i <= min(2, totalPages); i++)
             pages.add(generateUrl(i, currentPageNum, url));
 
         if (currentPageNum > 5 && currentPageNum <= totalPages)
-            pages.add("...");
+            pages.add(new PageEl(null, null));
 
         for (int i = -2; i <= 2; i++) {
             int pageNum = currentPageNum + i;
@@ -56,14 +56,15 @@ public class PagingFunction implements Function {
         }
 
         if (currentPageNum < totalPages - 4)
-            pages.add("...");
+            pages.add(new PageEl(null, null));
 
         for (int i = max(3, totalPages - 1); i <= totalPages; i++)
             pages.add(generateUrl(i, currentPageNum, url));
 
-        return String.join(", ", pages);
+        return pages;
     }
 
+    record PageEl(Integer num, String url) {}
     @Override
     public List<String> getArgumentNames() {
         return argumentNames;

@@ -1,4 +1,4 @@
-package ru.itis.MyTube.view.peb.filters;
+package ru.itis.MyTube.view.peb.functions;
 
 import io.pebbletemplates.pebble.extension.Function;
 import io.pebbletemplates.pebble.template.EvaluationContext;
@@ -8,9 +8,8 @@ import ru.itis.MyTube.view.Alert;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
-public class AlertHandlerFunction implements Function {
+public class HandleAlertsFunction implements Function {
     private final List<String> argNames = List.of("alerts");
 
     @Override
