@@ -6,37 +6,31 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import ru.itis.MyTube.dao.ReactionRepository;
 import ru.itis.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.MyTube.dto.forms.user.UpdateUserForm;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.Subscription;
 import ru.itis.MyTube.entities.User;
 import ru.itis.MyTube.entities.enums.Authority;
-import ru.itis.MyTube.entities.enums.Reaction;
 import ru.itis.MyTube.exceptions.DBConstraintException;
 import ru.itis.MyTube.exceptions.ExistsException;
 import ru.itis.MyTube.exceptions.NotFoundException;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.repositories.SubscriptionRepository;
 import ru.itis.MyTube.repositories.UserRepository;
-import ru.itis.MyTube.repositories.ViewRepository;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.storage.Storage;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final ReactionRepository reactionRepository;
     private final SubscriptionRepository subscriptionRepository;
-    private final ViewRepository viewRepository;
     private final Storage storage;
     private final PasswordEncoder passwordEncoder;
 
@@ -83,18 +77,6 @@ public class UserServiceImpl implements UserService {
         } catch (RuntimeException | IOException ex) {
             throwIfConstraintViolationException(ex, "Invalid data.");
             throwUnhandledException(ex);
-        }
-    }
-
-    @Override
-    public Reaction getUserReaction(UUID videoUuid, long userId) {
-        try {
-//            return viewRepository.findById()
-//            return reactionRepository.getReaction(videoUuid, username).orElse((byte) 0);
-            return null;
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 

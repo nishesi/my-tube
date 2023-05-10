@@ -12,7 +12,5 @@ public interface UserService {
 
     void update(UpdateUserForm form) throws ServiceException;
 
-    Reaction getUserReaction(UUID videoUuid, long userId) throws ServiceException;
-
     void changeSubscription(long channelId, long userId) throws ServiceException;
 }

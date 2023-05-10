@@ -7,7 +7,6 @@ import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.Video;
-import ru.itis.MyTube.entities.enums.Reaction;
 import ru.itis.MyTube.model.ChannelCover;
 import ru.itis.MyTube.storage.FileType;
 
@@ -64,5 +63,5 @@ public class Converter {
                 .name(video.getName())
                 .info(video.getInfo())
                 .build();
-    };
+    }
 }

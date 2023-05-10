@@ -1,8 +1,5 @@
 package ru.itis.MyTube.services;
 
-import org.springframework.data.domain.Page;
-import ru.itis.MyTube.controllers.VideoCollectionType;
-import ru.itis.MyTube.dto.VideoCover;
 import ru.itis.MyTube.dto.VideoDto;
 import ru.itis.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
