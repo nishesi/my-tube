@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.itis.MyTube.enums.FileType;
-import ru.itis.MyTube.storage.Storage;
+import ru.itis.MyTube.services.FileService;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,13 +20,13 @@ import java.nio.file.Files;
 @RequiredArgsConstructor
 @RequestMapping("/resource")
 public class ResourceController {
-    private final Storage storage;
+    private final FileService fileService;
 
     @GetMapping("/{type}/{id}")
     public ResponseEntity<byte[]> getResource(@PathVariable String type,
                                               @PathVariable String id) throws IOException {
         try {
-            var file = storage.getFile(FileType.from(type), id);
+            var file = fileService.getFile(FileType.from(type), id);
             var mediaType = MediaType.valueOf(Files.probeContentType(file.toPath()));
 
             try (var input = new FileInputStream(file)) {

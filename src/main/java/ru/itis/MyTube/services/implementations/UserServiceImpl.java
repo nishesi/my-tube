@@ -20,7 +20,7 @@ import ru.itis.MyTube.repositories.SubscriptionRepository;
 import ru.itis.MyTube.repositories.UserRepository;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.enums.FileType;
-import ru.itis.MyTube.storage.Storage;
+import ru.itis.MyTube.services.FileService;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final SubscriptionRepository subscriptionRepository;
-    private final Storage storage;
+    private final FileService fileService;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
             MultipartFile icon = form.getIconFile();
             if (!icon.isEmpty()) {
-                storage.save(FileType.USER_ICON, user.getEmail(), icon.getInputStream());
+                fileService.save(FileType.USER_ICON, user.getEmail(), icon.getInputStream());
             }
         } catch (RuntimeException | IOException ex) {
             if (ex instanceof DataIntegrityViolationException &&

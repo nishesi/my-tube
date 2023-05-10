@@ -22,7 +22,7 @@ import ru.itis.MyTube.repositories.UserRepository;
 import ru.itis.MyTube.repositories.VideoRepository;
 import ru.itis.MyTube.services.ChannelService;
 import ru.itis.MyTube.enums.FileType;
-import ru.itis.MyTube.storage.Storage;
+import ru.itis.MyTube.services.FileService;
 
 import java.io.IOException;
 
@@ -35,7 +35,7 @@ public class ChannelServiceImpl implements ChannelService {
     private final VideoRepository videoRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final Converter converter;
-    private final Storage storage;
+    private final FileService fileService;
     @Value("${spring.data.web.pageable.default-page-size}")
     private int pageSize;
 
@@ -70,7 +70,7 @@ public class ChannelServiceImpl implements ChannelService {
             userRepository.save(user);
             userDto.setChannelId(channel.getId());
 
-            storage.save(FileType.CHANNEL_ICON, String.valueOf(channel.getId()), form.getIconFile().getInputStream());
+            fileService.save(FileType.CHANNEL_ICON, String.valueOf(channel.getId()), form.getIconFile().getInputStream());
             return channel.getId();
 
         } catch (RuntimeException | IOException ex) {

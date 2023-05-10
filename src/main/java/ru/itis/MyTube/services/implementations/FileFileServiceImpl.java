@@ -1,9 +1,10 @@
-package ru.itis.MyTube.storage;
+package ru.itis.MyTube.services.implementations;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.enums.FileType;
 import ru.itis.MyTube.exceptions.StorageException;
+import ru.itis.MyTube.services.FileService;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -12,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 @Component
-public class FileStorageImpl implements Storage {
+public class FileFileServiceImpl implements FileService {
 
     private static final String VIDEO_TYPE = ".mp4";
     private static final String IMAGE_TYPE = ".jpg";
@@ -24,7 +25,7 @@ public class FileStorageImpl implements Storage {
     private final File USER_DEFAULT_ICON;
     private final File CHANNEL_DEFAULT_ICON;
 
-    public FileStorageImpl(@Value("${context.repository}") String path) {
+    public FileFileServiceImpl(@Value("${context.repository}") String path) {
         REPOSITORY = Paths.get(path);
 
         USER_DEFAULT_ICON = REPOSITORY

@@ -22,7 +22,7 @@ import ru.itis.MyTube.repositories.ViewRepository;
 import ru.itis.MyTube.services.SearchService;
 import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.enums.FileType;
-import ru.itis.MyTube.storage.Storage;
+import ru.itis.MyTube.services.FileService;
 
 import java.io.IOException;
 import java.time.Clock;
@@ -39,7 +39,7 @@ public class VideoServiceImpl implements VideoService {
     private final ViewRepository viewRepository;
     private final SearchService searchService;
     private final Converter converter;
-    private final Storage storage;
+    private final FileService fileService;
     private final Clock clock;
 
     @Override
@@ -58,8 +58,8 @@ public class VideoServiceImpl implements VideoService {
         try {
             String id = videoRepository.save(newVideo).getUuid().toString();
 
-            storage.save(FileType.VIDEO_ICON, id, form.getIconFile().getInputStream());
-            storage.save(FileType.VIDEO, id, form.getVideoFile().getInputStream());
+            fileService.save(FileType.VIDEO_ICON, id, form.getIconFile().getInputStream());
+            fileService.save(FileType.VIDEO, id, form.getVideoFile().getInputStream());
 
         } catch (IOException | RuntimeException e) {
             throw new ServiceException(e.getMessage());
@@ -82,7 +82,7 @@ public class VideoServiceImpl implements VideoService {
             videoRepository.save(video);
             MultipartFile icon = form.getIconFile();
             if (!icon.isEmpty())
-                storage.save(FileType.VIDEO_ICON, form.getUuid(), icon.getInputStream());
+                fileService.save(FileType.VIDEO_ICON, form.getUuid(), icon.getInputStream());
 
         } catch (IOException | RuntimeException e) {
             e.printStackTrace();
@@ -100,8 +100,8 @@ public class VideoServiceImpl implements VideoService {
                 throw new ServiceException("Have not an access.");
 
             videoRepository.delete(video);
-            storage.delete(FileType.VIDEO, videoId.toString());
-            storage.delete(FileType.VIDEO_ICON, videoId.toString());
+            fileService.delete(FileType.VIDEO, videoId.toString());
+            fileService.delete(FileType.VIDEO_ICON, videoId.toString());
 
         } catch (RuntimeException ex) {
             ex.printStackTrace();

@@ -1,4 +1,4 @@
-package ru.itis.MyTube.storage;
+package ru.itis.MyTube.services;
 
 import ru.itis.MyTube.enums.FileType;
 
@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.InputStream;
 
 
-public interface Storage {
+public interface FileService {
     InputStream get(FileType fileType, String id);
     File getFile(FileType fileType, String id);
 
