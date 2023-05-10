@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.itis.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.MyTube.dto.forms.user.UpdateUserForm;
@@ -25,7 +25,7 @@ import ru.itis.MyTube.storage.Storage;
 import java.io.IOException;
 import java.util.List;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 

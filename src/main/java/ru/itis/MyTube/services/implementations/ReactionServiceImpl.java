@@ -1,14 +1,14 @@
 package ru.itis.MyTube.services.implementations;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import ru.itis.MyTube.dao.ReactionRepository;
+import ru.itis.MyTube.dto.UserDto;
+import ru.itis.MyTube.dto.forms.ReactionForm;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.exceptions.ValidationException;
-import ru.itis.MyTube.dao.ReactionRepository;
 import ru.itis.MyTube.model.Reaction;
 import ru.itis.MyTube.model.Reactions;
-import ru.itis.MyTube.dto.forms.ReactionForm;
-import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.services.ReactionService;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class ReactionServiceImpl implements ReactionService {
 

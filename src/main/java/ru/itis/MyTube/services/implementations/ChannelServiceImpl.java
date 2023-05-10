@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.itis.MyTube.dto.ChannelDto;
 import ru.itis.MyTube.dto.Converter;
 import ru.itis.MyTube.dto.UserDto;
@@ -26,7 +26,7 @@ import ru.itis.MyTube.storage.Storage;
 
 import java.io.IOException;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class ChannelServiceImpl implements ChannelService {
 

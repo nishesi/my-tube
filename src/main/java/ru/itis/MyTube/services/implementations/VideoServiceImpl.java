@@ -2,11 +2,12 @@ package ru.itis.MyTube.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.itis.MyTube.controllers.VideoCollectionType;
 import ru.itis.MyTube.dto.Converter;
+import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.dto.VideoCover;
 import ru.itis.MyTube.dto.VideoDto;
 import ru.itis.MyTube.dto.forms.video.NewVideoForm;
@@ -16,7 +17,6 @@ import ru.itis.MyTube.entities.Video;
 import ru.itis.MyTube.entities.View;
 import ru.itis.MyTube.exceptions.NotFoundException;
 import ru.itis.MyTube.exceptions.ServiceException;
-import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.repositories.VideoRepository;
 import ru.itis.MyTube.repositories.ViewRepository;
 import ru.itis.MyTube.services.SearchService;
@@ -31,7 +31,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
