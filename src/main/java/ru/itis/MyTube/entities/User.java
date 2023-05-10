@@ -43,10 +43,6 @@ public class User implements Serializable {
     @JoinColumn(unique = true)
     private Channel channel;
 
-    @ManyToMany
-    @JoinTable
-    private List<Channel> subscriptions;
-
     @Enumerated(EnumType.STRING)
     private List<Authority> authorities;
 }

@@ -1,9 +1,12 @@
+{# @pebvariable name="LOGO_URL" type="java.lang.String" #}
+{# @pebvariable name="APP_NAME" type="java.lang.String" #}
+{# @pebvariable name="user" type="ru.itis.MyTube.model.UserDto" #}
+{# @pebvariable name="request" type="jakarta.servlet.http.HttpServletRequest" #}
+
 <header class="container-fluid">
     <nav class="navbar navbar-expand-md bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                {# @pebvariable name="LOGO_URL" type="java.lang.String" #}
-                {# @pebvariable name="APP_NAME" type="java.lang.String" #}
                 <img id="logo" src="{{ LOGO_URL }}" alt="logo">
                 <strong>{{ APP_NAME }}</strong>
             </a>
@@ -16,17 +19,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
 
-                    <li class="nav-item">
-                        <a class="nav-link {% if listType equals 'random' %}active{% endif %}"
-                           aria-current="page" href="{{ request.contextPath }}">Random</a>
-                    </li>
-
-                    {% if user is not null %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if listType equals 'subs' %}active{% endif %}"
-                               href="{{ request.contextPath }}?listType=subs">Subscriptions</a>
-                        </li>
-                    {% endif %}
+                    {% include "/part/videoCollections" %}
 
                     <li class="nav-item">
                         <form action="{{ request.contextPath + urlPatterns.SEARCH_PAGE }}" method="get"
@@ -55,15 +48,13 @@
                         <img class="rounded-circle" width="40" height="40" src="{{ user.userImgUrl }}" alt="user image">
                     </div>
 
-                {% else  %}
+                    {% else  %}
 
                     <ul class="navbar-nav ms-md-5 mb-2 mb-md-0">
                         {% if request.servletPath != urlPatterns.REGISTRATION_PAGE %}
                             <li class="nav-item me-2">
                                 <a type="button" class="btn btn-outline-secondary"
-                                   href="{{ href(urlPatterns.REGISTRATION_PAGE) }}"
-                                    {#data-bs-toggle="modal" data-bs-target="#regModal"#}
-                                >
+                                   href="{{ href(urlPatterns.REGISTRATION_PAGE) }}">
                                     <strong>Register</strong>
                                 </a>
                             </li>
@@ -71,9 +62,7 @@
                         {% if request.servletPath != urlPatterns.AUTHENTICATION_PAGE %}
                             <li class="nav-item">
                                 <a type="button" class="btn btn-outline-primary"
-                                   href="{{ href(urlPatterns.AUTHENTICATION_PAGE) }}"
-                                    {#data-bs-toggle="modal" data-bs-target="#authModal"#}
-                                >
+                                   href="{{ href(urlPatterns.AUTHENTICATION_PAGE) }}">
                                     <strong>Login</strong>
                                 </a>
                             </li>

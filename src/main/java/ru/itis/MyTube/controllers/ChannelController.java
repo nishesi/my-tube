@@ -59,7 +59,7 @@ public class ChannelController {
                     ? channelService.getChannelRegardingUser(id, pageInd, user)
                     : channelService.getChannel(id, pageInd);
             modelMap.put("channel", channelDto);
-            modelMap.put("channelUrl", "/channel/" + id);
+            modelMap.put("url", "/channel/" + id + "?");
             return "channel/page";
 
         } catch (ServiceException ex) {

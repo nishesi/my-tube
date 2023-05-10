@@ -1,12 +1,14 @@
 package ru.itis.MyTube.services;
 
-import ru.itis.MyTube.exceptions.NotFoundException;
-import ru.itis.MyTube.exceptions.ServiceException;
+import org.springframework.data.domain.Page;
+import ru.itis.MyTube.controllers.VideoCollectionType;
+import ru.itis.MyTube.dto.VideoCover;
 import ru.itis.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
+import ru.itis.MyTube.exceptions.NotFoundException;
+import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.model.Video;
-import ru.itis.MyTube.dto.VideoCover;
 
 import java.util.List;
 
@@ -22,9 +24,7 @@ public interface VideoService {
 
     List<VideoCover> getRandomVideos() throws ServiceException;
 
-    List<VideoCover> getSubscriptionsVideos(UserDto userDto) throws ServiceException;
-
     List<VideoCover> getVideosByNameSubstring(String substring) throws ServiceException;
 
-    List<VideoCover> getChannelVideoCovers(Long channelId) throws ServiceException;
+    Page<VideoCover> getVideoCollection(VideoCollectionType type, UserDto user, int pagInd) throws ServiceException;
 }

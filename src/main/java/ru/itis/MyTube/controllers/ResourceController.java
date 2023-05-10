@@ -1,6 +1,7 @@
 package ru.itis.MyTube.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.storage.Storage;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -31,6 +33,8 @@ public class ResourceController {
                 return ResponseEntity.ok()
                         .contentType(mediaType)
                         .body(input.readAllBytes());
+            } catch (FileNotFoundException ex) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
 
         } catch (FileType.UnknownFileTypeException ex) {

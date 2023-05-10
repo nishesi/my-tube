@@ -22,7 +22,7 @@ public class GeneratePagesFunction implements Function {
 
     private static PageEl generateUrl(int pageNum, int currentPageNum, String url) {
         if (currentPageNum != pageNum) {
-            String r = url + "?pageInd=" + (pageNum - 1);
+            String r = url + "pageInd=" + (pageNum - 1);
             return new PageEl(pageNum, r);
         }
         return new PageEl(pageNum, null);

@@ -47,6 +47,7 @@ public class MvcConfig implements WebMvcConfigurer {
             public void sessionCreated(HttpSessionEvent se) {
                 se.getSession().setAttribute("user",
                         UserDto.builder()
+                                .id(3L)
                                 .email("email@gmail.com")
                                 .password("askjfhkshdfjsdhkfhh")
                                 .firstName("first name")

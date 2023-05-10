@@ -3,7 +3,7 @@
 {% block content %}
 
 <main class="container-fluid">
-    {% include "part/videoCoverList" %}
+    {% include "part/videosPage" %}
 </main>
 
 {% endblock %}

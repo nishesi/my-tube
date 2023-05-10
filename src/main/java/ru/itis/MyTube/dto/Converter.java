@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.Video;
+import ru.itis.MyTube.storage.FileType;
 
 @Component
 @RequiredArgsConstructor
@@ -19,10 +20,16 @@ public class Converter {
                 .iconUrl(url)
                 .name(channel.getName())
                 .info(channel.getInfo())
-                .videosPage(page.map(video -> VideoCover.builder()
-                        .name(video.getName())
-                        .addedDate(video.getAddedDate().toLocalDateTime())
-                        .build()))
+                .videosPage(from(page))
                 .build();
+    }
+
+    public Page<VideoCover> from(Page<Video> page) {
+        return page.map(video -> VideoCover.builder()
+                .uuid(video.getUuid())
+                .name(video.getName())
+                .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, video.getUuid().toString()))
+                .addedDate(video.getAddedDate().toLocalDateTime())
+                .build());
     }
 }

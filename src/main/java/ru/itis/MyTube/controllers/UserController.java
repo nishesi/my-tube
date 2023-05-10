@@ -84,7 +84,7 @@ public class UserController {
                                      RedirectAttributes redirectAttributes) {
         try {
             subscribeForm.setUserDto(userDto);
-            userService.userChannel(subscribeForm);
+            userService.changeSubscription(subscribeForm);
         } catch (ServiceException ex) {
             AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
             redirectAttributes.addFlashAttribute("alerts", alertsDto);

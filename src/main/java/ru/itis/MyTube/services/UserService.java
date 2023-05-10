@@ -13,9 +13,7 @@ public interface UserService {
 
     void update(UpdateUserForm form, UserDto userDto) throws ServiceException;
 
-    boolean isSubscribed(UserDto userDto, Long channelId) throws ServiceException;
-
     Byte getUserReaction(UUID videoUuid, String username) throws ServiceException;
 
-    void userChannel(SubscribeForm subscribeForm) throws ServiceException;
+    void changeSubscription(SubscribeForm subscribeForm) throws ServiceException;
 }
