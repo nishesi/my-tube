@@ -1,8 +1,11 @@
+{# @pebvariable name="video" type="ru.itis.MyTube.dto.VideoDto" #}
+{# @pebvariable name="Reaction" type="ru.itis.MyTube.entities.enums.Reaction" #}
+
 {% extends "part/base" %}
 
-    {% block head %}
-        <script defer src="{{ href('/static/js/ReactionRequester.js') }}"></script>
-    {% endblock %}
+{% block head %}
+    <script defer src="{{ href('/static/js/ReactionRequester.js') }}"></script>
+{% endblock %}
 
 
 {% block content %}
@@ -11,29 +14,30 @@
 
         <div class="col">
             <video id="{{ video.uuid }}" height="480" width="640" type="video/mp4" controls="controls">
-                <source src="{{ video.videoUrl }}">
+                <source src="{{ video.videoFileUrl }}">
             </video>
         </div>
 
         <div class="col">
             <div class="container-fluid">
-                <div class="m-2">{{ video.videoCover.name }}</div>
+                <div class="m-2">{{ video.name }}</div>
                 <div class="container p-0 align-baseline d-inline mt-2">
-                    <img class="rounded-circle channel-image" src="{{ video.videoCover.channelCover.channelImgUrl }}"
+                    <img class="rounded-circle channel-image" src="{{ video.channelCover.channelImgUrl }}"
                          alt="channel cover">
-                    {{ video.videoCover.channelCover.name }}
+                    {{ video.channelCover.name }}
                 </div>
                 <div id="reactions" class="btn-group float-end" role="group">
+                    {% set reaction = video.reaction.toString() %}
                     <input type="radio" class="btn-check reactionType" name="btnradio" id="like" autocomplete="off"
-                           {% if reaction == 1 %}checked{% endif %}>
+                           {% if reaction equals 'LIKE' %}checked{% endif %}>
                     <label id="likeLabel" class="btn btn-outline-success" for="like">Like {{ video.likes }}</label>
 
                     <input type="radio" class="btn-check reactionType" name="btnradio" id="void" autocomplete="off"
-                           {% if reaction == 0 %}checked{% endif %}>
+                           {% if reaction equals 'NONE' or reaction is null %}checked{% endif %}>
                     <label id="voidLabel" class="btn btn-outline-secondary" for="void"> </label>
 
                     <input type="radio" class="btn-check reactionType" name="btnradio" id="dislike" autocomplete="off"
-                           {% if reaction == -1 %}checked{% endif %}>
+                           {% if reaction equals 'DISLIKE' %}checked{% endif %}>
                     <label id="dislikeLabel" class="btn btn-outline-danger"
                            for="dislike">Dislike {{  video.dislikes }}</label>
                 </div>
@@ -47,7 +51,8 @@
 
 
     <div class="container-fluid p-0 mt-5">
-        {% include "part/videoCoverList" %}
+        {% set videosPage = video.additionalVideos %}
+        {% include "part/videosPage" %}
     </div>
 </main>
 {% endblock %}

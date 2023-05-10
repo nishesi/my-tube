@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.itis.MyTube.dto.VideoDto;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.forms.video.NewVideoForm;
@@ -19,6 +20,9 @@ import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.view.Alert;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 @Controller
 @RequiredArgsConstructor
@@ -56,20 +60,14 @@ public class VideoController {
 
     @GetMapping("/{id}")
     public String getVideoPage(ModelMap modelMap,
-                               @PathVariable String id,
-                               @SessionAttribute(required = false) UserDto userDto) {
-        Byte reaction = null;
+                               @PathVariable UUID id,
+                               @RequestParam(defaultValue = "0") int pageInd,
+                               @SessionAttribute Optional<UserDto> user) {
         try {
-            Video video = videoService.getVideo(id);
-
-//            if (userDto != null)
-//                reaction = userService.getUserReaction(video.getUuid(), userDto.getEmail());
-
-            List<VideoCover> list = videoService.getRandomVideos();
-
-            modelMap.put("reaction", reaction);
-            modelMap.put("video", video);
-            modelMap.put("videoCoverList", list);
+            user.ifPresentOrElse(
+                    userDto -> modelMap.put("video", videoService.getVideoRegardingUser(id, pageInd, userDto)),
+                    () -> modelMap.put("video", videoService.getVideo(id, pageInd))
+            );
             return "video/page";
 
         } catch (ServiceException ex) {

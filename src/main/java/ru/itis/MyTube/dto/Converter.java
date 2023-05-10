@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.Video;
+import ru.itis.MyTube.entities.enums.Reaction;
+import ru.itis.MyTube.model.ChannelCover;
 import ru.itis.MyTube.storage.FileType;
 
 @Component
@@ -28,8 +30,30 @@ public class Converter {
         return page.map(video -> VideoCover.builder()
                 .uuid(video.getUuid())
                 .name(video.getName())
-                .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, video.getUuid().toString()))
                 .addedDate(video.getAddedDate().toLocalDateTime())
+                .watchUrl(urlCreator.createWatchUrl(video.getUuid().toString()))
+                .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, video.getUuid().toString()))
                 .build());
+    }
+
+    public VideoDto from(Video video, Page<VideoCover> videoCovers) {
+        return VideoDto.builder()
+                .uuid(video.getUuid())
+                .name(video.getName())
+                .info(video.getInfo())
+                .addedDate(video.getAddedDate().toLocalDateTime())
+                .videoFileUrl(urlCreator.createResourceUrl(FileType.VIDEO, video.getUuid().toString()))
+                .channelCover(from(video.getChannel()))
+                .additionalVideos(videoCovers)
+                .build();
+    }
+
+    public ChannelCover from(Channel channel) {
+        String channelImgUrl = urlCreator.createResourceUrl(FileType.CHANNEL_ICON, String.valueOf(channel.getId()));
+        return ChannelCover.builder()
+                .id(channel.getId())
+                .name(channel.getName())
+                .channelImgUrl(channelImgUrl)
+                .build();
     }
 }

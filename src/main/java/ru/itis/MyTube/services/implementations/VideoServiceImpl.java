@@ -12,17 +12,21 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.controllers.VideoCollectionType;
 import ru.itis.MyTube.dto.Converter;
-import ru.itis.MyTube.entities.Subscription;
-import ru.itis.MyTube.exceptions.ServiceException;
-import ru.itis.MyTube.repositories.SubscriptionRepository;
-import ru.itis.MyTube.repositories.VideoRepository;
+import ru.itis.MyTube.dto.VideoCover;
+import ru.itis.MyTube.dto.VideoDto;
 import ru.itis.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.dto.forms.video.VideoForm;
+import ru.itis.MyTube.entities.Video;
+import ru.itis.MyTube.entities.View;
+import ru.itis.MyTube.entities.enums.Reaction;
+import ru.itis.MyTube.exceptions.NotFoundException;
+import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.model.ChannelCover;
 import ru.itis.MyTube.model.UserDto;
-import ru.itis.MyTube.entities.Video;
-import ru.itis.MyTube.dto.VideoCover;
+import ru.itis.MyTube.repositories.SubscriptionRepository;
+import ru.itis.MyTube.repositories.VideoRepository;
+import ru.itis.MyTube.repositories.ViewRepository;
 import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.storage.FileType;
 import ru.itis.MyTube.storage.Storage;
@@ -30,7 +34,10 @@ import ru.itis.MyTube.storage.Storage;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @Transactional
@@ -39,6 +46,7 @@ public class VideoServiceImpl implements VideoService {
 
     private final VideoRepository videoRepository;
     private final SubscriptionRepository subscriptionRepository;
+    private final ViewRepository viewRepository;
     private final Converter converter;
     private final Storage storage;
     private final UrlCreator urlCreator;
@@ -176,20 +184,20 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<VideoCover> getRandomVideos() {
-        try {
-            List<VideoCover> videoCovers = null;
-//                    videoRepository.getRandomVideos();
-            setUrls(videoCovers);
-
-            return videoCovers;
-
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw new ServiceException("Something go wrong, please try again later.");
-        }
+    public VideoDto getVideo(UUID id, int pageInd) throws ServiceException {
+        Video video = videoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Video not found."));
+        Page<VideoCover> additionalVideos = this.getVideoCollection(VideoCollectionType.RANDOM, null, pageInd);
+        return converter.from(video, additionalVideos);
     }
 
+    @Override
+    public VideoDto getVideoRegardingUser(UUID id, int pageInt, UserDto userDto) throws ServiceException {
+        VideoDto videoDto = getVideo(id, pageInt);
+        Optional<View> viewOptional = viewRepository.findById(id, userDto.getId());
+        viewOptional.ifPresent(view -> videoDto.setReaction(view.getReaction()));
+        return videoDto;
+    }
     @Override
     public List<VideoCover> getVideosByNameSubstring(String substring) {
         try {
@@ -213,6 +221,7 @@ public class VideoServiceImpl implements VideoService {
         Page<Video> page = switch (type) {
             case RANDOM -> videoRepository.findAll(pageable);
             case SUBSCRIPTIONS -> {
+                if (user == null) throw new ServiceException("User not found.");
                 Collection<Long> channelId = subscriptionRepository.findSubscriptionChannelIdByUserId(user.getId());
                 yield videoRepository.getByChannelIdIn(channelId, pageable);
             }
