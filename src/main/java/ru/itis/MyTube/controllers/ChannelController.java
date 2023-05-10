@@ -38,6 +38,9 @@ public class ChannelController {
             try {
                 Long channelId = channelService.create(newChannelForm, userDto);
                 redirectAttributes.addAttribute("id", channelId);
+
+                AlertsDto alertsDto = new AlertsDto(Alert.of(Alert.AlertType.SUCCESS, "Channel created."));
+                redirectAttributes.addFlashAttribute("alerts", alertsDto);
                 return "redirect:/channel";
 
             } catch (ServiceException ex) {
