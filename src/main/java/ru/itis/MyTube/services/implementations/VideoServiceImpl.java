@@ -19,7 +19,6 @@ import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.dto.forms.video.VideoForm;
 import ru.itis.MyTube.entities.Video;
 import ru.itis.MyTube.entities.View;
-import ru.itis.MyTube.entities.enums.Reaction;
 import ru.itis.MyTube.exceptions.NotFoundException;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.model.ChannelCover;
@@ -152,31 +151,11 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public ru.itis.MyTube.model.Video getVideo(String videoId) {
-        UUID uuid;
+    public UpdateVideoForm getVideoForUpdate(UUID id) {
         try {
-            uuid = UUID.fromString(videoId);
-        } catch (IllegalArgumentException | NullPointerException ex) {
-            throw new ServiceException("Couldn't find or load a video.");
-        }
-
-        try {
-            Optional<Video> videoOpt = null;
-//                    videoRepository.getVideo(uuid);
-            Video video = videoOpt.orElseThrow(() -> new ServiceException("Video not found."));
-//
-//            video.setVideoUrl(urlCreator.createResourceUrl(
-//                    FileType.VIDEO,
-//                    video.getUuid().toString())
-//            );
-//            ChannelCover channelCover = video.getVideoCover().getChannelCover();
-//
-//            channelCover.setChannelImgUrl(urlCreator.createResourceUrl(
-//                    FileType.CHANNEL_ICON,
-//                    channelCover.getId().toString()));
-
-//            return video;
-            return null;
+            Video video = videoRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("Video not found"));
+            return converter.from(video);
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");

@@ -7,29 +7,22 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.itis.MyTube.dto.VideoDto;
-import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
+import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.model.UserDto;
-import ru.itis.MyTube.model.Video;
-import ru.itis.MyTube.dto.VideoCover;
-import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.view.Alert;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/video")
 public class VideoController {
     private final VideoService videoService;
-    private final UserService userService;
 
     @GetMapping("/add")
     public String getAddVideoPage() {
@@ -45,8 +38,10 @@ public class VideoController {
         if (!bindingResult.hasErrors()) {
             try {
                 videoService.addVideo(newVideoForm, userDto);
+
                 AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.SUCCESS, "Video added."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
+
                 redirectAttributes.addAttribute("id", userDto.getChannelId());
                 return "redirect:/channel";
 
@@ -68,6 +63,7 @@ public class VideoController {
                     userDto -> modelMap.put("video", videoService.getVideoRegardingUser(id, pageInd, userDto)),
                     () -> modelMap.put("video", videoService.getVideo(id, pageInd))
             );
+            modelMap.put("url", "/video/" + id + "?");
             return "video/page";
 
         } catch (ServiceException ex) {
@@ -79,16 +75,11 @@ public class VideoController {
 
     @GetMapping("/{id}/update")
     public String getUpdateVideoPage(ModelMap modelMap,
-                                     @PathVariable String id,
+                                     @PathVariable UUID id,
                                      RedirectAttributes redirectAttributes) {
         try {
-            Video video = videoService.getVideo(id);
-            UpdateVideoForm videoForm = UpdateVideoForm.builder()
-                    .uuid(video.getUuid().toString())
-                    .name(video.getVideoCover().getName())
-                    .info(video.getInfo())
-                    .build();
-            modelMap.put("updateVideoForm", videoForm);
+            UpdateVideoForm video = videoService.getVideoForUpdate(id);
+            modelMap.put("updateVideoForm", video);
             return "video/update";
 
         } catch (ServiceException e) {
@@ -108,6 +99,7 @@ public class VideoController {
         if (!bindingResult.hasErrors()) {
             try {
                 videoService.updateVideo(updateVideoForm, userDto);
+
                 AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.SUCCESS, "Video updated."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
                 return "redirect:/channel/" + userDto.getChannelId();

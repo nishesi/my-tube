@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.UrlCreator;
+import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.Video;
 import ru.itis.MyTube.entities.enums.Reaction;
@@ -56,4 +57,12 @@ public class Converter {
                 .channelImgUrl(channelImgUrl)
                 .build();
     }
+
+    public UpdateVideoForm from(Video video) {
+        return UpdateVideoForm.builder()
+                .uuid(video.getUuid().toString())
+                .name(video.getName())
+                .info(video.getInfo())
+                .build();
+    };
 }
