@@ -1,6 +1,6 @@
 {# @pebvariable name="LOGO_URL" type="java.lang.String" #}
 {# @pebvariable name="APP_NAME" type="java.lang.String" #}
-{# @pebvariable name="user" type="ru.itis.MyTube.model.UserDto" #}
+{# @pebvariable name="user" type="ru.itis.MyTube.dto.UserDto" #}
 {# @pebvariable name="request" type="jakarta.servlet.http.HttpServletRequest" #}
 
 <header class="container-fluid">

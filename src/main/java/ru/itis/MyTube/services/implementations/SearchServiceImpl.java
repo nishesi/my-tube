@@ -12,7 +12,7 @@ import ru.itis.MyTube.dto.Converter;
 import ru.itis.MyTube.dto.VideoCover;
 import ru.itis.MyTube.entities.Video;
 import ru.itis.MyTube.exceptions.ServiceException;
-import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.repositories.SubscriptionRepository;
 import ru.itis.MyTube.repositories.VideoRepository;
 import ru.itis.MyTube.services.SearchService;

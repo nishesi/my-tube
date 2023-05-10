@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.exceptions.ServiceException;
-import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.services.SearchService;
 import ru.itis.MyTube.view.Alert;
 

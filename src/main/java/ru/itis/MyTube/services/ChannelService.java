@@ -3,12 +3,9 @@ package ru.itis.MyTube.services;
 import ru.itis.MyTube.dto.ChannelDto;
 import ru.itis.MyTube.dto.forms.channel.NewChannelForm;
 import ru.itis.MyTube.exceptions.ServiceException;
-import ru.itis.MyTube.model.Channel;
-import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.dto.UserDto;
 
 public interface ChannelService {
-    Channel getChannel(String formId) throws ServiceException;
-
     ChannelDto getChannel(long id, int pageNum);
 
     ChannelDto getChannelRegardingUser(long id, int pageNum, UserDto user);

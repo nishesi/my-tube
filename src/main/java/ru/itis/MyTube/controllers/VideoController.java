@@ -11,7 +11,7 @@ import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.exceptions.ServiceException;
-import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.services.VideoService;
 import ru.itis.MyTube.view.Alert;
 

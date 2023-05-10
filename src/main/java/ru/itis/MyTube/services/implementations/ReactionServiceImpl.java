@@ -8,7 +8,7 @@ import ru.itis.MyTube.dao.ReactionRepository;
 import ru.itis.MyTube.model.Reaction;
 import ru.itis.MyTube.model.Reactions;
 import ru.itis.MyTube.dto.forms.ReactionForm;
-import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.services.ReactionService;
 
 import java.util.HashMap;

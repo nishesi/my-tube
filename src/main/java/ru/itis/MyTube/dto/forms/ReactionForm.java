@@ -2,7 +2,7 @@ package ru.itis.MyTube.dto.forms;
 
 import lombok.Builder;
 import lombok.Data;
-import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.dto.UserDto;
 
 @Data
 @Builder

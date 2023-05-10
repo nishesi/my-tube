@@ -1,5 +1,5 @@
 {# @pebvariable name="channel" type="ru.itis.MyTube.dto.ChannelDto" #}
-{# @pebvariable name="user" type="ru.itis.MyTube.model.UserDto" #}
+{# @pebvariable name="user" type="ru.itis.MyTube.dto.UserDto" #}
 {# @pebvariable name="urlPatterns" type="ru.itis.MyTube.controllers.UrlPatterns" #}
 
 {% extends "part/base" %}

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.services.UserService;
 
 import jakarta.servlet.http.HttpSession;

@@ -1,6 +1,6 @@
 {# @pebvariable name="videoCollections" type="java.util.List<ru.itis.MyTube.controllers.VideoCollectionType>" #}
 {# @pebvariable name="collections" type="java.util.List<java.util.Map>" #}
-{# @pebvariable name="user" type="ru.itis.MyTube.model.UserDto" #}
+{# @pebvariable name="user" type="ru.itis.MyTube.dto.UserDto" #}
 {# @pebvariable name="type" type="java.lang.String" #}
 
 {#{% set collections = [{"name" : "Random", "type" : "random", "authRequired" : false},#}

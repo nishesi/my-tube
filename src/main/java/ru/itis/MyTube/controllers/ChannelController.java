@@ -11,7 +11,7 @@ import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.ChannelDto;
 import ru.itis.MyTube.dto.forms.channel.NewChannelForm;
 import ru.itis.MyTube.exceptions.ServiceException;
-import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.services.ChannelService;
 import ru.itis.MyTube.view.Alert;
 

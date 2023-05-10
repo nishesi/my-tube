@@ -16,7 +16,7 @@ import ru.itis.MyTube.entities.Video;
 import ru.itis.MyTube.entities.View;
 import ru.itis.MyTube.exceptions.NotFoundException;
 import ru.itis.MyTube.exceptions.ServiceException;
-import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.repositories.VideoRepository;
 import ru.itis.MyTube.repositories.ViewRepository;
 import ru.itis.MyTube.services.SearchService;

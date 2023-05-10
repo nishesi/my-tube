@@ -12,7 +12,7 @@ import ru.itis.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.MyTube.dto.forms.user.UpdateUserForm;
 import ru.itis.MyTube.exceptions.ExistsException;
 import ru.itis.MyTube.exceptions.ServiceException;
-import ru.itis.MyTube.model.UserDto;
+import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.view.Alert;
 

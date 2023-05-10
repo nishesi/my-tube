@@ -1,4 +1,4 @@
-package ru.itis.MyTube.model;
+package ru.itis.MyTube.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
