@@ -3,10 +3,10 @@ package ru.itis.MyTube.auxiliary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.converter.GenericConverter;
-import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.dto.AlertsDto;
-import ru.itis.MyTube.view.Alert;
+import ru.itis.MyTube.dto.Alert;
+import ru.itis.MyTube.enums.AlertType;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -35,7 +35,7 @@ public class AlertsDtoConverter implements GenericConverter {
             String[] arr = ((String) source).split(" ");
             Alert[] alerts = Arrays.stream(arr)
                     .map(str -> str.split("#"))
-                    .map(params -> new Alert(Alert.AlertType.valueOf(arr[0]), arr[1]))
+                    .map(params -> new Alert(AlertType.valueOf(arr[0]), arr[1]))
                     .toArray(Alert[]::new);
             return new AlertsDto(alerts);
         }

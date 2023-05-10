@@ -1,4 +1,4 @@
-package ru.itis.MyTube.controllers;
+package ru.itis.MyTube.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

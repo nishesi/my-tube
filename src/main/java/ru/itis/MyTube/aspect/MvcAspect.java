@@ -8,7 +8,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.exceptions.ValidationException;
-import ru.itis.MyTube.view.Alert;
+import ru.itis.MyTube.dto.Alert;
+import ru.itis.MyTube.enums.AlertType;
 
 import java.util.Map;
 import java.util.Queue;
@@ -33,7 +34,7 @@ public class MvcAspect {
     @ExceptionHandler(ServiceException.class)
     public ResponseEntity<?> handle(ServiceException ex, @SessionAttribute Queue<Alert> alerts) {
 
-        alerts.add(Alert.of(Alert.AlertType.WARNING, ex.getMessage()));
+        alerts.add(Alert.of(AlertType.WARNING, ex.getMessage()));
         return ResponseEntity.status(302).header("Location", contextPath).build();
     }
 }

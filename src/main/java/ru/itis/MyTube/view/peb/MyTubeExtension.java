@@ -6,7 +6,7 @@ import io.pebbletemplates.pebble.extension.Function;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.itis.MyTube.controllers.UrlPatterns;
-import ru.itis.MyTube.controllers.VideoCollectionType;
+import ru.itis.MyTube.enums.VideoCollectionType;
 import ru.itis.MyTube.view.peb.filters.DurationFilter;
 import ru.itis.MyTube.view.peb.filters.ViewsFilter;
 import ru.itis.MyTube.view.peb.filters.WhenAddedFilter;

@@ -2,7 +2,7 @@ package ru.itis.MyTube.auxiliary;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.itis.MyTube.storage.FileType;
+import ru.itis.MyTube.enums.FileType;
 
 import static ru.itis.MyTube.controllers.UrlPatterns.*;
 

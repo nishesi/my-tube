@@ -11,7 +11,7 @@ import ru.itis.MyTube.dto.forms.user.UpdateUserForm;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.Subscription;
 import ru.itis.MyTube.entities.User;
-import ru.itis.MyTube.entities.enums.Authority;
+import ru.itis.MyTube.enums.Authority;
 import ru.itis.MyTube.exceptions.DBConstraintException;
 import ru.itis.MyTube.exceptions.ExistsException;
 import ru.itis.MyTube.exceptions.NotFoundException;
@@ -19,7 +19,7 @@ import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.repositories.SubscriptionRepository;
 import ru.itis.MyTube.repositories.UserRepository;
 import ru.itis.MyTube.services.UserService;
-import ru.itis.MyTube.storage.FileType;
+import ru.itis.MyTube.enums.FileType;
 import ru.itis.MyTube.storage.Storage;
 
 import java.io.IOException;

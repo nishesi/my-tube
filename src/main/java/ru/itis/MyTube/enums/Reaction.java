@@ -1,4 +1,4 @@
-package ru.itis.MyTube.entities.enums;
+package ru.itis.MyTube.enums;
 
 public enum Reaction {
     LIKE,

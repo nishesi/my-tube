@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru.itis.MyTube.controllers.VideoCollectionType;
+import ru.itis.MyTube.enums.VideoCollectionType;
 import ru.itis.MyTube.dto.Converter;
 import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.dto.VideoCover;
@@ -21,7 +21,7 @@ import ru.itis.MyTube.repositories.VideoRepository;
 import ru.itis.MyTube.repositories.ViewRepository;
 import ru.itis.MyTube.services.SearchService;
 import ru.itis.MyTube.services.VideoService;
-import ru.itis.MyTube.storage.FileType;
+import ru.itis.MyTube.enums.FileType;
 import ru.itis.MyTube.storage.Storage;
 
 import java.io.IOException;

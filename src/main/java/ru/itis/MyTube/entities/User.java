@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import ru.itis.MyTube.entities.enums.Authority;
+import ru.itis.MyTube.enums.Authority;
 
 import java.io.Serializable;
 import java.time.LocalDate;

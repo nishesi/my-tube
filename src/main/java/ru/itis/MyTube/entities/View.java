@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import ru.itis.MyTube.entities.enums.Reaction;
+import ru.itis.MyTube.enums.Reaction;
 
 import java.io.Serializable;
 

@@ -13,7 +13,8 @@ import ru.itis.MyTube.dto.forms.channel.NewChannelForm;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.services.ChannelService;
-import ru.itis.MyTube.view.Alert;
+import ru.itis.MyTube.dto.Alert;
+import ru.itis.MyTube.enums.AlertType;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,12 +40,12 @@ public class ChannelController {
                 Long channelId = channelService.create(newChannelForm, userDto);
                 redirectAttributes.addAttribute("id", channelId);
 
-                AlertsDto alertsDto = new AlertsDto(Alert.of(Alert.AlertType.SUCCESS, "Channel created."));
+                AlertsDto alertsDto = new AlertsDto(Alert.of(AlertType.SUCCESS, "Channel created."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
                 return "redirect:/channel";
 
             } catch (ServiceException ex) {
-                AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+                AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
                 modelMap.put("alerts", alertsDto);
             }
         }
@@ -66,7 +67,7 @@ public class ChannelController {
             return "channel/page";
 
         } catch (ServiceException ex) {
-            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.WARNING, ex.getMessage()));
+            AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.WARNING, ex.getMessage()));
             modelMap.put("alerts", alertsDto);
             return "homePage";
         }

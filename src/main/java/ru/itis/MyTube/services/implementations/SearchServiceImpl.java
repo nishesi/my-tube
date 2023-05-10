@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.itis.MyTube.controllers.VideoCollectionType;
+import ru.itis.MyTube.enums.VideoCollectionType;
 import ru.itis.MyTube.dto.Converter;
 import ru.itis.MyTube.dto.VideoCover;
 import ru.itis.MyTube.entities.Video;

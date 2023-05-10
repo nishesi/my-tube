@@ -2,6 +2,7 @@ package ru.itis.MyTube.storage;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ru.itis.MyTube.enums.FileType;
 import ru.itis.MyTube.exceptions.StorageException;
 
 import java.io.*;

@@ -14,7 +14,8 @@ import ru.itis.MyTube.exceptions.ExistsException;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.services.UserService;
-import ru.itis.MyTube.view.Alert;
+import ru.itis.MyTube.dto.Alert;
+import ru.itis.MyTube.enums.AlertType;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class UserController {
             try {
                 userService.save(newUserForm);
                 AlertsDto alertsDto = new AlertsDto(
-                        Alert.of(Alert.AlertType.SUCCESS, "You registered."));
+                        Alert.of(AlertType.SUCCESS, "You registered."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
 
                 return "redirect:/login";
@@ -65,14 +66,14 @@ public class UserController {
                 userService.update(updateUserForm);
 
                 AlertsDto alerts = new AlertsDto(
-                        new Alert(Alert.AlertType.SUCCESS, "Your account information updated."),
-                        new Alert(Alert.AlertType.INFO, "Please do reauthorization.")
+                        new Alert(AlertType.SUCCESS, "Your account information updated."),
+                        new Alert(AlertType.INFO, "Please do reauthorization.")
                 );
                 redirectAttributes.addFlashAttribute("alerts", alerts);
                 return "redirect:/logout";
 
             } catch (ServiceException e) {
-                AlertsDto alerts = new AlertsDto(new Alert(Alert.AlertType.DANGER, e.getMessage()));
+                AlertsDto alerts = new AlertsDto(new Alert(AlertType.DANGER, e.getMessage()));
                 redirectAttributes.addFlashAttribute("alerts", alerts);
             }
         }
@@ -87,7 +88,7 @@ public class UserController {
             userService.changeSubscription(channelId, user.getId());
             return "redirect:/channel/" + channelId;
         } catch (ServiceException ex) {
-            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+            AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
             redirectAttributes.addFlashAttribute("alerts", alertsDto);
         }
         return "redirect:/";

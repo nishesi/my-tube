@@ -1,7 +1,7 @@
 package ru.itis.MyTube.services;
 
 import org.springframework.data.domain.Page;
-import ru.itis.MyTube.controllers.VideoCollectionType;
+import ru.itis.MyTube.enums.VideoCollectionType;
 import ru.itis.MyTube.dto.VideoCover;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.UserDto;

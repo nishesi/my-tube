@@ -12,7 +12,8 @@ import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.VideoCover;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.services.SearchService;
-import ru.itis.MyTube.view.Alert;
+import ru.itis.MyTube.dto.Alert;
+import ru.itis.MyTube.enums.AlertType;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class SearchController {
             modelMap.put("videosPage", videoCovers);
 
         } catch (ServiceException e) {
-            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, e.getMessage()));
+            AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, e.getMessage()));
             modelMap.put("alerts", alertsDto);
         }
         modelMap.put("substring", substring);

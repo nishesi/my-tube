@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import ru.itis.MyTube.dto.AlertsDto;
+import ru.itis.MyTube.enums.VideoCollectionType;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.services.SearchService;
-import ru.itis.MyTube.view.Alert;
+import ru.itis.MyTube.dto.Alert;
+import ru.itis.MyTube.enums.AlertType;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,7 +34,7 @@ public class HomeController {
             modelMap.put("url", "/?type=" + type.toString() + "&");
 
         } catch (ServiceException ex) {
-            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+            AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
             modelMap.put("alerts", alertsDto);
         }
         return "homePage";

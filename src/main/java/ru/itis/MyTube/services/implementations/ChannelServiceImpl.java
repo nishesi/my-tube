@@ -21,7 +21,7 @@ import ru.itis.MyTube.repositories.SubscriptionRepository;
 import ru.itis.MyTube.repositories.UserRepository;
 import ru.itis.MyTube.repositories.VideoRepository;
 import ru.itis.MyTube.services.ChannelService;
-import ru.itis.MyTube.storage.FileType;
+import ru.itis.MyTube.enums.FileType;
 import ru.itis.MyTube.storage.Storage;
 
 import java.io.IOException;

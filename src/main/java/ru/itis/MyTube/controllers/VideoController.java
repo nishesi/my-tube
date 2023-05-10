@@ -13,7 +13,8 @@ import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.services.VideoService;
-import ru.itis.MyTube.view.Alert;
+import ru.itis.MyTube.dto.Alert;
+import ru.itis.MyTube.enums.AlertType;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -39,14 +40,14 @@ public class VideoController {
             try {
                 videoService.addVideo(newVideoForm, userDto);
 
-                AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.SUCCESS, "Video added."));
+                AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.SUCCESS, "Video added."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
 
                 redirectAttributes.addAttribute("id", userDto.getChannelId());
                 return "redirect:/channel";
 
             } catch (ServiceException ex) {
-                AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+                AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
             }
         }
@@ -67,7 +68,7 @@ public class VideoController {
             return "video/page";
 
         } catch (ServiceException ex) {
-            AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+            AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
             modelMap.put("alerts", alertsDto);
             return "homePage";
         }
@@ -83,7 +84,7 @@ public class VideoController {
             return "video/update";
 
         } catch (ServiceException e) {
-            AlertsDto alertsDto = new AlertsDto(Alert.of(Alert.AlertType.DANGER, e.getMessage()));
+            AlertsDto alertsDto = new AlertsDto(Alert.of(AlertType.DANGER, e.getMessage()));
             redirectAttributes.addFlashAttribute("alerts", alertsDto);
             return "redirect:/";
         }
@@ -100,12 +101,12 @@ public class VideoController {
             try {
                 videoService.updateVideo(updateVideoForm, userDto);
 
-                AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.SUCCESS, "Video updated."));
+                AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.SUCCESS, "Video updated."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
                 return "redirect:/channel/" + userDto.getChannelId();
 
             } catch (ServiceException ex) {
-                AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
+                AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
                 modelMap.put("alerts", alertsDto);
             }
         }
@@ -119,10 +120,10 @@ public class VideoController {
         AlertsDto alertsDto;
         try {
             videoService.deleteVideo(videoId, userDto);
-            alertsDto = new AlertsDto(Alert.of(Alert.AlertType.SUCCESS, "Video deleted."));
+            alertsDto = new AlertsDto(Alert.of(AlertType.SUCCESS, "Video deleted."));
 
         } catch (ServiceException e) {
-            alertsDto = new AlertsDto(Alert.of(Alert.AlertType.DANGER, e.getMessage()));
+            alertsDto = new AlertsDto(Alert.of(AlertType.DANGER, e.getMessage()));
         }
 
         redirectAttributes.addFlashAttribute("alerts", alertsDto);
