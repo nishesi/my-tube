@@ -4,6 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import ru.itis.MyTube.entities.User;
 import ru.itis.MyTube.entities.View;
 import ru.itis.MyTube.entities.Video;
+import ru.itis.MyTube.enums.Reaction;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -15,4 +16,7 @@ public interface ViewRepository extends CrudRepository<View, View.ViewId> {
                 Video.builder().uuid(videoId).build()
         ));
     }
+
+    long countByReaction(Reaction reaction);
+    long countByVideoUuid(UUID videoId);
 }

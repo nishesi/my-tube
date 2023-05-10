@@ -4,7 +4,7 @@
 {% extends "part/base" %}
 
 {% block head %}
-    <script defer src="{{ href('/static/js/ReactionRequester.js') }}"></script>
+    <script defer src="{{ href('/static/js/viewScript.js') }}"></script>
 {% endblock %}
 
 
@@ -26,21 +26,26 @@
                          alt="channel cover">
                     {{ video.channelCover.name }}
                 </div>
+
                 <div id="reactions" class="btn-group float-end" role="group">
                     {% set reaction = video.reaction.toString() %}
-                    <input type="radio" class="btn-check reactionType" name="btnradio" id="like" autocomplete="off"
-                           {% if reaction equals 'LIKE' %}checked{% endif %}>
-                    <label id="likeLabel" class="btn btn-outline-success" for="like">Like {{ video.likes }}</label>
 
-                    <input type="radio" class="btn-check reactionType" name="btnradio" id="void" autocomplete="off"
-                           {% if reaction equals 'NONE' or reaction is null %}checked{% endif %}>
-                    <label id="voidLabel" class="btn btn-outline-secondary" for="void"> </label>
+                    <input type="checkbox" class="btn-check reactionType" id="LIKE" autocomplete="off" {% if reaction equals 'LIKE' %}checked{% endif %}>
+                    <label id="likeLabel" class="btn btn-outline-success" for="LIKE">{{ video.likes }} Likes</label>
 
-                    <input type="radio" class="btn-check reactionType" name="btnradio" id="dislike" autocomplete="off"
-                           {% if reaction equals 'DISLIKE' %}checked{% endif %}>
-                    <label id="dislikeLabel" class="btn btn-outline-danger"
-                           for="dislike">Dislike {{  video.dislikes }}</label>
+                    <input type="checkbox" class="btn-check reactionType" id="DISLIKE" autocomplete="off" {% if reaction equals 'DISLIKE' %}checked{% endif %}>
+                    <label id="dislikeLabel" class="btn btn-outline-danger" for="DISLIKE">{{ video.dislikes }} Dislikes</label>
+
+{#                    <input type="radio" class="btn-check reactionType" name="btnradio" id="void" autocomplete="off"#}
+{#                           {% if reaction equals 'NONE' or reaction is null %}checked{% endif %}>#}
+{#                    <label id="voidLabel" class="btn btn-outline-secondary" for="void"> </label>#}
+
+{#                    <input type="radio" class="btn-check reactionType" name="btnradio" id="DISLIKE" autocomplete="off"#}
+{#                           {% if reaction equals 'DISLIKE' %}checked{% endif %}>#}
+{#                    <label id="dislikeLabel" class="btn btn-outline-danger"#}
+{#                           for="dislike">Dislike {{  video.dislikes }}</label>#}
                 </div>
+                <div id="viewsLabel">{{ video.views }}</div>
                 <div class="mt-2">
                     {{ video.info }}
                 </div>
