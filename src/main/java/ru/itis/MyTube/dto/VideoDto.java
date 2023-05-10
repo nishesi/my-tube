@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import ru.itis.MyTube.enums.Reaction;
-import ru.itis.MyTube.model.ChannelCover;
 
 @Data
 @Builder

@@ -7,7 +7,6 @@ import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.Video;
-import ru.itis.MyTube.model.ChannelCover;
 import ru.itis.MyTube.enums.FileType;
 
 @Component
