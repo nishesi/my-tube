@@ -27,10 +27,9 @@
 
             {% else %}
 
-                <form action="{{ href(urlPatterns.PRIVATE_SUBSCRIBE) }}"
+                <form action="{{ href('/user/subscribe') }}"
                       method="post">
                     <input type="hidden" name="channelId" value="{{ channel.id }}">
-                    <input type="hidden" name="type" value="false">
                     <input class="btn {{channel.isSubscribed ? 'btn-outline-danger' : 'btn-primary' }}"
                            type="submit"
                            value="{{ channel.isSubscribed ? 'Unsubscribe' : 'Subscribe' }}">

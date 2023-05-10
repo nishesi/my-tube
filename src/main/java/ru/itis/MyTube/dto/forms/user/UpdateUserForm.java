@@ -19,6 +19,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @EqualFields(value = {"password", "passwordRepeat"}, message = "Passwords not equals")
 public class UpdateUserForm {
+    private Long id;
+
     @FileSize(max = 10*1024*1024*8)
     private MultipartFile iconFile;
 

@@ -62,8 +62,8 @@ public class VideoController {
         try {
             Video video = videoService.getVideo(id);
 
-            if (userDto != null)
-                reaction = userService.getUserReaction(video.getUuid(), userDto.getEmail());
+//            if (userDto != null)
+//                reaction = userService.getUserReaction(video.getUuid(), userDto.getEmail());
 
             List<VideoCover> list = videoService.getRandomVideos();
 

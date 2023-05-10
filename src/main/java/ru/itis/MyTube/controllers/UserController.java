@@ -7,12 +7,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.itis.MyTube.exceptions.ExistsException;
-import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.dto.forms.user.NewUserForm;
-import ru.itis.MyTube.dto.forms.SubscribeForm;
 import ru.itis.MyTube.dto.forms.user.UpdateUserForm;
+import ru.itis.MyTube.exceptions.ExistsException;
+import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.model.UserDto;
 import ru.itis.MyTube.services.UserService;
 import ru.itis.MyTube.view.Alert;
@@ -62,14 +61,16 @@ public class UserController {
     ) {
         if (!bindingResult.hasErrors()) {
             try {
-                userService.update(updateUserForm, userDto);
+                updateUserForm.setId(userDto.getId());
+                userService.update(updateUserForm);
+
                 AlertsDto alerts = new AlertsDto(
                         new Alert(Alert.AlertType.SUCCESS, "Your account information updated."),
                         new Alert(Alert.AlertType.INFO, "Please do reauthorization.")
                 );
                 redirectAttributes.addFlashAttribute("alerts", alerts);
-
                 return "redirect:/logout";
+
             } catch (ServiceException e) {
                 AlertsDto alerts = new AlertsDto(new Alert(Alert.AlertType.DANGER, e.getMessage()));
                 redirectAttributes.addFlashAttribute("alerts", alerts);
@@ -79,17 +80,16 @@ public class UserController {
     }
 
     @PostMapping("/subscribe")
-    public String subscribeToChannel(SubscribeForm subscribeForm,
-                                     @SessionAttribute UserDto userDto,
+    public String subscribeToChannel(@RequestParam Long channelId,
+                                     @SessionAttribute UserDto user,
                                      RedirectAttributes redirectAttributes) {
         try {
-            subscribeForm.setUserDto(userDto);
-            userService.changeSubscription(subscribeForm);
+            userService.changeSubscription(channelId, user.getId());
+            return "redirect:/channel/" + channelId;
         } catch (ServiceException ex) {
             AlertsDto alertsDto = new AlertsDto(new Alert(Alert.AlertType.DANGER, ex.getMessage()));
             redirectAttributes.addFlashAttribute("alerts", alertsDto);
         }
-        redirectAttributes.addAttribute("id", subscribeForm.getChannelId());
-        return "redirect:/channel";
+        return "redirect:/";
     }
 }

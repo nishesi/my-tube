@@ -87,7 +87,7 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public ChannelDto getChannelRegardingUser(long id, int pageNum, UserDto user) {
         ChannelDto channelDto = this.getChannel(id, pageNum);
-        channelDto.setSubscribed(subscriptionRepository.existsByUserEmailAndChannelId(user.getEmail(), id));
+        channelDto.setSubscribed(subscriptionRepository.existsByUserIdAndChannelId(user.getId(), id));
         return channelDto;
     }
 
