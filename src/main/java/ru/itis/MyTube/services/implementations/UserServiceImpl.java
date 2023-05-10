@@ -75,8 +75,11 @@ public class UserServiceImpl implements UserService {
                 storage.save(FileType.USER_ICON, user.getEmail(), icon.getInputStream());
             }
         } catch (RuntimeException | IOException ex) {
-            throwIfConstraintViolationException(ex, "Invalid data.");
-            throwUnhandledException(ex);
+            if (ex instanceof DataIntegrityViolationException &&
+                    ex.getCause() instanceof ConstraintViolationException)
+                throw new DBConstraintException("Invalid data.");
+            ex.printStackTrace();
+            throw new ServiceException("Something go wrong, please try again later.");
         }
     }
 
@@ -93,16 +96,5 @@ public class UserServiceImpl implements UserService {
                     subscriptionId.getUser(),
                     subscriptionId.getChannel()));
         }
-    }
-
-    private void throwUnhandledException(Exception exception) {
-        exception.printStackTrace();
-        throw new ServiceException("Something go wrong, please try again later.");
-    }
-
-    private void throwIfConstraintViolationException(Exception ex, String message) {
-        if (ex instanceof DataIntegrityViolationException &&
-                ex.getCause() instanceof ConstraintViolationException)
-            throw new DBConstraintException(message);
     }
 }
