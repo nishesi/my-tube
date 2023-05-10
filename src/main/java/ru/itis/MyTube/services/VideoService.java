@@ -10,7 +10,6 @@ import ru.itis.MyTube.exceptions.NotFoundException;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.model.UserDto;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface VideoService {
@@ -21,11 +20,9 @@ public interface VideoService {
 
     void updateVideo(UpdateVideoForm form, UserDto userDto) throws ServiceException, NotFoundException;
 
-    void deleteVideo(String videoUuid, Long channelId) throws ServiceException;
+    void deleteVideo(UUID videoId, UserDto userDto) throws ServiceException;
+
     VideoDto getVideo(UUID id, int pageInd) throws ServiceException;
+
     VideoDto getVideoRegardingUser(UUID id, int pageInt, UserDto userDto) throws ServiceException;
-
-    List<VideoCover> getVideosByNameSubstring(String substring) throws ServiceException;
-
-    Page<VideoCover> getVideoCollection(VideoCollectionType type, UserDto user, int pagInd) throws ServiceException;
 }

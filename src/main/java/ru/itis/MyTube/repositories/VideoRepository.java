@@ -14,4 +14,6 @@ public interface VideoRepository extends
 
     Page<Video> getByChannelId(Long channelId, Pageable pageable);
     Page<Video> getByChannelIdIn(Collection<Long> channelId, Pageable pageable);
+
+    Page<Video> getByNameLikeIgnoreCase(String str, Pageable pageable);
 }

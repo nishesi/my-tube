@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import ru.itis.MyTube.dto.AlertsDto;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.model.UserDto;
-import ru.itis.MyTube.services.VideoService;
+import ru.itis.MyTube.services.SearchService;
 import ru.itis.MyTube.view.Alert;
 
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-    private final VideoService videoService;
+    private final SearchService searchService;
 
     @GetMapping("/")
     public String getHomePage(ModelMap modelMap,
@@ -27,7 +27,7 @@ public class HomeController {
         modelMap.put("type", type);
         modelMap.put("title", "Home");
         try {
-            Page<?> page = videoService.getVideoCollection(type, user, pageInd);
+            Page<?> page = searchService.getVideoCollection(type, user, pageInd);
             modelMap.put("videosPage", page);
             modelMap.put("url", "/?type=" + type.toString() + "&");
 

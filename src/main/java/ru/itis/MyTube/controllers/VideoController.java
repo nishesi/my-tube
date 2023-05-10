@@ -113,13 +113,12 @@ public class VideoController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteVideo(@PathVariable String id,
+    public String deleteVideo(@PathVariable UUID videoId,
                               @SessionAttribute UserDto userDto,
                               RedirectAttributes redirectAttributes) {
-        Long userChannelId = userDto.getChannelId();
         AlertsDto alertsDto;
         try {
-            videoService.deleteVideo(id, userChannelId);
+            videoService.deleteVideo(videoId, userDto);
             alertsDto = new AlertsDto(Alert.of(Alert.AlertType.SUCCESS, "Video deleted."));
 
         } catch (ServiceException e) {
@@ -127,6 +126,6 @@ public class VideoController {
         }
 
         redirectAttributes.addFlashAttribute("alerts", alertsDto);
-        return "redirect:/channel/" + userChannelId;
+        return "redirect:/channel/" + userDto.getChannelId();
     }
 }
