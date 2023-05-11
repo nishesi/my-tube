@@ -3,7 +3,7 @@ package ru.itis.MyTube.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,9 +25,9 @@ import java.time.LocalDate;
 @ComponentScan({
         "ru.itis.MyTube.controllers",
 })
+@RequiredArgsConstructor
 public class MvcConfig implements WebMvcConfigurer {
-    @Autowired
-    private AlertsDtoConverter alertsDtoConverter;
+    private final AlertsDtoConverter alertsDtoConverter;
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -68,7 +68,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(alertsDtoConverter);
+        registry.addFormatter(alertsDtoConverter);
     }
 
     @Override
