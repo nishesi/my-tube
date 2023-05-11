@@ -1,5 +1,8 @@
 package ru.itis.MyTube.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum AlertType {
     PRIMARY("alert-primary"),
     SECONDARY("alert-secondary"),
@@ -14,9 +17,5 @@ public enum AlertType {
 
     AlertType(String str) {
         this.str = str;
-    }
-
-    public String getStr() {
-        return str;
     }
 }

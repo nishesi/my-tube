@@ -16,7 +16,7 @@ public interface SubscriptionRepository extends CrudRepository<Subscription, Sub
                 Channel.builder().id(channelId).build()
         ));
     }
-    boolean existsByUserEmailAndChannelId(String userEmail, Long channelId);
+
     boolean existsByUserIdAndChannelId(Long userId, Long channelId);
 
 
