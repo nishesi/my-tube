@@ -7,9 +7,9 @@ import java.io.InputStream;
 
 
 public interface FileService {
-    InputStream get(FileType fileType, String id);
+    void save(FileType fileType, String id, InputStream inputStream);
     File getFile(FileType fileType, String id);
 
-    void save(FileType fileType, String id, InputStream inputStream);
     void delete(FileType fileType, String id);
+    InputStream get(FileType fileType, String id);
 }

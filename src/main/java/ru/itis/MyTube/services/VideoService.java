@@ -13,13 +13,13 @@ public interface VideoService {
 
     void addVideo(NewVideoForm form, UserDto userDto) throws ServiceException;
 
-    UpdateVideoForm getVideoForUpdate(UUID id) throws ServiceException;
+    VideoDto getVideo(UUID id, int pageInd) throws ServiceException;
 
     void updateVideo(UpdateVideoForm form, UserDto userDto) throws ServiceException, NotFoundException;
 
     void deleteVideo(UUID videoId, UserDto userDto) throws ServiceException;
 
-    VideoDto getVideo(UUID id, int pageInd) throws ServiceException;
+    UpdateVideoForm getVideoForUpdate(UUID id) throws ServiceException;
 
     VideoDto getVideoRegardingUser(UUID id, int pageInt, UserDto userDto) throws ServiceException;
 }
