@@ -1,57 +1,50 @@
 package ru.itis.MyTube.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.ForwardAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import ru.itis.MyTube.auxiliary.RestAuthenticationFailureHandler;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeRequests()
-                .anyRequest().permitAll()
-//                .requestMatchers("/admin/**").hasRole("ADMIN")
-//                .requestMatchers("/login").anonymous()
-//                .requestMatchers(HttpMethod.POST, "/register").anonymous()
-//                .requestMatchers(HttpMethod.GET, "/register").anonymous()
-//                .requestMatchers(HttpMethod.POST).authenticated()
-//                .requestMatchers(HttpMethod.DELETE).authenticated()
-//                .requestMatchers(HttpMethod.PATCH).authenticated()
-//                .anyRequest().permitAll()
-                .and()
-
-                .formLogin()
-                .loginPage("/login")
-                .successHandler(successHandler())
-                .failureUrl("/login?error=true")
-                .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(registry -> registry
+                        .requestMatchers("/reaction/**").authenticated()
+                        .requestMatchers("/user/update").authenticated()
+                        .anyRequest().permitAll()
+                )
+                .exceptionHandling(configurer -> {
+                    var entryPoint1 = new LoginUrlAuthenticationEntryPoint("/login");
+                    var entryPoint2 = new RestAuthenticationFailureHandler(entryPoint1);
+                    configurer.authenticationEntryPoint(entryPoint2);
+                })
+                .formLogin(configurer -> {
+                })
+                .sessionManagement(configurer -> configurer
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .logout(configurer -> configurer
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                );
         return http.build();
-    }
-
-    private AuthenticationSuccessHandler successHandler() {
-        return new ForwardAuthenticationSuccessHandler( "/pr_lg");
     }
 
     @Bean

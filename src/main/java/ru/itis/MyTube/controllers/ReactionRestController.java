@@ -18,8 +18,8 @@ public class ReactionRestController {
 
     @GetMapping("/{videoId}")
     public ViewDto getView(@PathVariable UUID videoId,
-                           @SessionAttribute UserDto userDto) {
-        return viewService.getView(videoId, userDto);
+                           @SessionAttribute UserDto user) {
+        return viewService.getView(videoId, user);
     }
 
     @PostMapping
@@ -29,4 +29,6 @@ public class ReactionRestController {
         reactionForm.setUserDto(user);
         return viewService.updateView(UUID.fromString(reactionForm.getVideoId()), user, reactionForm.getReaction());
     }
+
+
 }
