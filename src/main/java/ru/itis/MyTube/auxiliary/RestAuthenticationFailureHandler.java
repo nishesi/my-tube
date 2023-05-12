@@ -12,21 +12,18 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 public class RestAuthenticationFailureHandler implements AuthenticationEntryPoint {
-
-    private final LoginUrlAuthenticationEntryPoint authenticationEntryPoint;
+    private final LoginUrlAuthenticationEntryPoint entryPoint;
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request,
+                         HttpServletResponse response,
+                         AuthenticationException authException
+    ) throws IOException, ServletException {
+
         if (request.getServletPath().startsWith("/reaction")) {
-            response.setStatus(403);
-            String resp = """
-                    {
-                        "message" : "You not authenticated."
-                    }
-                    """;
-            response.getWriter().println(resp);
+            request.getRequestDispatcher("/error/authorize/rest").forward(request, response);
         } else {
-            authenticationEntryPoint.commence(request, response, authException);
+            entryPoint.commence(request, response, authException);
         }
     }
 }

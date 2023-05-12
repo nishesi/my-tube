@@ -45,4 +45,12 @@ public class User implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private List<Authority> authorities;
+
+    // Security
+
+    @Column
+    private boolean isNonLocked = false;
+
+    @Column
+    private boolean isEnabled = true;
 }

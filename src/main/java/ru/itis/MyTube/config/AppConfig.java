@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.itis.MyTube.auxiliary.MvUpdater;
 
 import javax.sql.DataSource;
@@ -29,5 +31,10 @@ public class AppConfig {
     @Bean
     public Clock clock() {
         return Clock.system(ZoneOffset.ofHours(0));
+    }
+
+    @Bean
+    protected PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
     }
 }

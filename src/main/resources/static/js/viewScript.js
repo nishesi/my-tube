@@ -28,7 +28,7 @@ function updateReactions(reaction, videoUuid) {
     }).then(resp => {
         if (resp.status === 200) {
             updateInf(resp);
-        } else if (resp.status === 403) {
+        } else if (resp.status === 401) {
             handleUnauthorized(resp);
         }
     })
@@ -60,6 +60,10 @@ function handleUnauthorized(resp) {
         let toastBody= toastClone.querySelector(".toast-body");
         toastBody.innerText = json.message;
         toastContainer.appendChild(toastClone);
+
+        for (let i = 0; i < reactionTypeButtons.length; i++) {
+            reactionTypeButtons[i].checked = false;
+        }
     })
 }
 

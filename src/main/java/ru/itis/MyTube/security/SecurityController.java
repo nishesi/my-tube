@@ -1,37 +1,38 @@
 package ru.itis.MyTube.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import ru.itis.MyTube.services.UserService;
-
-import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestMapping;
+import ru.itis.MyTube.dto.forms.user.AuthUserForm;
 
 @Controller
 @RequiredArgsConstructor
 public class SecurityController {
-    private final UserService userService;
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
 
     @GetMapping("/login")
     public String getLoginPage() {
         return "user/auth";
     }
 
-    @PostMapping("/pr_lg")
-    public ResponseEntity<?> processLogin(@RequestParam String username,
-                                          @RequestParam String password,
-                                          HttpSession session) {
-//        UserDto userDto = userService.get(username, password);
-//        session.setAttribute("user", userDto);
-        return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
-                .header("Location", contextPath).build();
+    @PostMapping("/login/err")
+    public String handle(@ModelAttribute AuthUserForm authUserForm, BindingResult bindingResult) {
+        bindingResult.addError(new ObjectError("authUserForm", "User not found."));
+        return "/user/auth";
+    }
 
+    @RequestMapping("/error/authorize/rest")
+    public ResponseEntity<?> handle() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("""
+                {
+                    "message" : "You not authenticated."
+                }
+                """);
     }
 }

@@ -1,28 +1,28 @@
-    {% extends "part/base" %}
+{% extends "part/base" %}
 
-        {% import "macro/inputField" %}
+{% import "macro/inputField" %}
+{% import "macro/globalErrors" %}
 
-    {% block content %}
 
-    <form action="" method="post">
-        <div class="form m-4">
-            <h4 class="text-center mb-3">Authentication</h4>
-            {% if error is not null %}
-                <div class="error">
-                    <p>{{ error }}</p>
-                </div>
-            {% endif %}
+{% block content %}
 
-            {{ inputField(null, 'username', 'text', 'Username', _context) }}
-            {{ inputField(null, 'password', 'password', 'Password', _context) }}
+{% set formName = "authUserForm" %}
 
-            <div class="container text-center">
+<form action="" method="post">
+    <div class="form m-4">
+        <h4 class="text-center mb-3">Authentication</h4>
+        {{ globalErrors(formName, _context) }}
 
-                <button type="submit" class="btn btn-outline-primary">Authorize</button>
-                <a class="btn btn-outline-secondary"
-                   href="{{ href(urlPatterns.REGISTRATION_PAGE) }}">Register</a>
-            </div>
+        {{ inputField(formName, 'username', 'text', 'Username', _context) }}
+        {{ inputField(formName, 'password', 'password', 'Password', _context) }}
+
+        <div class="container text-center">
+
+            <button type="submit" class="btn btn-outline-primary">Authorize</button>
+            <a class="btn btn-outline-secondary"
+               href="{{ href(urlPatterns.REGISTRATION_PAGE) }}">Register</a>
         </div>
-    </form>
+    </div>
+</form>
 
-    {% endblock %}
+{% endblock %}

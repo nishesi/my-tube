@@ -10,10 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class AuthenticationForm {
-
+public class AuthUserForm {
     private String username;
-
     private String password;
-
 }
