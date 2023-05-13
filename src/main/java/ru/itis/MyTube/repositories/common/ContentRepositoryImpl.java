@@ -1,4 +1,4 @@
-package ru.itis.MyTube.repositories;
+package ru.itis.MyTube.repositories.common;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;

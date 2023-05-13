@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import ru.itis.MyTube.entities.Video;
 import ru.itis.MyTube.enums.AgeCategory;
+import ru.itis.MyTube.repositories.common.ContentRepository;
 
 import java.util.Collection;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package ru.itis.MyTube.repositories;
+package ru.itis.MyTube.repositories.common;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

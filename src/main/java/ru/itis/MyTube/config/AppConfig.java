@@ -7,12 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.repository.config.BootstrapMode;
-import org.springframework.data.repository.config.DefaultRepositoryBaseClass;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.itis.MyTube.auxiliary.MvUpdater;
-import ru.itis.MyTube.repositories.ContentRepositoryImpl;
 
 import javax.sql.DataSource;
 import java.time.Clock;

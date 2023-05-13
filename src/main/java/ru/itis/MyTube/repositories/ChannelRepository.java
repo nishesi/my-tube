@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.enums.AgeCategory;
+import ru.itis.MyTube.repositories.common.ContentRepository;
 
 public interface ChannelRepository extends CrudRepository<Channel, Long>, ContentRepository<Channel, Long> {
 
