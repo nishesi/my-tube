@@ -54,7 +54,7 @@ public class SecurityConfig {
                     configurer.authenticationEntryPoint(authEntryPoint);
                 })
                 .formLogin(configurer -> configurer
-                        .failureForwardUrl("/login/err")
+                        .failureForwardUrl("/auth/err")
                         .successHandler(authSuccessHandler)
                 )
                 .logout(configurer -> configurer

@@ -21,7 +21,7 @@ public class SecurityController {
         return "user/auth";
     }
 
-    @PostMapping("/login/err")
+    @PostMapping("/auth/err")
     public String handle(@ModelAttribute AuthUserForm authUserForm, BindingResult bindingResult) {
         bindingResult.addError(new ObjectError("authUserForm", "User not found."));
         return "/user/auth";
