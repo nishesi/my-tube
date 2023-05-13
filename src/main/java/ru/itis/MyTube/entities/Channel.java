@@ -1,10 +1,7 @@
 package ru.itis.MyTube.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -12,9 +9,10 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "channels")
-public class Channel implements Serializable {
+public class Channel extends Content implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

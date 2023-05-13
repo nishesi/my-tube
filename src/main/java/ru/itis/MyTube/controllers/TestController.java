@@ -1,28 +1,26 @@
 package ru.itis.MyTube.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ru.itis.MyTube.enums.AgeCategory;
+import ru.itis.MyTube.repositories.ChannelRepository;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/test")
 public class TestController {
 
-    @PutMapping
-//    @ResponseBody
-    public String post(RedirectAttributes redirectAttributes, HttpSession session, HttpServletRequest request) {
-        redirectAttributes.addFlashAttribute("testAttribute", "redirect attribute");
-//        return "success";
-        return "redirect:" + "/test";
-    }
+    private final ChannelRepository channelRepository;
 
     @GetMapping
-    public String get(ModelMap modelMap, HttpSession session, HttpServletRequest request) {
-        return "test";
+    @ResponseBody
+    public Page<?> getPage() {
+        Page<?> byAgeCategory = channelRepository.findByAgeCategory(AgeCategory.ADULT, PageRequest.of(0, 20));
+        return byAgeCategory;
     }
 }

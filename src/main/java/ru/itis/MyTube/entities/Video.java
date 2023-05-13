@@ -1,10 +1,7 @@
 package ru.itis.MyTube.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalTime;
@@ -15,9 +12,10 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "videos")
-public class Video implements Serializable {
+public class Video extends Content implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;

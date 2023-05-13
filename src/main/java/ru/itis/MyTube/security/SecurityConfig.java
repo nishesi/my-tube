@@ -27,6 +27,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> registry
+                        .requestMatchers("/login").anonymous()
                         .requestMatchers("/reaction/**").authenticated()
                         .requestMatchers("/user/update").authenticated()
                         .anyRequest().permitAll()
