@@ -12,13 +12,13 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.config.annotation.*;
 import ru.itis.MyTube.auxiliary.AlertsDtoConverter;
 import ru.itis.MyTube.dto.UserDto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -68,6 +68,12 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(alertsDtoConverter);
+    }
+
+    @Override
+    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+
+        WebMvcConfigurer.super.configureHandlerExceptionResolvers(resolvers);
     }
 
     @Override

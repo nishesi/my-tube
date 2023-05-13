@@ -1,40 +1,27 @@
 package ru.itis.MyTube.aspect;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-import ru.itis.MyTube.exceptions.ServiceException;
-import ru.itis.MyTube.exceptions.ValidationException;
-import ru.itis.MyTube.dto.Alert;
-import ru.itis.MyTube.enums.AlertType;
-
-import java.util.Map;
-import java.util.Queue;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice
 public class MvcAspect {
-    @Value("${server.servlet.context-path}")
-    private String contextPath;
 
     @InitBinder
     void init(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
-    @ExceptionHandler(ValidationException.class)
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handle(ValidationException ex) {
-        return ex.getProblems();
-    }
-
-    @ExceptionHandler(ServiceException.class)
-    public ResponseEntity<?> handle(ServiceException ex, @SessionAttribute Queue<Alert> alerts) {
-
-        alerts.add(Alert.of(AlertType.WARNING, ex.getMessage()));
-        return ResponseEntity.status(302).header("Location", contextPath).build();
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handle(Model model) {
+        model.addAttribute("errorMessage", "Page not found.");
+        return "errors/404";
     }
 }

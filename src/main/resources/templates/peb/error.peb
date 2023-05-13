@@ -1,0 +1,5 @@
+{% extends "part/base" %}
+
+{% block content %}
+
+{% endblock %}
