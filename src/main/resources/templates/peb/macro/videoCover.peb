@@ -36,7 +36,7 @@
                 {{ videoCov.addedDate | whenAdded }}
             </p>
 
-            {% if videoCov.channelCover.id equals _context.user.channelId %}
+            {% if user.channelId is not null and videoCov.channelCover.id equals user.channelId %}
 
                 <div class="container m-1">
                     <a class="btn btn-outline-primary d-inline" href="{{ href('/video/' + videoCov.uuid + '/update') }}">Modify</a>

@@ -46,8 +46,8 @@
                 {{ problem(formName, 'lastName', _context) }}
             </div>
 
-            {{ inputField(formName, 'birthdate', 'date', _context[formName], _context) }}
-            {{ inputField(formName, 'country', 'text', _context[formName][country], _context) }}
+            {{ inputField(formName, 'birthdate', 'date', user.birthdate, _context) }}
+            {{ inputField(formName, 'country', 'text', user.country, _context) }}
 
             <div class="container text-center">
                 <button type="submit" class="btn btn-primary">Change</button>
