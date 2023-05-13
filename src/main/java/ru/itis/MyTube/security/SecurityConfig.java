@@ -12,8 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import ru.itis.MyTube.auxiliary.RestAuthenticationFailureHandler;
+import ru.itis.MyTube.security.handlers.CustomAuthSuccessHandler;
+import ru.itis.MyTube.security.handlers.RestOrLoginUrlAuthEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +21,8 @@ import ru.itis.MyTube.auxiliary.RestAuthenticationFailureHandler;
 public class SecurityConfig {
 
     private final PasswordEncoder encoder;
+    private final CustomAuthSuccessHandler authSuccessHandler;
+    private final RestOrLoginUrlAuthEntryPoint authEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,20 +35,19 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(configurer -> {
-                    // Authorization error
-                    var entryPoint1 = new LoginUrlAuthenticationEntryPoint("/login");
-                    var entryPoint2 = new RestAuthenticationFailureHandler(entryPoint1);
-                    configurer.authenticationEntryPoint(entryPoint2);
+                    // Unauthenticated error handlers
+                    configurer.authenticationEntryPoint(authEntryPoint);
                 })
-                .formLogin(configurer -> {
-                    // Authentication error
-                    configurer.failureForwardUrl("/login/err");
-                })
-                .sessionManagement(configurer -> configurer
-                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .formLogin(configurer -> configurer
+                        .failureForwardUrl("/login/err")
+                        .successHandler(authSuccessHandler)
+                )
                 .logout(configurer -> configurer
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
+                )
+                .sessionManagement(configurer -> configurer
+                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 );
         return http.build();
     }

@@ -39,26 +39,26 @@ public class MvcConfig implements WebMvcConfigurer {
         return new StandardServletMultipartResolver();
     }
 
-    @Bean
-    ServletListenerRegistrationBean<HttpSessionListener> initSessList() {
-        var bean = new ServletListenerRegistrationBean<HttpSessionListener>();
-        bean.setListener(new HttpSessionListener() {
-            @Override
-            public void sessionCreated(HttpSessionEvent se) {
-                se.getSession().setAttribute("user",
-                        UserDto.builder()
-                                .id(3L)
-                                .email("email@gmail.com")
-                                .firstName("first name")
-                                .lastName("last name")
-                                .country("Prussia")
-                                .birthdate(LocalDate.of(2003, 3, 22))
-                                .channelId(7L)
-                                .build());
-            }
-        });
-        return bean;
-    }
+//    @Bean
+//    ServletListenerRegistrationBean<HttpSessionListener> initSessList() {
+//        var bean = new ServletListenerRegistrationBean<HttpSessionListener>();
+//        bean.setListener(new HttpSessionListener() {
+//            @Override
+//            public void sessionCreated(HttpSessionEvent se) {
+//                se.getSession().setAttribute("user",
+//                        UserDto.builder()
+//                                .id(3L)
+//                                .email("email@gmail.com")
+//                                .firstName("first name")
+//                                .lastName("last name")
+//                                .country("Prussia")
+//                                .birthdate(LocalDate.of(2003, 3, 22))
+//                                .channelId(7L)
+//                                .build());
+//            }
+//        });
+//        return bean;
+//    }
 
     @Bean
     HiddenHttpMethodFilter hiddenHttpMethodFilter() {

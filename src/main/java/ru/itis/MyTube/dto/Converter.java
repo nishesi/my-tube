@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.itis.MyTube.auxiliary.UrlCreator;
 import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.entities.Channel;
+import ru.itis.MyTube.entities.User;
 import ru.itis.MyTube.entities.Video;
 import ru.itis.MyTube.enums.FileType;
 
@@ -61,6 +62,22 @@ public class Converter {
                 .uuid(video.getUuid().toString())
                 .name(video.getName())
                 .info(video.getInfo())
+                .build();
+    }
+
+    public UserDto from(User user) {
+        String iconUrl = urlCreator.createResourceUrl(FileType.USER_ICON, String.valueOf(user.getId()));
+        Long channelId = user.getChannel().map(Channel::getId).orElse(null);
+
+        return UserDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .birthdate(user.getBirthdate())
+                .country(user.getCountry())
+                .channelId(channelId)
+                .userImgUrl(iconUrl)
                 .build();
     }
 }

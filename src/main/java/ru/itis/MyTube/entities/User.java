@@ -9,6 +9,7 @@ import ru.itis.MyTube.enums.Authority;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -19,7 +20,7 @@ import java.util.List;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -49,8 +50,12 @@ public class User implements Serializable {
     // Security
 
     @Column
-    private boolean isNonLocked = false;
+    private boolean isNonLocked = true;
 
     @Column
     private boolean isEnabled = true;
+
+    public Optional<Channel> getChannel() {
+        return Optional.ofNullable(channel);
+    }
 }

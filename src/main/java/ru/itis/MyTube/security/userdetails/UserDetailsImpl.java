@@ -1,8 +1,10 @@
-package ru.itis.MyTube.security;
+package ru.itis.MyTube.security.userdetails;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.itis.MyTube.dto.Converter;
+import ru.itis.MyTube.dto.UserDto;
 import ru.itis.MyTube.entities.User;
 
 import java.util.Collection;
@@ -10,14 +12,20 @@ import java.util.Collection;
 public class UserDetailsImpl implements UserDetails {
 
     private final User user;
+    private final Converter converter;
 
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(User user) {
+    public UserDetailsImpl(User user, Converter converter) {
         this.user = user;
+        this.converter = converter;
         authorities = user.getAuthorities().stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.name()))
                 .toList();
+    }
+
+    public UserDto getUser() {
+        return converter.from(user);
     }
 
     @Override

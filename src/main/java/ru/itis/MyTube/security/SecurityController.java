@@ -27,7 +27,7 @@ public class SecurityController {
         return "/user/auth";
     }
 
-    @RequestMapping("/error/authorize/rest")
+    @RequestMapping("/auth/err/rest")
     public ResponseEntity<?> handle() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("""
                 {
