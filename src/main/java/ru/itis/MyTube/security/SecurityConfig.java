@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,9 +30,23 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> registry
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/login").anonymous()
+                        .requestMatchers("/user/register").anonymous()
+                        .requestMatchers("/static/**").permitAll()
+
+                        .requestMatchers("/user/**").authenticated()
+
+                        .requestMatchers("/channel/add").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/channel/*").permitAll()
+                        .requestMatchers("/channel/**").authenticated()
+
+                        .requestMatchers("/video").authenticated()
+                        .requestMatchers("/video/add").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/video/*").permitAll()
+                        .requestMatchers("/video/**").authenticated()
+
                         .requestMatchers("/reaction/**").authenticated()
-                        .requestMatchers("/user/update").authenticated()
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(configurer -> {
