@@ -71,7 +71,7 @@
         </div>
     </div>
 </div>
-<svg id="picklerick" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+<svg id="picklerick" version="1.1" xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
      x="0px" y="0px" viewBox="0 0 514.366 679.479" style="enable-background:new 0 0 514.366 679.479;"
      xml:space="preserve">
@@ -326,7 +326,7 @@
 		</g>
 	</svg>
 
-<svg id="swipe" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+<svg id="swipe" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
      x="0px" y="0px" viewBox="0 0 514.366 679.479" style="enable-background:new 0 0 514.366 679.479;"
      xml:space="preserve">
 		<ellipse transform="matrix(0.1671 -0.9859 0.9859 0.1671 -117.3618 525.998)" class="st0" cx="252.647"
