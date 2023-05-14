@@ -15,7 +15,7 @@ import ru.itis.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.Video;
 import ru.itis.MyTube.entities.View;
-import ru.itis.MyTube.exceptions.NotFoundException;
+import ru.itis.MyTube.exceptions.ContentNotFoundException;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.repositories.VideoRepository;
 import ru.itis.MyTube.repositories.ViewRepository;
@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.time.Clock;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -69,8 +70,7 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public void updateVideo(UpdateVideoForm form, UserDto userDto) {
         UUID id = UUID.fromString(form.getUuid());
-        Video video = videoRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Video not found."));
+        Video video = videoRepository.findById(id).orElseThrow();
 
         if (video.getChannel().getId() != userDto.getChannelId())
             throw new ServiceException("Have not an access.");
@@ -93,8 +93,7 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public void deleteVideo(UUID videoId, UserDto userDto) {
         try {
-            Video video = videoRepository.findById(videoId)
-                    .orElseThrow(() -> new NotFoundException("Video not found."));
+            Video video = videoRepository.findById(videoId).orElseThrow();
 
             if (video.getChannel().getId() != userDto.getChannelId())
                 throw new ServiceException("Have not an access.");
@@ -112,8 +111,7 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public UpdateVideoForm getVideoForUpdate(UUID id) {
         try {
-            Video video = videoRepository.findById(id)
-                    .orElseThrow(() -> new NotFoundException("Video not found"));
+            Video video = videoRepository.findById(id).orElseThrow();
             return converter.from(video);
         } catch (RuntimeException ex) {
             ex.printStackTrace();
@@ -122,17 +120,21 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public VideoDto getVideo(UUID id, int pageInd) throws ServiceException {
-        Video video = videoRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Video not found."));
-        Page<VideoCover> additionalVideos = searchService.getVideoCollection(VideoCollectionType.RANDOM, null, pageInd);
-        return converter.from(video, additionalVideos);
+    public VideoDto getVideo(String id, int pageInd) throws ServiceException {
+        try {
+            Video video = videoRepository.findById(UUID.fromString(id)).orElseThrow();
+            Page<VideoCover> additionalVideos = searchService.getVideoCollection(VideoCollectionType.RANDOM, null, pageInd);
+            return converter.from(video, additionalVideos);
+
+        } catch (IllegalArgumentException | NoSuchElementException ex) {
+            throw new ContentNotFoundException("video");
+        }
     }
 
     @Override
-    public VideoDto getVideoRegardingUser(UUID id, int pageInt, UserDto userDto) throws ServiceException {
+    public VideoDto getVideoRegardingUser(String id, int pageInt, UserDto userDto) throws ServiceException {
         VideoDto videoDto = getVideo(id, pageInt);
-        Optional<View> viewOptional = viewRepository.findById(id, userDto.getId());
+        Optional<View> viewOptional = viewRepository.findById(UUID.fromString(id), userDto.getId());
         viewOptional.ifPresent(view -> videoDto.setReaction(view.getReaction()));
         return videoDto;
     }

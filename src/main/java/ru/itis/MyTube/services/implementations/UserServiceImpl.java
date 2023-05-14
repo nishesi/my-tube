@@ -12,15 +12,14 @@ import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.Subscription;
 import ru.itis.MyTube.entities.User;
 import ru.itis.MyTube.enums.Authority;
+import ru.itis.MyTube.enums.FileType;
 import ru.itis.MyTube.exceptions.DBConstraintException;
 import ru.itis.MyTube.exceptions.ExistsException;
-import ru.itis.MyTube.exceptions.NotFoundException;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.repositories.SubscriptionRepository;
 import ru.itis.MyTube.repositories.UserRepository;
-import ru.itis.MyTube.services.UserService;
-import ru.itis.MyTube.enums.FileType;
 import ru.itis.MyTube.services.FileService;
+import ru.itis.MyTube.services.UserService;
 
 import java.io.IOException;
 import java.util.List;
@@ -58,8 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(UpdateUserForm form) throws ServiceException {
-        User user = userRepository.findById(form.getId())
-                .orElseThrow(() -> new NotFoundException("User not found."));
+        User user = userRepository.findById(form.getId()).orElseThrow();
 
         if (form.getPassword() != null) user.setPassword(passwordEncoder.encode(form.getPassword()));
         if (form.getFirstName() != null) user.setFirstName(form.getFirstName());

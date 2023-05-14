@@ -14,7 +14,7 @@ import ru.itis.MyTube.dto.forms.channel.NewChannelForm;
 import ru.itis.MyTube.entities.Channel;
 import ru.itis.MyTube.entities.User;
 import ru.itis.MyTube.entities.Video;
-import ru.itis.MyTube.exceptions.NotFoundException;
+import ru.itis.MyTube.exceptions.ContentNotFoundException;
 import ru.itis.MyTube.exceptions.ServiceException;
 import ru.itis.MyTube.repositories.ChannelRepository;
 import ru.itis.MyTube.repositories.SubscriptionRepository;
@@ -42,7 +42,7 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public ChannelDto getChannel(long id, int pageIndex) {
         Channel channel = channelRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Channel not found."));
+                .orElseThrow(() -> new ContentNotFoundException("channel"));
 
         Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by("addedDate").descending());
         Page<Video> page = videoRepository.getByChannelId(id, pageable);
@@ -63,8 +63,7 @@ public class ChannelServiceImpl implements ChannelService {
                 .info(form.getInfo())
                 .build();
         try {
-            User user = userRepository.findById(userDto.getId())
-                    .orElseThrow(() -> new NotFoundException("User not found."));
+            User user = userRepository.findById(userDto.getId()).orElseThrow();
             channel = channelRepository.save(channel);
             user.setChannel(channel);
             userRepository.save(user);

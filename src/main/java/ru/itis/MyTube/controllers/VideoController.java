@@ -56,7 +56,7 @@ public class VideoController {
 
     @GetMapping("/{id}")
     public String getVideoPage(ModelMap modelMap,
-                               @PathVariable UUID id,
+                               @PathVariable String id,
                                @RequestParam(defaultValue = "0") int pageInd,
                                @SessionAttribute Optional<UserDto> user) {
         try {

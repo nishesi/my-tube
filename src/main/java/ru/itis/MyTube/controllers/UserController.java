@@ -58,11 +58,11 @@ public class UserController {
     public String updateUser(@Valid UpdateUserForm updateUserForm,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes,
-                             @SessionAttribute UserDto userDto
+                             @SessionAttribute UserDto user
     ) {
         if (!bindingResult.hasErrors()) {
             try {
-                updateUserForm.setId(userDto.getId());
+                updateUserForm.setId(user.getId());
                 userService.update(updateUserForm);
 
                 AlertsDto alerts = new AlertsDto(

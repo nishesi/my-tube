@@ -1,7 +1,7 @@
 {% extends "part/base" %}
 
 {% block head %}
-    <link rel="stylesheet" href="{{ href('/static/css/status404.css') }}">
+    <link rel="stylesheet" href="{{ href('/static/css/errors/404.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -67,7 +67,7 @@
 			</g>
 			</svg>
         <div class="bottomconvo">
-            {{ errorMessage }} Wubba Lubba Dub Dub!!!
+            Sorry, {{ name }} not found... Wubba Lubba Dub Dub!!!
         </div>
     </div>
 </div>
