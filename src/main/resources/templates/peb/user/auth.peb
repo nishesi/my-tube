@@ -3,6 +3,10 @@
 {% import "macro/inputField" %}
 {% import "macro/globalErrors" %}
 
+{% block head %}
+    <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"></script>
+    <script src="{{ href('/static/js/oauth.js') }}"></script>
+{% endblock %}
 
 {% block content %}
 
@@ -24,5 +28,7 @@
         </div>
     </div>
 </form>
+
+<a href="https://oauth.yandex.ru/authorize?response_type=code&client_id=9a58369d0d904fa8a866eebce80a4ec3" >Войти через яндекс</a>
 
 {% endblock %}

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import ru.itis.MyTube.security.handlers.CustomAuthSuccessHandler;
 import ru.itis.MyTube.security.handlers.RestOrLoginUrlAuthEntryPoint;
+import ru.itis.MyTube.security.oauth.OAuthProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -24,10 +25,13 @@ public class SecurityConfig {
     private final PasswordEncoder encoder;
     private final CustomAuthSuccessHandler authSuccessHandler;
     private final RestOrLoginUrlAuthEntryPoint authEntryPoint;
+    private final MyCustomDsl myCustomDsl;
+    private final OAuthProvider oAuthProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/").permitAll()
@@ -63,7 +67,9 @@ public class SecurityConfig {
                 )
                 .sessionManagement(configurer -> configurer
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                );
+                )
+                .authenticationProvider(oAuthProvider)
+                .apply(myCustomDsl);
         return http.build();
     }
 

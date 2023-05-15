@@ -21,7 +21,8 @@ public class TestController {
     @GetMapping
     @ResponseBody
     public Page<?> getPage() {
-        Page<?> byAgeCategory = channelRepository.findByAgeCategory(AgeCategory.ADULT, PageRequest.of(0, 20));
-        return byAgeCategory;
+        throw new RuntimeException();
+//        Page<?> byAgeCategory = channelRepository.findByAgeCategory(AgeCategory.ADULT, PageRequest.of(0, 20));
+//        return byAgeCategory;
     }
 }

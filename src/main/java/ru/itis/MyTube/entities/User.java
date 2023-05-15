@@ -45,7 +45,7 @@ public class User implements Serializable {
     private Channel channel;
 
     @Enumerated(EnumType.STRING)
-    private List<Authority> authorities;
+    private List<Authority> authorities = List.of();
 
     // Security
 
@@ -54,6 +54,11 @@ public class User implements Serializable {
 
     @Column
     private boolean isEnabled = true;
+
+    // OAuth
+
+    @Column
+    private boolean isExternal = false;
 
     public Optional<Channel> getChannel() {
         return Optional.ofNullable(channel);
