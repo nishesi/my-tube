@@ -3,7 +3,7 @@
 {% import "macro/inputField" %}
 {% import "macro/globalErrors" %}
 
-{% block head %}
+{% block formhead %}
     <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"></script>
     <script src="{{ href('/static/js/oauth.js') }}"></script>
 {% endblock %}

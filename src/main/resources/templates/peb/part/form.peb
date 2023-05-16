@@ -1,7 +1,12 @@
 {% extends "part/base" %}
 
+{% block head %}
+    <link rel="stylesheet" href="{{ href('/static/css/form.css') }}">
+    {% block formhead %}{% endblock %}
+{% endblock %}
+
 {% block content %}
-<form method="post" action="{{ formUrl }}" enctype="{{ isFormMultipart ? 'multipart/form-data' : 'application/x-www-form-urlencoded' }}">
+<form id="base-form" method="post" action="{{ formUrl }}" enctype="{{ isFormMultipart ? 'multipart/form-data' : 'application/x-www-form-urlencoded' }}">
     <div class="form m-4">
         <h4 class="text-center mb-3">{{ formPlaceholder }}</h4>
 
