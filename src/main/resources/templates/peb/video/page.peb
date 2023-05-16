@@ -1,5 +1,5 @@
-{# @pebvariable name="video" type="ru.itis.MyTube.dto.VideoDto" #}
-{# @pebvariable name="Reaction" type="ru.itis.MyTube.enums.Reaction" #}
+{# @pebvariable name="video" type="ru.itis.nishesi.MyTube.dto.VideoDto" #}
+{# @pebvariable name="Reaction" type="ru.itis.nishesi.MyTube.enums.Reaction" #}
 
 {% extends "part/base" %}
 

@@ -1,5 +1,5 @@
-{# @pebvariable name="user" type="ru.itis.MyTube.dto.UserDto" #}
-{# @pebvariable name="videoCov" type="ru.itis.MyTube.dto.VideoCover" #}
+{# @pebvariable name="user" type="ru.itis.nishesi.MyTube.dto.UserDto" #}
+{# @pebvariable name="videoCov" type="ru.itis.nishesi.MyTube.dto.VideoCover" #}
 
 {% macro videoCover(videoCov, _context) %}
 

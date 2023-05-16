@@ -1,4 +1,4 @@
-{# @pebvariable name="alertsDto" type="ru.itis.MyTube.dto.AlertsDto" #}
+{# @pebvariable name="alertsDto" type="ru.itis.nishesi.MyTube.dto.AlertsDto" #}
 
 {% macro handleAlerts(alertsDto) %}
 

@@ -1,5 +1,5 @@
 {# @pebvariable name="title" type="java.lang.String" #}
-{# @pebvariable name="alerts" type="ru.itis.MyTube.dto.AlertsDto" #}
+{# @pebvariable name="alerts" type="ru.itis.nishesi.MyTube.dto.AlertsDto" #}
 {% import "macro/handleAlerts" %}
 
 <!DOCTYPE html>

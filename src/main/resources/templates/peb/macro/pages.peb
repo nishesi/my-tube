@@ -1,4 +1,4 @@
-{# @pebvariable name="list" type="java.util.List<ru.itis.MyTube.view.peb.functions.GeneratePagesFunction.PageEl>" #}
+{# @pebvariable name="list" type="java.util.List<ru.itis.nishesi.MyTube.view.peb.functions.GeneratePagesFunction.PageEl>" #}
 
 {% macro pages(list) %}
     {% for page in list %}
