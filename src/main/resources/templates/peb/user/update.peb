@@ -1,59 +1,53 @@
-{% extends "part/base" %}
+{% extends "part/form" %}
 
 {% import "macro/problem" %}
 {% import "macro/inputField" %}
 {% import "macro/globalErrors" %}
+
+{% set formUrl = href('/user') %}
+{% set isFormMultipart = true %}
+{% set formMethod = "PUT" %}
+{% set formPlaceholder = "User Information" %}
+
 {% set formName = 'updateUserForm' %}
 
-{% block content %}
-
-<div id="box">
-    <form action="{{ href('/user') }}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="_method" value="PUT"/>
-        <div class="form m-4">
-            <h4 class="text-center mb-3">User Information</h4>
-            {{ globalErrors(formName, _context) }}
-
-            <div class="input-group">
-                <div class="container text-center">
-                    <img class="card-img-top rounded-circle" src="{{ user.userImgUrl }}" alt="user image">
-                </div>
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">Choose new icon</label>
-                    <input class="form-control" type="file" id="formFile" name="iconFile">
-                </div>
-            </div>
-            {{ problem(formName, 'iconFile', _context) }}
-
-            <div class="input-group mb-4">
-                <div class="input-group-text">Email</div>
-                <div class="form-control" aria-label="Username">{{ user.email }}</div>
-            </div>
-
-            {{ inputField(formName, 'password', 'password', 'Password', _context) }}
-            {{ inputField(formName, 'passwordRepeat', 'password', 'Repeat password', _context) }}
-
-            <div class="input-group">
-                <div class="input-group-text">First name</div>
-                <input type="text" class="form-control" placeholder="{{ user.firstName }}" aria-label="First name" name="firstName"
-                       value="{{ _context[formName][firstName] }}">
-                <div class="input-group-text">Last name</div>
-                <input type="text" class="form-control" placeholder="{{ user.lastName }}" aria-label="Last name" name="lastName"
-                       value="{{ _context[formName][lastName] }}">
-            </div>
-            <div class="mb-4 text-danger">
-                {{ problem(formName, 'firstName', _context) }}
-                {{ problem(formName, 'lastName', _context) }}
-            </div>
-
-            {{ inputField(formName, 'birthdate', 'date', user.birthdate, _context) }}
-            {{ inputField(formName, 'country', 'text', user.country, _context) }}
-
-            <div class="container text-center">
-                <button type="submit" class="btn btn-primary">Change</button>
-            </div>
+{% block form %}
+    <div class="input-group">
+        <div class="container text-center">
+            <img class="card-img-top rounded-circle" src="{{ user.userImgUrl }}" alt="user image">
         </div>
-    </form>
-</div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Choose new icon</label>
+            <input class="form-control" type="file" id="formFile" name="iconFile">
+        </div>
+    </div>
+    {{ problem(formName, 'iconFile', _context) }}
 
+    <div class="input-group mb-4">
+        <div class="input-group-text">Email</div>
+        <div class="form-control" aria-label="Username">{{ user.email }}</div>
+    </div>
+
+    {{ inputField(formName, 'password', 'password', 'Password', _context) }}
+    {{ inputField(formName, 'passwordRepeat', 'password', 'Repeat password', _context) }}
+
+    <div class="input-group">
+        <div class="input-group-text">First name</div>
+        <input type="text" class="form-control" placeholder="{{ user.firstName }}" aria-label="First name" name="firstName"
+               value="{{ _context[formName][firstName] }}">
+        <div class="input-group-text">Last name</div>
+        <input type="text" class="form-control" placeholder="{{ user.lastName }}" aria-label="Last name" name="lastName"
+               value="{{ _context[formName][lastName] }}">
+    </div>
+    <div class="mb-4 text-danger">
+        {{ problem(formName, 'firstName', _context) }}
+        {{ problem(formName, 'lastName', _context) }}
+    </div>
+
+    {{ inputField(formName, 'birthdate', 'date', user.birthdate, _context) }}
+    {{ inputField(formName, 'country', 'text', user.country, _context) }}
+
+    <div class="container text-center">
+        <button type="submit" class="btn btn-primary">Change</button>
+    </div>
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends "part/base" %}
+
+{% block content %}
+<form method="post" action="{{ formUrl }}" enctype="{{ isFormMultipart ? 'multipart/form-data' : 'application/x-www-form-urlencoded' }}">
+    <div class="form m-4">
+        <h4 class="text-center mb-3">{{ formPlaceholder }}</h4>
+
+        <input type="hidden" name="_method" value="{{ formMethod }}">
+        <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+
+        {{ globalErrors(formName, _context) }}
+
+        {% block form %}
+            Empty form
+        {% endblock %}
+
+    </div>
+</form>
+{% endblock %}

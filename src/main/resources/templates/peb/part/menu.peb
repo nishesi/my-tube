@@ -1,30 +1,30 @@
-{% if user is not null %}
+{# @pebvariable name="user" type="ru.itis.nishesi.MyTube.dto.UserDto" #}
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasRightLabel">
-            {{ user.firstName }} {{ user.lastName }}
-            <img class="rounded-circle" width="50" height="50" src="{{ user.userImgUrl }}" alt="user image">
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        <div class="list-group">
-            <a href="{{ request.contextPath + urlPatterns.PRIVATE_USER_UPDATE }}"
-               class="list-group-item list-group-item-action" aria-current="true">
-                Change account information
-            </a>
-            {% if user.channelId is not null %}
-                <a href="{{  request.contextPath + urlPatterns.CHANNEL + '/' + user.channelId }}"
-                   class="list-group-item list-group-item-action">My channel</a>
-                {% else %}
-                <a href="{{  request.contextPath + urlPatterns.PRIVATE_CHANNEL_CREATE }}"
-                   class="list-group-item list-group-item-action">Create channel</a>
-            {% endif %}
-            <a href="{{  request.contextPath + urlPatterns.PRIVATE_USER_EXIT }}"
-               class="list-group-item list-group-item-action">Exit from account</a>
+{% if user is not null %}
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasRightLabel">
+                {{ user.firstName }} {{ user.lastName }}
+                <img class="rounded-circle" width="50" height="50" src="{{ user.userImgUrl }}" alt="user image">
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="list-group">
+                <a href="{{ href('/user/update') }}"
+                   class="list-group-item list-group-item-action" aria-current="true">
+                    Change account information
+                </a>
+                {% if user.channelId is not null %}
+                    <a href="{{  href('/channel' + user.channelId) }}"
+                       class="list-group-item list-group-item-action">My channel</a>
+                    {% else %}
+                    <a href="{{  href('/channel/create') }}"
+                       class="list-group-item list-group-item-action">Create channel</a>
+                {% endif %}
+                <a href="{{  href('/logout') }}"
+                   class="list-group-item list-group-item-action">Exit from account</a>
+            </div>
         </div>
     </div>
-</div>
-
 {% endif %}

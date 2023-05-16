@@ -1,4 +1,4 @@
-{% extends "part/base" %}
+{% extends "part/form" %}
 
 {% import "macro/inputField" %}
 {% import "macro/globalErrors" %}
@@ -8,27 +8,23 @@
     <script src="{{ href('/static/js/oauth.js') }}"></script>
 {% endblock %}
 
-{% block content %}
+{% set formUrl = href('/login') %}
+{% set isFormMultipart = false %}
+{% set formMethod = "POST" %}
+{% set formPlaceholder = "Authentication" %}
 
 {% set formName = "authUserForm" %}
 
-<form action="" method="post">
-    <div class="form m-4">
-        <h4 class="text-center mb-3">Authentication</h4>
-        {{ globalErrors(formName, _context) }}
+{% block form %}
+    {{ inputField(formName, 'username', 'text', 'Username', _context) }}
+    {{ inputField(formName, 'password', 'password', 'Password', _context) }}
 
-        {{ inputField(formName, 'username', 'text', 'Username', _context) }}
-        {{ inputField(formName, 'password', 'password', 'Password', _context) }}
+    <div class="container text-center">
 
-        <div class="container text-center">
-
-            <button type="submit" class="btn btn-outline-primary">Authorize</button>
-            <a class="btn btn-outline-secondary"
-               href="{{ href(urlPatterns.REGISTRATION_PAGE) }}">Register</a>
-        </div>
+    <button type="submit" class="btn btn-outline-primary">Authorize</button>
+    <a class="btn btn-outline-secondary"
+       href="{{ href(urlPatterns.REGISTRATION_PAGE) }}">Register</a>
     </div>
-</form>
 
-<a href="https://oauth.yandex.ru/authorize?response_type=code&client_id=9a58369d0d904fa8a866eebce80a4ec3" >Войти через яндекс</a>
-
+    <a href="https://oauth.yandex.ru/authorize?response_type=code&client_id=9a58369d0d904fa8a866eebce80a4ec3" >Войти через яндекс</a>
 {% endblock %}

@@ -1,29 +1,23 @@
-{% extends "part/base" %}
+{% extends "part/form" %}
 
-{% block content %}
-    {% import "macro/inputField" %}
-    {% import "macro/problem" %}
-    {% import "macro/globalErrors" %}
-{# @pebvariable name="formName" type="java.lang.String" #}
-    {% set formName = "newVideoForm" %}
+{% import "macro/inputField" %}
+{% import "macro/problem" %}
+{% import "macro/globalErrors" %}
 
-<div id="box">
-    <form method="post" action="{{ href('/video') }}" enctype="multipart/form-data">
-        <div class="form m-4">
-            <h4 class="text-center mb-3">New video</h4>
+{% set formUrl = href('/video') %}
+{% set isFormMultipart = true %}
+{% set formMethod = "POST" %}
+{% set formPlaceholder = "New video" %}
 
-            {{ globalErrors(formName, _context) }}
+{% set formName = "newVideoForm" %}
 
-            {{ inputField(formName, 'iconFile', 'file', 'Choose icon', _context) }}
-            {{ inputField(formName, 'name', 'text', 'Name', _context) }}
-            {{ inputField(formName, 'videoFile', 'file', 'Choose video', _context) }}
-            {{ inputField(formName, 'info', 'text', 'Description', _context) }}
+{% block form %}
+    {{ inputField(formName, 'iconFile', 'file', 'Choose icon', _context) }}
+    {{ inputField(formName, 'name', 'text', 'Name', _context) }}
+    {{ inputField(formName, 'videoFile', 'file', 'Choose video', _context) }}
+    {{ inputField(formName, 'info', 'text', 'Description', _context) }}
 
-            <div class="container text-center">
-                <button type="submit" class="btn btn-primary">Upload</button>
-            </div>
-        </div>
-    </form>
-</div>
-
+    <div class="container text-center">
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </div>
 {% endblock %}
