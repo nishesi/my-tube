@@ -1,4 +1,4 @@
-context.repository = D://MyTube
+context.repository = placeholder[D://]
 db.mvUpdateTimeout = 5000
 
 security.login.mapping=/login

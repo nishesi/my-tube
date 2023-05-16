@@ -18,7 +18,7 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 @ComponentScan({
-        "ru.itis.MyTube.controllers",
+        "ru.itis.nishesi.MyTube.controllers",
 })
 @RequiredArgsConstructor
 public class MvcConfig implements WebMvcConfigurer {

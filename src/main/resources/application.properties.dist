@@ -28,11 +28,11 @@ spring.mvc.throw-exception-if-no-handler-found=true
 
 # JPA
 
-spring.datasource.url=jdbc:postgresql://localhost:5432/demo
-spring.datasource.username=postgres
-spring.datasource.password=Qwerty228
+spring.datasource.url=placeholder[jdbc:db://host:port/path]
+spring.datasource.username=placeholder[username]
+spring.datasource.password=placeholder[password]
 
-spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.driver-class-name=placeholder[jdbcDriver]
 spring.datasource.hikari.maximum-pool-size=20
 
 spring.jpa.hibernate.ddl-auto=update

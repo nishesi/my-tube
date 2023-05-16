@@ -17,8 +17,8 @@ import java.time.ZoneOffset;
 
 @Configuration
 @RequiredArgsConstructor
-@EnableJpaRepositories(basePackages = {"ru.itis.MyTube.repositories"})
-@ComponentScan("ru.itis.MyTube")
+@EnableJpaRepositories(basePackages = {"ru.itis.nishesi.MyTube.repositories"})
+@ComponentScan("ru.itis.nishesi.MyTube")
 @PropertySource("classpath:app.properties")
 public class AppConfig {
 
