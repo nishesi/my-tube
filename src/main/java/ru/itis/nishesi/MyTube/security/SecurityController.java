@@ -41,4 +41,9 @@ public class SecurityController {
         bindingResult.addError(new ObjectError("authUserForm", message));
         return "/user/auth";
     }
+
+    @RequestMapping("/authorize/err")
+    public String handleAuthorizeError() {
+        return "errors/403";
+    }
 }
