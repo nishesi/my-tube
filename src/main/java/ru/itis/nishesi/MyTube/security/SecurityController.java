@@ -2,6 +2,7 @@ package ru.itis.nishesi.MyTube.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,7 +27,9 @@ public class SecurityController {
 
     @RequestMapping("/auth/err/rest")
     public ResponseEntity<?> handle() {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("""
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("""
                 {
                     "message" : "You not authenticated."
                 }
@@ -45,5 +48,16 @@ public class SecurityController {
     @RequestMapping("/authorize/err")
     public String handleAuthorizeError() {
         return "errors/403";
+    }
+
+    @RequestMapping("/authorize/err/rest")
+    public ResponseEntity<?> handleRestAuthorizeError() {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("""
+                {
+                    "message" : "You not have permission. Try reload page."
+                }
+                """);
     }
 }

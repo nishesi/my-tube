@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.itis.nishesi.MyTube.security.handlers.CustomAccessDeniedHandler;
 import ru.itis.nishesi.MyTube.security.handlers.CustomAuthSuccessHandler;
 import ru.itis.nishesi.MyTube.security.handlers.RestOrLoginUrlAuthEntryPoint;
 import ru.itis.nishesi.MyTube.security.oauth.OAuthProvider;
@@ -23,6 +24,7 @@ public class SecurityConfig {
 
     private final PasswordEncoder encoder;
     private final CustomAuthSuccessHandler authSuccessHandler;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
     private final RestOrLoginUrlAuthEntryPoint authEntryPoint;
     private final MyCustomDsl myCustomDsl;
     private final OAuthProvider oAuthProvider;
@@ -56,8 +58,7 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint(authEntryPoint)
-                                .accessDeniedHandler((request, response, accessDeniedException) ->
-                                        request.getRequestDispatcher("/authorize/err").forward(request, response))
+                        .accessDeniedHandler(accessDeniedHandler)
                 )
                 .formLogin(configurer -> configurer
                         .failureForwardUrl("/auth/err")

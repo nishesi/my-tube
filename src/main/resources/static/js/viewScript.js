@@ -16,9 +16,13 @@ for (let i = 0; i < reactionTypeButtons.length; i++) {
 
 
 function updateReactions(reaction, videoUuid) {
+    let token = document.querySelector('meta[name="_csrf"]').getAttribute('content')
+    let header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content')
+
     return fetch('/MyTube/reaction', {
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            [header] : token
         },
         method: "POST",
         body: JSON.stringify({
@@ -28,7 +32,7 @@ function updateReactions(reaction, videoUuid) {
     }).then(resp => {
         if (resp.status === 200) {
             updateInf(resp);
-        } else if (resp.status === 401) {
+        } else if (resp.status === 401 || resp.status === 403) {
             handleUnauthorized(resp);
         }
     })
