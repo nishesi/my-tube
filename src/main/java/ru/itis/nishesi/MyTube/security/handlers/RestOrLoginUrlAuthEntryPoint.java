@@ -12,6 +12,8 @@ import java.io.IOException;
 
 @Component
 public class RestOrLoginUrlAuthEntryPoint extends LoginUrlAuthenticationEntryPoint {
+    @Value("${mvc.rest-path}")
+    private String restPath;
 
     /**
      * @param loginFormUrl URL where the login page can be found. Should either be
@@ -28,8 +30,8 @@ public class RestOrLoginUrlAuthEntryPoint extends LoginUrlAuthenticationEntryPoi
                          AuthenticationException authException
     ) throws IOException, ServletException {
 
-        if (request.getServletPath().startsWith("/reaction")) {
-            request.getRequestDispatcher("/auth/err/rest").forward(request, response);
+        if (request.getServletPath().startsWith(restPath)) {
+            request.getRequestDispatcher(restPath + "/auth/err").forward(request, response);
         } else {
             super.commence(request, response, authException);
         }

@@ -2,6 +2,7 @@ package ru.itis.nishesi.MyTube.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -21,7 +22,6 @@ import ru.itis.nishesi.MyTube.security.oauth.OAuthProvider;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     private final PasswordEncoder encoder;
     private final CustomAuthSuccessHandler authSuccessHandler;
     private final CustomAccessDeniedHandler accessDeniedHandler;
@@ -52,7 +52,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/video/*").permitAll()
                         .requestMatchers("/video/**").authenticated()
 
-                        .requestMatchers("/reaction/**").authenticated()
+                        .requestMatchers(  "/api/reaction/**").authenticated()
                         .requestMatchers("/test").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )

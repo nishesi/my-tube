@@ -155,7 +155,7 @@ svg.key {
         visibility: hidden;
     }
     100% {
-        --animation-sentence: 'Okay, you seem to care about this. Here\'s a key just for you';
+        --animation-sentence: 'Okay, I hope you know what to do, I\'ll be here';
     }
 }
 @keyframes showFinalText {

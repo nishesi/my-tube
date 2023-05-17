@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/reaction")
+@RequestMapping("/api/reaction/v1")
 public class ReactionRestController {
     private final ViewService viewService;
 
@@ -29,6 +29,4 @@ public class ReactionRestController {
         reactionForm.setUserDto(user);
         return viewService.updateView(UUID.fromString(reactionForm.getVideoId()), user, reactionForm.getReaction());
     }
-
-
 }

@@ -19,7 +19,7 @@ function updateReactions(reaction, videoUuid) {
     let token = document.querySelector('meta[name="_csrf"]').getAttribute('content')
     let header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content')
 
-    return fetch('/MyTube/reaction', {
+    return fetch('/MyTube/api/reaction/v1', {
         headers: {
             "Content-Type": "application/json",
             [header] : token
@@ -32,8 +32,18 @@ function updateReactions(reaction, videoUuid) {
     }).then(resp => {
         if (resp.status === 200) {
             updateInf(resp);
-        } else if (resp.status === 401 || resp.status === 403) {
-            handleUnauthorized(resp);
+        } else {
+            resp.json().then(json => {
+                printToast(json.message)
+
+            }).catch(function (reason) {
+                printToast("Cant make request.")
+
+            }).finally(function () {
+                for (let i = 0; i < reactionTypeButtons.length; i++) {
+                    reactionTypeButtons[i].checked = false;
+                }
+            })
         }
     })
 }
@@ -55,19 +65,13 @@ function updateInf(resp) {
     })
 }
 
-function handleUnauthorized(resp) {
-    resp.json().then(json => {
-        let toastContainer = document.getElementById("alertsContainer");
-        let toastClone
-            = toastContainer.querySelector('template').content.cloneNode(true).querySelector('div');
-        toastClone.querySelector('.alert').classList.add("alert-warning");
-        let toastBody= toastClone.querySelector(".toast-body");
-        toastBody.innerText = json.message;
-        toastContainer.appendChild(toastClone);
-
-        for (let i = 0; i < reactionTypeButtons.length; i++) {
-            reactionTypeButtons[i].checked = false;
-        }
-    })
+function printToast(mess) {
+    let toastContainer = document.getElementById("alertsContainer");
+    let toastClone
+        = toastContainer.querySelector('template').content.cloneNode(true).querySelector('div');
+    toastClone.querySelector('.alert').classList.add("alert-warning");
+    let toastBody= toastClone.querySelector(".toast-body");
+    toastBody.innerText = mess === undefined ? "Something go wrong" : mess;
+    toastContainer.appendChild(toastClone);
 }
 
