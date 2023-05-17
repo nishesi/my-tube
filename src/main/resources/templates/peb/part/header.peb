@@ -19,7 +19,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
 
-                    {% include "/part/videoCollections" %}
+                    {% include "part/videoCollections" %}
 
                     <li class="nav-item">
                         <form action="{{ request.contextPath + urlPatterns.SEARCH_PAGE }}" method="get"
@@ -75,4 +75,4 @@
     </nav>
 </header>
 
-{% include "/part/menu" %}
+{% include "part/menu" %}
