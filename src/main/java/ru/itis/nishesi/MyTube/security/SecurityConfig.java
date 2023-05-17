@@ -65,6 +65,7 @@ public class SecurityConfig {
                         .successHandler(authSuccessHandler)
                 )
                 .logout(configurer -> configurer
+                        .logoutSuccessUrl("/")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                 )

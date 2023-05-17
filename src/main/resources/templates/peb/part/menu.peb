@@ -1,4 +1,5 @@
 {# @pebvariable name="user" type="ru.itis.nishesi.MyTube.dto.UserDto" #}
+{# @pebvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" #}
 
 {% if user is not null %}
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -22,8 +23,11 @@
                     <a href="{{  href('/channel/create') }}"
                        class="list-group-item list-group-item-action">Create channel</a>
                 {% endif %}
-                <a href="{{  href('/logout') }}"
-                   class="list-group-item list-group-item-action">Exit from account</a>
+
+                <form action="{{ href('/logout') }}" method="POST">
+                    <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
+                    <input type="submit" class="list-group-item list-group-item-action" value="Exit from account">
+                </form>
             </div>
         </div>
     </div>
