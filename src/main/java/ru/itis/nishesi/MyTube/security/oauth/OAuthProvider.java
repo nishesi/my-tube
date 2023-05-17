@@ -24,6 +24,7 @@ public class OAuthProvider implements AuthenticationProvider {
         UserDto userDetails = oAuthService.getUserDetails(accessToken);
 
         User user = oAuthService.synchronizeUser(userDetails);
+        userDetails.setId(user.getId());
         token.setUserDto(userDetails);
         token.setAuthorities(user.getAuthorities().stream()
                 .map(auth -> new SimpleGrantedAuthority(auth.name()))
