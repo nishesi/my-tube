@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/login").anonymous()
                         .requestMatchers("/user/register").anonymous()
+                        .requestMatchers(HttpMethod.POST, "/user").anonymous()
                         .requestMatchers("/static/**").permitAll()
 
                         .requestMatchers("/user/**").authenticated()
@@ -53,7 +54,7 @@ public class SecurityConfig {
                         .requestMatchers("/video/**").authenticated()
 
                         .requestMatchers(  "/api/reaction/**").authenticated()
-                        .requestMatchers("/test").hasRole("ADMIN")
+                        .requestMatchers("/test").permitAll()
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(configurer -> configurer
