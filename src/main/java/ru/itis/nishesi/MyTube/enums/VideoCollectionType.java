@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum VideoCollectionType {
     RANDOM("Random", false),
-    SUBSCRIPTIONS("Subscriptions", true);
+    POPULAR("Popular", false),
+    SUBSCRIPTIONS("Subscriptions", true),
+    RECOMMENDED("Recommended", true);
 
     private final String name;
     private final boolean authRequired;

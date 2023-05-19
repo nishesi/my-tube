@@ -20,14 +20,14 @@ public class Video extends Content implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
-    @Basic(fetch = FetchType.LAZY)
+    @Basic
     @Column(length = 2000, nullable = false)
     private String info;
 
     @Column(nullable = false, length = 70)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Channel channel;
 
