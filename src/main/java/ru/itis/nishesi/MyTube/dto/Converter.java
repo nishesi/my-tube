@@ -31,7 +31,6 @@ public class Converter {
                 .uuid(video.getUuid())
                 .name(video.getName())
                 .addedDate(video.getAddedDate().toLocalDateTime())
-                .watchUrl(urlCreator.createWatchUrl(video.getUuid().toString()))
                 .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, video.getUuid().toString()))
                 .build());
     }

@@ -11,8 +11,8 @@ import ru.itis.nishesi.MyTube.view.peb.filters.DurationFilter;
 import ru.itis.nishesi.MyTube.view.peb.filters.ViewsFilter;
 import ru.itis.nishesi.MyTube.view.peb.filters.WhenAddedFilter;
 import ru.itis.nishesi.MyTube.view.peb.functions.GeneratePagesFunction;
+import ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +23,12 @@ public class MyTubeExtension extends AbstractExtension {
 
     @Override
     public Map<String, Object> getGlobalVariables() {
-        Map<String, Object> varMap = new HashMap<>();
-        varMap.put("LOGO_URL", contextPath + "/static/images/reg-background-img.jpg");
-        varMap.put("APP_NAME", "MyTube");
-        varMap.put("urlPatterns", new UrlPatterns());
-        varMap.put("videoCollections", List.of(VideoCollectionType.values()));
-        return varMap;
+        return Map.of(
+                "LOGO_URL", contextPath + "/static/images/reg-background-img.jpg",
+                "APP_NAME", "MyTube",
+                "urlPatterns", new UrlPatterns(),
+                "videoCollections", List.of(VideoCollectionType.values()),
+                "contextPath", contextPath);
     }
 
     @Override
@@ -43,6 +43,7 @@ public class MyTubeExtension extends AbstractExtension {
     @Override
     public Map<String, Function> getFunctions() {
         return Map.of(
-                "generatePages", new GeneratePagesFunction());
+                "generatePages", new GeneratePagesFunction(),
+                "resolve", new UrlResolverFunction());
     }
 }

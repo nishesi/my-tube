@@ -1,10 +1,10 @@
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 {% extends "part/form" %}
 
 {% import "macro/inputField" %}
 {% import "macro/globalErrors" %}
 
 {% block formhead %}
-    <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-with-polyfills-latest.js"></script>
     <script src="{{ href('/static/js/oauth.js') }}"></script>
 {% endblock %}
 
@@ -20,10 +20,7 @@
     {{ inputField(formName, 'password', 'password', 'Password', _context) }}
 
     <div class="container text-center">
-
-    <button type="submit" class="btn btn-outline-primary">Authorize</button>
-    <a class="btn btn-outline-secondary"
-       href="{{ href(urlPatterns.REGISTRATION_PAGE) }}">Register</a>
+        <button type="submit" class="btn btn-outline-primary">Authorize</button>
     </div>
 
     <a href="https://oauth.yandex.ru/authorize?response_type=code&client_id=9a58369d0d904fa8a866eebce80a4ec3" >Войти через яндекс</a>

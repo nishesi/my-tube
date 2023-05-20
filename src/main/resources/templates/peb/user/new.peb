@@ -1,10 +1,11 @@
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 {% extends "part/form" %}
 
 {% import "macro/inputField" %}
 {% import "macro/problem" %}
 {% import "macro/globalErrors" %}
 
-{% set formUrl = href('/user') %}
+{% set formUrl = resolve('UC#register') %}
 {% set formPlaceholder = "Registration" %}
 {% set isFormMultipart = false %}
 {% set formMethod = "POST" %}

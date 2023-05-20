@@ -2,16 +2,13 @@
 {# @pebvariable name="collections" type="java.util.List<java.util.Map>" #}
 {# @pebvariable name="user" type="ru.itis.nishesi.MyTube.dto.UserDto" #}
 {# @pebvariable name="type" type="java.lang.String" #}
-
-{#{% set collections = [{"name" : "Random", "type" : "random", "authRequired" : false},#}
-{#                      {"name" : "Subscriptions", "type" : "subs",  "auth" : true}] %}#}
-
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 
 {% for collectionType in videoCollections %}
     {% if (not collectionType.authRequired) or (user is not null) %}
         <li class="nav-item">
             <a class="nav-link {% if type equals collectionType %}active{% endif %}"
-               aria-current="page" href="{{ href('?type=' + collectionType)}}">
+               aria-current="page" href="{{ resolve('HC#getHomePage', queryParams = {'type':collectionType.toString()}) }}">
                     {{ collectionType.name }}
             </a>
         </li>

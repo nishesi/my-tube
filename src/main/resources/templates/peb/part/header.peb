@@ -1,7 +1,9 @@
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 {# @pebvariable name="LOGO_URL" type="java.lang.String" #}
 {# @pebvariable name="APP_NAME" type="java.lang.String" #}
 {# @pebvariable name="user" type="ru.itis.nishesi.MyTube.dto.UserDto" #}
 {# @pebvariable name="request" type="jakarta.servlet.http.HttpServletRequest" #}
+{# @pebvariable name="substring" type="java.lang.String" #}
 
 <header class="container-fluid">
     <nav class="navbar navbar-expand-md bg-light">
@@ -22,7 +24,7 @@
                     {% include "part/videoCollections" %}
 
                     <li class="nav-item">
-                        <form action="{{ request.contextPath + urlPatterns.SEARCH_PAGE }}" method="get"
+                        <form action="{{ resolve('SC#search') }}" method="get"
                               role="search"
                               class="ms-md-5">
                             <div class="input-group flex-nowrap">
@@ -51,18 +53,18 @@
                     {% else  %}
 
                     <ul class="navbar-nav ms-md-5 mb-2 mb-md-0">
-                        {% if request.servletPath != urlPatterns.REGISTRATION_PAGE %}
+                        {% if request.contextPath + request.servletPath != resolve('UC#getRegistrationPage') %}
                             <li class="nav-item me-2">
                                 <a type="button" class="btn btn-outline-secondary"
-                                   href="{{ href(urlPatterns.REGISTRATION_PAGE) }}">
+                                   href="{{ resolve('UC#getRegistrationPage') }}">
                                     <strong>Register</strong>
                                 </a>
                             </li>
                         {% endif %}
-                        {% if request.servletPath != urlPatterns.AUTHENTICATION_PAGE %}
+                        {% if request.servletPath != '/login' %}
                             <li class="nav-item">
                                 <a type="button" class="btn btn-outline-primary"
-                                   href="{{ href(urlPatterns.AUTHENTICATION_PAGE) }}">
+                                   href="{{ resolve('SC#getLoginPage') }}">
                                     <strong>Login</strong>
                                 </a>
                             </li>

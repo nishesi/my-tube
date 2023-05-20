@@ -1,8 +1,9 @@
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 {% extends "part/form" %}
 
 {% import 'macro/inputField' %}
 
-{% set formUrl = href('/channel') %}
+{% set formUrl = resolve("CC#createChannel") %}
 {% set isFormMultipart = true %}
 {% set formMethod = "POST" %}
 {% set formPlaceholder = "Create channel" %}

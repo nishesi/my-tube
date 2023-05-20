@@ -21,10 +21,10 @@ import ru.itis.nishesi.MyTube.enums.AlertType;
 public class SearchController {
     private final SearchService videoService;
 
-    @GetMapping("/{substring}")
+    @GetMapping
     public String search(ModelMap modelMap,
-                         @RequestParam(defaultValue = "0") int pageInd,
-                         @PathVariable String substring) {
+                         @RequestParam String substring,
+                         @RequestParam(defaultValue = "0") int pageInd) {
         try {
             Page<VideoCover> videoCovers = videoService.findVideosByNameSubstring(substring, pageInd);
             modelMap.put("videosPage", videoCovers);

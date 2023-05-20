@@ -1,3 +1,4 @@
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 {# @pebvariable name="user" type="ru.itis.nishesi.MyTube.dto.UserDto" #}
 {# @pebvariable name="_csrf" type="org.springframework.security.web.csrf.CsrfToken" #}
 
@@ -12,15 +13,15 @@
         </div>
         <div class="offcanvas-body">
             <div class="list-group">
-                <a href="{{ href('/user/update') }}"
+                <a href="{{ resolve('UC#getUpdateUserPage') }}"
                    class="list-group-item list-group-item-action" aria-current="true">
                     Change account information
                 </a>
                 {% if user.channelId is not null %}
-                    <a href="{{  href('/channel/' + user.channelId) }}"
+                    <a href="{{  resolve('CC#getChannelPage', pathVars = {'1':user.channelId}) }}"
                        class="list-group-item list-group-item-action">My channel</a>
                     {% else %}
-                    <a href="{{  href('/channel/add') }}"
+                    <a href="{{  resolve('CC#getCreateChannelPage') }}"
                        class="list-group-item list-group-item-action">Create channel</a>
                 {% endif %}
 

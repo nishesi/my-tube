@@ -15,10 +15,6 @@ public class UrlCreator {
         return contextPath + RESOURCE + "/" + fileType.getType() + "/" + id;
     }
 
-    public String createWatchUrl(String videoId) {
-        return contextPath + VIDEO + "/" + videoId;
-    }
-
     public String createChannelUrl(String channelId) {
         return contextPath + CHANNEL + "?id=" + channelId;
     }

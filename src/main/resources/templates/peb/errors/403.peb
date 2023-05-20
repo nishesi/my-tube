@@ -1,4 +1,5 @@
-{% extends "part/base" %}
+
+    {% extends "part/base" %}
 
 {% block head %}
     <link rel="stylesheet" href="{{ href('/static/css/errors/403.css') }}">

@@ -1,3 +1,4 @@
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 {# @pebvariable name="channel" type="ru.itis.nishesi.MyTube.dto.ChannelDto" #}
 {# @pebvariable name="user" type="ru.itis.nishesi.MyTube.dto.UserDto" #}
 {# @pebvariable name="urlPatterns" type="ru.itis.nishesi.MyTube.controllers.UrlPatterns" #}
@@ -20,14 +21,14 @@
 
             {% if channel.id equals user.channelId %}
 
-                <a href="{{ href(urlPatterns.PRIVATE_VIDEO_UPLOAD) }}"
+                <a href="{{ resolve('VC#getAddVideoPage') }}"
                    class="btn btn-outline-secondary" aria-current="true">
                     Add video
                 </a>
 
             {% else %}
 
-                <form action="{{ href('/user/subscribe') }}"
+                <form action="{{ resolve('UC#subscribeToChannel', queryPatam = {'channelId': channel.id}) }}"
                       method="post">
                     <input type="hidden" name="channelId" value="{{ channel.id }}">
                     <input class="btn {{channel.isSubscribed ? 'btn-outline-danger' : 'btn-primary' }}"

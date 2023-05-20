@@ -1,23 +1,24 @@
 {# @pebvariable name="user" type="ru.itis.nishesi.MyTube.dto.UserDto" #}
 {# @pebvariable name="videoCov" type="ru.itis.nishesi.MyTube.dto.VideoCover" #}
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 
 {% macro videoCover(videoCov, _context) %}
 
 <div class="col">
     <div class="card">
-        <a href="{{ videoCov.watchUrl }}">
+        <a href="{{ resolve('VC#getVideoPage', pathVars = {'1': videoCov.uuid}) }}">
             <img src="{{ videoCov.videoCoverImgUrl }}" class="card-img-top" alt="video icon">
         </a>
 
         <div class="card-body p-1">
 
             <h6 class="card-title">
-                <a class="" href="{{ videoCov.watchUrl }}">
+                <a class="" href="{{ resolve('VC#getVideoPage', pathVars = {'1': videoCov.uuid}) }}">
                         {{ videoCov.name }}
                 </a>
             </h6>
 
-            <a href="{{ videoCov.channelCover.channelUrl }}">
+            <a href="{{ resolve('CC#getChannelPage', pathVars = {'1':videoCov.channelCover.id}) }}">
                 <div class="container p-0 align-baseline">
                     <img class="rounded-circle channel-image" src="{{ videoCov.channelCover.channelImgUrl }}"
                          alt="channel cover">
@@ -42,8 +43,8 @@
             {% if user.channelId is not null and videoCov.channelCover.id equals user.channelId %}
 
                 <div class="container m-1">
-                    <a class="btn btn-outline-primary d-inline" href="{{ href('/video/' + videoCov.uuid + '/update') }}">Modify</a>
-                    <form class="d-inline" method="post" action="{{ href('/video/' + videoCov.uuid) }}">
+                    <a class="btn btn-outline-primary d-inline" href="{{ resolve('VC#getUpdateVideoPage', pathVars = {'1': videoCov.uuid}) }}">Modify</a>
+                    <form class="d-inline" method="post" action="{{ resolve('VC#deleteVideo', pathVars = {'0': videoCov.uuid}) }}">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="submit" class="btn btn-outline-danger d-inline" value="Delete">
                     </form>

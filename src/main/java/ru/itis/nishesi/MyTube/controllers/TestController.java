@@ -1,14 +1,9 @@
 package ru.itis.nishesi.MyTube.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import ru.itis.nishesi.MyTube.repositories.ChannelRepository;
-import ru.itis.nishesi.MyTube.repositories.VideoRepository;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,11 +11,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/test")
 public class TestController {
-    private final VideoRepository videoRepository;
-
-    @GetMapping
+    @GetMapping("/ex")
     @ResponseBody
     public List<?> getPage() {
         throw new RuntimeException("tutut");
+    }
+
+    @GetMapping
+    public String test() {
+        return "test";
     }
 }

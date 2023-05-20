@@ -1,10 +1,11 @@
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 {% extends "part/form" %}
 
 {% import "macro/inputField" %}
 {% import "macro/problem" %}
 {% import "macro/globalErrors" %}
 
-{% set formUrl = href('/video') %}
+{% set formUrl = resolve('VC#updateVideo') %}
 {% set isFormMultipart = true %}
 {% set formMethod = "PUT" %}
 {% set formPlaceholder = "Update video" %}

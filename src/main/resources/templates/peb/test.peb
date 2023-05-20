@@ -1,14 +1,12 @@
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Test</title>
 </head>
 <body>
-{{ testAttribute }}
-<form method="post" action="{{ href('/test') }}">
-    <input type="hidden" name="_method" value="PUT">
-    <input type="submit" value="submit">
-</form>
+        {{ resolve('VC#getVideoPage', queryParams = {'typo':'coll', 'window':'true'}) }}
 </body>
 </html>

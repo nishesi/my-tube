@@ -1,5 +1,6 @@
 {# @pebvariable name="video" type="ru.itis.nishesi.MyTube.dto.VideoDto" #}
 {# @pebvariable name="Reaction" type="ru.itis.nishesi.MyTube.enums.Reaction" #}
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 
 {% extends "part/base" %}
 
@@ -37,15 +38,6 @@
 
                     <input type="checkbox" class="btn-check reactionType" id="DISLIKE" autocomplete="off" {% if reaction equals 'DISLIKE' %}checked{% endif %}>
                     <label id="dislikeLabel" class="btn btn-outline-danger" for="DISLIKE">{{ video.dislikes }} Dislikes</label>
-
-{#                    <input type="radio" class="btn-check reactionType" name="btnradio" id="void" autocomplete="off"#}
-{#                           {% if reaction equals 'NONE' or reaction is null %}checked{% endif %}>#}
-{#                    <label id="voidLabel" class="btn btn-outline-secondary" for="void"> </label>#}
-
-{#                    <input type="radio" class="btn-check reactionType" name="btnradio" id="DISLIKE" autocomplete="off"#}
-{#                           {% if reaction equals 'DISLIKE' %}checked{% endif %}>#}
-{#                    <label id="dislikeLabel" class="btn btn-outline-danger"#}
-{#                           for="dislike">Dislike {{  video.dislikes }}</label>#}
                 </div>
                 <div id="viewsLabel">{{ video.views }}</div>
                 <div class="mt-2">

@@ -12,7 +12,6 @@ import java.util.UUID;
 public class VideoCover {
     private UUID uuid;
     private String name;
-    private String watchUrl;
     private String videoCoverImgUrl;
     private ChannelCover channelCover;
     private LocalDateTime addedDate;

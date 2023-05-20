@@ -114,12 +114,12 @@ public class VideoController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteVideo(@PathVariable UUID videoId,
+    public String deleteVideo(@PathVariable UUID id,
                               @SessionAttribute UserDto userDto,
                               RedirectAttributes redirectAttributes) {
         AlertsDto alertsDto;
         try {
-            videoService.deleteVideo(videoId, userDto);
+            videoService.deleteVideo(id, userDto);
             alertsDto = new AlertsDto(Alert.of(AlertType.SUCCESS, "Video deleted."));
 
         } catch (ServiceException e) {
