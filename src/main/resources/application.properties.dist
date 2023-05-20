@@ -44,3 +44,8 @@ spring.jpa.hibernate.naming.implicit-strategy=org.springframework.boot.orm.jpa.h
 spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
 spring.data.web.pageable.default-page-size=2
+
+
+# SECURITY
+
+spring.security.filter.order=5

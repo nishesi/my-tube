@@ -2,18 +2,17 @@ package ru.itis.nishesi.MyTube.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.multipart.support.MultipartFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.itis.nishesi.MyTube.auxiliary.AlertsDtoConverter;
-
-import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -30,45 +29,22 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public MultipartResolver multipartResolver() {
-        return new StandardServletMultipartResolver();
+    public FilterRegistrationBean<MultipartFilter> multipartFilterBean() {
+        var bean = new FilterRegistrationBean<>(new MultipartFilter());
+        bean.setOrder(0);
+        return bean;
     }
 
-//    @Bean
-//    ServletListenerRegistrationBean<HttpSessionListener> initSessList() {
-//        var bean = new ServletListenerRegistrationBean<HttpSessionListener>();
-//        bean.setListener(new HttpSessionListener() {
-//            @Override
-//            public void sessionCreated(HttpSessionEvent se) {
-//                se.getSession().setAttribute("user",
-//                        UserDto.builder()
-//                                .id(3L)
-//                                .email("email@gmail.com")
-//                                .firstName("first name")
-//                                .lastName("last name")
-//                                .country("Prussia")
-//                                .birthdate(LocalDate.of(2003, 3, 22))
-//                                .channelId(7L)
-//                                .build());
-//            }
-//        });
-//        return bean;
-//    }
-
     @Bean
-    HiddenHttpMethodFilter hiddenHttpMethodFilter() {
-        return new HiddenHttpMethodFilter();
+    FilterRegistrationBean<HiddenHttpMethodFilter> hiddenHttpMethodFilter() {
+        var bean = new FilterRegistrationBean<>(new HiddenHttpMethodFilter());
+        bean.setOrder(1);
+        return bean;
     }
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(alertsDtoConverter);
-    }
-
-    @Override
-    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-
-        WebMvcConfigurer.super.configureHandlerExceptionResolvers(resolvers);
     }
 
     @Override
