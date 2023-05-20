@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.itis.nishesi.MyTube.dto.AlertsDto;
 import ru.itis.nishesi.MyTube.dto.forms.video.NewVideoForm;
@@ -31,20 +32,23 @@ public class VideoController {
     }
 
     @PostMapping
-    public String addVideo(@SessionAttribute UserDto userDto,
+    public String addVideo(@SessionAttribute UserDto user,
                            @Valid NewVideoForm newVideoForm,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes
     ) {
         if (!bindingResult.hasErrors()) {
             try {
-                videoService.addVideo(newVideoForm, userDto);
+                videoService.addVideo(newVideoForm, user);
 
                 AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.SUCCESS, "Video added."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
 
-                redirectAttributes.addAttribute("id", userDto.getChannelId());
-                return "redirect:/channel";
+                redirectAttributes.addAttribute("id", user.getChannelId());
+                return "redirect:" + MvcUriComponentsBuilder
+                        .fromMappingName("CC#getChannelPage")
+                        .arg(1, user.getChannelId())
+                        .build();
 
             } catch (ServiceException ex) {
                 AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
@@ -86,7 +90,9 @@ public class VideoController {
         } catch (ServiceException e) {
             AlertsDto alertsDto = new AlertsDto(Alert.of(AlertType.DANGER, e.getMessage()));
             redirectAttributes.addFlashAttribute("alerts", alertsDto);
-            return "redirect:/";
+            return "redirect:" + MvcUriComponentsBuilder
+                    .fromMappingName("HC#getHomePage")
+                    .build();
         }
     }
 
@@ -94,16 +100,19 @@ public class VideoController {
     public String updateVideo(ModelMap modelMap,
                               @Valid UpdateVideoForm updateVideoForm,
                               BindingResult bindingResult,
-                              @SessionAttribute UserDto userDto,
+                              @SessionAttribute UserDto user,
                               RedirectAttributes redirectAttributes
     ) {
         if (!bindingResult.hasErrors()) {
             try {
-                videoService.updateVideo(updateVideoForm, userDto);
+                videoService.updateVideo(updateVideoForm, user);
 
                 AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.SUCCESS, "Video updated."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
-                return "redirect:/channel/" + userDto.getChannelId();
+                return "redirect:" + MvcUriComponentsBuilder
+                        .fromMappingName("CC#getChannelPage")
+                        .arg(1, user.getChannelId())
+                        .build();
 
             } catch (ServiceException ex) {
                 AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
@@ -115,11 +124,11 @@ public class VideoController {
 
     @DeleteMapping("/{id}")
     public String deleteVideo(@PathVariable UUID id,
-                              @SessionAttribute UserDto userDto,
+                              @SessionAttribute UserDto user,
                               RedirectAttributes redirectAttributes) {
         AlertsDto alertsDto;
         try {
-            videoService.deleteVideo(id, userDto);
+            videoService.deleteVideo(id, user);
             alertsDto = new AlertsDto(Alert.of(AlertType.SUCCESS, "Video deleted."));
 
         } catch (ServiceException e) {
@@ -127,6 +136,9 @@ public class VideoController {
         }
 
         redirectAttributes.addFlashAttribute("alerts", alertsDto);
-        return "redirect:/channel/" + userDto.getChannelId();
+        return "redirect:" + MvcUriComponentsBuilder
+                .fromMappingName("CC#getChannelPage")
+                .arg(1, user.getChannelId())
+                .build();
     }
 }

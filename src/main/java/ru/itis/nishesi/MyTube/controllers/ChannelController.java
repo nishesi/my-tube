@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.itis.nishesi.MyTube.dto.AlertsDto;
 import ru.itis.nishesi.MyTube.dto.ChannelDto;
@@ -41,7 +42,11 @@ public class ChannelController {
 
                 AlertsDto alertsDto = new AlertsDto(Alert.of(AlertType.SUCCESS, "Channel created."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
-                return "redirect:/channel/" + channelId;
+
+                return "redirect:" + MvcUriComponentsBuilder
+                        .fromMappingName("CC#etChannelPage")
+                        .arg(1, channelId)
+                        .build();
 
             } catch (ServiceException ex) {
                 AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));

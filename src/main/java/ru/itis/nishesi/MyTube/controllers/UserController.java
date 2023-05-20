@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.itis.nishesi.MyTube.dto.AlertsDto;
 import ru.itis.nishesi.MyTube.dto.forms.user.NewUserForm;
@@ -70,7 +71,9 @@ public class UserController {
                         new Alert(AlertType.INFO, "Please do reauthorization.")
                 );
                 redirectAttributes.addFlashAttribute("alerts", alerts);
-                return "redirect:/";
+                return "redirect:" + MvcUriComponentsBuilder
+                        .fromMappingName("HC#getHomePage")
+                        .build();
 
             } catch (ServiceException e) {
                 AlertsDto alerts = new AlertsDto(new Alert(AlertType.DANGER, e.getMessage()));
@@ -86,7 +89,11 @@ public class UserController {
                                      RedirectAttributes redirectAttributes) {
         try {
             userService.changeSubscription(channelId, user.getId());
-            return "redirect:/channel/" + channelId;
+            return "redirect:" + MvcUriComponentsBuilder
+                    .fromMappingName("CC#getChannelPage")
+                    .arg(1, channelId)
+                    .build();
+
         } catch (ServiceException ex) {
             AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
             redirectAttributes.addFlashAttribute("alerts", alertsDto);
