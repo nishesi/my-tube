@@ -70,7 +70,7 @@ public class UserController {
                         new Alert(AlertType.INFO, "Please do reauthorization.")
                 );
                 redirectAttributes.addFlashAttribute("alerts", alerts);
-                return "redirect:/logout";
+                return "redirect:/";
 
             } catch (ServiceException e) {
                 AlertsDto alerts = new AlertsDto(new Alert(AlertType.DANGER, e.getMessage()));

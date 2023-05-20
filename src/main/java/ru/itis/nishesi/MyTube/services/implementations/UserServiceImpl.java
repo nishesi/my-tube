@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 
             MultipartFile icon = form.getIconFile();
             if (!icon.isEmpty()) {
-                fileService.save(FileType.USER_ICON, user.getEmail(), icon.getInputStream());
+                fileService.save(FileType.USER_ICON, String.valueOf(user.getId()), icon.getInputStream());
             }
         } catch (RuntimeException | IOException ex) {
             if (ex instanceof DataIntegrityViolationException &&
