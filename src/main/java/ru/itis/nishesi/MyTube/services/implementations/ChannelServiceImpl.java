@@ -73,7 +73,6 @@ public class ChannelServiceImpl implements ChannelService {
             return channel.getId();
 
         } catch (RuntimeException | IOException ex) {
-            ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");
         }
     }

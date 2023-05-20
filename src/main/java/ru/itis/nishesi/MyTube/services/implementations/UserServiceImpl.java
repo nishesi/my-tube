@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
             if (ex instanceof DataIntegrityViolationException &&
                     ex.getCause() instanceof ConstraintViolationException)
                 throw new DBConstraintException("Invalid data.");
-            ex.printStackTrace();
+
             throw new ServiceException("Something go wrong, please try again later.");
         }
     }

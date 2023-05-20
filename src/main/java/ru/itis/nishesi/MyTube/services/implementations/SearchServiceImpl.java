@@ -36,7 +36,6 @@ public class SearchServiceImpl implements SearchService {
             return converter.from(page);
 
         } catch (RuntimeException ex) {
-            ex.printStackTrace();
             throw new ServiceException("Something go wrong, please try again later.");
         }
     }

@@ -85,7 +85,7 @@ public class VideoServiceImpl implements VideoService {
                 fileService.save(FileType.VIDEO_ICON, form.getUuid(), icon.getInputStream());
 
         } catch (IOException | RuntimeException e) {
-            e.printStackTrace();
+
             throw new ServiceException("Something go wrong, please try again later.");
         }
     }
@@ -103,7 +103,7 @@ public class VideoServiceImpl implements VideoService {
             fileService.delete(FileType.VIDEO_ICON, videoId.toString());
 
         } catch (RuntimeException ex) {
-            ex.printStackTrace();
+
             throw new ServiceException("Something go wrong, please try again later.");
         }
     }
@@ -114,7 +114,7 @@ public class VideoServiceImpl implements VideoService {
             Video video = videoRepository.findById(id).orElseThrow();
             return converter.from(video);
         } catch (RuntimeException ex) {
-            ex.printStackTrace();
+
             throw new ServiceException("Something go wrong, please try again later.");
         }
     }
