@@ -1,22 +1,21 @@
 package ru.itis.nishesi.MyTube.dto;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.UUID;
-
-import lombok.Data;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import ru.itis.nishesi.MyTube.enums.Reaction;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class VideoDto {
-    private UUID uuid;
+    private String uuid;
     private String name;
     private String info;
     private String videoFileUrl;

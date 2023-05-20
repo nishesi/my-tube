@@ -27,7 +27,8 @@ public class UrlResolverFunction implements Function {
         var builder = MvcUriComponentsBuilder.fromMappingName(uriComponentsBuilder, mapping);
         if (pathVariables != null)
             pathVariables.forEach((key, value) -> builder.arg(Integer.parseInt(key), value));
-        return context.getVariable("contextPath") + builder.build();
+        String s = context.getVariable("contextPath") + builder.build();
+        return s;
     }
 
     @Override

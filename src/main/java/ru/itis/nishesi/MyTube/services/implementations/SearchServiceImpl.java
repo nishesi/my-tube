@@ -13,14 +13,12 @@ import ru.itis.nishesi.MyTube.dto.VideoCover;
 import ru.itis.nishesi.MyTube.entities.Video;
 import ru.itis.nishesi.MyTube.enums.VideoCollectionType;
 import ru.itis.nishesi.MyTube.exceptions.ServiceException;
-import ru.itis.nishesi.MyTube.repositories.SubscriptionRepository;
 import ru.itis.nishesi.MyTube.repositories.VideoRepository;
 import ru.itis.nishesi.MyTube.services.SearchService;
 
 @Service
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService {
-    private final SubscriptionRepository subscriptionRepository;
     private final VideoRepository videoRepository;
     private final Converter converter;
     private final Sort sort = Sort.by("addedDate").descending();
@@ -42,7 +40,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public Page<VideoCover> getVideoCollection(VideoCollectionType type, UserDto user, int pageInd) throws ServiceException {
-        Pageable pageable = PageRequest.of(pageInd, pageSize, sort);
+        Pageable pageable = PageRequest.of(pageInd, pageSize);
 
         Page<Video> page = switch (type) {
             case RANDOM -> videoRepository.findAll(pageable);

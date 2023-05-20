@@ -28,7 +28,7 @@ public class Converter {
 
     public Page<VideoCover> from(Page<Video> page) {
         return page.map(video -> VideoCover.builder()
-                .uuid(video.getUuid())
+                .uuid(video.getUuid().toString())
                 .name(video.getName())
                 .addedDate(video.getAddedDate().toLocalDateTime())
                 .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, video.getUuid().toString()))
@@ -37,7 +37,7 @@ public class Converter {
 
     public VideoDto from(Video video, Page<VideoCover> videoCovers) {
         return VideoDto.builder()
-                .uuid(video.getUuid())
+                .uuid(video.getUuid().toString())
                 .name(video.getName())
                 .info(video.getInfo())
                 .addedDate(video.getAddedDate().toLocalDateTime())

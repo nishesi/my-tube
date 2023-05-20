@@ -29,7 +29,14 @@ public interface VideoRepository extends CrudRepository<Video, UUID>, PagingAndS
                 where s.user.id = :userId)""")
     Page<Video> getSubscriptionsVideos(Long userId, Pageable pageable);
 
-    @Query("""            
+    /**
+     * Have not to use sorting.
+     * @param userId
+     * @param pageable
+     * @return
+     */
+
+    @Query(value = """            
             select distinct v3.video
             from View v1,
                  View v2,
