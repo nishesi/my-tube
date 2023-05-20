@@ -5,7 +5,6 @@ import io.pebbletemplates.pebble.extension.Filter;
 import io.pebbletemplates.pebble.extension.Function;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import ru.itis.nishesi.MyTube.controllers.UrlPatterns;
 import ru.itis.nishesi.MyTube.enums.VideoCollectionType;
 import ru.itis.nishesi.MyTube.view.peb.filters.DurationFilter;
 import ru.itis.nishesi.MyTube.view.peb.filters.ViewsFilter;
@@ -26,7 +25,6 @@ public class MyTubeExtension extends AbstractExtension {
         return Map.of(
                 "LOGO_URL", contextPath + "/static/images/reg-background-img.jpg",
                 "APP_NAME", "MyTube",
-                "urlPatterns", new UrlPatterns(),
                 "videoCollections", List.of(VideoCollectionType.values()),
                 "contextPath", contextPath);
     }

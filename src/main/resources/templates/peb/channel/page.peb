@@ -1,7 +1,6 @@
 {# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
 {# @pebvariable name="channel" type="ru.itis.nishesi.MyTube.dto.ChannelDto" #}
 {# @pebvariable name="user" type="ru.itis.nishesi.MyTube.dto.UserDto" #}
-{# @pebvariable name="urlPatterns" type="ru.itis.nishesi.MyTube.controllers.UrlPatterns" #}
 
 {% extends "part/base" %}
 
