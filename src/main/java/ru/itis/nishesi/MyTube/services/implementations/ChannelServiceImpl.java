@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.itis.nishesi.MyTube.dto.ChannelDto;
-import ru.itis.nishesi.MyTube.dto.Converter;
+import ru.itis.nishesi.MyTube.auxiliary.Converter;
 import ru.itis.nishesi.MyTube.dto.UserDto;
 import ru.itis.nishesi.MyTube.dto.forms.channel.NewChannelForm;
 import ru.itis.nishesi.MyTube.entities.Channel;

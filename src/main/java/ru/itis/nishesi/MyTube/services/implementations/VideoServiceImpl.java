@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.itis.nishesi.MyTube.enums.VideoCollectionType;
-import ru.itis.nishesi.MyTube.dto.Converter;
+import ru.itis.nishesi.MyTube.auxiliary.Converter;
 import ru.itis.nishesi.MyTube.dto.UserDto;
 import ru.itis.nishesi.MyTube.dto.VideoCover;
 import ru.itis.nishesi.MyTube.dto.VideoDto;

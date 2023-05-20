@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.itis.nishesi.MyTube.dto.Converter;
+import ru.itis.nishesi.MyTube.auxiliary.Converter;
 import ru.itis.nishesi.MyTube.entities.User;
 import ru.itis.nishesi.MyTube.repositories.UserRepository;
 

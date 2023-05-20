@@ -3,7 +3,7 @@ package ru.itis.nishesi.MyTube.security.userdetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.itis.nishesi.MyTube.dto.Converter;
+import ru.itis.nishesi.MyTube.auxiliary.Converter;
 import ru.itis.nishesi.MyTube.dto.UserDto;
 import ru.itis.nishesi.MyTube.entities.User;
 
