@@ -1,5 +1,7 @@
 {% extends "part/base" %}
 
+{% import "macro/globalErrors" %}
+
 {% block head %}
     <link rel="stylesheet" href="{{ href('/static/css/form.css') }}">
     {% block formhead %}{% endblock %}

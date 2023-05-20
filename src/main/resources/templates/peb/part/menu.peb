@@ -17,10 +17,10 @@
                     Change account information
                 </a>
                 {% if user.channelId is not null %}
-                    <a href="{{  href('/channel' + user.channelId) }}"
+                    <a href="{{  href('/channel/' + user.channelId) }}"
                        class="list-group-item list-group-item-action">My channel</a>
                     {% else %}
-                    <a href="{{  href('/channel/create') }}"
+                    <a href="{{  href('/channel/add') }}"
                        class="list-group-item list-group-item-action">Create channel</a>
                 {% endif %}
 

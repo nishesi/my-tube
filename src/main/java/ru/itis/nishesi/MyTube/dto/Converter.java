@@ -16,7 +16,7 @@ public class Converter {
     private final UrlCreator urlCreator;
 
     public ChannelDto from(Channel channel, Page<Video> page) {
-        String url = urlCreator.createChannelUrl(String.valueOf(channel.getId()));
+        String url = urlCreator.createResourceUrl(FileType.CHANNEL_ICON, String.valueOf(channel.getId()));
         return ChannelDto.builder()
                 .id(channel.getId())
                 .iconUrl(url)

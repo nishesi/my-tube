@@ -2,16 +2,17 @@
 
 {% import 'macro/inputField' %}
 
-
-{% set formUrl = href('/chanel') %}
+{% set formUrl = href('/channel') %}
 {% set isFormMultipart = true %}
 {% set formMethod = "POST" %}
 {% set formPlaceholder = "Create channel" %}
 
+{% set formName = "newChannelForm" %}
+
 {% block form %}
-    {{ inputField('icon', null, 'Choose new icon', 'file', _context) }}
-    {{ inputField('name', form.name, 'Name', 'text', _context) }}
-    {{ inputField('info', form.info, 'Description', 'textarea', _context) }}
+    {{ inputField(formName, 'iconFile', 'file', 'Choose icon', _context) }}
+    {{ inputField(formName, 'name', 'text', 'Channel Name', _context) }}
+    {{ inputField(formName, 'info', 'textarea', 'Description', _context) }}
 
     <div class="container text-center">
         <button type="submit" class="btn btn-primary">Create</button>

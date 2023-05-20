@@ -32,17 +32,16 @@ public class ChannelController {
     public String createChannel(ModelMap modelMap,
                                 @Valid NewChannelForm newChannelForm,
                                 BindingResult bindingResult,
-                                @SessionAttribute UserDto userDto,
+                                @SessionAttribute UserDto user,
                                 RedirectAttributes redirectAttributes
     ) {
         if (!bindingResult.hasErrors()) {
             try {
-                Long channelId = channelService.create(newChannelForm, userDto);
-                redirectAttributes.addAttribute("id", channelId);
+                Long channelId = channelService.create(newChannelForm, user);
 
                 AlertsDto alertsDto = new AlertsDto(Alert.of(AlertType.SUCCESS, "Channel created."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
-                return "redirect:/channel";
+                return "redirect:/channel/" + channelId;
 
             } catch (ServiceException ex) {
                 AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));

@@ -1,9 +1,10 @@
 package ru.itis.nishesi.MyTube.entities;
+
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.itis.nishesi.MyTube.enums.Authority;
 
 import java.io.Serializable;
@@ -50,9 +51,11 @@ public class User implements Serializable {
     // Security
 
     @Column
+    @Builder.Default
     private boolean isNonLocked = true;
 
     @Column
+    @Builder.Default
     private boolean isEnabled = true;
 
     // OAuth

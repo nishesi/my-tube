@@ -2,7 +2,6 @@ package ru.itis.nishesi.MyTube.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -32,14 +31,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(configurer -> {
-//                    configurer.
-                })
+                .csrf(configurer -> {}
+                )
                 .authorizeHttpRequests(registry -> registry
-                        .requestMatchers("/").permitAll()
                         .requestMatchers("/login").anonymous()
                         .requestMatchers("/user/register").anonymous()
                         .requestMatchers(HttpMethod.POST, "/user").anonymous()
+
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/static/**").permitAll()
 
                         .requestMatchers("/user/**").authenticated()
