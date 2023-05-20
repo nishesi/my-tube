@@ -3,7 +3,6 @@ package ru.itis.nishesi.MyTube.auxiliary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import ru.itis.nishesi.MyTube.auxiliary.UrlCreator;
 import ru.itis.nishesi.MyTube.dto.*;
 import ru.itis.nishesi.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.nishesi.MyTube.entities.Channel;

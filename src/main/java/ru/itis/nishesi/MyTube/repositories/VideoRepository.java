@@ -31,9 +31,6 @@ public interface VideoRepository extends CrudRepository<Video, UUID>, PagingAndS
 
     /**
      * Have not to use sorting.
-     * @param userId
-     * @param pageable
-     * @return
      */
 
     @Query(value = """            
