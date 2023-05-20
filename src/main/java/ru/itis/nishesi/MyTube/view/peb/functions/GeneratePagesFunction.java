@@ -4,8 +4,13 @@ import io.pebbletemplates.pebble.error.PebbleException;
 import io.pebbletemplates.pebble.extension.Function;
 import io.pebbletemplates.pebble.template.EvaluationContext;
 import io.pebbletemplates.pebble.template.PebbleTemplate;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
+import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,16 +18,24 @@ import java.util.Map;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+@Component
 public class GeneratePagesFunction implements Function {
     private final List<String> argumentNames;
 
-    public GeneratePagesFunction() {
-        argumentNames = List.of("page", "url");
+    private final HttpServletRequest request;
+
+    public GeneratePagesFunction(HttpServletRequest request) {
+        argumentNames = List.of("page");
+        this.request = request;
     }
 
-    private static PageEl generateUrl(int pageNum, int currentPageNum, String url) {
+    private PageEl generateUrl(int pageNum, int currentPageNum, URI url) {
         if (currentPageNum != pageNum) {
-            String r = url + "pageInd=" + (pageNum - 1);
+            String r = UriComponentsBuilder.fromUri(url)
+                    .scheme(null)
+                    .host(null)
+                    .queryParam("pageInd", pageNum - 1)
+                    .toUriString();
             return new PageEl(pageNum, r);
         }
         return new PageEl(pageNum, null);
@@ -33,8 +46,8 @@ public class GeneratePagesFunction implements Function {
             Map<String, Object> args, PebbleTemplate self, EvaluationContext context, int lineNumber
     ) throws PebbleException {
 
+        URI url = new ServletServerHttpRequest(request).getURI();
         Page<?> page = (Page<?>) args.get("page");
-        String url = (String) args.get("url");
         int totalPages = page.getTotalPages();
         int currentPageNum = page.getNumber() + 1;
 
@@ -64,9 +77,11 @@ public class GeneratePagesFunction implements Function {
         return pages;
     }
 
-    record PageEl(Integer num, String url) {}
     @Override
     public List<String> getArgumentNames() {
         return argumentNames;
+    }
+
+    record PageEl(Integer num, String url) {
     }
 }

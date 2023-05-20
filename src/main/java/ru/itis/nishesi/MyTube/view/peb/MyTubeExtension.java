@@ -3,6 +3,7 @@ package ru.itis.nishesi.MyTube.view.peb;
 import io.pebbletemplates.pebble.extension.AbstractExtension;
 import io.pebbletemplates.pebble.extension.Filter;
 import io.pebbletemplates.pebble.extension.Function;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import ru.itis.nishesi.MyTube.enums.VideoCollectionType;
@@ -16,7 +17,9 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class MyTubeExtension extends AbstractExtension {
+    private final GeneratePagesFunction generatePagesFunction;
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
@@ -41,7 +44,7 @@ public class MyTubeExtension extends AbstractExtension {
     @Override
     public Map<String, Function> getFunctions() {
         return Map.of(
-                "generatePages", new GeneratePagesFunction(),
+                "generatePages", generatePagesFunction,
                 "resolve", new UrlResolverFunction());
     }
 }

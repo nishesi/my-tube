@@ -68,7 +68,6 @@ public class VideoController {
                     userDto -> modelMap.put("video", videoService.getVideoRegardingUser(id, pageInd, userDto)),
                     () -> modelMap.put("video", videoService.getVideo(id, pageInd))
             );
-            modelMap.put("url", "/video/" + id + "?");
             return "video/page";
 
         } catch (ServiceException ex) {

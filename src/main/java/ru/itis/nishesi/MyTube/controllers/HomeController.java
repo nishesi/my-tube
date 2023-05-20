@@ -31,7 +31,6 @@ public class HomeController {
         try {
             Page<?> page = searchService.getVideoCollection(type, user, pageInd);
             modelMap.put("videosPage", page);
-            modelMap.put("url", "/?type=" + type.toString() + "&");
 
         } catch (ServiceException ex) {
             AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));

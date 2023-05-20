@@ -1,4 +1,6 @@
 {# @pebvariable name="videosPage" type="org.springframework.data.domain.Page" #}
+{# @pebvariable name="url" type="java.lang.String" #}
+{# @pebvariable name="videoCover" type="templates.peb.macro.videoCover.peb" #}
 
 {% import "macro/videoCover" %}
 {% import "macro/pages" %}
@@ -21,7 +23,7 @@
         </div>
     </div>
     <div class="container text-center">
-        {{ pages(generatePages(videosPage, href(url))) }}
+        {{ pages(generatePages(videosPage)) }}
     </div>
 
 {% endif %}
