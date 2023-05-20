@@ -38,9 +38,9 @@ public interface VideoRepository extends CrudRepository<Video, UUID>, PagingAndS
               and v2.reaction = 'LIKE'
               and v3.reaction = 'LIKE'
               and v1.video = v2.video
-              and v2.video != v3.video
+              and v2.video <> v3.video
               and v2.user = v3.user
-              and v1.user != v3.user
+              and v1.user <> v3.user
               and v3.video not in (select v.video from View v where v.user.id = :userId)
               and v1.user.id = :userId
             """)
