@@ -18,18 +18,20 @@
                 </a>
             </h6>
 
-            <a href="{{ resolve('CC#getChannelPage', pathVars = {'1':videoCov.channelCover.id}) }}">
-                <div class="container p-0 align-baseline">
-                    <img class="rounded-circle channel-image" src="{{ videoCov.channelCover.channelImgUrl }}"
-                         alt="channel cover">
-                    {{ videoCov.channelCover.name }}
-                </div>
-            </a>
+            {% if videoCov.channelCover is not null %}
+                <a href="{{ resolve('CC#getChannelPage', pathVars = {'1':videoCov.channelCover.id}) }}">
+                    <div class="container p-0 align-baseline">
+                        <img class="rounded-circle channel-image" src="{{ videoCov.channelCover.channelImgUrl }}"
+                             alt="channel cover">
+                        {{ videoCov.channelCover.name }}
+                    </div>
+                </a>
+            {% endif %}
 
             <div class="container m-1">
 
                 <p class="d-inline">
-                    {{ videoCov.views | views }}
+                    {{ videoCov.views  | views }}
                 </p>
                 —
                 <p class="d-inline">

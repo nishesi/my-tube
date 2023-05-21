@@ -14,6 +14,8 @@ import ru.itis.nishesi.MyTube.exceptions.ServiceException;
 import ru.itis.nishesi.MyTube.repositories.ViewRepository;
 import ru.itis.nishesi.MyTube.services.ViewService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,12 +26,15 @@ public class ViewServiceImpl implements ViewService {
 
     @Override
     public ViewDto createView(ReactionForm reactionForm, UserDto userDto) {
-        Video video = Video.builder().uuid(UUID.fromString(reactionForm.getVideoId())).build();
-        User user = User.builder().id(userDto.getId()).build();
-        View view = new View(user, video, Reaction.valueOf(reactionForm.getReaction()));
+        UUID videoId = UUID.fromString(reactionForm.getVideoId());
+        View view = new View(
+                User.builder().id(userDto.getId()).build(),
+                Video.builder().uuid(videoId).build(),
+                Reaction.valueOf(reactionForm.getReaction()));
         try {
             view = viewRepository.save(view);
-            return ViewDto.builder().reaction(view.getReaction()).build();
+            VideoInf videoInf = getVideoInf(videoId);
+            return new ViewDto(videoInf.views, videoInf.likes, videoInf.dislikes, view.getReaction());
         } catch (RuntimeException ex) {
             throw new ServiceException("Something go wrong, try again later.");
         }
@@ -53,20 +58,22 @@ public class ViewServiceImpl implements ViewService {
                     viewRepository.save(view12);
                 });
 
-        long views = viewRepository.countByVideoUuid(videoId);
-        long likes = viewRepository.countByReaction(Reaction.LIKE);
-        long dislikes = viewRepository.countByReaction(Reaction.DISLIKE);
-        return new ViewDto(views, likes, dislikes, reaction);
+        VideoInf videoInf = getVideoInf(videoId);
+        return new ViewDto(videoInf.views, videoInf.likes, videoInf.dislikes, reaction);
+    }
+
+    @Override
+    public ViewDto getView(UUID videoId) throws ServiceException, ContentNotFoundException {
+        VideoInf videoInf = getVideoInf(videoId);
+        return new ViewDto(videoInf.views, videoInf.likes, videoInf.dislikes, null);
     }
 
     @Override
     public ViewDto getView(UUID videoId, UserDto userDto) throws ServiceException {
-        long views = viewRepository.countByVideoUuid(videoId);
-        long likes = viewRepository.countByReaction(Reaction.LIKE);
-        long dislikes = viewRepository.countByReaction(Reaction.DISLIKE);
+        VideoInf videoInf = getVideoInf(videoId);
         View view = viewRepository.findById(videoId, userDto.getId())
                 .orElseThrow(() -> new ContentNotFoundException("View not found."));
-        return new ViewDto(views, likes, dislikes, view.getReaction());
+        return new ViewDto(videoInf.views, videoInf.likes, videoInf.dislikes, view.getReaction());
     }
 
     @Override
@@ -79,5 +86,23 @@ public class ViewServiceImpl implements ViewService {
         } catch (RuntimeException ex) {
             throw new ServiceException("Something go wrong, try again later.");
         }
+    }
+
+    private VideoInf getVideoInf(UUID videoId) {
+        long views = viewRepository.countByVideoUuid(videoId);
+        long likes = viewRepository.countByReaction(Reaction.LIKE);
+        long dislikes = viewRepository.countByReaction(Reaction.DISLIKE);
+        return new VideoInf(views, likes, dislikes);
+    }
+
+    public record VideoInf(long views, long likes, long dislikes) {
+    }
+
+    @Override
+    public List<Long> getViews(List<UUID> videoIds) {
+        List<Long> views;
+        views = new ArrayList<>(videoIds.size());
+        videoIds.forEach(videoId -> views.add(viewRepository.countByVideoUuid(videoId)));
+        return views;
     }
 }

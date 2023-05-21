@@ -30,7 +30,7 @@ function updateReactions(reaction, videoUuid) {
             "reaction": reaction
         })
     }).then(resp => {
-        if (resp.status === 200) {
+        if (resp.status === 202) {
             updateInf(resp);
         } else {
             resp.json().then(json => {

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import ru.itis.nishesi.MyTube.dto.ViewDto;
 import ru.itis.nishesi.MyTube.enums.VideoCollectionType;
 import ru.itis.nishesi.MyTube.auxiliary.Converter;
 import ru.itis.nishesi.MyTube.dto.UserDto;
@@ -23,6 +24,7 @@ import ru.itis.nishesi.MyTube.services.SearchService;
 import ru.itis.nishesi.MyTube.services.VideoService;
 import ru.itis.nishesi.MyTube.enums.FileType;
 import ru.itis.nishesi.MyTube.services.FileService;
+import ru.itis.nishesi.MyTube.services.ViewService;
 
 import java.io.IOException;
 import java.time.Clock;
@@ -36,6 +38,7 @@ import java.util.UUID;
 @Transactional
 @RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
+    private final ViewService viewService;
     private final VideoRepository videoRepository;
     private final ViewRepository viewRepository;
     private final SearchService searchService;
@@ -122,9 +125,11 @@ public class VideoServiceImpl implements VideoService {
     @Override
     public VideoDto getVideo(String id, int pageInd) throws ServiceException {
         try {
-            Video video = videoRepository.findById(UUID.fromString(id)).orElseThrow();
+            UUID videoId = UUID.fromString(id);
+            Video video = videoRepository.findById(videoId).orElseThrow();
+            ViewDto viewDto = viewService.getView(videoId);
             Page<VideoCover> additionalVideos = searchService.getVideoCollection(VideoCollectionType.RANDOM, null, pageInd);
-            return converter.from(video, additionalVideos);
+            return converter.from(video, additionalVideos, viewDto);
 
         } catch (IllegalArgumentException | NoSuchElementException ex) {
             throw new ContentNotFoundException("video");
@@ -135,7 +140,7 @@ public class VideoServiceImpl implements VideoService {
     public VideoDto getVideoRegardingUser(String id, int pageInt, UserDto userDto) throws ServiceException {
         VideoDto videoDto = getVideo(id, pageInt);
         Optional<View> viewOptional = viewRepository.findById(UUID.fromString(id), userDto.getId());
-        viewOptional.ifPresent(view -> videoDto.setReaction(view.getReaction()));
+        viewOptional.ifPresent(view -> videoDto.getView().setReaction(view.getReaction()));
         return videoDto;
     }
 }

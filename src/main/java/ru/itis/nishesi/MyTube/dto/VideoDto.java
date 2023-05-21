@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-import ru.itis.nishesi.MyTube.enums.Reaction;
-
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -22,9 +20,6 @@ public class VideoDto {
     private ChannelCover channelCover;
     private LocalDateTime addedDate;
     private LocalTime duration;
-    private Long views;
-    private Long likes;
-    private Long dislikes;
+    private ViewDto view;
     private Page<VideoCover> additionalVideos;
-    private Reaction reaction;
 }

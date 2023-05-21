@@ -23,13 +23,16 @@ import ru.itis.nishesi.MyTube.repositories.VideoRepository;
 import ru.itis.nishesi.MyTube.services.ChannelService;
 import ru.itis.nishesi.MyTube.enums.FileType;
 import ru.itis.nishesi.MyTube.services.FileService;
+import ru.itis.nishesi.MyTube.services.ViewService;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ChannelServiceImpl implements ChannelService {
-
+    private final ViewService viewService;
     private final ChannelRepository channelRepository;
     private final UserRepository userRepository;
     private final VideoRepository videoRepository;
@@ -46,7 +49,11 @@ public class ChannelServiceImpl implements ChannelService {
 
         Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by("addedDate").descending());
         Page<Video> page = videoRepository.getByChannelId(id, pageable);
-        return converter.from(channel, page);
+
+        List<UUID> videoIds = page.getContent().stream().map(Video::getUuid).toList();
+        List<Long> views = viewService.getViews(videoIds);
+
+        return converter.from(channel, page, views);
     }
 
     @Override

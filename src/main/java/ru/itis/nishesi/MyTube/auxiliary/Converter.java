@@ -10,39 +10,52 @@ import ru.itis.nishesi.MyTube.entities.User;
 import ru.itis.nishesi.MyTube.entities.Video;
 import ru.itis.nishesi.MyTube.enums.FileType;
 
+import java.util.Iterator;
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class Converter {
     private final UrlCreator urlCreator;
 
-    public ChannelDto from(Channel channel, Page<Video> page) {
+    public ChannelDto from(Channel channel, Page<Video> page, List<Long> views) {
         String url = urlCreator.createResourceUrl(FileType.CHANNEL_ICON, String.valueOf(channel.getId()));
         return ChannelDto.builder()
                 .id(channel.getId())
                 .iconUrl(url)
                 .name(channel.getName())
                 .info(channel.getInfo())
-                .videosPage(from(page))
+                .videosPage(from(page, views,  false))
                 .build();
     }
 
-    public Page<VideoCover> from(Page<Video> page) {
-        return page.map(video -> VideoCover.builder()
-                .uuid(video.getUuid().toString())
-                .name(video.getName())
-                .addedDate(video.getAddedDate().toLocalDateTime())
-                .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, video.getUuid().toString()))
-                .build());
+    public Page<VideoCover> from(Page<Video> page, Iterable<Long> views, boolean setChannel) {
+        Iterator<Long> iterator = views.iterator();
+        return page.map(video -> {
+            VideoCover.VideoCoverBuilder builder = VideoCover.builder()
+                    .uuid(video.getUuid().toString())
+                    .name(video.getName())
+                    .views(iterator.next())
+                    .addedDate(video.getAddedDate().toLocalDateTime())
+                    .duration(video.getDuration())
+                    .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, video.getUuid().toString()));
+            if (setChannel)
+                builder.channelCover(from(video.getChannel()));
+            return builder.build();
+        });
     }
 
-    public VideoDto from(Video video, Page<VideoCover> videoCovers) {
+    public VideoDto from(Video video, Page<VideoCover> videoCovers, ViewDto viewDto) {
+        String videoFileUrl = urlCreator.createResourceUrl(FileType.VIDEO, video.getUuid().toString());
         return VideoDto.builder()
                 .uuid(video.getUuid().toString())
                 .name(video.getName())
                 .info(video.getInfo())
-                .addedDate(video.getAddedDate().toLocalDateTime())
-                .videoFileUrl(urlCreator.createResourceUrl(FileType.VIDEO, video.getUuid().toString()))
+                .videoFileUrl(videoFileUrl)
                 .channelCover(from(video.getChannel()))
+                .addedDate(video.getAddedDate().toLocalDateTime())
+                .duration(video.getDuration())
+                .view(viewDto)
                 .additionalVideos(videoCovers)
                 .build();
     }

@@ -64,10 +64,9 @@ public class VideoController {
                                @RequestParam(defaultValue = "0") int pageInd,
                                @SessionAttribute Optional<UserDto> user) {
         try {
-            user.ifPresentOrElse(
-                    userDto -> modelMap.put("video", videoService.getVideoRegardingUser(id, pageInd, userDto)),
-                    () -> modelMap.put("video", videoService.getVideo(id, pageInd))
-            );
+            modelMap.put("video", user.isPresent()
+                    ? videoService.getVideoRegardingUser(id, pageInd, user.get())
+                    : videoService.getVideo(id, pageInd));
             return "video/page";
 
         } catch (ServiceException ex) {

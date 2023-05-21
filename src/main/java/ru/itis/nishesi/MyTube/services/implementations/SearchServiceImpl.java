@@ -15,11 +15,16 @@ import ru.itis.nishesi.MyTube.enums.VideoCollectionType;
 import ru.itis.nishesi.MyTube.exceptions.ServiceException;
 import ru.itis.nishesi.MyTube.repositories.VideoRepository;
 import ru.itis.nishesi.MyTube.services.SearchService;
+import ru.itis.nishesi.MyTube.services.ViewService;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService {
     private final VideoRepository videoRepository;
+    private final ViewService viewService;
     private final Converter converter;
     private final Sort sort = Sort.by("addedDate").descending();
 
@@ -31,7 +36,11 @@ public class SearchServiceImpl implements SearchService {
         Pageable pageable = PageRequest.of(pageInd, pageSize, sort);
         try {
             Page<Video> page = videoRepository.getByNameLikeIgnoreCase(substring, pageable);
-            return converter.from(page);
+
+            List<UUID> videoIds = page.getContent().stream().map(Video::getUuid).toList();
+            List<Long> views = viewService.getViews(videoIds);
+
+            return converter.from(page, views, true);
 
         } catch (RuntimeException ex) {
             throw new ServiceException("Something go wrong, please try again later.");
@@ -54,6 +63,10 @@ public class SearchServiceImpl implements SearchService {
                 yield videoRepository.getRecommendedVideos(user.getId(), pageable);
             }
         };
-        return converter.from(page);
+
+        List<UUID> videoIds = page.getContent().stream().map(Video::getUuid).toList();
+        List<Long> views = viewService.getViews(videoIds);
+
+        return converter.from(page, views, true);
     }
 }

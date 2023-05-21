@@ -2,6 +2,7 @@ package ru.itis.nishesi.MyTube.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -9,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 import ru.itis.nishesi.MyTube.dto.AlertsDto;
 import ru.itis.nishesi.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.nishesi.MyTube.dto.forms.user.UpdateUserForm;
@@ -23,6 +25,8 @@ import ru.itis.nishesi.MyTube.enums.AlertType;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
     private final UserService userService;
 
     @GetMapping("/register")
@@ -42,7 +46,7 @@ public class UserController {
                         Alert.of(AlertType.SUCCESS, "You registered."));
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
 
-                return "redirect:/login";
+                return "redirect:" + contextPath + "/login";
             } catch (ExistsException ex) {
                 bindingResult.addError(new FieldError("newUserForm", "email", ex.getMessage()));
             }

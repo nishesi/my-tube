@@ -1,6 +1,7 @@
 {# @pebvariable name="video" type="ru.itis.nishesi.MyTube.dto.VideoDto" #}
 {# @pebvariable name="Reaction" type="ru.itis.nishesi.MyTube.enums.Reaction" #}
 {# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
+{# @pebvariable name="reaction" type="java.lang.String" #}
 
 {% extends "part/base" %}
 
@@ -31,15 +32,15 @@
                 </div>
 
                 <div id="reactions" class="btn-group float-end" role="group">
-                    {% set reaction = video.reaction.toString() %}
+                    {% set reaction = video.view.reaction.toString() %}
 
                     <input type="checkbox" class="btn-check reactionType" id="LIKE" autocomplete="off" {% if reaction equals 'LIKE' %}checked{% endif %}>
-                    <label id="likeLabel" class="btn btn-outline-success" for="LIKE">{{ video.likes }} Likes</label>
+                    <label id="likeLabel" class="btn btn-outline-success" for="LIKE">{{ video.view.likes }} Likes</label>
 
                     <input type="checkbox" class="btn-check reactionType" id="DISLIKE" autocomplete="off" {% if reaction equals 'DISLIKE' %}checked{% endif %}>
-                    <label id="dislikeLabel" class="btn btn-outline-danger" for="DISLIKE">{{ video.dislikes }} Dislikes</label>
+                    <label id="dislikeLabel" class="btn btn-outline-danger" for="DISLIKE">{{ video.view.dislikes }} Dislikes</label>
                 </div>
-                <div id="viewsLabel">{{ video.views }}</div>
+                <div id="viewsLabel">{{ video.view.views }}</div>
                 <div class="mt-2">
                     {{ video.info }}
                 </div>
