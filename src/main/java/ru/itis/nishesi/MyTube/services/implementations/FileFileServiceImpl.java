@@ -36,6 +36,13 @@ public class FileFileServiceImpl implements FileService {
                 .resolve(CHANNEL_ICON_STORAGE)
                 .resolve("default" + IMAGE_TYPE).toFile();
     }
+
+    private static void validateParams(FileType fileType, String id) {
+        if (fileType == null || id == null) {
+            throw new StorageException("fileType" + fileType + ", id" + id);
+        }
+    }
+
     @Override
     public InputStream get(FileType fileType, String id) {
         validateParams(fileType, id);
@@ -53,12 +60,6 @@ public class FileFileServiceImpl implements FileService {
     public File getFile(FileType fileType, String id) {
         validateParams(fileType, id);
         return getFile(fileType, id, false);
-    }
-
-    private static void validateParams(FileType fileType, String id) {
-        if (fileType == null || id == null) {
-            throw new StorageException("fileType" + fileType + ", id" + id);
-        }
     }
 
     @Override

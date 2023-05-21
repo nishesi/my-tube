@@ -3,19 +3,25 @@ package ru.itis.nishesi.MyTube.aspect;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import ru.itis.nishesi.MyTube.dto.Alert;
+import ru.itis.nishesi.MyTube.dto.AlertsDto;
+import ru.itis.nishesi.MyTube.enums.AlertType;
 import ru.itis.nishesi.MyTube.exceptions.ContentNotFoundException;
 
 
+@Order(1)
 @Log4j2
-@ControllerAdvice
+@ControllerAdvice("ru.itis.nishesi.MyTube.controllers")
 public class MvcAspect {
 
     @InitBinder
@@ -30,6 +36,13 @@ public class MvcAspect {
 
         model.addAttribute("name", "page");
         return "errors/404";
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public String handleHttpRequestMethodNotSupportedException(Model model) {
+        AlertsDto alerts = new AlertsDto(Alert.of(AlertType.WARNING, "Method not supported"));
+        model.addAttribute("alerts", alerts);
+        return "homePage";
     }
 
     @ExceptionHandler(ContentNotFoundException.class)
