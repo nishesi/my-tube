@@ -34,7 +34,7 @@ public class GeneratePagesFunction implements Function {
             String r = UriComponentsBuilder.fromUri(url)
                     .scheme(null)
                     .host(null)
-                    .queryParam("pageInd", pageNum - 1)
+                    .replaceQueryParam("pageInd", pageNum - 1)
                     .toUriString();
             return new PageEl(pageNum, r);
         }

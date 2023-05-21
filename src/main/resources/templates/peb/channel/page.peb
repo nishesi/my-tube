@@ -29,6 +29,7 @@
 
                 <form action="{{ resolve('UC#subscribeToChannel', queryParams = {'channelId': channel.id}) }}"
                       method="post">
+                    <input type="hidden" name="{{ _csrf.parameterName }}" value="{{ _csrf.token }}">
                     <input type="hidden" name="channelId" value="{{ channel.id }}">
                     <input class="btn {{channel.isSubscribed ? 'btn-outline-danger' : 'btn-primary' }}"
                            type="submit"

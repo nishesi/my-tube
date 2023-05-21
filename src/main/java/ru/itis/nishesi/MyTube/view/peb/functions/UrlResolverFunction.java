@@ -18,11 +18,11 @@ public class UrlResolverFunction implements Function {
     public Object execute(Map<String, Object> args, PebbleTemplate self, EvaluationContext context, int lineNumber) {
         String mapping = (String) args.get("mapping");
         var pathVariables = (Map<String, Object>) args.get("pathVars");
-        var queryParams = (Map<String, String>) args.get("queryParams");
+        var queryParams = (Map<String, Object>) args.get("queryParams");
 
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance();
         if (queryParams != null)
-            queryParams.forEach(uriComponentsBuilder::queryParam);
+            queryParams.forEach((key, value) -> uriComponentsBuilder.queryParam(key, String.valueOf(value)));
 
         var builder = MvcUriComponentsBuilder.fromMappingName(uriComponentsBuilder, mapping);
         if (pathVariables != null)
