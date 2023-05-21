@@ -12,8 +12,8 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ViewDto {
-    private long views;
-    private long likes;
-    private long dislikes;
+    private Long views;
+    private Long likes;
+    private Long dislikes;
     private Reaction reaction;
 }

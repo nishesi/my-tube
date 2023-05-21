@@ -1,13 +1,12 @@
-package ru.itis.nishesi.MyTube.dto.forms;
+package ru.itis.nishesi.MyTube.dto.rest;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.UUID;
-import ru.itis.nishesi.MyTube.dto.UserDto;
-import ru.itis.nishesi.MyTube.enums.Reaction;
 
 @Data
 @Builder
@@ -18,8 +17,7 @@ public class ReactionForm {
     @NotNull
     private String videoId;
 
+    @Pattern(regexp = "^(LIKE|DISLIKE|NONE)$")
     @NotNull
-    private Reaction reaction;
-
-    private UserDto userDto;
+    private String reaction;
 }
