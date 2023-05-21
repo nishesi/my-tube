@@ -1,7 +1,9 @@
 package ru.itis.nishesi.MyTube.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.pebbletemplates.spring.servlet.PebbleViewResolver;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,6 +24,11 @@ import ru.itis.nishesi.MyTube.auxiliary.AlertsDtoConverter;
 @RequiredArgsConstructor
 public class MvcConfig implements WebMvcConfigurer {
     private final AlertsDtoConverter alertsDtoConverter;
+
+    @Autowired
+    public void init(PebbleViewResolver viewResolver) {
+        viewResolver.setRedirectContextRelative(false);
+    }
 
     @Bean
     public ObjectMapper objectMapper() {
