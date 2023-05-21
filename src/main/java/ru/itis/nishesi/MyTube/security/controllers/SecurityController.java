@@ -19,7 +19,7 @@ public class SecurityController {
     @PostMapping("/auth/err")
     public String handle(@ModelAttribute AuthUserForm authUserForm, BindingResult bindingResult) {
         bindingResult.addError(new ObjectError("authUserForm", "User not found."));
-        return "/user/auth";
+        return "user/auth";
     }
 
     @RequestMapping("/oauth/err")
@@ -28,7 +28,7 @@ public class SecurityController {
                          BindingResult bindingResult) {
         message = message == null ? "Service unavailable." : message;
         bindingResult.addError(new ObjectError("authUserForm", message));
-        return "/user/auth";
+        return "user/auth";
     }
 
     @RequestMapping("/authorize/err")
