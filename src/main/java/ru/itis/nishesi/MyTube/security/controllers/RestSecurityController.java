@@ -1,5 +1,6 @@
 package ru.itis.nishesi.MyTube.security.controllers;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import ru.itis.nishesi.MyTube.dto.rest.ExceptionDto;
 @RequestMapping("/api")
 public class RestSecurityController {
 
+    @Hidden
     @RequestMapping("/authorize/err")
     public ResponseEntity<?> handleRestAuthorizeError() {
         return ResponseEntity
@@ -21,6 +23,7 @@ public class RestSecurityController {
                         HttpStatus.FORBIDDEN.toString()));
     }
 
+    @Hidden
     @RequestMapping("/auth/err")
     public ResponseEntity<?> handle() {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
