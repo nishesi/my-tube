@@ -1,4 +1,4 @@
-context.repository = placeholder[D://]
-db.mvUpdateTimeout = 5000
+context.repository = ${WEBAPP_DATA_PATH}
 
 security.login.mapping=/login
+mvc.rest-path=/api

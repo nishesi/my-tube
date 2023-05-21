@@ -1,4 +1,4 @@
-# Template
+# TEMPLATE
 
 pebble.prefix=/templates/peb/
 pebble.suffix=.peb
@@ -9,14 +9,9 @@ spring.mvc.view.prefix=classpath:/templates/peb/
 spring.mvc.view.suffix=.peb
 
 
-# Server
+# SERVER
 
 server.servlet.context-path=/MyTube
-debug=true
-#trace=true
-server.error.include-exception=true
-server.error.include-stacktrace=always
-#spring.main.allow-circular-references=true
 
 
 # MVC
@@ -28,15 +23,15 @@ spring.mvc.throw-exception-if-no-handler-found=true
 
 # JPA
 
-spring.datasource.url=placeholder[jdbc:db://host:port/path]
-spring.datasource.username=placeholder[username]
-spring.datasource.password=placeholder[password]
+spring.datasource.url=${WEBAPP_DATASOURCE_URL}
+spring.datasource.username=${WEBAPP_DATASOURCE_USERNAME}
+spring.datasource.password=${WEBAPP_DATASOURCE_PASSWORD}
 
-spring.datasource.driver-class-name=placeholder[jdbcDriver]
+spring.datasource.driver-class-name=${WEBAPP_DATASOURCE_DRIVER_CLASS_NAME}
 spring.datasource.hikari.maximum-pool-size=20
 
 spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
+spring.jpa.show-sql=${WEBAPP_JPA_SHOW_SQL}
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.open-in-view=false
 
@@ -44,6 +39,12 @@ spring.jpa.hibernate.naming.implicit-strategy=org.springframework.boot.orm.jpa.h
 spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
 spring.data.web.pageable.default-page-size=2
+
+
+# LOGGING
+
+logging.level.ru.itis.nishesi.MyTube=${WEBAPP_PROJECT_LOGGING_LEVEL}
+debug=${WEBAPP_SPRING_LOGGING_LEVEL}
 
 
 # SECURITY

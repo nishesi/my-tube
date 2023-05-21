@@ -1,0 +1,45 @@
+version: "3.3"
+services:
+  database:
+    image: 'postgres:15.3'
+    container_name: postgres-1
+    networks:
+      - cloud
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Qwerty228
+      - POSTGRES_DB=my-tube
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  webapp:
+    image: my-tube
+    container_name: my-tube-1
+    networks:
+      - cloud
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      - WEBAPP_DATASOURCE_URL=jdbc:postgresql://database:5432/my-tube
+      - WEBAPP_DATASOURCE_USERNAME=postgres
+      - WEBAPP_DATASOURCE_PASSWORD=Qwerty228
+      - WEBAPP_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - WEBAPP_JPA_SHOW_SQL=true
+      - WEBAPP_PROJECT_LOGGING_LEVEL=INFO
+      - WEBAPP_SPRING_DEBUG=false
+      - WEBAPP_DATA_PATH=/mytube/files
+    volumes:
+      - my-tube_data:/mytube
+
+volumes:
+  postgres_data:
+    external: true
+  my-tube_data:
+    external: true
+
+networks:
+  cloud:
+    external: true
