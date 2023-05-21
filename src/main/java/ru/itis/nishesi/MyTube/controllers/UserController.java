@@ -3,6 +3,7 @@ package ru.itis.nishesi.MyTube.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +57,8 @@ public class UserController {
     }
 
     @PutMapping
-    public String updateUser(@Valid UpdateUserForm updateUserForm,
+    public String updateUser(ModelMap modelMap,
+                             @Valid UpdateUserForm updateUserForm,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes,
                              @SessionAttribute UserDto user
@@ -77,7 +79,7 @@ public class UserController {
 
             } catch (ServiceException e) {
                 AlertsDto alerts = new AlertsDto(new Alert(AlertType.DANGER, e.getMessage()));
-                redirectAttributes.addFlashAttribute("alerts", alerts);
+                modelMap.put("alerts", alerts);
             }
         }
         return "user/update";
@@ -89,15 +91,14 @@ public class UserController {
                                      RedirectAttributes redirectAttributes) {
         try {
             userService.changeSubscription(channelId, user.getId());
-            return "redirect:" + MvcUriComponentsBuilder
-                    .fromMappingName("CC#getChannelPage")
-                    .arg(1, channelId)
-                    .build();
 
         } catch (ServiceException ex) {
             AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
             redirectAttributes.addFlashAttribute("alerts", alertsDto);
         }
-        return "redirect:/";
+        return "redirect:" + MvcUriComponentsBuilder
+                .fromMappingName("CC#getChannelPage")
+                .arg(1, channelId)
+                .build();
     }
 }
