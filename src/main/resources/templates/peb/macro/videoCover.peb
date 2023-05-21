@@ -1,6 +1,7 @@
 {# @pebvariable name="user" type="ru.itis.nishesi.MyTube.dto.UserDto" #}
 {# @pebvariable name="videoCov" type="ru.itis.nishesi.MyTube.dto.VideoCover" #}
 {# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
+{# @pebvariable name="channel" type="ru.itis.nishesi.MyTube.dto.ChannelDto" #}
 
 {% macro videoCover(videoCov, _context) %}
 
@@ -42,7 +43,7 @@
                 {{ videoCov.addedDate | whenAdded }}
             </p>
 
-            {% if user.channelId is not null and videoCov.channelCover.id equals user.channelId %}
+            {% if _context.user.channelId is not null and _context.channel.id equals _context.user.channelId %}
 
                 <div class="container m-1">
                     <a class="btn btn-outline-primary d-inline" href="{{ resolve('VC#getUpdateVideoPage', pathVars = {'1': videoCov.uuid}) }}">Modify</a>
