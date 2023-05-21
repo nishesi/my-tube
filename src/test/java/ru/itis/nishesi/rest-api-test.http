@@ -1,0 +1,60 @@
+### Get not authenticated exception
+#@no-redirect
+POST localhost:8080/MyTube/api/reaction/v1
+Content-Type: application/json
+
+{
+  "videoId": " ",
+"reaction": " "
+}
+
+### Following requests require valid authenticated JSESSIONID
+
+### Get validation error
+#@no-redirect
+POST localhost:8080/MyTube/api/reaction/v1
+Content-Type: application/json
+Cookie: JSESSIONID=4BEFD48BEE808BEE297CD5482DBF22E9
+
+{
+  "videoId": " ",
+  "reaction": " "
+}
+
+### Get correct response for POST
+#@no-redirect
+POST localhost:8080/MyTube/api/reaction/v1
+Content-Type: application/json
+Cookie: JSESSIONID=4BEFD48BEE808BEE297CD5482DBF22E9
+
+{
+  "videoId": "823f86e8-1d99-480d-aa3a-f7c55a6e7742",
+  "reaction": "LIKE"
+}
+
+### Get correct response for GET
+#@no-redirect
+GET localhost:8080/MyTube/api/reaction/v1/823f86e8-1d99-480d-aa3a-f7c55a6e7742
+Content-Type: application/json
+Cookie: JSESSIONID=4BEFD48BEE808BEE297CD5482DBF22E9
+
+{}
+
+### Get correct response for PUT
+#@no-redirect
+PUT localhost:8080/MyTube/api/reaction/v1
+Content-Type: application/json
+Cookie: JSESSIONID=4BEFD48BEE808BEE297CD5482DBF22E9
+
+{
+  "videoId": "823f86e8-1d99-480d-aa3a-f7c55a6e7742",
+  "reaction": "DISLIKE"
+}
+
+### Get correct response for DELETE
+#@no-redirect
+DELETE localhost:8080/MyTube/api/reaction/v1/823f86e8-1d99-480d-aa3a-f7c55a6e7742
+Content-Type: application/json
+Cookie: JSESSIONID=4BEFD48BEE808BEE297CD5482DBF22E9
+
+{}
