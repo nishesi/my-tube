@@ -44,7 +44,7 @@ public class ChannelController {
                 redirectAttributes.addFlashAttribute("alerts", alertsDto);
 
                 return "redirect:" + MvcUriComponentsBuilder
-                        .fromMappingName("CC#etChannelPage")
+                        .fromMappingName("CC#getChannelPage")
                         .arg(1, channelId)
                         .build();
 

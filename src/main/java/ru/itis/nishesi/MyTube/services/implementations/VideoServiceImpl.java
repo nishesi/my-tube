@@ -18,6 +18,7 @@ import ru.itis.nishesi.MyTube.entities.Video;
 import ru.itis.nishesi.MyTube.entities.View;
 import ru.itis.nishesi.MyTube.exceptions.ContentNotFoundException;
 import ru.itis.nishesi.MyTube.exceptions.ServiceException;
+import ru.itis.nishesi.MyTube.repositories.ChannelRepository;
 import ru.itis.nishesi.MyTube.repositories.VideoRepository;
 import ru.itis.nishesi.MyTube.repositories.ViewRepository;
 import ru.itis.nishesi.MyTube.services.SearchService;
@@ -40,6 +41,7 @@ import java.util.UUID;
 public class VideoServiceImpl implements VideoService {
     private final ViewService viewService;
     private final VideoRepository videoRepository;
+    private final ChannelRepository channelRepository;
     private final ViewRepository viewRepository;
     private final SearchService searchService;
     private final Converter converter;
@@ -48,7 +50,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public void addVideo(NewVideoForm form, UserDto userDto) {
-        Channel channel = Channel.builder().id(userDto.getChannelId()).build();
+        Channel channel = channelRepository.findById(userDto.getChannelId()).orElseThrow();
         ZonedDateTime zonedDateTime = ZonedDateTime.now(clock);
 
         Video newVideo = Video.builder()

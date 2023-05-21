@@ -48,6 +48,7 @@
                 <div class="container m-1">
                     <a class="btn btn-outline-primary d-inline" href="{{ resolve('VC#getUpdateVideoPage', pathVars = {'1': videoCov.uuid}) }}">Modify</a>
                     <form class="d-inline" method="post" action="{{ resolve('VC#deleteVideo', pathVars = {'0': videoCov.uuid}) }}">
+                        <input type="hidden" name="{{ _context._csrf.parameterName }}" value="{{ _context._csrf.token }}">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="submit" class="btn btn-outline-danger d-inline" value="Delete">
                     </form>

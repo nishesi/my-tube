@@ -2,6 +2,7 @@ package ru.itis.nishesi.MyTube.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -32,7 +33,8 @@ public class VideoController {
     }
 
     @PostMapping
-    public String addVideo(@SessionAttribute UserDto user,
+    public String addVideo(ModelMap modelMap,
+                           @SessionAttribute UserDto user,
                            @Valid NewVideoForm newVideoForm,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes
@@ -52,7 +54,7 @@ public class VideoController {
 
             } catch (ServiceException ex) {
                 AlertsDto alertsDto = new AlertsDto(new Alert(AlertType.DANGER, ex.getMessage()));
-                redirectAttributes.addFlashAttribute("alerts", alertsDto);
+                modelMap.put("alerts", alertsDto);
             }
         }
         return "video/new";
