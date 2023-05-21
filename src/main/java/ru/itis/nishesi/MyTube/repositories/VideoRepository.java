@@ -18,7 +18,7 @@ public interface VideoRepository extends CrudRepository<Video, UUID>, PagingAndS
 
     Page<Video> getByChannelIdIn(Collection<Long> channelId, Pageable pageable);
 
-    Page<Video> getByNameLikeIgnoreCase(String str, Pageable pageable);
+    Page<Video> getByNameContainsIgnoreCase(String str, Pageable pageable);
 
     @Query("""
             select v

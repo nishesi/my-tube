@@ -35,7 +35,7 @@ public class SearchServiceImpl implements SearchService {
     public Page<VideoCover> findVideosByNameSubstring(String substring, int pageInd) {
         Pageable pageable = PageRequest.of(pageInd, pageSize, sort);
         try {
-            Page<Video> page = videoRepository.getByNameLikeIgnoreCase(substring, pageable);
+            Page<Video> page = videoRepository.getByNameContainsIgnoreCase(substring, pageable);
 
             List<UUID> videoIds = page.getContent().stream().map(Video::getUuid).toList();
             List<Long> views = viewService.getViews(videoIds);
