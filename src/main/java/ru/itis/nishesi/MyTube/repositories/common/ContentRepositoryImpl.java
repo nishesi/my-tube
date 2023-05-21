@@ -2,6 +2,10 @@ package ru.itis.nishesi.MyTube.repositories.common;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -28,16 +32,23 @@ public class ContentRepositoryImpl<T extends Content, ID extends Serializable> i
         informationMap = new ConcurrentHashMap<>();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Page<T> findByAgeCategory(AgeCategory ageCategory, Pageable pageable, Class<T> clazz) {
         JpaEntityInformation<?, ?> information = getJpaEntityInformation(clazz);
-        Query query = entityManager
-                .createQuery("select c from " + information.getEntityName() + " c where c.ageCategory = :ageCategory")
-                .setParameter("ageCategory", ageCategory)
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object> criteriaQuery = criteriaBuilder.createQuery();
+        Root<?> root = criteriaQuery.from(information.getJavaType());
+
+        criteriaQuery
+                .select(root)
+                .where(criteriaBuilder.equal(root.get("ageCategory"), ageCategory));
+
+        TypedQuery typedQuery = entityManager.createQuery(criteriaQuery)
                 .setFirstResult((int) pageable.getOffset())
                 .setMaxResults(pageable.getPageSize());
-
-        List<T> resultList = (List<T>) query.getResultList();
+        List<T> resultList = (List<T>) typedQuery.getResultList();
 
         Query query1 = entityManager
                 .createQuery("select count(*) from " + information.getEntityName() + " c where c.ageCategory = :ageCategory")
