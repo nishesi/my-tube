@@ -9,14 +9,11 @@ import ru.itis.nishesi.MyTube.entities.Video;
 import ru.itis.nishesi.MyTube.enums.AgeCategory;
 import ru.itis.nishesi.MyTube.repositories.common.ContentRepository;
 
-import java.util.Collection;
 import java.util.UUID;
 
 public interface VideoRepository extends CrudRepository<Video, UUID>, PagingAndSortingRepository<Video, UUID>, ContentRepository<Video, UUID> {
 
     Page<Video> getByChannelId(Long channelId, Pageable pageable);
-
-    Page<Video> getByChannelIdIn(Collection<Long> channelId, Pageable pageable);
 
     Page<Video> getByNameContainsIgnoreCase(String str, Pageable pageable);
 

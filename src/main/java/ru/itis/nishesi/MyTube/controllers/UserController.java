@@ -10,16 +10,15 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponentsBuilder;
+import ru.itis.nishesi.MyTube.dto.Alert;
 import ru.itis.nishesi.MyTube.dto.AlertsDto;
+import ru.itis.nishesi.MyTube.dto.UserDto;
 import ru.itis.nishesi.MyTube.dto.forms.user.NewUserForm;
 import ru.itis.nishesi.MyTube.dto.forms.user.UpdateUserForm;
+import ru.itis.nishesi.MyTube.enums.AlertType;
 import ru.itis.nishesi.MyTube.exceptions.ExistsException;
 import ru.itis.nishesi.MyTube.exceptions.ServiceException;
-import ru.itis.nishesi.MyTube.dto.UserDto;
 import ru.itis.nishesi.MyTube.services.UserService;
-import ru.itis.nishesi.MyTube.dto.Alert;
-import ru.itis.nishesi.MyTube.enums.AlertType;
 
 @Controller
 @RequiredArgsConstructor

@@ -2,21 +2,20 @@ package ru.itis.nishesi.MyTube.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.itis.nishesi.MyTube.dto.Alert;
 import ru.itis.nishesi.MyTube.dto.AlertsDto;
+import ru.itis.nishesi.MyTube.dto.UserDto;
 import ru.itis.nishesi.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.nishesi.MyTube.dto.forms.video.UpdateVideoForm;
-import ru.itis.nishesi.MyTube.exceptions.ServiceException;
-import ru.itis.nishesi.MyTube.dto.UserDto;
-import ru.itis.nishesi.MyTube.services.VideoService;
-import ru.itis.nishesi.MyTube.dto.Alert;
 import ru.itis.nishesi.MyTube.enums.AlertType;
+import ru.itis.nishesi.MyTube.exceptions.ServiceException;
+import ru.itis.nishesi.MyTube.services.VideoService;
 
 import java.util.Optional;
 import java.util.UUID;
