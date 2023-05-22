@@ -3,7 +3,7 @@ package ru.itis.nishesi.MyTube.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalTime;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 
 @Builder
@@ -14,6 +14,6 @@ public class VideoCover {
     private String videoCoverImgUrl;
     private ChannelCover channelCover;
     private ZonedDateTime addedDate;
-    private LocalTime duration;
+    private Duration duration;
     private Long views;
 }

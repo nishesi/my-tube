@@ -18,7 +18,7 @@ public class DurationFilter implements Filter {
     @Override
     public Object apply(Object input, Map<String, Object> args, PebbleTemplate self, EvaluationContext context, int lineNumber) throws PebbleException {
         if (input == null)
-            return "duration not found";
+            return "00:00";
         if (input instanceof Duration duration) {
             return duration.toHoursPart() + ":" + duration.toMinutesPart() + ":" + duration.toSecondsPart();
         }

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
-import java.time.LocalTime;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 
 @Data
@@ -20,7 +20,7 @@ public class VideoDto {
     private String videoFileUrl;
     private ChannelCover channelCover;
     private ZonedDateTime addedDate;
-    private LocalTime duration;
+    private Duration duration;
     private ViewDto view;
     private Page<VideoCover> additionalVideos;
 }

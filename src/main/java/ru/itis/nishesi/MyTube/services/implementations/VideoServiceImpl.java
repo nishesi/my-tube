@@ -5,31 +5,30 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru.itis.nishesi.MyTube.dto.ViewDto;
-import ru.itis.nishesi.MyTube.enums.VideoCollectionType;
 import ru.itis.nishesi.MyTube.auxiliary.Converter;
 import ru.itis.nishesi.MyTube.dto.UserDto;
 import ru.itis.nishesi.MyTube.dto.VideoCover;
 import ru.itis.nishesi.MyTube.dto.VideoDto;
+import ru.itis.nishesi.MyTube.dto.ViewDto;
 import ru.itis.nishesi.MyTube.dto.forms.video.NewVideoForm;
 import ru.itis.nishesi.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.nishesi.MyTube.entities.Channel;
 import ru.itis.nishesi.MyTube.entities.Video;
 import ru.itis.nishesi.MyTube.entities.View;
+import ru.itis.nishesi.MyTube.enums.FileType;
+import ru.itis.nishesi.MyTube.enums.VideoCollectionType;
 import ru.itis.nishesi.MyTube.exceptions.ContentNotFoundException;
 import ru.itis.nishesi.MyTube.exceptions.ServiceException;
 import ru.itis.nishesi.MyTube.repositories.ChannelRepository;
 import ru.itis.nishesi.MyTube.repositories.VideoRepository;
 import ru.itis.nishesi.MyTube.repositories.ViewRepository;
+import ru.itis.nishesi.MyTube.services.FileService;
 import ru.itis.nishesi.MyTube.services.SearchService;
 import ru.itis.nishesi.MyTube.services.VideoService;
-import ru.itis.nishesi.MyTube.enums.FileType;
-import ru.itis.nishesi.MyTube.services.FileService;
 import ru.itis.nishesi.MyTube.services.ViewService;
 
 import java.io.IOException;
 import java.time.Clock;
-import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -58,7 +57,6 @@ public class VideoServiceImpl implements VideoService {
                 .info(form.getInfo())
                 .channel(channel)
                 .addedDate(zonedDateTime)
-                .duration(LocalTime.of(0, 0))
                 .build();
 
         try {

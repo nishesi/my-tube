@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalTime;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.UUID;
@@ -35,7 +35,8 @@ public class Video extends Content implements Serializable {
     @Column(nullable = false)
     private ZonedDateTime addedDate;
 
-    private LocalTime duration;
+    @Column
+    private Duration duration;
 
 
     @OneToMany(mappedBy = "video", cascade = {CascadeType.REMOVE})

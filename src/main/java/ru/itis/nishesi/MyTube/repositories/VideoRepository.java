@@ -9,6 +9,8 @@ import ru.itis.nishesi.MyTube.entities.Video;
 import ru.itis.nishesi.MyTube.enums.AgeCategory;
 import ru.itis.nishesi.MyTube.repositories.common.ContentRepository;
 
+import java.time.Duration;
+import java.util.List;
 import java.util.UUID;
 
 public interface VideoRepository extends CrudRepository<Video, UUID>, PagingAndSortingRepository<Video, UUID>, ContentRepository<Video, UUID> {
@@ -63,4 +65,6 @@ public interface VideoRepository extends CrudRepository<Video, UUID>, PagingAndS
     default Page<? extends Video> findByAgeCategory(AgeCategory ageCategory, Pageable pageable) {
         return findByAgeCategory(ageCategory, pageable, Video.class);
     }
+
+    List<Video> getByDurationIsNullOrDuration(Duration duration);
 }
