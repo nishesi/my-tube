@@ -28,7 +28,7 @@ public class Video extends Content implements Serializable {
     @Column(nullable = false, length = 70)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn
     private Channel channel;
 
@@ -38,6 +38,6 @@ public class Video extends Content implements Serializable {
     private LocalTime duration;
 
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "video", cascade = {CascadeType.REMOVE})
     private Collection<View> views;
 }
