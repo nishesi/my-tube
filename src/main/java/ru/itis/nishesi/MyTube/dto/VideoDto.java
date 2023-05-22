@@ -23,4 +23,5 @@ public class VideoDto {
     private Duration duration;
     private ViewDto view;
     private Page<VideoCover> additionalVideos;
+    private Page<CommentDto> comments;
 }

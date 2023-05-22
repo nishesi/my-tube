@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.itis.nishesi.MyTube.dto.*;
 import ru.itis.nishesi.MyTube.dto.forms.video.UpdateVideoForm;
 import ru.itis.nishesi.MyTube.entities.Channel;
+import ru.itis.nishesi.MyTube.entities.Comment;
 import ru.itis.nishesi.MyTube.entities.User;
 import ru.itis.nishesi.MyTube.entities.Video;
 import ru.itis.nishesi.MyTube.enums.FileType;
@@ -45,7 +46,7 @@ public class Converter {
         });
     }
 
-    public VideoDto from(Video video, Page<VideoCover> videoCovers, ViewDto viewDto) {
+    public VideoDto from(Video video, Page<VideoCover> videoCovers, ViewDto viewDto, Page<Comment> comments) {
         String videoFileUrl = urlCreator.createResourceUrl(FileType.VIDEO, video.getUuid().toString());
         return VideoDto.builder()
                 .uuid(video.getUuid().toString())
@@ -57,6 +58,7 @@ public class Converter {
                 .duration(video.getDuration())
                 .view(viewDto)
                 .additionalVideos(videoCovers)
+                .comments(comments.map(this::from))
                 .build();
     }
 
@@ -90,6 +92,18 @@ public class Converter {
                 .country(user.getCountry())
                 .channelId(channelId)
                 .userImgUrl(iconUrl)
+                .build();
+    }
+
+    public CommentDto from(Comment comment) {
+        User user = comment.getUser();
+        String userImgUrl = urlCreator.createResourceUrl(FileType.USER_ICON, String.valueOf(user.getId()));
+        return CommentDto.builder()
+                .userFirstName(user.getFirstName())
+                .userLastName(user.getLastName())
+                .userImgUrl(userImgUrl)
+                .text(comment.getText())
+                .addedDate(comment.getAddedDate())
                 .build();
     }
 }

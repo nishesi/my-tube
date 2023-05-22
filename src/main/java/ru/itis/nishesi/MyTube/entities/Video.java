@@ -41,4 +41,7 @@ public class Video extends Content implements Serializable {
 
     @OneToMany(mappedBy = "video", cascade = {CascadeType.REMOVE})
     private Collection<View> views;
+
+    @OneToMany(mappedBy = "video", cascade = {CascadeType.REMOVE})
+    private Collection<Comment> comments;
 }

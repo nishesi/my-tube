@@ -53,6 +53,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/video/*").permitAll()
                         .requestMatchers("/video/**").authenticated()
 
+                        .requestMatchers("/comment/**").authenticated()
+
                         .requestMatchers(  "/api/reaction/**").authenticated()
                         .requestMatchers("/test").permitAll()
                         .anyRequest().permitAll()

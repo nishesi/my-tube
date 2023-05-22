@@ -1,0 +1,19 @@
+{# @pebvariable name="commentDto" type="ru.itis.nishesi.MyTube.dto.CommentDto" #}
+{% macro comment(commentDto, _context) %}
+
+<div class="card mb-4">
+    <div class="card-body">
+        <p>{{ commentDto.text }}</p>
+
+        <div class="d-flex justify-content-between">
+            <div class="d-flex flex-row align-items-center">
+                <img src="{{ commentDto.userImgUrl }}" alt="avatar" width="25" height="25" />
+                <p class="small mb-0 ms-2">{{ commentDto.userFirstName + ' ' + commentDto.userLastName }}</p>
+            </div>
+            <div class="d-flex flex-row align-items-center">
+                <p class="small text-muted mb-0">{{ commentDto.addedDate | whenAdded }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}

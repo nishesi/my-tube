@@ -5,6 +5,8 @@
 
 {% extends "part/base" %}
 
+{% import "macro/commentsList" %}
+
 {% block head %}
     <meta name="_csrf" content="{{ _csrf.token }}"/>
     <meta name="_csrf_header" content="{{ _csrf.headerName }}"/>
@@ -44,6 +46,8 @@
                 <div class="mt-2">
                     {{ video.info }}
                 </div>
+
+                {{ commentsList(video.comments, _context) }}
             </div>
         </div>
 

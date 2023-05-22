@@ -1,0 +1,24 @@
+{# @pebvariable name="commentsPage" type="org.springframework.data.domain.Page<ru.itis.nishesi.MyTube.dto.CommentDto>" #}
+{# @pebvariable name="video" type="ru.itis.nishesi.MyTube.dto.VideoDto" #}
+
+{% macro commentsList(commentsPage, _context) %}
+{% import "macro/comment" %}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-md-8 col-lg-8">
+        <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+            <div class="card-body p-4">
+                {% if _context.video.uuid is not null %}
+                    <a class="form-outline mb-4" href="{{ resolve('VCC#getNewCommentPage', pathVars={'0': _context.video.uuid}) }}">
+                        Add a comment
+                    </a>
+                {% endif %}
+                {% for commentDto in commentsPage.content %}
+                    {{ comment(commentDto, _context) }}
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}

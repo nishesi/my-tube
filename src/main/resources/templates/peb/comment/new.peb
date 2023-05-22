@@ -1,0 +1,21 @@
+{# @pebvariable name="resolve" type="ru.itis.nishesi.MyTube.view.peb.functions.UrlResolverFunction" #}
+{% extends "part/form" %}
+
+{% import "macro/inputField" %}
+{% import "macro/problem" %}
+{% import "macro/globalErrors" %}
+
+{% set formUrl = resolve('VCC#addComment') %}
+{% set formPlaceholder = "Comment" %}
+{% set isFormMultipart = false %}
+{% set formMethod = "POST" %}
+
+{% set formName = "newCommentForm" %}
+
+{% block form %}
+    <input type="hidden" name="videoId" value="{{ videoId }}">
+    {{ inputField(formName, 'text', 'textarea', 'Text', _context) }}
+    <div class="container text-center">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>>
+{% endblock %}

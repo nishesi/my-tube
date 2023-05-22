@@ -2,9 +2,8 @@ package ru.itis.nishesi.MyTube.repositories;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import ru.itis.nishesi.MyTube.entities.Video;
 import ru.itis.nishesi.MyTube.enums.AgeCategory;
 import ru.itis.nishesi.MyTube.repositories.common.ContentRepository;
@@ -13,7 +12,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 
-public interface VideoRepository extends CrudRepository<Video, UUID>, PagingAndSortingRepository<Video, UUID>, ContentRepository<Video, UUID> {
+public interface VideoRepository extends JpaRepository<Video, UUID>, ContentRepository<Video, UUID> {
 
     Page<Video> getByChannelId(Long channelId, Pageable pageable);
 
