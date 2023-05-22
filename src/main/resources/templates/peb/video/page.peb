@@ -25,11 +25,11 @@
         <div class="col">
             <div class="container-fluid">
                 <div class="m-2">{{ video.name }}</div>
-                <div class="container p-0 align-baseline d-inline mt-2">
+                <a class="container p-0 align-baseline d-inline mt-2" href="{{ resolve('CC#getChannelPage', pathVars={'1':video.channelCover.id}) }}">
                     <img class="rounded-circle channel-image" src="{{ video.channelCover.channelImgUrl }}"
                          alt="channel cover">
                     {{ video.channelCover.name }}
-                </div>
+                </a>
 
                 <div id="reactions" class="btn-group float-end" role="group">
                     {% set reaction = video.view.reaction.toString() %}

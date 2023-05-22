@@ -1,5 +1,6 @@
 package ru.itis.nishesi.MyTube.dto.forms.video;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,7 @@ import ru.itis.nishesi.MyTube.validation.constraints.NullOrNotBlank;
 @AllArgsConstructor
 public class UpdateVideoForm {
     @UUID(message = "Invalid video id.")
+    @NotNull
     private String uuid;
 
     @NullOrNotBlank

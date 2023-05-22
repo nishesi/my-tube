@@ -36,7 +36,7 @@ public class Converter {
                     .uuid(video.getUuid().toString())
                     .name(video.getName())
                     .views(iterator.next())
-                    .addedDate(video.getAddedDate().toLocalDateTime())
+                    .addedDate(video.getAddedDate())
                     .duration(video.getDuration())
                     .videoCoverImgUrl(urlCreator.createResourceUrl(FileType.VIDEO_ICON, video.getUuid().toString()));
             if (setChannel)
@@ -53,7 +53,7 @@ public class Converter {
                 .info(video.getInfo())
                 .videoFileUrl(videoFileUrl)
                 .channelCover(from(video.getChannel()))
-                .addedDate(video.getAddedDate().toLocalDateTime())
+                .addedDate(video.getAddedDate())
                 .duration(video.getDuration())
                 .view(viewDto)
                 .additionalVideos(videoCovers)

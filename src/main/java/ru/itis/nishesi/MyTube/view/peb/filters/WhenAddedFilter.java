@@ -4,24 +4,35 @@ import io.pebbletemplates.pebble.error.PebbleException;
 import io.pebbletemplates.pebble.extension.Filter;
 import io.pebbletemplates.pebble.template.EvaluationContext;
 import io.pebbletemplates.pebble.template.PebbleTemplate;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+@Component
+@RequiredArgsConstructor
 public class WhenAddedFilter implements Filter {
     private final List<String> argNames = List.of();
+    private final HttpSession session;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd 'в' HH:mm");
     @Override
     public Object apply(Object input, Map<String, Object> args, PebbleTemplate self, EvaluationContext context, int lineNumber) throws PebbleException {
         if (input == null)
             return "date not found";
-        if (!(input instanceof LocalDateTime addedDate))
+        if (!(input instanceof ZonedDateTime addedDate))
             return "unknown date type";
 
-        long sec = Duration.between(addedDate, LocalDateTime.now()).getSeconds();
+        if (session.getAttribute("zoneId") == null)
+            return addedDate.toString();
+
+        var currentTime = ZonedDateTime.now((ZoneId) session.getAttribute("zoneId"));
+        long sec = Duration.between(addedDate, currentTime).getSeconds();
         int minutes = (int) sec / 60;
         int hours = minutes / 60;
         int days = hours / 24;

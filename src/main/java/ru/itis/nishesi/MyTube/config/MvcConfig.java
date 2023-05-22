@@ -5,6 +5,7 @@ import io.pebbletemplates.spring.servlet.PebbleViewResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.itis.nishesi.MyTube.auxiliary.AlertsDtoConverter;
+import ru.itis.nishesi.MyTube.auxiliary.ZoneIdListener;
 
 @Configuration
 @EnableWebMvc
@@ -47,6 +49,11 @@ public class MvcConfig implements WebMvcConfigurer {
         var bean = new FilterRegistrationBean<>(new HiddenHttpMethodFilter());
         bean.setOrder(1);
         return bean;
+    }
+
+    @Bean
+    ServletListenerRegistrationBean<ZoneIdListener> zoneIdListenerBean(ZoneIdListener zoneIdListener) {
+        return new ServletListenerRegistrationBean<>(zoneIdListener);
     }
 
     @Override

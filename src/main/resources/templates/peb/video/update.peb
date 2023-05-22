@@ -13,6 +13,7 @@
 {% set formName = "updateVideoForm" %}
 
 {% block form %}
+    <input type="hidden" name="uuid" value="{{ _context[formName]['uuid'] }}">
     {{ inputField(formName, 'iconFile', 'file', 'Choose icon', _context) }}
     {{ inputField(formName, 'name', 'text', 'Name', _context) }}
     {{ inputField(formName, 'info', 'textarea', 'Description', _context) }}

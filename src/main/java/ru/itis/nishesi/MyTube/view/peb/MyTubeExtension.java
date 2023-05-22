@@ -20,6 +20,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MyTubeExtension extends AbstractExtension {
     private final GeneratePagesFunction generatePagesFunction;
+    private final WhenAddedFilter whenAddedFilter;
     @Value("${server.servlet.context-path}")
     private String contextPath;
 
@@ -37,7 +38,7 @@ public class MyTubeExtension extends AbstractExtension {
         return Map.of(
                 "views", new ViewsFilter(),
                 "duration", new DurationFilter(),
-                "whenAdded", new WhenAddedFilter()
+                "whenAdded", whenAddedFilter
         );
     }
 
