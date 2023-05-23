@@ -17,6 +17,6 @@ public interface ViewRepository extends CrudRepository<View, View.ViewId> {
         ));
     }
 
-    long countByReaction(Reaction reaction);
+    long countByVideoUuidAndReaction(UUID videoId, Reaction reaction);
     long countByVideoUuid(UUID videoId);
 }

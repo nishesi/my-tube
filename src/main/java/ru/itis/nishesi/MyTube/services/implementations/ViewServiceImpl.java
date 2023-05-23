@@ -90,8 +90,8 @@ public class ViewServiceImpl implements ViewService {
 
     private VideoInf getVideoInf(UUID videoId) {
         long views = viewRepository.countByVideoUuid(videoId);
-        long likes = viewRepository.countByReaction(Reaction.LIKE);
-        long dislikes = viewRepository.countByReaction(Reaction.DISLIKE);
+        long likes = viewRepository.countByVideoUuidAndReaction(videoId, Reaction.LIKE);
+        long dislikes = viewRepository.countByVideoUuidAndReaction(videoId, Reaction.DISLIKE);
         return new VideoInf(views, likes, dislikes);
     }
 
