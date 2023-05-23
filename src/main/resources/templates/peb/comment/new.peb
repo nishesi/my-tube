@@ -17,5 +17,5 @@
     {{ inputField(formName, 'text', 'textarea', 'Text', _context) }}
     <div class="container text-center">
         <button type="submit" class="btn btn-primary">Add</button>
-    </div>>
+    </div>
 {% endblock %}
