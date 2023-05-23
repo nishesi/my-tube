@@ -27,7 +27,7 @@ services:
       - WEBAPP_DATASOURCE_USERNAME=postgres
       - WEBAPP_DATASOURCE_PASSWORD=Qwerty228
       - WEBAPP_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
-      - WEBAPP_JPA_SHOW_SQL=true
+      - WEBAPP_JPA_SHOW_SQL=false
       - WEBAPP_PROJECT_LOGGING_LEVEL=INFO
       - WEBAPP_SPRING_DEBUG=false
       - WEBAPP_DATA_PATH=/mytube/files

@@ -25,6 +25,9 @@ public class OAuthProvider implements AuthenticationProvider {
 
         User user = oAuthService.synchronizeUser(userDetails);
         userDetails.setId(user.getId());
+        if (user.getChannel().isPresent())
+            userDetails.setChannelId(user.getChannel().get().getId());
+
         token.setUserDto(userDetails);
         token.setAuthorities(user.getAuthorities().stream()
                 .map(auth -> new SimpleGrantedAuthority(auth.name()))
