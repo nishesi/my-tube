@@ -22,7 +22,7 @@ public class SearchController {
 
     @GetMapping
     public String search(ModelMap modelMap,
-                         @RequestParam String substring,
+                         @RequestParam(defaultValue = "") String substring,
                          @RequestParam(defaultValue = "0") int pageInd) {
         try {
             Page<VideoCover> videoCovers = videoService.findVideosByNameSubstring(substring, pageInd);
