@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,13 +31,15 @@ public class GeneratePagesFunction implements Function {
         this.request = request;
     }
 
-    private PageEl generateUrl(int pageNum, int currentPageNum, URI url) {
+    private PageEl generateUrl(int pageNum, int currentPageNum, URI uri) {
         if (currentPageNum != pageNum) {
-            String r = UriComponentsBuilder.fromUri(url)
+
+            String r = UriComponentsBuilder.fromUri(uri)
                     .scheme(null)
                     .host(null)
                     .replaceQueryParam("pageInd", pageNum - 1)
                     .toUriString();
+            r = URLDecoder.decode(r, StandardCharsets.UTF_8);
             return new PageEl(pageNum, r);
         }
         return new PageEl(pageNum, null);
@@ -46,7 +50,7 @@ public class GeneratePagesFunction implements Function {
             Map<String, Object> args, PebbleTemplate self, EvaluationContext context, int lineNumber
     ) throws PebbleException {
 
-        URI url = new ServletServerHttpRequest(request).getURI();
+        URI uri = new ServletServerHttpRequest(request).getURI();
         Page<?> page = (Page<?>) args.get("page");
         int totalPages = page.getTotalPages();
         int currentPageNum = page.getNumber() + 1;
@@ -56,7 +60,7 @@ public class GeneratePagesFunction implements Function {
         List<PageEl> pages = new ArrayList<>();
 
         for (int i = 1; i <= min(2, totalPages); i++)
-            pages.add(generateUrl(i, currentPageNum, url));
+            pages.add(generateUrl(i, currentPageNum, uri));
 
         if (currentPageNum > 5 && currentPageNum <= totalPages)
             pages.add(new PageEl(null, null));
@@ -65,14 +69,14 @@ public class GeneratePagesFunction implements Function {
             int pageNum = currentPageNum + i;
 
             if (3 <= pageNum && pageNum <= totalPages - 2)
-                pages.add(generateUrl(pageNum, currentPageNum, url));
+                pages.add(generateUrl(pageNum, currentPageNum, uri));
         }
 
         if (currentPageNum < totalPages - 4)
             pages.add(new PageEl(null, null));
 
         for (int i = max(3, totalPages - 1); i <= totalPages; i++)
-            pages.add(generateUrl(i, currentPageNum, url));
+            pages.add(generateUrl(i, currentPageNum, uri));
 
         return pages;
     }
