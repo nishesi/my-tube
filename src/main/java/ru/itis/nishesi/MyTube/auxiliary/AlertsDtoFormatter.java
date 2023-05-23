@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class AlertsDtoConverter implements Formatter<AlertsDto> {
+public class AlertsDtoFormatter implements Formatter<AlertsDto> {
 
     @Nonnull
     @Override

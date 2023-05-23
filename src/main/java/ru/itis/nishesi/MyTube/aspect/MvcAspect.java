@@ -52,11 +52,11 @@ public class MvcAspect {
         return "errors/404";
     }
 
-//    @ExceptionHandler(Exception.class)
-//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-//    public String handle(Exception ex) {
-//        if (log.isWarnEnabled())
-//            log.warn("Exception: " + ex.toString() + " from: " + ex.getStackTrace()[0].toString() + " mapped to view: errors/500");
-//        return "errors/500";
-//    }
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String handle(Exception ex) {
+        if (log.isWarnEnabled())
+            log.warn("Exception: " + ex.toString() + " from: " + ex.getStackTrace()[0].toString() + " mapped to view: errors/500");
+        return "errors/500";
+    }
 }

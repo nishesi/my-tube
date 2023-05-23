@@ -8,8 +8,6 @@ import ru.itis.nishesi.MyTube.entities.Video;
 import ru.itis.nishesi.MyTube.enums.AgeCategory;
 import ru.itis.nishesi.MyTube.repositories.common.ContentRepository;
 
-import java.time.Duration;
-import java.util.List;
 import java.util.UUID;
 
 public interface VideoRepository extends JpaRepository<Video, UUID>, ContentRepository<Video, UUID> {
@@ -60,10 +58,7 @@ public interface VideoRepository extends JpaRepository<Video, UUID>, ContentRepo
                     """)
     Page<Video> getPopularVideos(Pageable pageable);
 
-
     default Page<? extends Video> findByAgeCategory(AgeCategory ageCategory, Pageable pageable) {
         return findByAgeCategory(ageCategory, pageable, Video.class);
     }
-
-    List<Video> getByDurationIsNullOrDuration(Duration duration);
 }

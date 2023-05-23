@@ -15,7 +15,7 @@ import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ru.itis.nishesi.MyTube.auxiliary.AlertsDtoConverter;
+import ru.itis.nishesi.MyTube.auxiliary.AlertsDtoFormatter;
 import ru.itis.nishesi.MyTube.auxiliary.ZoneIdListener;
 
 @Configuration
@@ -25,7 +25,7 @@ import ru.itis.nishesi.MyTube.auxiliary.ZoneIdListener;
 })
 @RequiredArgsConstructor
 public class MvcConfig implements WebMvcConfigurer {
-    private final AlertsDtoConverter alertsDtoConverter;
+    private final AlertsDtoFormatter alertsDtoFormatter;
 
     @Autowired
     public void init(PebbleViewResolver viewResolver) {
@@ -58,7 +58,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatter(alertsDtoConverter);
+        registry.addFormatter(alertsDtoFormatter);
     }
 
     @Override
