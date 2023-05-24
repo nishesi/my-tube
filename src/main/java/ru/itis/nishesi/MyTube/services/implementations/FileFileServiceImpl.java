@@ -2,6 +2,7 @@ package ru.itis.nishesi.MyTube.services.implementations;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ru.itis.nishesi.MyTube.dto.ByteResult;
 import ru.itis.nishesi.MyTube.enums.FileType;
 import ru.itis.nishesi.MyTube.exceptions.StorageException;
 import ru.itis.nishesi.MyTube.services.FileService;
@@ -10,6 +11,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Objects;
 
 @Component
@@ -110,5 +112,47 @@ public class FileFileServiceImpl implements FileService {
             default:
                 throw new StorageException("unknown fileType");
         }
+    }
+
+    private static byte[] readBytes(File file, long offset, int len) {
+        byte[] buff = new byte[len];
+
+        try (var rea = new RandomAccessFile(file, "r")) {
+            rea.seek(offset);
+            int read = rea.read(buff);
+
+            if (read == buff.length) {
+                return buff;
+            }
+            return Arrays.copyOf(buff, read);
+        } catch (IOException ex) {
+            throw new RuntimeException("io problem", ex);
+        }
+    }
+
+    @Override
+    public ByteResult getPartialFile(File file, String range) {
+        final byte[] bytes;
+        if (range == null) {
+            bytes = readBytes(file, 0, (int) file.length());
+            return new ByteResult(0, bytes.length - 1, bytes);
+        }
+
+        String[] input = range.split("=");
+
+        if (input.length <= 1)
+            return new ByteResult(0, 0, new byte[0]);
+
+        input = input[1].split("-");
+        long start = Long.parseLong(input[0]);
+        int len = 1048576;
+
+        if (input.length > 1) {
+            long end = Long.parseLong(input[1]);
+            len = (int) (end - start + 1);
+        }
+
+        bytes = readBytes(file, start, len);
+        return new ByteResult(start, start + bytes.length-1, bytes);
     }
 }
