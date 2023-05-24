@@ -46,7 +46,8 @@ public class ResourceController {
 
         HttpStatus httpStatus = (result.end() < file.length() - 1) ? HttpStatus.PARTIAL_CONTENT : HttpStatus.OK;
 
-        log.warn("File name:" + file.getName() + "; start: " + result.start() + "; end: " + result.end());
+        if (log.isTraceEnabled())
+            log.trace("File name:" + file.getName() + "; start: " + result.start() + "; end: " + result.end());
         return ResponseEntity.status(httpStatus)
                 .header("Content-Type", Files.probeContentType(file.toPath()))
                 .header("Content-Length", String.valueOf(result.arr().length))
